@@ -1,0 +1,69 @@
+---
+# Pi-hole Local DNS Entries Configuration
+#
+# Define your local DNS entries here
+# Format: domain name -> IP address mapping
+
+# Your server IP (change this to match your actual server IP)
+server_ip: "192.168.1.214"
+
+# DNS entries for your services
+dns_entries:
+  # Revolt Discord Alternative
+  - domain: app.rt-541.io
+    ip: "{{ server_ip }}"
+    comment: "Revolt web client"
+
+  - domain: revolt.rt-541.io
+    ip: "{{ server_ip }}"
+    comment: "Revolt API server"
+
+  - domain: ws.rt-541.io
+    ip: "{{ server_ip }}"
+    comment: "Revolt WebSocket server"
+
+  - domain: autumn.rt-541.io
+    ip: "{{ server_ip }}"
+    comment: "Revolt file attachment server"
+
+  - domain: january.rt-541.io
+    ip: "{{ server_ip }}"
+    comment: "Revolt content proxy"
+
+  - domain: minio.rt-541.io
+    ip: "{{ server_ip }}"
+    comment: "MinIO admin console"
+
+  - domain: s3.rt-541.io
+    ip: "{{ server_ip }}"
+    comment: "MinIO S3 API"
+
+  # Plex Media Stack
+  - domain: sonarr.rt-541.io
+    ip: "{{ server_ip }}"
+    comment: "Sonarr TV shows"
+
+  - domain: radarr.rt-541.io
+    ip: "{{ server_ip }}"
+    comment: "Radarr movies"
+
+  - domain: prowlarr.rt-541.io
+    ip: "{{ server_ip }}"
+    comment: "Prowlarr indexer manager"
+
+  - domain: qbit.rt-541.io
+    ip: "{{ server_ip }}"
+    comment: "qBittorrent web UI"
+
+  - domain: overseerr.rt-541.io
+    ip: "{{ server_ip }}"
+    comment: "Overseerr media requests"
+
+  - domain: flaresolverr.rt-541.io
+    ip: "{{ server_ip }}"
+    comment: "FlareSolverr proxy"
+
+# Add more entries as needed
+# - domain: example.rt-541.io
+#   ip: "{{ server_ip }}"
+#   comment: "Example service"

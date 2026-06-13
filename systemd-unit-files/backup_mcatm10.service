@@ -1,0 +1,10 @@
+[Unit]
+Description=Backup Minecraft Docker Compose Container
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/docker/homelab-config/scripts/backup_minecraft.sh
+
+[Install]
+WantedBy=multi-user.target

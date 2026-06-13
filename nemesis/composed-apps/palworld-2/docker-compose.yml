@@ -1,0 +1,33 @@
+---
+services:
+  palworld-2:
+    image: thijsvanloef/palworld-server-docker:latest
+    container_name: palworld-server-2
+    restart: unless-stopped
+    ports:
+      - 8212:8211/udp
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 16G
+        reservations:
+          cpus: '4'
+          memory: 16G
+    environment:
+      PUID: 1000
+      PGID: 1000
+      PORT: 8211
+      PLAYERS: 16
+      MULTITHREADING: true
+      COMMUNITY: true
+      SERVER_PASSWORD: "${SERVER_PASSWORD}"
+      SERVER_NAME: rt541
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
+      PAL_EGG_DEFAULT_HATCHING_TIME: 1
+      BASE_CAMP_MAX_NUM_IN_GUILD: 10
+      BASE_CAMP_WORKER_MAX_NUM: 25
+      DEATH_PENALTY: "None"
+      EXP_RATE: 5
+    volumes:
+      - /docker/game/palworld-2:/palworld/

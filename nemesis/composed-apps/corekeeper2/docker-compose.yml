@@ -1,0 +1,14 @@
+---
+services:
+  core-keeper:
+    container_name: core-keeper-schneider-alt
+    image: escaping/core-keeper-dedicated:latest
+    ports:
+      - 27019:27015/udp
+    volumes:
+      - /docker/game/corekeeper2/server-data:/home/steam/core-keeper-data
+    restart: unless-stopped
+    env_file:
+      - path: override.env
+        required: false
+    stop_grace_period: 2m

@@ -1,0 +1,6 @@
+<service>
+  <short>factorio</short>
+  <description>Factorio game server</description>
+  <port protocol="udp" port="34197"/>
+  <port protocol="tcp" port="27015"/>
+</service>

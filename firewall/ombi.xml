@@ -1,0 +1,6 @@
+<service>
+    <short>ombi</short>
+    <description>Ombi</description>
+    <port protocol="udp" port="3579"/>
+    <port protocol="tcp" port="3579"/>
+</service>

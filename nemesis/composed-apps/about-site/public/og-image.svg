@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#1C2A40"/>
+  <g transform="translate(950,315) rotate(-22)" opacity="0.5">
+    <path d="M -178,0 A 178,40 0 0,1 178,0" stroke="#D2B47C" stroke-width="7" fill="none"/>
+    <path d="M -150,0 A 150,33 0 0,1 150,0" stroke="#EBD9A8" stroke-width="16" fill="none" opacity="0.9"/>
+    <path d="M -124,0 A 124,27 0 0,1 124,0" stroke="#94A3B5" stroke-width="7" fill="none" opacity="0.5"/>
+    <circle cx="0" cy="0" r="80" fill="#D9BD7F"/>
+    <path d="M -178,0 A 178,40 0 0,0 178,0" stroke="#D2B47C" stroke-width="7" fill="none"/>
+    <path d="M -150,0 A 150,33 0 0,0 150,0" stroke="#EBD9A8" stroke-width="16" fill="none" opacity="0.9"/>
+    <path d="M -124,0 A 124,27 0 0,0 124,0" stroke="#94A3B5" stroke-width="7" fill="none" opacity="0.5"/>
+  </g>
+  <text x="80" y="280" font-family="Georgia, serif" font-size="64" font-weight="600" fill="#F4ECD8">Arthur Schneider</text>
+  <text x="80" y="335" font-family="ui-sans-serif, sans-serif" font-size="26" fill="#A6B3C9">Platform engineer · AI infrastructure</text>
+  <text x="80" y="540" font-family="ui-monospace, monospace" font-size="20" fill="#F4ECD8" letter-spacing="4">ABOUT.RT-541.IO</text>
+</svg>

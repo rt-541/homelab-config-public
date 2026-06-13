@@ -1,0 +1,25 @@
+---
+# Permanent redirect: overseerr.rt-541.io -> seerr.rt-541.io
+# Overseerr was migrated to Seerr (seerr-team/seerr) in 2026. The old hostname
+# is kept working as a 301 so existing bookmarks/links keep resolving. The
+# regex preserves the request path (https://overseerr.rt-541.io/foo -> /foo).
+http:
+  routers:
+    overseerr-redirect:
+      rule: "Host(`overseerr.rt-541.io`)"
+      entryPoints:
+        - secure
+        - web
+      middlewares:
+        - redirect-overseerr-to-seerr
+      service: noop@internal
+      priority: 1000
+      tls:
+        certResolver: default
+
+  middlewares:
+    redirect-overseerr-to-seerr:
+      redirectRegex:
+        regex: "^https?://overseerr\\.rt-541\\.io/(.*)"
+        replacement: "https://seerr.rt-541.io/${1}"
+        permanent: true

@@ -1,0 +1,49 @@
+---
+services:
+  valheim:
+    restart: unless-stopped
+    image: mbround18/valheim:latest
+    deploy:
+      resources:
+        limits:
+          cpus: '8.00'
+          memory: 8G
+        reservations:
+          cpus: '8.00'
+          memory: 8G
+    ports:
+      - 2456:2456/udp
+      - 2457:2457/udp
+      - 2458:2458/udp
+    environment:
+      PORT: 2456
+      NAME: "Schneider's Valheim Server"
+      WORLD: "SchneiderWorld"
+      PASSWORD: "${SERVER_PASSWORD}"
+      TZ: America/Detroit
+      PUBLIC: 1
+      AUTO_UPDATE: 1
+      AUTO_UPDATE_SCHEDULE: "0 4 * * *"
+      AUTO_BACKUP: 1
+      AUTO_BACKUP_SCHEDULE: "*/15 * * * *"
+      AUTO_BACKUP_REMOVE_OLD: 1
+      AUTO_BACKUP_DAYS_TO_LIVE: 3
+      AUTO_BACKUP_ON_UPDATE: 1
+      AUTO_BACKUP_ON_SHUTDOWN: 1
+      MODIFIERS: "raids=much,portals=casual"
+    volumes:
+      - /docker/game/valheim/saves:/home/steam/.config/unity3d/IronGate/Valheim
+      - /docker/game/valheim/server:/home/steam/valheim
+      - /docker/game/valheim/backups:/home/steam/backups
+
+  valheim-backup:
+    image: offen/docker-volume-backup:v2
+    container_name: valheim-backup
+    restart: unless-stopped
+    environment:
+      BACKUP_CRON_EXPRESSION: "0 4 * * *"
+      BACKUP_RETENTION_DAYS: "21"
+      BACKUP_FILENAME: "valheim-%Y-%m-%dT%H-%M-%S.tar.gz"
+    volumes:
+      - /docker/game/valheim/saves:/backup/saves:ro
+      - /docker/game/valheim/backups-daily:/archive

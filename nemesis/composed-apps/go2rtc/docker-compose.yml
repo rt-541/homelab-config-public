@@ -1,0 +1,28 @@
+---
+networks:
+  proxy:
+    external: true
+
+services:
+  go2rtc:
+    image: alexxit/go2rtc:latest
+    container_name: go2rtc
+    restart: unless-stopped
+    networks:
+      - proxy
+    volumes:
+      - ./go2rtc.yaml:/config/go2rtc.yaml:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.go2rtc.rule: Host(`cam.rt-541.io`)
+      traefik.http.routers.go2rtc.entrypoints: secure
+      traefik.http.routers.go2rtc.tls.certresolver: default
+      traefik.http.services.go2rtc.loadbalancer.server.port: 1984
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 64M

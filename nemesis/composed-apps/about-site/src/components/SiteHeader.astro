@@ -1,0 +1,35 @@
+---
+import SaturnBrand from './SaturnBrand.astro';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
+
+const nav: { href: string; label: string }[] = [
+  { href: '/experience', label: 'experience' },
+  { href: '/projects', label: 'projects' },
+  { href: '/gaming', label: 'gaming' },
+  { href: '/maker', label: 'maker' },
+  { href: '/services', label: 'services' },
+];
+---
+<header class="bg-chrome text-body border-b border-chrome-divider">
+  <div class="max-w-5xl mx-auto px-6 py-4 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
+    <a href="/" class="flex items-center gap-2 font-serif font-semibold text-[15px] text-body no-underline">
+      <SaturnBrand class="text-body" />
+      <span>rt-541</span>
+    </a>
+    <nav class="flex flex-wrap gap-x-4 gap-y-2 font-mono text-[11px] tracking-meta uppercase">
+      {nav.map(item => (
+        <a
+          href={item.href}
+          data-i18n={`nav.${item.label}`}
+          class:list={[
+            'no-underline pb-0.5',
+            isActive(item.href) ? 'border-b-2 border-body' : 'opacity-65 hover:opacity-100',
+          ]}
+        >{item.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>

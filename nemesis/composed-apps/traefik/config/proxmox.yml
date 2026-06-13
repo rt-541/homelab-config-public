@@ -1,0 +1,25 @@
+---
+http:
+  routers:
+    proxmox-https:
+      rule: "Host(`sienar.rt-541.io`)"
+      service: proxmox
+      entrypoints:
+        web:
+        secure:
+      tls:
+        certResolver: default
+
+    proxmox-http-router:
+      rule: "Host(`sienar.rt-541.io`)"
+      service: my-proxmox
+      entryPoints:
+        - http
+      middlewares:
+        - redirect
+
+  services:
+    proxmox:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.1.5:8006"

@@ -1,0 +1,29 @@
+---
+services:
+  abiotic-factor:
+    image: ghcr.io/pleut/abiotic-factor-linux-docker:latest
+    container_name: abiotic-factor-server
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '4.00'
+          memory: 8G
+        reservations:
+          cpus: '4.00'
+          memory: 8G
+    environment:
+      MaxServerPlayers: 6
+      Port: 7777
+      QueryPort: 27016
+      ServerPassword: "${SERVER_PASSWORD}"
+      SteamServerName: "RT Abiotic"
+      UsePerfThreads: true
+      NoAsyncLoadingThread: true
+      WorldSaveName: Cascade
+    ports:
+      - "7777:7777/udp"
+      - "27016:27016/udp"
+    volumes:
+      - /docker/game/abiotic-factor/gamefiles:/server
+      - /docker/game/abiotic-factor/data:/server/AbioticFactor/Saved

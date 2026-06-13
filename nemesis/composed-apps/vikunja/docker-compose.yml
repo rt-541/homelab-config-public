@@ -1,0 +1,55 @@
+---
+networks:
+  proxy:
+    external: true
+  vikunja-internal:
+    driver: bridge
+
+services:
+  vikunja-db:
+    image: postgres:15
+    container_name: vikunja-db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      TZ: ${TZ}
+    volumes:
+      - /docker/vikunja/postgres:/var/lib/postgresql/data
+    networks:
+      - vikunja-internal
+
+  vikunja:
+    image: vikunja/vikunja:latest
+    container_name: vikunja
+    restart: unless-stopped
+    depends_on:
+      - vikunja-db
+    env_file: .env
+    environment:
+      VIKUNJA_DATABASE_TYPE: postgres
+      VIKUNJA_DATABASE_HOST: vikunja-db
+      VIKUNJA_DATABASE_USER: ${POSTGRES_USER}
+      VIKUNJA_DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      VIKUNJA_DATABASE_DATABASE: ${POSTGRES_DB}
+      VIKUNJA_SERVICE_PUBLICURL: ${VIKUNJA_SERVICE_PUBLICURL}
+      VIKUNJA_SERVICE_FRONTENDURL: ${VIKUNJA_SERVICE_FRONTENDURL}
+      VIKUNJA_SERVICE_TIMEZONE: ${VIKUNJA_SERVICE_TIMEZONE}
+      VIKUNJA_SERVICE_JWT__SECRET: ${VIKUNJA_SERVICE_JWT__SECRET}
+      VIKUNJA_SERVICE_JWT__REFRESHSECRET: ${VIKUNJA_SERVICE_JWT__REFRESHSECRET}
+      VIKUNJA_SERVICE_COOKIE__HASHKEY: ${VIKUNJA_SERVICE_COOKIE__HASHKEY}
+      VIKUNJA_SERVICE_COOKIE__BLOCKKEY: ${VIKUNJA_SERVICE_COOKIE__BLOCKKEY}
+      TZ: ${TZ}
+    volumes:
+      - /docker/vikunja/files:/app/vikunja/files
+    networks:
+      - vikunja-internal
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.http.routers.vikunja.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.vikunja.entrypoints: secure
+      traefik.http.routers.vikunja.tls.certresolver: default
+      traefik.http.services.vikunja.loadbalancer.server.port: 3456

@@ -1,0 +1,16 @@
+# Pi-hole Custom DNS Entries
+# Managed by Ansible - DO NOT EDIT MANUALLY
+# Generated: {{ ansible_date_time.iso8601 }}
+# Host: {{ ansible_hostname }}
+#
+# To modify these entries, edit vars/dns-entries.yml and run:
+#   ansible-playbook pihole-dns.yml
+
+{% for entry in dns_entries %}
+{% if entry.comment is defined %}
+# {{ entry.comment }}
+{% endif %}
+{{ entry.ip }}	{{ entry.domain }}
+{% endfor %}
+
+# End of Ansible-managed entries

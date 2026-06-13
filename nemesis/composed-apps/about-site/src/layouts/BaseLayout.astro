@@ -1,0 +1,91 @@
+---
+import '../styles/globals.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'about.rt-541.io', description = 'Personal site of Arthur Schneider' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og-image.svg', Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.toString()} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical.toString()} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage.toString()} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage.toString()} />
+
+    <title>{title}</title>
+
+    <!-- Umami cookieless analytics (self-hosted) -->
+    <script defer src="https://analytics.rt-541.io/script.js" data-website-id="fc7a4f23-8d89-4a13-ac70-696cb89c903b"></script>
+  </head>
+  <body>
+    <SiteHeader />
+    <LanguageSwitcher />
+    <main>
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>
+
+<script>
+  import { t, langs } from '../i18n/ui';
+
+  const supported: readonly string[] = langs;
+
+  function resolveLang(): string {
+    const saved = localStorage.getItem('lang');
+    if (saved && supported.includes(saved)) return saved;
+    const nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    return supported.includes(nav) ? nav : 'en';
+  }
+
+  function apply(lang: string): void {
+    const dict = (t as Record<string, Record<string, string>>)[lang] ?? t.en;
+    document.querySelectorAll<HTMLElement>('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (!key) return;
+      const val = dict[key] ?? t.en[key];
+      if (val != null) el.textContent = val;
+    });
+    document.documentElement.lang = lang;
+    document.querySelectorAll<HTMLElement>('[data-lang]').forEach(btn => {
+      const active = btn.dataset.lang === lang;
+      btn.classList.toggle('lang-active', active);
+      btn.setAttribute('aria-current', active ? 'true' : 'false');
+    });
+  }
+
+  let current = resolveLang();
+  apply(current);
+
+  document.querySelectorAll<HTMLElement>('[data-lang]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.dataset.lang;
+      if (!lang) return;
+      current = lang;
+      localStorage.setItem('lang', current);
+      apply(current);
+    });
+  });
+</script>

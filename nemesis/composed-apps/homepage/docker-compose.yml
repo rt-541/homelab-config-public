@@ -1,0 +1,30 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: home.rt-541.io
+    volumes:
+      - ./config:/app/config
+    networks: [proxy]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homepage.rule=Host(`home.rt-541.io`)"
+      - "traefik.http.routers.homepage.entrypoints=secure"
+      - "traefik.http.routers.homepage.tls.certresolver=default"
+      - "traefik.http.routers.homepage.middlewares=lan-only@docker"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: "256M"
+        reservations:
+          cpus: '0.1'
+          memory: "64M"
+
+networks:
+  proxy:
+    external: true

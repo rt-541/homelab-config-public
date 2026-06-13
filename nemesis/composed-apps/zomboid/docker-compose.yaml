@@ -1,0 +1,90 @@
+---
+#
+#  Project Zomboid Dedicated Server using SteamCMD Docker Image.
+#  Copyright (C) 2021-2022 Renegade-Master [renegade.master.dev@protonmail.com]
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+services:
+  zomboid-dedicated-server:
+    build:
+      context: .
+      dockerfile: docker/zomboid-dedicated-server.Dockerfile
+    image: "docker.io/renegademaster/zomboid-dedicated-server:latest"
+    container_name: zomboid-dedicated-server
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '4.00'
+          memory: 10G
+        reservations:
+          cpus: '4.00'
+          memory: 10G
+    environment:
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
+      ADMIN_USERNAME: "${ADMIN_USERNAME}"
+      AUTOSAVE_INTERVAL: 15
+      BIND_IP: "0.0.0.0"
+      DEFAULT_PORT: 16261
+      GAME_VERSION: "unstable"
+      GC_CONFIG: G1GC
+      MAP_NAMES: "Muldraugh, KY"
+      MAX_PLAYERS: 16
+      MAX_RAM: "8192m"
+      MOD_NAMES: "\\PROJECTRVInterior42;\\SkillRecoveryJournal;\\ChuckleberryFinnAlertSystem;\\errorMagnifier;\\buildinggenpowermp;\\SmarterStorage;\\CleanHotBar;\\BravoItemDetails;\\EatSmart;\\SmartRadialMenu;\\B42PackMule;\\ShouldersWatchSlots;\\IntuitiveCrafting;\\DJG_BoundMaterials;\\NepMoreOnFloor;\\BetterGeneratorInfo;\\ImprovedFarmingInfoWindow;\\VanillaGearExpanded;\\KI5trailers;\\OpenAllContainers;\\RepairableWindows;\\stanks_suicide;\\LightOnBelt;\\DEON_CVG;\\TrueSmoking;\\ExerciseWithGearAgain;\\manageContainers;\\SiegeNight;\\OcciferCodys_RainWashesVehicles;\\EffortlessTowing;\\damnlib;\\49powerWagon;\\69charger;\\70roadRunner;\\76chevyKseries;\\84buickElectra;\\84cadillacDeVille;\\84merc;\\85chevyStepVan;\\85chevyStepVanexpanded;\\86fordE150;\\86fordE150dnd;\\86fordE150mm;\\86fordE150pd;\\86fordE150expanded;\\86oshkoshP19A;\\89defender;\\90bmwE30;\\90fordF350ambulance;\\90pierceArrow;\\91range;\\92amgeneralM998;\\92nissanGTR;\\92nissanGTRlhd;\\93chevySuburban;\\93chevySuburbanExpanded;\\92fordCVPI;\\93fordF350;\\95impreza;\\96lancerEVO;\\96lancerEVOlhd;\\lockMartM577;\\69mini;\\69mini_ItalianJob;\\69mini_MrBean;\\69mini_PitbullSpecial;\\93fordElgin;\\63beetle;\\63beetleBuggy;\\63beetleHP;\\91geoMetro;\\89volvo200;\\82porsche911;\\86chevyCUCV;\\85chevyCaprice;\\85oldsmobileDelta88;\\85buickLeSabre;\\85pontiacParisienne;\\89trooper;\\67gt500;\\89dodgeCaravan;\\63Type2Van;\\87toyotaMR2;\\93fordTaurus;\\87chevySuburban;\\75grandPrix;\\isoContainers;\\91fordLTD;\\82firebird;\\82firebirdKITT;\\77firebird;\\99fordCVPI;\\97bushmaster;\\97bushAmbulance;\\87buickRegal;\\81deloreanDMC12;\\81deloreanDMC12BTTF;\\98stagea;\\92jeepYJ;\\92jeepYJJP18;\\68firebird;\\70fordEscort;\\KI5campers;\\65banshee;\\91fordRanger;\\91nissan240sx;\\73fordFalcon;\\73fordFalconPS;\\04vwTouran;\\66pontiacLeMans;\\88toyotaHilux;\\84jeepXJ;\\96saturnSseries;\\59meteor;\\ECTO1;\\84corvette;\\93mustangSSP;\\93mustangSSPpd;\\93mustangSSPksp;\\93mustangSSPunmarked;\\93mustangSSPkspCol;\\93mustangSSPpd2;\\93mustangSSPksp2;\\93mustangGT;\\93mustangSVTcobraR;\\69camaro;\\70barracuda;\\70cuda;\\70barracudaAAR;\\70dodge;\\89fordBronco;\\89fordBroncoPD;\\89fordBroncoRanger;\\88chevyS10;\\82jeepJ10;\\82jeepJ10t;\\79camaro;\\87fordB700;\\cobbM540;\\78amgeneralM35A2;\\78amgeneralM35A2extra;\\78amgeneralM49A2C;\\78amgeneralM50A3;\\78amgeneralM62;\\78lamboCountach;\\76chryslerNewYorker;\\bikinitools"
+      # SPNCC+TombBody (disabled): \\SpnCharCustom;\\SPNCC;\\SpnCharCustomDetails;\\SPNCCDetails;\\SpnCharCustomDetailsHD;\\SPNCCDetailsHD;\\SpnCharCustomFaces;\\SPNCCFaces;\\TombBody;\\TombBodyCustom;\\TombBodyTexNUDE;\\TombWardrobeALT
+      # Removed: \\containertagsb42;\\HelicopterEventExpansionFramework
+      MOD_WORKSHOP_IDS: "2896041179;3077900375;2503622437;3597471949;3290232938;3461263912;3477237184;3456212729;3494108029;3540903327;3526716989;3486217110;3479505015;3457064550;3576056135;3470852353;3330403100;3465040406;3378304610;3426448380;3394588830;3390487814;3423984426;3390760692;2650547917;3669589584;3442862183;3171167894;2900580391;3631989559;3642935062;3161951724;3596903773;3592777775;2805630347;3614034284;2870394916;2566953935;3570973322;3110913021;2952802178;2942793445;2409333430;2642541073;2846036306;3152529790;2962175696;3073430075;3647735736;3647736504;3652371248;2937786633;2969343830;3005903549;3008795514;3292659291;3379334330;3428008364;3413704851;3418253716;3418252689;3413706334;2932549988;3026723485;3034636011;3041122351;3052360250;3088951320;3196180339;3213391371;2625625421;3366300557;3320947974;3346905070;2971246021;2897390033;3226885926;3253385114;3315443103;3287727378;3258343790;3670063857;3670064951;3566868353;3539691958;3504401781;3490370700;3478633453;3447272250;3435796523;3409287192;3679880253;2772575623;3684254299;3001592312;2991201484;2913633066;2873290424;2886833398;2886832936;2886832257;3703948448;3110911330;3722240318;2799152995;3726526329;3730833846;3543229299;2634426926"
+      # SPNCC+TombBody (disabled): 3414634809;3672913009;3429790870;3616536783
+      # Removed: 3670220111 (Container Tags);3672792485 (Helicopter Event Framework)
+      PAUSE_ON_EMPTY: true
+      PUBLIC_SERVER: true
+      RCON_PASSWORD: "${RCON_PASSWORD}"
+      RCON_PORT: 27015
+      SERVER_NAME: "Flight Group Alpha PZ Server"
+      SERVER_PASSWORD: "${SERVER_PASSWORD}"
+      STEAM_VAC: true
+      UDP_PORT: 16262
+      USE_STEAM: true
+      TZ: UTC
+    ports:
+      - target: 16261
+        published: 16261
+        protocol: udp
+      - target: 16262
+        published: 16262
+        protocol: udp
+      - target: 27015
+        published: 27015
+        protocol: tcp
+    volumes:
+      - /docker/game/zomboid/ZomboidDedicatedServer:/home/steam/ZomboidDedicatedServer
+      - /docker/game/zomboid/ZomboidConfig:/home/steam/Zomboid/
+      - ./server.ini:/home/steam/Zomboid/Server/Flight Group Alpha PZ Server.ini
+      - "./Flight_Group_Alpha_PZ_Server_SandboxVars.lua:/home/steam/Zomboid/Server/Flight Group Alpha PZ Server_SandboxVars.lua"
+      - ./login-image.png:/home/steam/ZomboidDedicatedServer/login-image.png:ro
+      - ./login-icon.png:/home/steam/ZomboidDedicatedServer/login-icon.png:ro
+
+  zomboid-backup:
+    image: offen/docker-volume-backup:v2
+    container_name: zomboid-backup
+    restart: unless-stopped
+    environment:
+      BACKUP_CRON_EXPRESSION: "0 4 * * *"
+      BACKUP_RETENTION_DAYS: "21"
+      BACKUP_FILENAME: "zomboid-%Y-%m-%dT%H-%M-%S.tar.gz"
+    volumes:
+      - /docker/game/zomboid/ZomboidConfig:/backup/ZomboidConfig:ro
+      - /docker/game/zomboid/backups:/archive

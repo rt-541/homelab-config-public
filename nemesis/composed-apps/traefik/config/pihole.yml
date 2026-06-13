@@ -1,0 +1,27 @@
+---
+http:
+  routers:
+    pihole-https:
+      middlewares:
+        - replacepathregex-pihole
+        - addprefix-pihole
+      rule: "Host(`pihole.rt-541.io`)"
+      service: pihole-service
+      entrypoints:
+        web:
+        secure:
+      tls:
+        certResolver: default
+  services:
+    pihole-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.2:6969"
+  middlewares:
+    addprefix-pihole:
+      addPrefix:
+        prefix: "/admin"
+    replacepathregex-pihole:
+      replacePathRegex:
+        regex: "^/admin/(.*)"
+        replacement: "/$1"

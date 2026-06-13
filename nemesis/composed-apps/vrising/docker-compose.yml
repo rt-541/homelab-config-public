@@ -1,0 +1,23 @@
+---
+services:
+  vrising:
+    container_name: vrising
+    image: trueosiris/vrising
+    deploy:
+      resources:
+        limits:
+          cpus: '4.00'
+          memory: 4G
+        reservations:
+          cpus: '4.00'
+          memory: 4G
+    environment:
+      TZ: America/Detroit
+      SERVERNAME: rt541
+    volumes:
+      - /docker/game/vrising/server:/mnt/vrising/server
+      - /docker/game/vrising/persistentdata:/mnt/vrising/persistentdata
+    ports:
+      - '9876:9876/udp'
+      - '9877:9877/udp'
+    restart: unless-stopped

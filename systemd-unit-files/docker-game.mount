@@ -1,0 +1,10 @@
+[Unit]
+Description=Game Mount
+
+[Mount]
+What=/dev/mapper/data2-games
+Where=/docker/game
+Type=xfs
+
+[Install]
+WantedBy=multi-user.target

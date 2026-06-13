@@ -1,0 +1,6 @@
+<service>
+  <short>wireguard</short>
+  <description>Wire Guard</description>
+  <port protocol="tcp" port="51820"/>
+  <port protocol="udp" port="51820"/>
+</service>

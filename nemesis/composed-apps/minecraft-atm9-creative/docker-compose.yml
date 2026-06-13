@@ -1,0 +1,27 @@
+---
+services:
+  minecraft-atm9-creative:
+    image: itzg/minecraft-server:java17
+    container_name: mcatm9c
+    hostname: mcatm9c
+    restart: unless-stopped
+    env_file: .env
+    tty: true
+    stdin_open: true
+    ports:
+      - 25566:25565
+    volumes:
+      - /docker/game/minecraft/minecraftatm9c_data:/data
+      - ./allowed_users.json:/data/allowed_users.json
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
+    deploy:
+      resources:
+        limits:
+          cpus: '8'
+          memory: 16G
+        reservations:
+          cpus: '8'
+          memory: 16G

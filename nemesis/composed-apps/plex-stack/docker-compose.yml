@@ -1,0 +1,251 @@
+---
+networks:
+  proxy:
+    external: true
+
+services:
+  sonarr:
+    image: linuxserver/sonarr:latest
+    container_name: sonarr
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 500M
+        reservations:
+          cpus: '1.00'
+          memory: 500M
+    networks:
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.http.routers.sonarr.entryPoints: web,secure
+      traefik.http.routers.sonarr.rule: Host(`sonarr.rt-541.io`) || PathPrefix(`/sonarr`)
+      traefik.http.routers.sonarr.tls: true
+      traefik.http.routers.sonarr.tls.certResolver: default
+      traefik.http.services.sonarr-svc.loadBalancer.server.port: 8989
+    environment:
+      PUID: 1001
+      PGID: 1001
+      TZ: America/Detroit
+    volumes:
+      - /docker/sonarr:/config
+      - /docker/plex/media:/data
+      - /docker/plex/media2:/data2
+    ports:
+      - 8989:8989
+
+  radarr:
+    image: linuxserver/radarr:latest
+    container_name: radarr
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 500M
+        reservations:
+          cpus: '1.00'
+          memory: 500M
+    labels:
+      traefik.enable: true
+      traefik.http.routers.radarr.entryPoints: web,secure
+      traefik.http.routers.radarr.rule: Host(`radarr.rt-541.io`) || PathPrefix(`/radarr`)
+      traefik.http.routers.radarr.tls: true
+      traefik.http.routers.radarr.tls.certResolver: default
+      traefik.http.services.radarr-svc.loadBalancer.server.port: 7878
+    networks:
+      - proxy
+    environment:
+      PUID: 1001
+      PGID: 1001
+      TZ: America/Detroit
+    volumes:
+      - /docker/radarr:/config
+      - /docker/plex/media:/data
+      - /docker/plex/media2:/data2
+    ports:
+      - 7878:7878
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    restart: unless-stopped
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: "1"
+      net.ipv6.conf.default.disable_ipv6: "1"
+      net.ipv6.conf.lo.disable_ipv6: "1"
+    environment:
+      PUID: 1001
+      PGID: 1001
+      TZ: America/New_York
+    networks:
+      - proxy
+    volumes:
+      - /docker/prowlarr/config:/config
+    ports:
+      - 9696:9696
+    labels:
+      traefik.enable: true
+      traefik.http.routers.prowlarr.entryPoints: web,secure
+      traefik.http.routers.prowlarr.rule: Host(`prowlarr.rt-541.io`)
+      traefik.http.routers.prowlarr.tls: true
+      traefik.http.routers.prowlarr.tls.certResolver: default
+      traefik.http.services.prowlarr-svc.loadBalancer.server.port: 9696
+
+  byparr:
+    image: ghcr.io/thephaseless/byparr:latest
+    container_name: byparr
+    restart: unless-stopped
+    init: true
+    shm_size: 2g
+    deploy:
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 3G
+        reservations:
+          cpus: '1.00'
+          memory: 1G
+    environment:
+      LOG_LEVEL: "${LOG_LEVEL:-info}"
+      TZ: America/Detroit
+    networks:
+      - proxy
+      - default
+    labels:
+      traefik.enable: true
+      traefik.http.routers.byparr.entryPoints: secure
+      traefik.http.routers.byparr.rule: Host(`byparr.rt-541.io`)
+      traefik.http.routers.byparr.tls: true
+      traefik.http.routers.byparr.tls.certResolver: default
+      traefik.http.services.byparr-svc.loadBalancer.server.port: 8191
+      traefik.http.routers.byparr.middlewares: byparr-allowlist@docker
+      traefik.http.middlewares.byparr-allowlist.ipallowlist.sourcerange: 192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8191/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    ports:
+      - 8191:8191
+
+  qbit:
+    image: qbittorrentofficial/qbittorrent-nox
+    container_name: qbittorrent
+    restart: unless-stopped
+    network_mode: service:gluetun
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '4'
+          memory: 8G
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    environment:
+      PUID: 1001
+      PGID: 1001
+      TZ: America/Detroit
+      WEBUI_PORT: 8080
+    volumes:
+      - /docker/qbittorrent:/config
+      - /docker/plex/media/downloads:/data/downloads
+
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    restart: unless-stopped
+    networks:
+      proxy: null
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      TZ: America/Detroit
+      VPN_SERVICE_PROVIDER: nordvpn
+      VPN_TYPE: wireguard
+      WIREGUARD_PRIVATE_KEY: "${WG_PRIVATE_KEY}"
+      UPDATER_PERIOD: 24h
+    labels:
+      traefik.enable: true
+      traefik.docker.network: proxy
+      traefik.http.routers.qbittorrent.entryPoints: web,secure
+      traefik.http.routers.qbittorrent.rule: Host(`qbit.rt-541.io`)
+      traefik.http.routers.qbittorrent.tls: true
+      traefik.http.routers.qbittorrent.tls.certResolver: default
+      traefik.http.services.qbittorrent-svc.loadBalancer.server.port: 8080
+    ports:
+      - 8080:8080
+      - 6881:6881
+      - 6881:6881/udp
+
+  seerr:
+    # Seerr is the official 2026 unified successor to Overseerr + Jellyseerr.
+    # Overseerr was archived 2026-02-15. Seerr auto-migrates the Overseerr
+    # SQLite DB in place on first start. Runs non-root (UID 1000) — no PUID/PGID;
+    # the /docker/seerr data dir must be owned by 1000:1000. Config dir is
+    # /app/config (not /config). Original Overseerr data is preserved untouched
+    # at /docker/overseerr (+ /docker/overseerr.bak-preseerr) for rollback.
+    image: ghcr.io/seerr-team/seerr:v3.3.0
+    container_name: seerr
+    restart: unless-stopped
+    init: true
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '1'
+          memory: 1G
+    networks:
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.http.routers.seerr.entryPoints: web,secure
+      traefik.http.routers.seerr.rule: Host(`seerr.rt-541.io`)
+      traefik.http.routers.seerr.tls: true
+      traefik.http.routers.seerr.tls.certResolver: default
+      traefik.http.services.seerr-svc.loadBalancer.server.port: 5055
+    environment:
+      LOG_LEVEL: info
+      PORT: 5055
+      TZ: America/Detroit
+    volumes:
+      - /docker/seerr:/app/config
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/settings/public || exit 1
+      start_period: 30s
+      timeout: 5s
+      interval: 15s
+      retries: 3
+    ports:
+      - 5055:5055
+
+  nfs:
+    image: erichough/nfs-server:latest
+    container_name: plex-nfs
+    restart: unless-stopped
+    cap_add:
+      - SYS_ADMIN
+      - SYS_MODULE
+    ports:
+      - 2049:2049/tcp
+      - 2049:2049/udp
+      - 32767:32767
+    volumes:
+      - /docker/plex/media:/nfs/media
+      - /docker/plex/media2:/nfs/media2
+      - /docker/plex/dummydir:/nfs/
+      - /lib/modules:/lib/modules:ro
+    environment:
+      NFS_EXPORT_0: "/nfs 192.168.1.0/24(rw,fsid=0,crossmnt,no_subtree_check,no_root_squash)"
+      NFS_DISABLE_VERSION_2: 1
+      NFS_DISABLE_VERSION_3: 1

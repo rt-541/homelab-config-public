@@ -1,0 +1,64 @@
+---
+defaults:
+  webhook_url: ""
+  username: "Container Monitor"
+  footer: "Nemesis Server"
+  notify_on_start: true
+  notify_on_stop: true
+  notify_on_crash: true
+  start_emoji: "🟢"
+  stop_emoji: "🔴"
+  crash_emoji: "⚠️"
+  color_start: 65280
+  color_stop: 16711680
+  color_crash: 16776960
+
+status_report:
+  enabled: true
+  schedule: "0 8 * * *"
+  webhook_url: ""
+  include_stopped: true
+  include_resource_usage: true
+  include_uptime: true
+  include_health: true
+
+exclude:
+  - container-monitor
+
+mod_monitor:
+  servers:
+    zomboid-dev:
+      enabled: true
+      schedule: "0 */6 * * *"
+      container_name: zomboid-dev-server
+      acf_path: /acf/zomboid-dev/appworkshop_108600.acf
+      auto_restart: true
+      display_name: "Zomboid Dev Server"
+      webhook_env: "ZOMBOID_WEBHOOK_URL"
+      username: "ZP-742"
+      footer: "Zomboid Dev — Mod Monitor"
+    zomboid-prod:
+      enabled: true
+      schedule: "0 8 * * *"
+      container_name: zomboid-dedicated-server
+      acf_path: /acf/zomboid-prod/appworkshop_108600.acf
+      auto_restart: false
+      display_name: "Flight Group Alpha PZ Server"
+      webhook_env: "ZOMBOID_WEBHOOK_URL"
+      username: "ZP-742"
+      footer: "Zomboid Prod — Mod Monitor"
+
+overrides:
+  zomboid-dedicated-server:
+    display_name: "Flight Group Alpha PZ Server"
+    username: "ZP-742"
+    footer: "Flight Group Alpha PZ Server"
+    webhook_env: "ZOMBOID_WEBHOOK_URL"
+    start_message: "The zombie apocalypse awaits!"
+
+  mcatm9s:
+    display_name: "ATM9 Survival Server"
+    username: "ATM9 Survival"
+    footer: "ATM9 Survival Server"
+    webhook_env: "ATM9S_WEBHOOK_URL"
+    start_message: "Connect: minecraft.rt-541.io:25567"

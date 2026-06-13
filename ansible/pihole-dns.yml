@@ -1,0 +1,99 @@
+---
+# Ansible Playbook: Pi-hole DNS Management (Docker)
+# Manages local DNS entries in Pi-hole container as code
+#
+# Usage:
+#   ansible-playbook pihole-dns.yml
+#   ansible-playbook pihole-dns.yml --check  # Dry-run
+#   ansible-playbook pihole-dns.yml -i inventory.ini
+
+- name: Manage Pi-hole Local DNS Entries (Docker)
+  hosts: pihole
+  become: true
+  gather_facts: true
+
+  vars_files:
+    - vars/dns-entries.yml
+
+  vars:
+    pihole_container_name: "pihole"
+    temp_custom_list: "/tmp/pihole-custom.list"
+
+  tasks:
+    - name: Display DNS entries to be configured
+      debug:
+        msg: "Configuring {{ dns_entries | length }} DNS entries"
+
+    - name: Check if Pi-hole container is running
+      command: docker ps -q -f name={{ pihole_container_name }}
+      register: pihole_running
+      changed_when: false
+      failed_when: pihole_running.stdout == ""
+
+    - name: Get Pi-hole container info
+      command: docker inspect {{ pihole_container_name }}
+      register: pihole_info
+      changed_when: false
+
+    - name: Backup existing custom DNS list from container
+      shell: |
+        docker exec {{ pihole_container_name }} cat /etc/pihole/custom.list > /tmp/pihole-custom.list.backup.{{ ansible_date_time.epoch }} || true
+      changed_when: false
+      ignore_errors: true
+
+    - name: Generate custom DNS entries file on host
+      template:
+        src: templates/custom.list.j2
+        dest: "{{ temp_custom_list }}"
+        owner: root
+        group: root
+        mode: '0644'
+      register: custom_list_generated
+
+    - name: Display generated custom.list
+      command: cat {{ temp_custom_list }}
+      register: custom_list_content
+      changed_when: false
+      when: custom_list_generated is changed
+
+    - name: Show what will be applied
+      debug:
+        msg: "{{ custom_list_content.stdout_lines }}"
+      when: custom_list_generated is changed
+
+    - name: Copy custom.list into Pi-hole container
+      command: docker cp {{ temp_custom_list }} {{ pihole_container_name }}:/etc/pihole/custom.list
+      when: custom_list_generated is changed
+      notify: reload pihole dns
+
+    - name: Set correct permissions in container
+      command: docker exec {{ pihole_container_name }} chown pihole:pihole /etc/pihole/custom.list
+      when: custom_list_generated is changed
+
+    - name: Verify custom.list in container
+      command: docker exec {{ pihole_container_name }} cat /etc/pihole/custom.list
+      register: verify_custom_list
+      changed_when: false
+
+    - name: Count configured entries
+      set_fact:
+        entry_count: "{{ verify_custom_list.stdout_lines | select('match', '^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+') | list | length }}"
+
+    - name: Display configured entries
+      debug:
+        msg: "Successfully configured {{ entry_count }} DNS entries in Pi-hole container"
+
+    - name: Cleanup temp file
+      file:
+        path: "{{ temp_custom_list }}"
+        state: absent
+
+  handlers:
+    - name: reload pihole dns
+      command: docker exec {{ pihole_container_name }} pihole restartdns reload-lists
+      register: reload_result
+
+    - name: display reload result
+      debug:
+        msg: "{{ reload_result.stdout_lines }}"
+      when: reload_result is defined

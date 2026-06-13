@@ -1,0 +1,33 @@
+---
+services:
+  samba:
+    image: dperson/samba
+    container_name: samba
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 500M
+        reservations:
+          cpus: '1.00'
+          memory: 500M
+    labels:
+      traefik.enable: false
+    environment:
+      USERID: "1000  #aschneider user"
+      GROUPID: "1001 #plexadm group"
+      TZ: America/Detroit
+      USER: "${SAMBA_USER}"
+      SHARE: files;/files;yes;no;no;all;none;;files
+      SHARE1: library;/library;yes;no;no;all;none;;library
+      SHARE2: downloads;/downloads;yes;no;no;all;none;;downloads
+    ports:
+      - "137:137/udp"
+      - "138:138/udp"
+      - "139:139/tcp"
+      - "445:445/tcp"
+    volumes:
+      - /docker/samba/files:/files
+      - /docker/samba/library:/library
+      - /docker/samba/downloads:/downloads
+    restart: unless-stopped

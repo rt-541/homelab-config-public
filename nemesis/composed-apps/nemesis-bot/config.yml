@@ -1,0 +1,93 @@
+bot:
+  prefix: "!"
+  status_message: "Nemesis Mission Systems | /help"
+
+defaults:
+  username: "Nemesis Mission Systems"
+  footer: "Nemesis Mission Systems"
+  notify_on_start: true
+  notify_on_stop: true
+  notify_on_crash: true
+  start_emoji: ""
+  stop_emoji: ""
+  crash_emoji: ""
+  color_start: 65280
+  color_stop: 16711680
+  color_crash: 16776960
+
+status_report:
+  enabled: true
+  schedule_hour: 8       # 8 AM UTC daily
+  include_stopped: true
+  include_resource_usage: true
+  include_uptime: true
+  include_health: true
+
+exclude:
+  - container-monitor
+  - nemesis-bot
+
+
+mod_monitor:
+  servers:
+    zomboid-dev:
+      enabled: true
+      schedule_interval_hours: 6
+      container_name: zomboid-dev-server
+      acf_path: /acf/zomboid-dev/appworkshop_108600.acf
+      auto_restart: true
+      display_name: "Zomboid Dev Server"
+      webhook_env: "ZOMBOID_WEBHOOK_URL"
+      username: "ZP-742"
+      footer: "Zomboid Dev — Mod Monitor"
+    zomboid-prod:
+      enabled: true
+      schedule_interval_hours: 24
+      container_name: zomboid-dedicated-server
+      acf_path: /acf/zomboid-prod/appworkshop_108600.acf
+      auto_restart: false
+      display_name: "Flight Group Alpha PZ Server"
+      webhook_env: "ZOMBOID_WEBHOOK_URL"
+      username: "ZP-742"
+      footer: "Zomboid Prod — Mod Monitor"
+
+overrides:
+  zomboid-dedicated-server:
+    display_name: "Flight Group Alpha PZ Server"
+    username: "ZP-742"
+    footer: "Flight Group Alpha PZ Server"
+    webhook_env: "ZOMBOID_WEBHOOK_URL"
+    start_message: "The zombie apocalypse awaits!"
+  mcatm9s:
+    display_name: "ATM9 Survival Server"
+    username: "ATM9 Survival"
+    footer: "ATM9 Survival Server"
+    webhook_env: "ATM9S_WEBHOOK_URL"
+    start_message: "Connect: minecraft.rt-541.io:25567"
+  mc-deceasedcraft:
+    display_name: "DeceasedCraft Server"
+    username: "DeceasedCraft"
+    footer: "DeceasedCraft Server"
+    webhook_env: "ATM9S_WEBHOOK_URL"
+    start_message: |
+      **Connect:** `minecraft.rt-541.io:25567`  (Minecraft Java Edition, 1.20.1)
+
+      **First time? Install DeceasedCraft 5.10.16:**
+      1. Own **Minecraft: Java Edition** (Microsoft account)
+      2. Install the **CurseForge app** → <https://www.curseforge.com/download/app>
+      3. In CurseForge: *Minecraft* → search **DeceasedCraft** → install version **5.10.16**
+      4. Hit **Play** — it auto-installs Forge 1.20.1 and all the mods
+      5. In game: *Multiplayer* → *Add Server* → `minecraft.rt-541.io:25567` → **Join**
+
+      Tip: give it 8 GB RAM in CurseForge settings. Not on the whitelist yet? Ask an admin (`/mc-allowlist`).
+
+# Swap groups: mutually-exclusive sets of containers. /swap <target> stops any
+# other running member of the target's group, then starts the target — so the
+# heavy Minecraft packs never run at once. Add future servers by appending the
+# container name here and to the relevant ROLE_*_CONTAINERS in docker-compose.yml.
+swap_groups:
+  minecraft:
+    display_name: "Minecraft"
+    containers:
+      - mcatm9s
+      - mc-deceasedcraft

@@ -1,0 +1,142 @@
+# Nemesis Configs - Project Guide
+
+## Communication Style
+- Never use emojis in responses to the user
+
+
+
+## Project Structure
+This repo is a per-system monorepo (one tree per host):
+- `nemesis/composed-apps/<app-name>/docker-compose.yml`: nemesis apps, one directory per app
+- `devastator/composed-apps/<app-name>/docker-compose.yml`: devastator apps (Plex, Pi-hole, Traefik, and the B70 vLLM stack)
+- `scripts/`, `systemd-unit-files/`, `ansible/`, `docs/`: shared, host-agnostic, at the repo root
+- Game server data lives under `/docker/game/<game-name>/`
+- Media/Plex stack lives under `/docker/plex/`
+- On-disk repo path: `/docker/homelab-config` on both hosts
+
+## When Creating a New Containerized App
+
+When the user asks to create a new Docker Compose app, **always ask** which sidecars they want using AskUserQuestion with multiSelect. Present the following options:
+
+### Sidecar Options
+
+#### 1. Scheduled Backup (offen/docker-volume-backup)
+Daily compressed backup of persistent data with automatic rotation.
+```yaml
+  <app>-backup:
+    image: offen/docker-volume-backup:v2
+    container_name: <app>-backup
+    restart: unless-stopped
+    environment:
+      BACKUP_CRON_EXPRESSION: "0 4 * * *"
+      BACKUP_RETENTION_DAYS: "21"
+      BACKUP_FILENAME: "<app>-%Y-%m-%dT%H-%M-%S.tar.gz"
+    volumes:
+      - <data-volume-path>:/backup/<data-dir>:ro
+      - <backup-storage-path>:/archive
+```
+- Default schedule: daily at 4 AM
+- Default retention: 21 days
+- Mount the app's data volume as read-only under `/backup/`
+- Store archives in a dedicated backup directory
+
+#### 2. Discord Notifications
+Lightweight Alpine container that monitors the main app and sends Discord webhook alerts on start/stop.
+```yaml
+  <app>-discord:
+    image: alpine:latest
+    container_name: <app>-discord
+    restart: unless-stopped
+    depends_on:
+      - <main-service>
+    environment:
+      - WEBHOOK_URL=<ask user for webhook URL>
+    volumes:
+      - ./notify.sh:/notify.sh:ro
+    entrypoint: /bin/sh
+    command: ["/notify.sh"]
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: "128M"
+        reservations:
+          cpus: '0.25'
+          memory: "64M"
+```
+- Ask the user for their Discord webhook URL
+- Create a `notify.sh` script tailored to the app (use the ATM9 survival one as a template: `composed-apps/minecraft-atm9-survival/notify.sh`)
+- Monitor via TCP port check against the main service
+
+#### 3. Healthcheck Monitor (autoheal)
+Automatically restarts unhealthy containers.
+```yaml
+  <app>-autoheal:
+    image: willfarrell/autoheal:latest
+    container_name: <app>-autoheal
+    restart: unless-stopped
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: all
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+```
+- Requires the main service to have a `healthcheck` defined in its compose config
+- Restarts containers that report unhealthy status
+
+#### 4. Log Aggregation (Dozzle)
+Web-based real-time log viewer for all containers in the compose stack.
+```yaml
+  <app>-logs:
+    image: amir20/dozzle:latest
+    container_name: <app>-logs
+    restart: unless-stopped
+    ports:
+      - "<ask-port>:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      DOZZLE_FILTER: "name=<app>*"
+```
+- Ask the user which host port to expose
+- Filter to only show logs for containers in this app's stack
+
+## Docker Commands
+- **Always use `docker compose` (not `docker` directly) for starting/stopping/restarting services**
+- **"Restart" always means `down` then `up -d`** — never `docker compose restart`, as it does not re-read the compose file or pick up environment variable changes
+- Run from the app's compose directory, e.g.:
+  ```
+  cd /docker/homelab-config/nemesis/composed-apps/zomboid && sudo docker compose down
+  cd /docker/homelab-config/nemesis/composed-apps/zomboid && sudo docker compose up -d
+  ```
+- Never use `docker stop <container>` or `docker start <container>` — always go through compose
+
+## Conventions
+- Use `restart: unless-stopped` on all services
+- Define resource limits (`deploy.resources`) for game servers
+- Game server data paths: `/docker/game/<game-name>/`
+- Backup data paths: `/docker/game/<game-name>/backups/` (or `backups-daily/` if the app has its own backup dir)
+- Container names should be descriptive and match the directory name
+- Use `.env` files for sensitive values when possible rather than inline environment variables
+
+## Existing Servers with Backup Sidecars
+- Zomboid: `composed-apps/zomboid/` → backups at `/docker/game/zomboid/backups/`
+- Valheim: `composed-apps/valheim/` → backups at `/docker/game/valheim/backups-daily/`
+- Minecraft ATM9 Survival: `composed-apps/minecraft-atm9-survival/` → backups at `/docker/game/minecraft/minecraftatm9s_backups/`
+
+## about-site i18n pipeline
+
+- English source of truth: `composed-apps/about-site/src/i18n/ui.ts` (the `t.en` block).
+- Translations are auto-generated by `composed-apps/ollama/` running `qwen2.5:7b` (CPU-only; no GPU on this host). Initially specced for `deepseek-r1:7b` but switched to `qwen2.5:7b` after empirical testing: ~20x faster on CPU and better at short UI labels.
+- `npm run build` runs `prebuild` which runs `regen-i18n` automatically.
+  - Warm cache → near-instant (no Ollama calls).
+  - New/edited English → only the deltas hit Ollama.
+- Cache lives at `composed-apps/about-site/src/i18n/.translations-cache.json` and is committed to git.
+- To pin a specific translation: edit the value inside `.translations-cache.json` directly. The recorded `hash` must match the current English; the next regen will treat your edit as canonical for that (lang, key).
+- Hand-editing `ui.ts` directly does NOT survive a regen; always go through the cache.
+- Force a full re-translation: `npm run regen-i18n -- --force`.
+- Dry-run (list misses without writing): `npm run regen-i18n -- --dry-run`.
+- Translator outages never block deploys: Ollama unreachable → warn, leave files untouched, exit 0.
+- Orphan keys (in cache but not in `t.en`) are auto-pruned on each full run.
+- Sidecars: `ollama-discord` (Discord webhook on up/down), `ollama-autoheal` (label-scoped), `ollama-logs` (Dozzle at port 9999).
+- Quality gate (opt-in via `OLLAMA_GATE_ENABLED=true`): each translation passes a free programmatic check (`scripts/validate-translation.ts`: script presence, English-passthrough, foreign-script soup, dropped verbatim tokens, length blowout) then a 7b LLM judge (`OLLAMA_JUDGE_MODEL`, returns `PASS`/`FAIL: reason`). Up to 3 attempts per string; a string that never passes is logged and falls back to English (build still exits 0). Gate is OFF by default, so warm-cache CPU prebuilds are unchanged.
+- GPU cold-fill (runs on Rocinante's RTX 5080, not this host): bring up an ephemeral Ollama container there, open an SSH tunnel from nemesis (`ssh -fN -L 11435:localhost:11434 arthu@192.168.1.247`), then `OLLAMA_URL=http://127.0.0.1:11435 OLLAMA_MODEL=qwen2.5:14b OLLAMA_JUDGE_MODEL=qwen2.5:7b OLLAMA_GATE_ENABLED=true npm run regen-i18n`. Tear the container down afterward (the user games on that box); the model volume persists.

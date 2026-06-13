@@ -1,0 +1,8 @@
+<service>
+  <short>Minecraft</short>
+  <description>Minecraft</description>
+  <port protocol="tcp" port="25565"/>
+  <port protocol="udp" port="25565"/>
+  <port protocol="tcp" port="25566"/>
+  <port protocol="udp" port="25566"/>
+</service>

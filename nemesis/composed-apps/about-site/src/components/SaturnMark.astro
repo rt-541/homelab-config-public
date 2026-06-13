@@ -1,0 +1,75 @@
+---
+interface Props {
+  class?: string;
+  opacity?: number;
+}
+const { class: className = '', opacity = 1 } = Astro.props;
+---
+<svg
+  viewBox="0 0 400 400"
+  class={className}
+  style={`opacity: ${opacity}`}
+  role="img"
+  aria-labelledby="saturn-title saturn-desc"
+>
+  <title id="saturn-title">Saturn glyph</title>
+  <desc id="saturn-desc">A ringed planet with the designation RT-541 inscribed across its body.</desc>
+  <defs>
+    <radialGradient id="saturn-body" cx="38%" cy="35%" r="74%">
+      <stop offset="0%"   stop-color="#F2E5B8" />
+      <stop offset="42%"  stop-color="#D9BD7F" />
+      <stop offset="78%"  stop-color="#9B7843" />
+      <stop offset="100%" stop-color="#5B4424" />
+    </radialGradient>
+    <linearGradient id="saturn-bands" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="6%"  stop-color="rgba(90,65,25,0)" />
+      <stop offset="16%" stop-color="rgba(90,65,25,0.22)" />
+      <stop offset="24%" stop-color="rgba(90,65,25,0)" />
+      <stop offset="36%" stop-color="rgba(90,65,25,0.12)" />
+      <stop offset="48%" stop-color="rgba(90,65,25,0)" />
+      <stop offset="58%" stop-color="rgba(90,65,25,0.18)" />
+      <stop offset="68%" stop-color="rgba(90,65,25,0)" />
+      <stop offset="80%" stop-color="rgba(90,65,25,0.24)" />
+      <stop offset="92%" stop-color="rgba(90,65,25,0.1)" />
+    </linearGradient>
+    <radialGradient id="saturn-shadow" cx="72%" cy="55%" r="55%">
+      <stop offset="0%"   stop-color="rgba(20,15,5,0)" />
+      <stop offset="55%"  stop-color="rgba(20,15,5,0)" />
+      <stop offset="100%" stop-color="rgba(20,15,5,0.55)" />
+    </radialGradient>
+  </defs>
+
+  <!-- Back rings + planet (tilted -22deg) -->
+  <g transform="translate(200,200) rotate(-22)">
+    <path d="M -178,0 A 178,40 0 0,1 178,0" stroke="#D2B47C" stroke-width="7"  fill="none" opacity="0.7" />
+    <path d="M -165,0 A 165,37 0 0,1 165,0" stroke="#2A3B54" stroke-width="2"  fill="none" opacity="0.9" />
+    <path d="M -150,0 A 150,33 0 0,1 150,0" stroke="#EBD9A8" stroke-width="16" fill="none" opacity="0.92" />
+    <path d="M -124,0 A 124,27 0 0,1 124,0" stroke="#94A3B5" stroke-width="7"  fill="none" opacity="0.5" />
+    <path d="M -134,0 A 134,30 0 0,1 134,0" stroke="#2A3B54" stroke-width="1"  fill="none" opacity="0.55" />
+    <circle cx="0" cy="0" r="80" fill="url(#saturn-body)" />
+    <circle cx="0" cy="0" r="80" fill="url(#saturn-bands)" />
+    <circle cx="0" cy="0" r="80" fill="url(#saturn-shadow)" />
+  </g>
+
+  <!-- Wordmark: level (no rotation), screen-space coords -->
+  <text
+    x="200"
+    y="180"
+    text-anchor="middle"
+    font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+    font-size="20"
+    font-weight="700"
+    letter-spacing="4"
+    fill="#1C2A40"
+  >RT-541</text>
+
+  <!-- Front rings + cast shadow (tilted -22deg) -->
+  <g transform="translate(200,200) rotate(-22)">
+    <path d="M -178,0 A 178,40 0 0,0 178,0" stroke="#D2B47C" stroke-width="7"  fill="none" opacity="0.7" />
+    <path d="M -165,0 A 165,37 0 0,0 165,0" stroke="#2A3B54" stroke-width="2"  fill="none" opacity="0.9" />
+    <path d="M -150,0 A 150,33 0 0,0 150,0" stroke="#EBD9A8" stroke-width="16" fill="none" opacity="0.92" />
+    <path d="M -124,0 A 124,27 0 0,0 124,0" stroke="#94A3B5" stroke-width="7"  fill="none" opacity="0.5" />
+    <path d="M -134,0 A 134,30 0 0,0 134,0" stroke="#2A3B54" stroke-width="1"  fill="none" opacity="0.55" />
+    <path d="M 95,17 A 160,36 0 0,1 160,5" stroke="rgba(20,15,5,0.4)" stroke-width="14" fill="none" />
+  </g>
+</svg>

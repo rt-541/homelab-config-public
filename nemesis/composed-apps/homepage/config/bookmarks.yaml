@@ -1,0 +1,17 @@
+- Infra:
+    - Proxmox sienar:
+        - abbr: PVE
+          href: https://192.168.1.5:8006
+    - Proxmox incomm:
+        - abbr: PVE
+          href: https://192.168.1.6:8006
+    - GitHub repo:
+        - abbr: GH
+          href: https://github.com/rt-541/homelab-config
+- Network:
+    - Router:
+        - abbr: RT
+          href: http://192.168.1.1
+    - Pi-hole admin:
+        - abbr: PH
+          href: https://pihole.rt-541.io/admin

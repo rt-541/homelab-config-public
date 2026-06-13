@@ -1,0 +1,48 @@
+Zomboid B42 Migration
+  backup-dir : /docker/game/zomboid/manual-backups
+  save-dir   : /docker/game/zomboid/ZomboidConfig/Saves/Multiplayer/Flight_Group_Alpha_PZ_Server
+  dry-run    : False
+
+============================================================
+  Phase 1 — Players
+============================================================
+  Backup players.db : /docker/game/zomboid/manual-backups/players.db
+  Fresh  players.db : /docker/game/zomboid/ZomboidConfig/Saves/Multiplayer/Flight_Group_Alpha_PZ_Server/players.db
+
+  Table: networkPlayers
+  Shared columns (12): data, id, isDead, name, playerIndex, steamid, username, world, worldversion, x, y, z
+
+  Backup row count : 8
+  Rows inserted    : 8
+  Post-insert count: 8 (expected 8)
+  Player import: OK
+
+============================================================
+  Phase 2 — Vehicles
+============================================================
+  SQL source  : /docker/game/zomboid/manual-backups/firestation-chunk-backup/vehicles_base.sql
+  vehicles.db : /docker/game/zomboid/ZomboidConfig/Saves/Multiplayer/Flight_Group_Alpha_PZ_Server/vehicles.db
+
+  Parsed vehicle rows: 48 (expected 48)
+  No ID conflicts in fresh vehicles.db.
+  Statements executed: 48
+  Post-insert count: 48 (expected 48)
+  Vehicle import: OK
+
+============================================================
+  Phase 3 — Chunks
+============================================================
+  Backup chunk files: 22 (expected 22)
+  Target chunkdata/: /docker/game/zomboid/ZomboidConfig/Saves/Multiplayer/Flight_Group_Alpha_PZ_Server/chunkdata
+
+  Magic byte check skipped: no chunkdata_*.bin files exist in fresh world to compare against.
+
+
+  Chunks copied       : 22
+  Existing files saved: 0 (as .bak)
+  Chunk copy: OK
+
+============================================================
+  Summary
+============================================================
+  Overall: PASS

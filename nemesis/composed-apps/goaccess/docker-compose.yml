@@ -1,0 +1,45 @@
+---
+networks:
+  proxy:
+    external: true
+  goaccess-internal:
+
+services:
+  goaccess:
+    image: allinurl/goaccess:latest
+    container_name: goaccess
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - >-
+        tail -n +1 -F /srv/logs/access.log
+        | grep -F '"RequestHost":"about.rt-541.io"'
+        | goaccess - --config-file=/srv/goaccess.conf
+    volumes:
+      - /docker/traefik/logs:/srv/logs:ro
+      - /docker/goaccess/geoip:/geoip:ro
+      - /docker/goaccess/report:/report
+      - ./goaccess.conf:/srv/goaccess.conf:ro
+    networks:
+      - goaccess-internal
+
+  goaccess-web:
+    image: nginx:alpine
+    container_name: goaccess-web
+    restart: unless-stopped
+    depends_on:
+      - goaccess
+    volumes:
+      - /docker/goaccess/report:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - proxy
+      - goaccess-internal
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: proxy
+      traefik.http.services.goaccess-svc.loadbalancer.server.port: "80"
+      traefik.http.routers.goaccess.rule: "Host(`logs.rt-541.io`)"
+      traefik.http.routers.goaccess.entrypoints: secure
+      traefik.http.routers.goaccess.tls.certresolver: default
+      traefik.http.routers.goaccess.middlewares: lan-only@docker

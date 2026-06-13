@@ -1,0 +1,39 @@
+---
+networks:
+  proxy:
+    external: true
+
+services:
+  about-site:
+    image: nginx:alpine
+    container_name: about-site
+    restart: unless-stopped
+    networks:
+      - proxy
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.about-site.rule: Host(`about.rt-541.io`)
+      traefik.http.routers.about-site.entrypoints: secure
+      traefik.http.routers.about-site.tls.certresolver: default
+      traefik.http.services.about-site.loadbalancer.server.port: 80
+      # Apex rt-541.io -> about.rt-541.io (301). $${1} escapes compose var-substitution
+      # so Traefik receives the literal ${1} capture group.
+      traefik.http.routers.apex-redirect.rule: Host(`rt-541.io`)
+      traefik.http.routers.apex-redirect.entrypoints: secure
+      traefik.http.routers.apex-redirect.tls.certresolver: default
+      traefik.http.routers.apex-redirect.service: about-site
+      traefik.http.routers.apex-redirect.middlewares: apex-to-about
+      traefik.http.middlewares.apex-to-about.redirectregex.regex: ^https?://rt-541.io/(.*)
+      traefik.http.middlewares.apex-to-about.redirectregex.replacement: https://about.rt-541.io/$${1}
+      traefik.http.middlewares.apex-to-about.redirectregex.permanent: "true"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 128M
+        reservations:
+          cpus: '0.1'
+          memory: 32M

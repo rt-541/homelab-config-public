@@ -1,0 +1,7 @@
+# Read-only docker-socket-proxies (no raw socket mount → dashboard can't control anything).
+nemesis:
+  host: 192.168.1.214
+  port: 2375
+devastator:
+  host: 192.168.1.216
+  port: 2375

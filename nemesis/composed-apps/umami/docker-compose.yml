@@ -1,0 +1,59 @@
+---
+networks:
+  proxy:
+    external: true
+  umami-internal:
+
+services:
+  umami-db:
+    image: postgres:16-alpine
+    container_name: umami-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - umami-db-data:/var/lib/postgresql/data
+    networks:
+      - umami-internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U umami -d umami"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    container_name: umami
+    restart: unless-stopped
+    depends_on:
+      umami-db:
+        condition: service_healthy
+    environment:
+      DATABASE_TYPE: postgresql
+      DATABASE_URL: postgresql://umami:${POSTGRES_PASSWORD}@umami-db:5432/umami
+      APP_SECRET: ${APP_SECRET}
+      CLIENT_IP_HEADER: X-Forwarded-For
+    networks:
+      - proxy
+      - umami-internal
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: proxy
+      traefik.http.services.umami-svc.loadbalancer.server.port: "3000"
+      traefik.http.routers.umami-pub.rule: "Host(`analytics.rt-541.io`) && (Path(`/script.js`) || PathPrefix(`/api/send`))"
+      traefik.http.routers.umami-pub.entrypoints: secure
+      traefik.http.routers.umami-pub.tls.certresolver: default
+      traefik.http.routers.umami-pub.priority: "100"
+      traefik.http.routers.umami-pub.service: umami-svc
+      traefik.http.routers.umami-dash.rule: "Host(`analytics.rt-541.io`)"
+      traefik.http.routers.umami-dash.entrypoints: secure
+      traefik.http.routers.umami-dash.tls.certresolver: default
+      traefik.http.routers.umami-dash.priority: "10"
+      traefik.http.routers.umami-dash.service: umami-svc
+      traefik.http.routers.umami-dash.middlewares: lan-only@docker
+      traefik.http.middlewares.lan-only.ipallowlist.sourcerange: "192.168.1.0/24,127.0.0.1/32"
+
+volumes:
+  umami-db-data:

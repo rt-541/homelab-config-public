@@ -1,0 +1,6 @@
+<service>
+  <short>overseerr</short>
+  <description>overseerr</description>
+  <port protocol="tcp" port="5055"/>
+  <port protocol="tcp" port="5055"/>
+</service>

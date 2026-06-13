@@ -1,0 +1,10 @@
+[Unit]
+Description=Samba mount
+
+[Mount]
+What=/dev/mapper/data3-samba
+Where=/docker/samba
+Type=xfs
+
+[Install]
+WantedBy=multi-user.target

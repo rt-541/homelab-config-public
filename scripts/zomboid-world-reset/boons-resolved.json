@@ -1,0 +1,96 @@
+{
+  "Bulbs": {
+    "display_name": "Step-fist",
+    "rolls": [10, 9, 8, 19, 15],
+    "items": [
+      {"id": "Base.HuntingKnife", "count": 1, "comment": "Table 1 roll 10 — Hunting Knife"},
+      {"id": "Base.Boilersuit",   "count": 1, "comment": "Table 2 roll 9 — Welder overalls sub: Boilersuit (no welder-specific overalls in vanilla B42)"},
+      {"id": "Base.AssaultRifle2","count": 1, "comment": "Table 3 roll 8 — M14 (M1A Rifle)"},
+      {"id": "Base.M14Clip",      "count": 1, "comment": "Table 3 roll 8 — M14 magazine (empty, MaxAmmo=20)"},
+      {"id": "Base.308Bullets",   "count": 20, "comment": "Table 3 roll 8 — 20x .308 loose rounds (player loads the mag)"}
+    ],
+    "xp": [
+      {"skill": "Husbandry", "amount": 2000, "comment": "Table 4 roll 19 — +2000 Husbandry (Perks.Husbandry confirmed in B42 lua)"}
+    ],
+    "bane": {
+      "flavor": "Memory gap",
+      "trait": "SlowReader",
+      "rp_only": false
+    }
+  },
+  "Emma M7": {
+    "display_name": "Emma",
+    "rolls": [5, 16, 2, 19, 15],
+    "items": [
+      {"id": "Base.Machete",       "count": 1, "comment": "Table 1 roll 5 — Machete"},
+      {"id": "Base.Jacket_WhiteTINT","count": 1, "comment": "Table 2 roll 16 — USPS parka sub: Jacket_WhiteTINT (no postal uniform in vanilla B42)"},
+      {"id": "Base.Pistol2",       "count": 1, "comment": "Table 3 roll 2 — M1911 (Pistol2)"},
+      {"id": "Base.45Clip",        "count": 1, "comment": "Table 3 roll 2 — M1911 magazine (empty, MaxAmmo=7)"},
+      {"id": "Base.Bullets45",     "count": 7, "comment": "Table 3 roll 2 — 7x .45 loose rounds (player loads the mag)"}
+    ],
+    "xp": [
+      {"skill": "Husbandry", "amount": 2000, "comment": "Table 4 roll 19 — +2000 Husbandry (Perks.Husbandry confirmed in B42 lua)"}
+    ],
+    "bane": {
+      "flavor": "Memory gap",
+      "trait": "SlowReader",
+      "rp_only": false
+    }
+  },
+  "Vinny": {
+    "display_name": "Vinny",
+    "rolls": [13, 5, 12, 6, 10],
+    "items": [
+      {"id": "Base.Shovel2",                   "count": 1, "comment": "Table 1 roll 13 — Long-Handle Shovel (Shovel2; Shovel is long-handle, Spade is short-handle in B42)"},
+      {"id": "Base.HoodieDOWN_WhiteTINT",      "count": 1, "comment": "Table 2 roll 5 — UK Wildcats hoodie sub: HoodieDOWN_WhiteTINT (no branded collegiate hoodie in vanilla B42)"},
+      {"id": "Base.DoubleBarrelShotgunSawnoff", "count": 1, "comment": "Table 3 roll 12 — Sawed-Off Double-Barrel Shotgun"},
+      {"id": "Base.ShotgunShells",             "count": 4, "comment": "Table 3 roll 12 — 4x 12g shells (player loads manually)"}
+    ],
+    "xp": [
+      {"skill": "Reloading", "amount": 2500, "comment": "Table 4 roll 6 — +2500 Reloading (Perks.Reloading confirmed in B42 lua)"}
+    ],
+    "bane": {
+      "flavor": "Hard of Hearing",
+      "trait": "HardOfHearing",
+      "rp_only": false
+    }
+  },
+  "Artie": {
+    "display_name": "RT-541",
+    "rolls": [14, 17, 8, 17, 12],
+    "items": [
+      {"id": "Base.PickAxe",      "count": 1, "comment": "Table 1 roll 14 — Pickaxe"},
+      {"id": "Base.Hat_Cowboy",   "count": 1, "comment": "Table 2 roll 17 — Cowboy hat (direct vanilla match)"},
+      {"id": "Base.AssaultRifle2","count": 1, "comment": "Table 3 roll 8 — M14 (M1A Rifle)"},
+      {"id": "Base.M14Clip",      "count": 1, "comment": "Table 3 roll 8 — M14 magazine (empty, MaxAmmo=20)"},
+      {"id": "Base.308Bullets",   "count": 20, "comment": "Table 3 roll 8 — 20x .308 loose rounds (player loads the mag)"}
+    ],
+    "xp": [
+      {"skill": "Spear", "amount": 2500, "comment": "Table 4 roll 17 — +2500 Spear (Perks.Spear confirmed in B42 lua)"}
+    ],
+    "bane": {
+      "flavor": "Coughing blood",
+      "traits": ["SlowHealer", "ProneToIllness"],
+      "rp_only": false
+    }
+  },
+  "Curtis": {
+    "display_name": "Curtis",
+    "rolls": [5, 7, 16, 20, 11],
+    "items": [
+      {"id": "Base.Machete",    "count": 1, "comment": "Table 1 roll 5 — Machete"},
+      {"id": "Base.Shirt_Priest","count": 1, "comment": "Table 2 roll 7 — Clergy collar shirt (direct vanilla match: Shirt_Priest)"},
+      {"id": "Base.HuntingRifle","count": 1, "comment": "Table 3 roll 16 — Hunting Rifle (MSR788, bolt-action)"},
+      {"id": "Base.x2Scope",    "count": 1, "comment": "Table 3 roll 16 — x2 Scope attachment"},
+      {"id": "Base.308Bullets", "count": 2, "comment": "Table 3 roll 16 — 2x .308 loose rounds"}
+    ],
+    "xp": [
+      {"skill": "Electricity",   "amount": 2000, "comment": "Table 4 roll 20 — +2000 Electrical (B42 internal ID is Electricity, confirmed via Perks.Electricity in lua)"},
+      {"skill": "MetalWelding",  "amount": 1000, "comment": "Table 4 roll 20 — +1000 MetalWelding (Perks.MetalWelding confirmed in B42 lua; display name 'Metalworking')"}
+    ],
+    "bane": {
+      "flavor": "All hair burned off",
+      "rp_only": true
+    }
+  }
+}

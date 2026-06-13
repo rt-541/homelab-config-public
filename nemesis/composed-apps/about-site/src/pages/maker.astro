@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PrintCard from '../components/PrintCard.astro';
+import { getCollection } from 'astro:content';
+
+const prints = (await getCollection('prints'))
+  .sort((a, b) => a.data.order - b.data.order || b.data.date.getTime() - a.data.date.getTime());
+---
+<BaseLayout title="maker &middot; rt-541.io" description="3D printing: a live printer cam and a gallery of prints.">
+  <section class="max-w-3xl mx-auto px-6 pt-16 pb-8">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20" data-i18n="maker.eyebrow">
+      maker
+    </p>
+    <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-3" data-i18n="maker.h1">3D printing</h1>
+    <p class="text-[15px] text-ice leading-[1.65] max-w-[52ch]" data-i18n="maker.intro">
+      A Prusa Core One that runs more often than not. Below is a live look at whatever is on the bed right now, and a gallery of things that came off it.
+    </p>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-6">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4" data-i18n="maker.live.label">// live</p>
+    <div class="cam" data-cam>
+      <button type="button" class="cam-go" data-cam-go>
+        <span class="cam-go-icon">&#9658;</span>
+        <span data-i18n="maker.live.go">go live</span>
+      </button>
+    </div>
+    <p class="text-[13px] text-subtle mt-3" data-i18n="maker.live.caption">Live feed from the workshop. Loads only when you press play, and may be dark when the printer is off.</p>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12 pb-20">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4" data-i18n="maker.prints.label">// prints</p>
+    {prints.length === 0 ? (
+      <p class="text-subtle text-[14px]" data-i18n="maker.prints.empty">No prints yet.</p>
+    ) : (
+      <div class="print-grid">
+        {prints.map(p => <PrintCard entry={p} />)}
+      </div>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .cam {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    background: #0F1622;
+    border: 1px solid rgba(244, 236, 216, 0.15);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .cam :global(iframe) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .cam-go {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: #F4ECD8;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .cam-go:hover { background: rgba(244, 236, 216, 0.05); }
+  .cam-go-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border: 1.5px solid #F4ECD8;
+    border-radius: 50%;
+    font-size: 18px;
+    padding-left: 4px;
+  }
+
+  .print-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+</style>
+
+<script>
+  const cam = document.querySelector<HTMLElement>('[data-cam]');
+  const btn = document.querySelector<HTMLButtonElement>('[data-cam-go]');
+  btn?.addEventListener('click', () => {
+    if (!cam) return;
+    const frame = document.createElement('iframe');
+    frame.src = 'https://cam.rt-541.io/stream.html?src=printer&mode=mse';
+    frame.setAttribute('allow', 'autoplay; fullscreen');
+    frame.setAttribute('allowfullscreen', 'true');
+    cam.replaceChildren(frame);
+  });
+</script>

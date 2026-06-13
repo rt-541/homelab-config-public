@@ -1,0 +1,6 @@
+<service>
+  <short>Zabbix</short>
+  <description>Zabbix</description>
+  <port protocol="tcp" port="10050"/>
+  <port protocol="udp" port="10050"/>
+</service>

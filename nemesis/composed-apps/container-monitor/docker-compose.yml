@@ -1,0 +1,24 @@
+---
+services:
+  container-monitor:
+    build: .
+    container_name: container-monitor
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config.yml:/config.yml:ro
+      - ./state:/state
+      - /docker/game/zomboid-dev/ZomboidDedicatedServer/steamapps/workshop:/acf/zomboid-dev:ro
+      - /docker/game/zomboid/ZomboidDedicatedServer/steamapps/workshop:/acf/zomboid-prod:ro
+    environment:
+      DEFAULT_WEBHOOK_URL: "${DEFAULT_WEBHOOK_URL}"
+      ZOMBOID_WEBHOOK_URL: "${ZOMBOID_WEBHOOK_URL}"
+      ATM9S_WEBHOOK_URL: "${ATM9S_WEBHOOK_URL}"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M

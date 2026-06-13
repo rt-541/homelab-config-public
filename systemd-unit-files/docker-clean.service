@@ -1,0 +1,9 @@
+[Unit]
+Description=Docker Cleanup Service
+Documentation=man:docker(1)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/docker/homelab-config/scripts/docker-clean.sh

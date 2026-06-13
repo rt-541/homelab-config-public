@@ -1,0 +1,38 @@
+---
+services:
+  minecraft-atm9-survival:
+    image: itzg/minecraft-server:java17
+    container_name: mcatm9s
+    hostname: mcatm9s
+    restart: unless-stopped
+    env_file: .env
+    tty: true
+    stdin_open: true
+    ports:
+      - 25567:25565
+    volumes:
+      - /docker/game/minecraft/minecraftatm9s_data:/data
+      - ./allowed_users.json:/data/allowed_users.json
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
+    deploy:
+      resources:
+        limits:
+          cpus: '8'
+        reservations:
+          cpus: '8'
+
+  mcatm9s-backup:
+    image: offen/docker-volume-backup:v2
+    container_name: mcatm9s-backup
+    restart: unless-stopped
+    environment:
+      BACKUP_CRON_EXPRESSION: "0 4 * * *"
+      BACKUP_RETENTION_DAYS: "7"
+      BACKUP_COMPRESSION: "zst"
+      BACKUP_FILENAME: "mcatm9s-%Y-%m-%dT%H-%M-%S.tar.zst"
+    volumes:
+      - /docker/game/minecraft/minecraftatm9s_data:/backup/minecraftatm9s_data:ro
+      - /docker/game/minecraft/minecraftatm9s_backups:/archive

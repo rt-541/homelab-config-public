@@ -1,0 +1,21 @@
+# Secrets / environment files
+.env
+**/.env
+!**/.env.example
+
+minecraft_data
+
+# Git worktrees
+.worktrees/
+
+# Superpowers brainstorming companion
+.superpowers/
+
+# Python bytecode
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+# Game-server env files (contain webhooks/passwords); keep on host only
+override.env
+default.env

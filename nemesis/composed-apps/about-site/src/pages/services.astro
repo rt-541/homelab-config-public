@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SaturnMark from '../components/SaturnMark.astro';
+
+const services: { key: string; name: string; desc: string; href: string }[] = [
+  { key: 'plex', name: 'Plex', desc: 'Movies & TV — the media library.', href: 'https://plex.rt-541.io' },
+  { key: 'overseerr', name: 'Request media', desc: 'Ask for a movie or show; it gets added automatically.', href: 'https://seerr.rt-541.io' },
+  { key: 'status', name: 'Status', desc: 'Live uptime for everything hosted here.', href: 'https://status.rt-541.io' },
+  { key: 'revolt', name: 'Chat', desc: 'Revolt server — hang out and grab invites.', href: 'https://app.rt-541.io' },
+];
+---
+<BaseLayout title="services &middot; rt-541.io" description="Self-hosted services I share with friends and family.">
+  <section class="relative overflow-hidden max-w-3xl mx-auto px-6 pt-16 pb-8">
+    <div class="absolute -right-16 -top-6 w-[240px] h-[240px] pointer-events-none">
+      <SaturnMark class="w-full h-full" opacity={0.4} />
+    </div>
+    <div class="relative max-w-[52ch]">
+      <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20" data-i18n="services.eyebrow">
+        services
+      </p>
+      <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-3" data-i18n="services.h1">Services for friends &amp; family</h1>
+      <p class="text-[15px] text-ice leading-[1.65]" data-i18n="services.subtitle">
+        A few self-hosted things I share. Most need an account or an invite — ping me and I'll get you set up.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-6 pb-10">
+    <div class="grid gap-4 sm:grid-cols-2">
+      {services.map(s => (
+        <a
+          href={s.href}
+          target="_blank"
+          rel="noopener"
+          class="group block no-underline rounded-md border border-chrome/20 bg-chrome/[0.03] px-5 py-4 transition hover:border-chrome/50"
+        >
+          <span class="flex items-center justify-between">
+            <span class="font-serif text-[17px] text-chrome" data-i18n={`services.${s.key}.name`}>{s.name}</span>
+            <span class="font-mono text-[12px] text-chrome opacity-50 group-hover:opacity-100 transition">↗</span>
+          </span>
+          <span class="block mt-1 text-[14px] text-ice leading-[1.55]" data-i18n={`services.${s.key}.desc`}>{s.desc}</span>
+        </a>
+      ))}
+    </div>
+    <p class="mt-6 font-mono text-[11px] tracking-meta uppercase text-chrome opacity-60" data-i18n="services.note">
+      bare metal · Michigan · access by invite
+    </p>
+  </section>
+</BaseLayout>

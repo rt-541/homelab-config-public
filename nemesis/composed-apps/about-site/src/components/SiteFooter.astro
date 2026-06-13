@@ -1,0 +1,19 @@
+---
+const social: { label: string; href: string }[] = [
+  { label: 'github', href: 'https://github.com/rt-541' },
+  { label: 'linkedin', href: 'https://www.linkedin.com/in/arthur-schneider-691712148/' },
+  { label: 'steam', href: 'https://steamcommunity.com/id/yargblarg' },
+  { label: 'spotify', href: 'https://open.spotify.com/user/arthurschneider6' },
+  { label: 'email', href: 'mailto:arthurschneider.v@gmail.com' },
+];
+---
+<footer class="bg-chrome text-body border-t border-chrome-divider mt-16">
+  <div class="max-w-5xl mx-auto px-6 py-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-0 text-[11px] font-mono">
+    <span class="tracking-meta text-muted">rt-541.io &middot; <span data-i18n="footer.tagline">built &amp; hosted on bare metal in Michigan</span></span>
+    <div class="flex flex-wrap gap-x-4 gap-y-2 tracking-meta uppercase">
+      {social.map(item => (
+        <a href={item.href} class="no-underline hover:underline">{item.label}</a>
+      ))}
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,21 @@
+---
+interface Props {
+  class?: string;
+  size?: number;
+}
+const { class: className = '', size = 22 } = Astro.props;
+---
+<svg
+  viewBox="0 0 60 60"
+  width={size}
+  height={size}
+  class={className}
+  role="img"
+  aria-label="RT-541"
+>
+  <g transform="translate(30,30) rotate(-22)">
+    <path d="M -26,0 A 26,7 0 0,1 26,0" stroke="currentColor" stroke-width="2.5" fill="none" />
+    <circle cx="0" cy="0" r="11" fill="currentColor" />
+    <path d="M -26,0 A 26,7 0 0,0 26,0" stroke="currentColor" stroke-width="2.5" fill="none" />
+  </g>
+</svg>

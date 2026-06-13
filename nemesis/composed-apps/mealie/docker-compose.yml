@@ -1,0 +1,49 @@
+---
+networks:
+  proxy:
+    external: true
+  mealie-internal:
+    driver: bridge
+
+services:
+  mealie:
+    image: hkotel/mealie:latest
+    container_name: mealie
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      - postgres
+    environment:
+      DB_ENGINE: postgres
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      BASE_URL: "${BASE_URL}"
+      TZ: "${TZ}"
+    volumes:
+      - /docker/mealie/data:/app/data
+    ports:
+      - "9925:9000"   # local access if you want
+    networks:
+      - proxy
+      - mealie-internal
+    labels:
+      traefik.enable: true
+      traefik.http.routers.mealie.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.mealie.entrypoints: secure
+      traefik.http.routers.mealie.tls.certresolver: default
+      traefik.http.services.mealie.loadbalancer.server.port: 9000
+
+  postgres:
+    image: postgres:15
+    container_name: mealie_db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    networks:
+      - mealie-internal

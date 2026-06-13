@@ -1,0 +1,5 @@
+<service>
+  <short>sonarr</short>
+  <description>Sonarr Download Service</description>
+  <port protocol="tcp" port="8989"/>
+</service>

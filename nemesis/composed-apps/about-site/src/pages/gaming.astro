@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SaturnMark from '../components/SaturnMark.astro';
+
+const runningNow: { key: string; game: string; detail: string; join: string; joinKey?: string }[] = [
+  {
+    key: 'zomboid',
+    game: 'Project Zomboid',
+    detail: 'A persistent production world, plus a separate dev instance for testing mods before they reach everyone.',
+    join: 'zomboid.rt-541.io',
+  },
+  {
+    key: 'minecraft',
+    game: 'Minecraft: All the Mods 9',
+    detail: 'Modded survival. Whitelisted, so new players get added by hand.',
+    join: 'whitelist via Discord',
+    joinKey: 'gaming.now.minecraft.join',
+  },
+];
+
+const rotation: string[] = [
+  'Valheim',
+  'Palworld',
+  'V Rising',
+  'Enshrouded',
+  'Factorio',
+  'Core Keeper',
+  'Abiotic Factor',
+  'Minecraft: vanilla',
+  'Minecraft: All the Mods 9 Creative',
+  'Minecraft: Valhelsia',
+];
+---
+<BaseLayout title="gaming &middot; rt-541.io" description="Game servers I host and the tabletop games I run and play.">
+  <section class="relative overflow-hidden max-w-3xl mx-auto px-6 pt-16 pb-8">
+    <div class="absolute -right-16 -top-6 w-[240px] h-[240px] pointer-events-none">
+      <SaturnMark class="w-full h-full" opacity={0.4} />
+    </div>
+    <div class="relative max-w-[52ch]">
+      <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20" data-i18n="gaming.eyebrow">
+        gaming
+      </p>
+      <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-3" data-i18n="gaming.h1">Games I run and play</h1>
+      <p class="text-[15px] text-ice leading-[1.65]" data-i18n="gaming.subtitle">
+        Two sides of one hobby: a rotating fleet of dedicated game servers for friends and family, and a lot of Dungeons &amp; Dragons on both sides of the screen.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-6">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4" data-i18n="gaming.label.runningNow">// running now</p>
+    <ul class="list-none p-0 m-0">
+      {runningNow.map(s => (
+        <li class="grid grid-cols-1 sm:grid-cols-[1fr,12rem] gap-2 sm:gap-6 py-4 border-b border-chrome/10">
+          <div>
+            <h2 class="font-serif text-[18px] text-chrome leading-tight m-0">{s.game}</h2>
+            <p class="text-[14px] text-ice leading-[1.6] mt-1 mb-0" data-i18n={`gaming.now.${s.key}.detail`}>{s.detail}</p>
+          </div>
+          <div class="font-mono text-[11px] tracking-meta text-subtle sm:text-right pt-0.5" data-i18n={s.joinKey}>{s.join}</div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-2" data-i18n="gaming.label.rotation">// in the rotation</p>
+    <p class="text-[13px] text-subtle mb-4" data-i18n="gaming.rotation.intro">Configured and ready, spun up on demand.</p>
+    <ul class="flex flex-wrap gap-x-3 gap-y-2 list-none p-0 m-0">
+      {rotation.map(g => (
+        <li class="font-mono text-[12px] text-ice border border-chrome/20 rounded-full px-3 py-1">{g}</li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="max-w-2xl mx-auto px-6 pt-12">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4" data-i18n="gaming.label.howItRuns">// how it runs</p>
+    <div class="prose-content text-[15px]">
+      <p data-i18n="gaming.howItRuns.p1">Each server is a Docker Compose service with its own resource limits, scheduled compressed backups with rotation, and Discord notifications when it starts or stops. Everything is defined in one git repo, so any server is reproducible from config and nothing important lives only in my head.</p>
+      <p data-i18n="gaming.howItRuns.p2">Zomboid gets extra care: RCON-driven recovery that restores a player's items and XP from a backup without handing back a god character, and world-reset automation that starts a fresh map while preserving progression.</p>
+    </div>
+  </section>
+
+  <section class="max-w-2xl mx-auto px-6 pt-12">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4" data-i18n="gaming.label.howToJoin">// how to join</p>
+    <div class="prose-content text-[15px]">
+      <p data-i18n="gaming.howToJoin.p1">Live status, connection details, and passwords live in our Discord. If you know me and want in, that is where to ask. New Minecraft players get whitelisted by hand.</p>
+      <p>Find me on <a href="https://steamcommunity.com/id/yargblarg">Steam</a>.</p>
+    </div>
+  </section>
+
+  <section class="max-w-2xl mx-auto px-6 pt-14">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4" data-i18n="gaming.label.atTable">// at the table</p>
+    <div class="prose-content text-[15px]">
+      <p data-i18n="gaming.atTable.p1">I run games as a DM and play them as a tactician, and the two halves rhyme. I am a system-minded worldbuilder. I gravitate to Magic: The Gathering planes like Strixhaven's academy and Ravnica's guilds, and I do not just borrow a setting. I build it out: full college curricula by year, mirror-image antagonist factions, custom magic items with their own lore. I care about structure, information, and consequence more than raw combat power.</p>
+    </div>
+  </section>
+
+  <section class="max-w-2xl mx-auto px-6 pt-10">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4" data-i18n="gaming.label.asDM">// as a dungeon master</p>
+    <div class="prose-content text-[15px]">
+      <p data-i18n="gaming.asDM.p1">My table runs a Strixhaven campaign: a magic school with a rising threat, built as a deeply systematized world. Five colleges (Lorehold, Prismari, Quandrix, Silverquill, Witherbloom), each with its own deans, professors, and a Year 1 to Year 3 class catalog. The villain, Aelrith Varn, runs a rival drow academy in the Underdark whose five Circles are deliberate dark mirrors of the colleges: betrayal encouraged, philosophy driven. I track players by the classes their characters take. It is worldbuilding first, slice-of-academic-life with escalating sabotage.</p>
+    </div>
+  </section>
+
+  <section class="max-w-2xl mx-auto px-6 pt-10 pb-20">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4" data-i18n="gaming.label.asPlayer">// as a player</p>
+    <div class="prose-content text-[15px]">
+      <p data-i18n="gaming.asPlayer.p1">At another table I play Azur, a Chromatic Dragonborn War Mind Tactician (level 5) and Boros Legionnaire. He is an Intelligence-based control and command martial, a brain rather than a brawler: Intelligence for his AC, expertise in Investigation, Perfect Plan dice to steer allies' rolls, and Analyze to peel an enemy's stats. I play him with mechanical rigor: resource trackers, currency, war-prep schedules, smithing downtime, a spider companion, even a homebrew creature named Snork.</p>
+      <p data-i18n="gaming.asPlayer.p2">And I lean hard into tragic, contract-bound roleplay. Azur is the sole survivor of a squad assault on a glamour-fortress. He carries the Severed Maws, weapons forged from his fallen comrades, treats every promise as a binding oath, and cannot forgive himself for living. His creed, "take the next chance, and the chances after that," is basically scripture to him.</p>
+    </div>
+  </section>
+</BaseLayout>

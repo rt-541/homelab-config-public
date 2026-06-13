@@ -1,0 +1,183 @@
+# href = public hostname (resolved by your browser as a LAN client).
+# widget/siteMonitor url = INTERNAL endpoint (container name on the proxy net,
+# or LAN/VIP IP) so server-side calls skip Traefik + the lan-only middleware.
+# status dots = docker socket-proxy (server/container), not HTTP pings.
+
+- Media:
+    - Plex:
+        href: https://plex.rt-541.io
+        icon: plex.png
+        description: Media server
+        server: devastator
+        container: plex
+        widget:
+          type: plex
+          url: http://192.168.1.216:32400
+          key: "{{HOMEPAGE_VAR_PLEX_TOKEN}}"
+    - Seerr:
+        href: https://seerr.rt-541.io
+        icon: jellyseerr.png
+        description: Request media
+        server: nemesis
+        container: seerr
+        widget:
+          type: overseerr
+          url: http://seerr:5055
+          key: "{{HOMEPAGE_VAR_OVERSEERR_KEY}}"
+    - Sonarr:
+        href: https://sonarr.rt-541.io
+        icon: sonarr.png
+        description: TV
+        server: nemesis
+        container: sonarr
+        widget:
+          type: sonarr
+          url: http://sonarr:8989
+          key: "{{HOMEPAGE_VAR_SONARR_KEY}}"
+    - Radarr:
+        href: https://radarr.rt-541.io
+        icon: radarr.png
+        description: Movies
+        server: nemesis
+        container: radarr
+        widget:
+          type: radarr
+          url: http://radarr:7878
+          key: "{{HOMEPAGE_VAR_RADARR_KEY}}"
+    - Prowlarr:
+        href: https://prowlarr.rt-541.io
+        icon: prowlarr.png
+        description: Indexers
+        server: nemesis
+        container: prowlarr
+        widget:
+          type: prowlarr
+          url: http://prowlarr:9696
+          key: "{{HOMEPAGE_VAR_PROWLARR_KEY}}"
+    - qBittorrent:
+        href: https://qbit.rt-541.io
+        icon: qbittorrent.png
+        description: Downloads
+        server: nemesis
+        container: qbittorrent
+        widget:
+          type: qbittorrent
+          url: http://gluetun:8080
+          username: "{{HOMEPAGE_VAR_QBIT_USER}}"
+          password: "{{HOMEPAGE_VAR_QBIT_PASS}}"
+
+- Infra:
+    - Grafana:
+        href: https://grafana.rt-541.io
+        icon: grafana.png
+        description: Metrics
+        widget:
+          type: grafana
+          url: http://192.168.1.17:3000
+          username: "{{HOMEPAGE_VAR_GRAFANA_USER}}"
+          password: "{{HOMEPAGE_VAR_GRAFANA_PASS}}"
+    - Pi-hole:
+        href: https://pihole.rt-541.io/admin
+        icon: pi-hole.png
+        description: DNS / adblock
+        widget:
+          type: pihole
+          url: http://192.168.1.2:6969
+          version: 6
+          key: "{{HOMEPAGE_VAR_PIHOLE_KEY}}"
+    - Uptime Kuma:
+        href: https://status.rt-541.io
+        icon: uptime-kuma.png
+        description: Status page
+        siteMonitor: http://192.168.1.14:3001
+    - Proxmox (sienar):
+        href: https://192.168.1.5:8006
+        icon: proxmox.png
+        description: Hypervisor
+        siteMonitor: https://192.168.1.5:8006
+        widget:
+          type: proxmox
+          url: https://192.168.1.5:8006
+          username: "{{HOMEPAGE_VAR_PVE_TOKEN_ID}}"
+          password: "{{HOMEPAGE_VAR_PVE_TOKEN_SECRET}}"
+          node: sienar
+          fields:
+            - vms
+            - lxc
+            - resources.cpu
+            - resources.mem
+    - Proxmox (incomm):
+        href: https://192.168.1.6:8006
+        icon: proxmox.png
+        description: Hypervisor
+        siteMonitor: https://192.168.1.6:8006
+        widget:
+          type: proxmox
+          url: https://192.168.1.6:8006
+          username: "{{HOMEPAGE_VAR_PVE_TOKEN_ID}}"
+          password: "{{HOMEPAGE_VAR_PVE_TOKEN_SECRET}}"
+          node: incomm
+          fields:
+            - vms
+            - lxc
+            - resources.cpu
+            - resources.mem
+    - Zabbix:
+        href: https://zabbix.rt-541.io
+        icon: zabbix.png
+        description: Monitoring
+    - GoAccess:
+        href: https://logs.rt-541.io
+        icon: goaccess.png
+        description: Web log analytics
+    - Umami:
+        href: https://analytics.rt-541.io
+        icon: umami.png
+        description: Site analytics
+
+- Apps:
+    - Revolt:
+        href: https://app.rt-541.io
+        icon: revolt.png
+        description: Chat
+    - MinIO:
+        href: https://minio.rt-541.io
+        icon: minio.png
+        description: S3 object store
+    - Cameras:
+        href: https://cam.rt-541.io
+        icon: frigate.png
+        description: go2rtc streams
+    - About site:
+        href: https://about.rt-541.io
+        icon: astro.png
+        description: Public site
+
+- LLM:
+    - vLLM (B70):
+        href: http://192.168.1.216:8000/v1/models
+        icon: openai.png
+        description: Qwen2.5-7B on the Arc Pro B70
+        server: devastator
+        container: plex-compute-vllm
+        siteMonitor: http://192.168.1.216:8000/health
+    - LLM Queue:
+        icon: mdi-tray-full
+        description: planned (queue.rt-541.io)
+
+- Game Servers:
+    - Minecraft ATM9:
+        icon: minecraft.png
+        description: minecraft.rt-541.io
+    - DeceasedCraft:
+        icon: minecraft.png
+        description: Minecraft modpack
+    - Valheim:
+        icon: valheim.png
+        description: Valheim dedicated
+    - Palworld:
+        icon: mdi-gamepad-variant
+        description: Palworld dedicated
+    - Project Zomboid:
+        icon: mdi-gamepad-variant
+        description: Zomboid dedicated

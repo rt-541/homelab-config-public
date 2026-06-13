@@ -1,0 +1,5 @@
+<service>
+  <short>jackett</short>
+  <description>Jackett API Parsing</description>
+  <port protocol="tcp" port="9117"/>
+</service>

@@ -1,0 +1,7 @@
+=== RCON capability probe against 127.0.0.1:27015 as user 'WorldResetProbe' ===
+FAIL  addtrait  -> Unknown command addtrait WorldResetProbe Asthmatic
+FAIL  removetrait  -> Unknown command removetrait WorldResetProbe Asthmatic
+PASS  teleport  -> Teleport to a player. Once teleported, wait for the map to appear. Use /teleport "playername" or /teleport "player1" "player2". Example /teleport "rj" or /teleport "rj" "toUser"
+PASS  removeitem  -> Remove items from yourself. Removes all items of type if count set to 0. Use: /removeitem "module.item" count. Example: /removeitem Base.Axe 5
+PASS  addxp neg  -> No such user
+=== done ===

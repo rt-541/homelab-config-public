@@ -1,0 +1,59 @@
+---
+services:
+  minecraft-deceasedcraft:
+    image: itzg/minecraft-server:java17
+    container_name: mc-deceasedcraft
+    hostname: mc-deceasedcraft
+    restart: unless-stopped
+    env_file: .env
+    tty: true
+    stdin_open: true
+    # Shares host port 25567 with ATM9-Survival: the two are a /swap group and
+    # never run at once, so the kids always connect to the same address
+    # (minecraft.rt-541.io:25567) regardless of which world is loaded.
+    ports:
+      - 25567:25565
+    volumes:
+      - /docker/game/minecraft/deceasedcraft_data:/data
+      # Official server pack zip (client mods pre-stripped), consumed via
+      # TYPE=CURSEFORGE + CF_SERVER_MOD in .env.
+      - /docker/game/minecraft/deceasedcraft_modpacks:/modpacks:ro
+      # Shared allowlist with ATM9-Survival: the same crew plays both, and
+      # nemesis-bot's /mc-allowlist commands manage this one file for both servers.
+      - ../minecraft-atm9-survival/allowed_users.json:/data/allowed_users.json
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
+    labels:
+      - "mcdc-autoheal=true"
+    deploy:
+      resources:
+        limits:
+          cpus: '8'
+        reservations:
+          cpus: '8'
+
+  mc-deceasedcraft-backup:
+    image: offen/docker-volume-backup:v2
+    container_name: mc-deceasedcraft-backup
+    restart: unless-stopped
+    environment:
+      BACKUP_CRON_EXPRESSION: "0 4 * * *"
+      BACKUP_RETENTION_DAYS: "7"
+      BACKUP_COMPRESSION: "zst"
+      BACKUP_FILENAME: "deceasedcraft-%Y-%m-%dT%H-%M-%S.tar.zst"
+    volumes:
+      - /docker/game/minecraft/deceasedcraft_data:/backup/deceasedcraft_data:ro
+      - /docker/game/minecraft/deceasedcraft_backups:/archive
+
+  # Scoped via a unique label (mcdc-autoheal) so this instance only manages
+  # the DeceasedCraft server, not other stacks' autoheal-labeled containers.
+  mc-deceasedcraft-autoheal:
+    image: willfarrell/autoheal:latest
+    container_name: mc-deceasedcraft-autoheal
+    restart: unless-stopped
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: mcdc-autoheal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

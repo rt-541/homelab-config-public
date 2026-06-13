@@ -1,0 +1,56 @@
+---
+networks:
+  proxy:
+    external: true
+
+services:
+  traefik:
+    networks:
+      - proxy
+    image: traefik:v3.0
+    container_name: traefik
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 500M
+        reservations:
+          cpus: '1.00'
+          memory: 500M
+    labels:
+      traefik.enable: true
+      traefik.http.routers.traefik.entryPoints: secure
+      traefik.http.routers.traefik.rule: Host(`proxy2.rt-541.io`)
+
+      traefik.http.routers.traefik.tls: true
+      traefik.http.routers.traefik.tls.certResolver: default
+      traefik.http.routers.traefik.tls.options: default
+      traefik.http.routers.traefik.service: api@internal
+      traefik.http.services.traefik-svc.loadBalancer.server.port: 8080
+      # Declaring the user list
+      #
+      # Note: when used in docker-compose.yml all dollar signs in the hash need to be doubled for escaping.
+      # To create user:password pair, it's possible to use this command:
+      # echo "password" | openssl passwd -apr1 -stdin | sed -e s/\\$/\\$\\$/g
+      # read passwd; echo "matthew:$(echo $passwd | openssl passwd -apr1 -stdin | sed -e s/\\$/\\$\\$/g)"
+      # Also note that dollar signs should NOT be doubled when they are not evaluated (e.g. Ansible docker_container module).
+      traefik.http.middlewares.traefik-auth.basicauth.users: ${TRAEFIK_BASIC_AUTH}
+      traefik.http.routers.traefik.middlewares: traefik-auth
+    environment:
+      CF_API_EMAIL: ${CF_API_EMAIL}
+      CF_API_KEY: ${CF_API_KEY}
+      CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik.yml:/traefik.yml
+      - ./config:/config
+      - /docker/traefik/acme.json:/acme.json # This file need to have 600 perms on the host, because matt said so
+    ports:
+      - 80:80
+      - 443:443/tcp
+      - 443:443/udp
+      - 8081:8080 # optional, for the traefik web ui
+    # https://github.com/moby/moby/issues/30778
+    # sysctls:
+    #   - net.core.rmem_max=2500000
+    restart: unless-stopped

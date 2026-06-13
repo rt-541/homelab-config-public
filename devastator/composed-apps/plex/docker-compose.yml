@@ -1,0 +1,25 @@
+services:
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - TZ=America/Detroit
+      - PLEX_UID=1001
+      - PLEX_GID=1001
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    volumes:
+      - /docker/plex/config:/config
+      - nfs_storage:/data
+    tmpfs:
+      - /transcode:mode=770,size=20G,uid=1001,gid=1001
+    devices:
+      - "/dev/dri:/dev/dri:rwm"
+volumes:
+  nfs_storage:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.1.214,rw,nfsvers=4"
+      device: ":/"

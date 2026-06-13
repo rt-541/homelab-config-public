@@ -1,0 +1,10 @@
+[Unit]
+Description=Plex media mount 
+
+[Mount]
+What=/dev/mapper/data-plex_media
+Where=/docker/media
+Type=xfs
+
+[Install]
+WantedBy=multi-user.target

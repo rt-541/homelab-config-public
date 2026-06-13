@@ -1,0 +1,25 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'prints'>;
+}
+const { entry } = Astro.props;
+const { title, material, settings, blurb, image } = entry.data;
+const meta = settings ? `${material} · ${settings}` : material;
+---
+<figure class="m-0 border border-chrome/15 rounded-lg overflow-hidden bg-body-deep">
+  <Image
+    src={image}
+    alt={title}
+    widths={[240, 480, 720]}
+    sizes="(max-width: 640px) 100vw, 320px"
+    class="block w-full h-auto"
+  />
+  <figcaption class="p-4">
+    <h3 class="font-serif text-[18px] text-chrome leading-tight m-0" data-i18n={`print.${entry.slug}.title`}>{title}</h3>
+    <p class="font-mono text-[11px] tracking-meta text-subtle uppercase mt-1 mb-0">{meta}</p>
+    <p class="text-[14px] text-ice leading-[1.6] mt-2 mb-0" data-i18n={`print.${entry.slug}.blurb`}>{blurb}</p>
+  </figcaption>
+</figure>

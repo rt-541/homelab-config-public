@@ -1,0 +1,21 @@
+---
+http:
+  routers:
+    subdomain-redirect:
+      rule: "Host(`spiff.rt-541.io`)"
+      entryPoints:
+        - secure
+        - web
+      middlewares:
+        - redirect-subdomain
+      service: noop@internal
+      priority: 1000
+      tls:
+        certResolver: default
+
+  middlewares:
+    redirect-subdomain:
+      redirectRegex:
+        regex: ".*"
+        replacement: "https://www.youtube.com/watch?v=rp0n9RPoDI4"
+        permanent: true

@@ -1,0 +1,230 @@
+---
+networks:
+  proxy:
+    external: true
+  revolt-internal:
+    driver: bridge
+
+services:
+  # MongoDB database
+  mongodb:
+    image: mongo:6
+    container_name: revolt-mongo
+    restart: unless-stopped
+    networks:
+      - revolt-internal
+    environment:
+      MONGO_INITDB_DATABASE: revolt
+    volumes:
+      - /docker/revolt/mongo:/data/db
+    deploy:
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 2G
+        reservations:
+          cpus: '1.00'
+          memory: 1G
+
+  # Redis cache
+  redis:
+    image: redis:7-alpine
+    container_name: revolt-redis
+    restart: unless-stopped
+    networks:
+      - revolt-internal
+    volumes:
+      - /docker/revolt/redis:/data
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 512M
+
+  # MinIO S3-compatible storage
+  minio:
+    image: minio/minio:latest
+    container_name: revolt-minio
+    restart: unless-stopped
+    networks:
+      - revolt-internal
+      - proxy
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: miniorevolt
+      MINIO_ROOT_PASSWORD: "${MINIO_PASSWORD:-ChangeThisPassword123!}"
+    volumes:
+      - /docker/revolt/minio:/data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.minio-console.entryPoints: web,secure
+      traefik.http.routers.minio-console.rule: Host(`minio.rt-541.io`)
+      traefik.http.routers.minio-console.tls: true
+      traefik.http.routers.minio-console.tls.certResolver: default
+      traefik.http.routers.minio-console.service: minio-console-svc
+      traefik.http.services.minio-console-svc.loadBalancer.server.port: 9001
+      traefik.http.routers.minio-api.entryPoints: web,secure
+      traefik.http.routers.minio-api.rule: Host(`s3.rt-541.io`)
+      traefik.http.routers.minio-api.tls: true
+      traefik.http.routers.minio-api.tls.certResolver: default
+      traefik.http.routers.minio-api.service: minio-api-svc
+      traefik.http.services.minio-api-svc.loadBalancer.server.port: 9000
+    ports:
+      - 9000:9000
+      - 9001:9001
+    deploy:
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 1G
+
+  # Revolt API server
+  revolt:
+    image: revoltchat/server:latest
+    container_name: revolt-api
+    restart: unless-stopped
+    networks:
+      - revolt-internal
+      - proxy
+    depends_on:
+      - mongodb
+      - redis
+    environment:
+      REVOLT_PUBLIC_URL: "https://revolt.rt-541.io"
+      REVOLT_APP_URL: "https://app.rt-541.io"
+      REVOLT_EXTERNAL_WS_URL: "wss://ws.rt-541.io"
+      REVOLT_MONGO_URI: "mongodb://mongodb:27017/revolt"
+      REVOLT_REDIS_URI: "redis://redis:6379"
+      REVOLT_VAPID_PRIVATE_KEY: "${VAPID_PRIVATE_KEY:-}"
+      REVOLT_VAPID_PUBLIC_KEY: "${VAPID_PUBLIC_KEY:-}"
+      # File storage backends
+      AUTUMN_PUBLIC_URL: "https://autumn.rt-541.io"
+      JANUARY_PUBLIC_URL: "https://january.rt-541.io"
+      VOSO_PUBLIC_URL: "https://voso.rt-541.io"
+      # S3 configuration for Autumn
+      AUTUMN_S3_REGION: minio
+      AUTUMN_S3_ENDPOINT: "http://minio:9000"
+      AUTUMN_S3_BUCKET: revolt-attachments
+      AUTUMN_S3_ACCESS_KEY_ID: miniorevolt
+      AUTUMN_S3_SECRET_ACCESS_KEY: "${MINIO_PASSWORD:-ChangeThisPassword123!}"
+      # S3 configuration for January
+      JANUARY_S3_REGION: minio
+      JANUARY_S3_ENDPOINT: "http://minio:9000"
+      JANUARY_S3_BUCKET: revolt-proxy
+      JANUARY_S3_ACCESS_KEY_ID: miniorevolt
+      JANUARY_S3_SECRET_ACCESS_KEY: "${MINIO_PASSWORD:-ChangeThisPassword123!}"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.revolt-api.entryPoints: web,secure
+      traefik.http.routers.revolt-api.rule: Host(`revolt.rt-541.io`)
+      traefik.http.routers.revolt-api.tls: true
+      traefik.http.routers.revolt-api.tls.certResolver: default
+      traefik.http.services.revolt-api-svc.loadBalancer.server.port: 8000
+      # WebSocket endpoint
+      traefik.http.routers.revolt-ws.entryPoints: web,secure
+      traefik.http.routers.revolt-ws.rule: Host(`ws.rt-541.io`)
+      traefik.http.routers.revolt-ws.tls: true
+      traefik.http.routers.revolt-ws.tls.certResolver: default
+      traefik.http.routers.revolt-ws.service: revolt-ws-svc
+      traefik.http.services.revolt-ws-svc.loadBalancer.server.port: 8000
+    ports:
+      - 8000:8000
+    deploy:
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 2G
+
+  # Autumn - file/attachment server
+  autumn:
+    image: revoltchat/autumn:latest
+    container_name: revolt-autumn
+    restart: unless-stopped
+    networks:
+      - revolt-internal
+      - proxy
+    depends_on:
+      - mongodb
+      - minio
+    environment:
+      AUTUMN_MONGO_URI: "mongodb://mongodb:27017/revolt"
+      AUTUMN_S3_REGION: minio
+      AUTUMN_S3_ENDPOINT: "http://minio:9000"
+      AUTUMN_S3_BUCKET: revolt-attachments
+      AUTUMN_S3_ACCESS_KEY_ID: miniorevolt
+      AUTUMN_S3_SECRET_ACCESS_KEY: "${MINIO_PASSWORD:-ChangeThisPassword123!}"
+      AUTUMN_PUBLIC_URL: "https://autumn.rt-541.io"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.autumn.entryPoints: web,secure
+      traefik.http.routers.autumn.rule: Host(`autumn.rt-541.io`)
+      traefik.http.routers.autumn.tls: true
+      traefik.http.routers.autumn.tls.certResolver: default
+      traefik.http.services.autumn-svc.loadBalancer.server.port: 3000
+    ports:
+      - 3001:3000
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 512M
+
+  # January - external content proxy
+  january:
+    image: revoltchat/january:latest
+    container_name: revolt-january
+    restart: unless-stopped
+    networks:
+      - revolt-internal
+      - proxy
+    depends_on:
+      - mongodb
+      - minio
+    environment:
+      JANUARY_MONGO_URI: "mongodb://mongodb:27017/revolt"
+      JANUARY_S3_REGION: minio
+      JANUARY_S3_ENDPOINT: "http://minio:9000"
+      JANUARY_S3_BUCKET: revolt-proxy
+      JANUARY_S3_ACCESS_KEY_ID: miniorevolt
+      JANUARY_S3_SECRET_ACCESS_KEY: "${MINIO_PASSWORD:-ChangeThisPassword123!}"
+      JANUARY_PUBLIC_URL: "https://january.rt-541.io"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.january.entryPoints: web,secure
+      traefik.http.routers.january.rule: Host(`january.rt-541.io`)
+      traefik.http.routers.january.tls: true
+      traefik.http.routers.january.tls.certResolver: default
+      traefik.http.services.january-svc.loadBalancer.server.port: 3000
+    ports:
+      - 3002:3000
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 512M
+
+  # Revolt web client
+  app:
+    image: revoltchat/client:latest
+    container_name: revolt-web
+    restart: unless-stopped
+    networks:
+      - proxy
+    environment:
+      REVOLT_PUBLIC_URL: "https://revolt.rt-541.io"
+      REVOLT_API_URL: "https://revolt.rt-541.io"
+      REVOLT_WS_URL: "wss://ws.rt-541.io"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.revolt-app.entryPoints: web,secure
+      traefik.http.routers.revolt-app.rule: Host(`app.rt-541.io`)
+      traefik.http.routers.revolt-app.tls: true
+      traefik.http.routers.revolt-app.tls.certResolver: default
+      traefik.http.services.revolt-app-svc.loadBalancer.server.port: 5273
+    ports:
+      - 5273:5273
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 256M

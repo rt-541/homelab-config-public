@@ -1,0 +1,38 @@
+---
+import { langs, langLabels } from '../i18n/ui';
+---
+<nav class="lang-switch" aria-label="language">
+  {langs.map(code => (
+    <button type="button" class="lang-btn" data-lang={code}>{langLabels[code]}</button>
+  ))}
+</nav>
+
+<style>
+  .lang-switch {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    justify-content: flex-end;
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem 0;
+  }
+  .lang-btn {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: #A6B3C9;
+    background: transparent;
+    border: 1px solid rgba(244, 236, 216, 0.18);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .lang-btn:hover { color: #F4ECD8; border-color: rgba(244, 236, 216, 0.4); }
+  .lang-btn.lang-active {
+    color: #0F1622;
+    background: #F4ECD8;
+    border-color: #F4ECD8;
+  }
+</style>

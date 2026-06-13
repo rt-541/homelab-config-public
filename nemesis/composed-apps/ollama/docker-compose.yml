@@ -1,0 +1,66 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - /docker/ollama:/root/.ollama
+    healthcheck:
+      test: ["CMD-SHELL", "ollama ps >/dev/null 2>&1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '12.0'
+          memory: 8G
+        reservations:
+          memory: 1G
+    labels:
+      - "autoheal=true"
+
+  ollama-discord:
+    image: alpine:latest
+    container_name: ollama-discord
+    restart: unless-stopped
+    depends_on:
+      - ollama
+    env_file:
+      - .env
+    volumes:
+      - ./notify.sh:/notify.sh:ro
+    entrypoint: /bin/sh
+    command: ["/notify.sh"]
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 128M
+
+  # Scoped via label rather than AUTOHEAL_CONTAINER_LABEL=all so this
+  # autoheal instance only manages containers in this stack. Add
+  # `labels: ["autoheal=true"]` to any other service here that should
+  # be autohealed.
+  ollama-autoheal:
+    image: willfarrell/autoheal:latest
+    container_name: ollama-autoheal
+    restart: unless-stopped
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: autoheal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  ollama-logs:
+    image: amir20/dozzle:latest
+    container_name: ollama-logs
+    restart: unless-stopped
+    ports:
+      - "9999:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      DOZZLE_FILTER: "name=ollama*"

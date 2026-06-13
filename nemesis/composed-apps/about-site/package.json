@@ -1,0 +1,24 @@
+{
+  "name": "about-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "prebuild": "node --experimental-strip-types scripts/regen-i18n.ts",
+    "preview": "astro preview",
+    "check": "astro check",
+    "regen-i18n": "node --experimental-strip-types scripts/regen-i18n.ts",
+    "test": "node --experimental-strip-types --test scripts/regen-i18n.test.ts scripts/validate-translation.test.ts"
+  },
+  "dependencies": {
+    "astro": "^4.16.0",
+    "@astrojs/check": "^0.9.0",
+    "@astrojs/mdx": "^3.1.0",
+    "@astrojs/sitemap": "3.2.0",
+    "@astrojs/tailwind": "^5.1.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.6.0"
+  }
+}

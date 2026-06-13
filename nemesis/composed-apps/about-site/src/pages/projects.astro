@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="projects &middot; rt-541.io" description="Things I've built.">
+  <section class="max-w-3xl mx-auto px-6 pt-16 pb-8">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20" data-i18n="projects.eyebrow">
+      projects
+    </p>
+    <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-2" data-i18n="projects.h1">Things I've built</h1>
+    <p class="text-[14px] text-subtle" data-i18n="projects.subtitle">A grab-bag of work and side projects. Click through for details.</p>
+  </section>
+
+  <div class="max-w-3xl mx-auto px-6 pb-20">
+    {projects.length === 0 ? (
+      <p class="text-subtle text-[14px]">No projects yet.</p>
+    ) : (
+      projects.map(p => <ProjectCard entry={p} />)
+    )}
+  </div>
+</BaseLayout>

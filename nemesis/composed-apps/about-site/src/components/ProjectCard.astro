@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { t } from '../i18n/ui';
+interface Props {
+  entry: CollectionEntry<'projects'>;
+}
+const { entry } = Astro.props;
+const slug = entry.slug;
+const { title, status, summary, links, more } = entry.data;
+const body = t.en[`project.${slug}.body`] ?? '';
+---
+<article class="py-6 border-b border-chrome/10">
+  <header class="flex justify-between items-baseline gap-4 mb-2">
+    <h3 class="font-serif text-[20px] text-chrome leading-tight m-0" data-i18n={`project.${slug}.title`}>{title}</h3>
+    <span data-i18n={`status.${status}`} class:list={[
+      'font-mono text-[10px] tracking-meta uppercase shrink-0',
+      status === 'active' ? 'text-chrome' : status === 'archived' ? 'text-subtle' : 'text-muted'
+    ]}>{status}</span>
+  </header>
+  <p class="text-[15px] text-ice leading-[1.65] mb-3" data-i18n={`project.${slug}.summary`}>{summary}</p>
+  <div class="prose-content text-[14px]">
+    <p data-i18n={`project.${slug}.body`}>{body}</p>
+  </div>
+  {more && (
+    <a href={more.href} class="inline-block mt-3 text-chrome no-underline hover:underline font-mono text-[11px] tracking-meta uppercase" data-i18n={`project.${slug}.moreLabel`}>{more.label} &rarr;</a>
+  )}
+  {links.length > 0 && (
+    <ul class="flex gap-4 mt-3 list-none p-0 font-mono text-[11px] tracking-meta uppercase">
+      {links.map(l => (
+        <li><a href={l.href} class="text-chrome no-underline hover:underline">{l.label} &rarr;</a></li>
+      ))}
+    </ul>
+  )}
+</article>

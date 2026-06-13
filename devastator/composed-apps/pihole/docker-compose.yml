@@ -1,0 +1,27 @@
+services:
+  pihole:
+    image: pihole/pihole
+    container_name: pihole
+    network_mode: host
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 512M
+        reservations:
+          cpus: '0.50'
+          memory: 256M
+    volumes:
+      - /docker/pihole/etc-pihole/:/etc/pihole/
+      - /docker/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - WEBPASSWORD=${WEBPASSWORD}
+      - PIHOLE_UID=0
+      - FTLCONF_webserver_port=6969o,[::]:6969o
+      - FTLCONF_dns_listeningMode=local
+      - FTLCONF_dns_reply_host_IPv4=192.168.1.216
+      - FTLCONF_dns_reply_host_force4=true
+      - FTLCONF_dns_upstreams=8.8.8.8;8.8.4.4;1.1.1.1;1.0.0.1
+    restart: unless-stopped

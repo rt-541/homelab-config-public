@@ -1,0 +1,360 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SaturnMark from '../components/SaturnMark.astro';
+
+// Starfield baked at build time.
+const stars = Array.from({ length: 60 }, () => ({
+  top: +(Math.random() * 100).toFixed(2),
+  left: +(Math.random() * 100).toFixed(2),
+  size: +(Math.random() * 1.6 + 0.6).toFixed(2),
+  delay: +(Math.random() * 5).toFixed(2),
+  dur: +(Math.random() * 3 + 2.5).toFixed(2),
+  bright: +(Math.random() * 0.5 + 0.4).toFixed(2),
+}));
+
+const readout: { key: string; label: string; value: string }[] = [
+  { key: 'location', label: 'location', value: 'Michigan' },
+  { key: 'discipline', label: 'discipline', value: 'Platform / AI infrastructure' },
+  { key: 'designation', label: 'designation', value: 'RT-541' },
+  { key: 'status', label: 'status', value: 'building' },
+];
+
+const links: { label: string; href: string }[] = [
+  { label: 'github', href: 'https://github.com/rt-541' },
+  { label: 'linkedin', href: 'https://www.linkedin.com/in/arthur-schneider-691712148/' },
+  { label: 'steam', href: 'https://steamcommunity.com/id/yargblarg' },
+  { label: 'spotify', href: 'https://open.spotify.com/user/arthurschneider6' },
+  { label: 'email', href: 'mailto:arthurschneider.v@gmail.com' },
+];
+
+// Orbits roughly share the ring plane (~-22deg) with a little tilt variance so they
+// don't read as perfectly coplanar. ry/rx ~ 0.225 matches the SVG ring foreshortening.
+const orbits = [
+  { rx: 290, ry: 65, tilt: -19, base: 25,  spin: 1.1,  m: 9,  color: '#F5B942' },
+  { rx: 350, ry: 79, tilt: -23, base: 200, spin: -0.7, m: 13, color: '#66D9E8' },
+  { rx: 410, ry: 92, tilt: -26, base: 115, spin: 1.6,  m: 7,  color: '#FF6B6B' },
+];
+---
+<BaseLayout title="Arthur Schneider &middot; rt-541.io" description="Arthur Schneider, platform engineer.">
+  <section class="profile-stage">
+    <div class="starfield" aria-hidden="true">
+      {stars.map(s => (
+        <span
+          class="star"
+          style={`top:${s.top}%;left:${s.left}%;width:${s.size}px;height:${s.size}px;--d:${s.dur}s;--delay:${s.delay}s;--b:${s.bright}`}
+        />
+      ))}
+    </div>
+
+    <div class="planet-layer" aria-hidden="true">
+      <div class="orbit-rings">
+        {orbits.map(o => (
+          <div class="orbit-ring" style={`--rx:${o.rx}px;--ry:${o.ry}px;--tilt:${o.tilt}deg`}></div>
+        ))}
+      </div>
+      <div class="planet-wrap"><SaturnMark class="planet-svg" /></div>
+      <div class="orbit-moons">
+        {orbits.map(o => (
+          <span
+            class="moon"
+            data-rx={o.rx}
+            data-ry={o.ry}
+            data-tilt={o.tilt}
+            data-base={o.base}
+            data-spin={o.spin}
+            style={`width:${o.m}px;height:${o.m}px;--c:${o.color}`}
+          ></span>
+        ))}
+      </div>
+    </div>
+
+    <div class="profile-content">
+      <p class="profile-eyebrow" data-i18n="home.eyebrow">observatory log &middot; designation RT-541</p>
+      <h1 class="profile-name">Arthur<br />Schneider</h1>
+      <p class="profile-tagline" data-i18n="home.tagline">
+        Platform engineer. Nine years across Linux, security, and the infrastructure that keeps AI agents honest in production.
+      </p>
+
+      <dl class="profile-readout">
+        {readout.map(r => (
+          <div class="readout-cell">
+            <dt data-i18n={`readout.${r.key}.label`}>{r.label}</dt>
+            {r.key === 'designation'
+              ? <dd>{r.value}</dd>
+              : <dd data-i18n={`readout.${r.key}.value`}>{r.value}</dd>}
+          </div>
+        ))}
+      </dl>
+
+      <div class="profile-links">
+        {links.map(l => <a href={l.href}>{l.label}</a>)}
+      </div>
+
+      <a href="https://www.instagram.com/alphasierra6victor/" class="ig-card" aria-label="Instagram QR code, scan or tap to follow">
+        <img src="/alphasierra6victor_qr.png" width="120" height="138" alt="Instagram QR code for @alphasierra6victor" />
+        <span data-i18n="home.igCaption">scan to follow &middot; @alphasierra6victor</span>
+      </a>
+    </div>
+
+    <div class="scroll-cue" aria-hidden="true"><span data-i18n="home.scroll">scroll</span> &darr;</div>
+  </section>
+
+  <article class="max-w-2xl mx-auto px-6 pt-16 pb-20">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-5" data-i18n="section.whoami">// who I am</p>
+    <p class="text-[16px] leading-[1.75] text-ice mb-5" data-i18n="home.bio.p1">
+      I am a platform engineer. For about nine years I have worked the layer most people never see: the Linux fleets, the automation, the security boundaries, and lately the guardrails that let AI agents run in production without causing trouble.
+    </p>
+    <p class="text-[16px] leading-[1.75] text-ice mb-5" data-i18n="home.bio.p2">
+      The path here was not a straight line. I started in Linux systems administration, spent several years in security going from a SOC seat to zero-trust architecture, then came back around to platform work. Each detour changed how I see the systems I build. Ops taught me what breaks. Security taught me what people quietly assume.
+    </p>
+    <p class="text-[16px] leading-[1.75] text-ice mb-5" data-i18n="home.bio.p3">
+      These days the work is platform and AI infrastructure, and the hobby is a sprawl of self-hosted services at home. Most of what I run, including this site, lives on bare metal in Michigan.
+    </p>
+
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mt-12 mb-3" data-i18n="section.elsewhere">// elsewhere</p>
+    <ul class="divide-y divide-chrome/10 text-[14px]">
+      <li class="py-3 flex justify-between">
+        <span class="text-ice" data-i18n="elsewhere.projects">things I've built</span>
+        <a href="/projects" class="font-mono text-[11px] text-subtle no-underline hover:underline">/projects &rarr;</a>
+      </li>
+      <li class="py-3 flex justify-between">
+        <span class="text-ice" data-i18n="elsewhere.gaming">gaming</span>
+        <a href="/gaming" class="font-mono text-[11px] text-subtle no-underline hover:underline">/gaming &rarr;</a>
+      </li>
+      <li class="py-3 flex justify-between">
+        <span class="text-ice" data-i18n="elsewhere.maker">3d printing</span>
+        <a href="/maker" class="font-mono text-[11px] text-subtle no-underline hover:underline">/maker &rarr;</a>
+      </li>
+      <li class="py-3 flex justify-between">
+        <span class="text-ice" data-i18n="elsewhere.experience">career timeline</span>
+        <a href="/experience" class="font-mono text-[11px] text-subtle no-underline hover:underline">/experience &rarr;</a>
+      </li>
+    </ul>
+  </article>
+</BaseLayout>
+
+<style>
+  .profile-stage {
+    position: relative;
+    min-height: calc(100vh - 64px);
+    overflow: hidden;
+    background:
+      radial-gradient(1200px 800px at 78% 18%, rgba(42,59,84,0.55), transparent 60%),
+      linear-gradient(160deg, #0B1018 0%, #0F1622 45%, #16243A 100%);
+    display: flex;
+    align-items: center;
+  }
+
+  .starfield { position: absolute; inset: 0; pointer-events: none; }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: #F4ECD8;
+    opacity: var(--b);
+    box-shadow: 0 0 4px rgba(244, 236, 216, 0.6);
+  }
+
+  .planet-layer {
+    position: absolute;
+    top: 50%;
+    right: -6%;
+    transform: translateY(-50%);
+    width: min(620px, 78vw);
+  }
+  /* Planet wrapper sits above the orbit lines (z-1) and below the moons (z-3),
+     so lines pass behind the planet body while moons stay in front. The z-index
+     lives on a wrapper I own (not the SaturnMark internals) so it applies reliably. */
+  .planet-wrap { position: relative; z-index: 2; }
+  .planet-svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.45)); }
+
+  .orbit-rings { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .orbit-moons { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+
+  /* Visible orbital path: a foreshortened ellipse (ry/rx ~ 0.225) tilted near the ring plane. */
+  .orbit-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(var(--rx) * 2);
+    height: calc(var(--ry) * 2);
+    margin-left: calc(var(--rx) * -1);
+    margin-top: calc(var(--ry) * -1);
+    border: 2px solid rgba(200, 208, 220, 0.22);
+    border-radius: 50%;
+    transform: rotate(var(--tilt));
+  }
+
+  /* Moons are placed by script onto the exact same ellipses as the rings. */
+  .moon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--c, #F4ECD8);
+    box-shadow: 0 0 12px var(--c, #F4ECD8), 0 0 5px var(--c, #F4ECD8);
+    transition: left 0.2s ease-out, top 0.2s ease-out;
+  }
+
+  .profile-content {
+    position: relative;
+    z-index: 2;
+    padding: 4rem 1.5rem;
+    margin: 0 auto;
+    width: 100%;
+    max-inline-size: 64rem;
+  }
+  .profile-eyebrow {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #F4ECD8;
+    opacity: 0.8;
+    margin: 0 0 1.5rem;
+  }
+  .profile-name {
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    font-weight: 600;
+    color: #F4ECD8;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    margin: 0 0 1.5rem;
+    font-size: clamp(3.5rem, 12vw, 7.5rem);
+    text-shadow: 0 2px 40px rgba(11, 16, 24, 0.8);
+  }
+  .profile-tagline {
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    line-height: 1.6;
+    color: #DCE4EF;
+    max-width: 42ch;
+    margin: 0 0 2.5rem;
+    text-shadow: 0 2px 20px rgba(11, 16, 24, 0.9);
+  }
+
+  .profile-readout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1.25rem 2rem;
+    margin: 0 0 2.5rem;
+    max-width: 38rem;
+  }
+  .readout-cell { border-left: 1px solid rgba(244, 236, 216, 0.3); padding-left: 0.9rem; }
+  .readout-cell dt {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #A6B3C9;
+    margin-bottom: 0.3rem;
+  }
+  .readout-cell dd {
+    margin: 0;
+    font-size: 14px;
+    color: #F4ECD8;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  .profile-links { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .profile-links a {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #F4ECD8;
+    text-decoration: none;
+    border: 1px solid rgba(244, 236, 216, 0.35);
+    border-radius: 999px;
+    padding: 0.5rem 1.1rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .profile-links a:hover { background: #F4ECD8; color: #0F1622; }
+
+  .ig-card {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    background: #ffffff;
+    padding: 0.75rem;
+    border-radius: 10px;
+    text-decoration: none;
+  }
+  .ig-card img { display: block; width: 120px; height: auto; }
+  .ig-card span {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #1C2A40;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #A6B3C9;
+    opacity: 0.7;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .star { animation: twinkle var(--d) ease-in-out infinite; animation-delay: var(--delay); }
+    .scroll-cue { animation: nudge 2.2s ease-in-out infinite; }
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: calc(var(--b) * 0.35); }
+    50%      { opacity: var(--b); }
+  }
+  @keyframes nudge {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
+    50%      { transform: translateX(-50%) translateY(4px); opacity: 0.85; }
+  }
+
+  @media (max-width: 720px) {
+    .planet-layer { opacity: 0.35; right: -25%; }
+    .profile-content { padding-top: 3rem; padding-bottom: 3rem; }
+  }
+</style>
+
+<script>
+  const sys = document.querySelector<HTMLElement>('.orbit-moons');
+  const moons = Array.from(document.querySelectorAll<HTMLElement>('.orbit-moons .moon'));
+  let mouseDeg = 0;
+
+  function place() {
+    if (!sys) return;
+    const cx = sys.clientWidth / 2;
+    const cy = sys.clientHeight / 2;
+    for (const m of moons) {
+      const rx = parseFloat(m.dataset.rx ?? '0');
+      const ry = parseFloat(m.dataset.ry ?? '0');
+      const tilt = parseFloat(m.dataset.tilt ?? '0') * Math.PI / 180;
+      const base = parseFloat(m.dataset.base ?? '0');
+      const spin = parseFloat(m.dataset.spin ?? '0');
+      const a = (base + mouseDeg * spin) * Math.PI / 180;
+      const ex = rx * Math.cos(a);
+      const ey = ry * Math.sin(a);
+      // Same point as the CSS ring: ellipse (rx,ry) rotated by tilt, about the center.
+      m.style.left = (cx + ex * Math.cos(tilt) - ey * Math.sin(tilt)) + 'px';
+      m.style.top = (cy + ex * Math.sin(tilt) + ey * Math.cos(tilt)) + 'px';
+    }
+  }
+
+  place();
+  window.addEventListener('resize', place);
+  if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    window.addEventListener('mousemove', (e) => {
+      const dx = e.clientX / window.innerWidth - 0.5;
+      const dy = e.clientY / window.innerHeight - 0.5;
+      mouseDeg = dx * 120 + dy * 60;
+      place();
+    });
+  }
+</script>

@@ -1,0 +1,27 @@
+http:
+  middlewares:
+    status-lan-only:
+      ipAllowList:
+        sourceRange:
+          - "192.168.1.0/24"
+  services:
+    kuma:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.14:3001"
+  routers:
+    status-public:
+      rule: "Host(`status.rt-541.io`) && (PathPrefix(`/status`) || PathPrefix(`/assets`) || PathPrefix(`/api/status-page`) || PathPrefix(`/api/entry-page`) || PathPrefix(`/upload`) || Path(`/icon.svg`))"
+      entryPoints: [secure]
+      service: kuma
+      priority: 100
+      tls:
+        certResolver: default
+    status-admin:
+      rule: "Host(`status.rt-541.io`)"
+      entryPoints: [secure]
+      service: kuma
+      priority: 10
+      middlewares: [status-lan-only]
+      tls:
+        certResolver: default

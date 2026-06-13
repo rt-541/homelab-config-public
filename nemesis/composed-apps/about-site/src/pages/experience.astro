@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TimelineEntry from '../components/TimelineEntry.astro';
+
+// Dates and exact role titles flagged for verification. Update inline.
+const entries: { i18nKey: string; role: string; org: string; start: string; end?: string; summary: string }[] = [
+  {
+    i18nKey: 'centene',
+    role: 'Linux/DevOps Engineer, Scrummaster',
+    org: 'Centene',
+    start: '2025-04',
+    summary: 'Platform engineering with an AI governance overlay. Building shared infrastructure that other engineers across the org rely on, with a particular focus on how AI agents fit into a production environment without breaking the things around them. A lot of the work shows up as ADRs, multi-tenant OpenShift, and the seams between identity, automation, and policy.',
+  },
+  {
+    i18nKey: 'va',
+    role: 'Zero Trust Engineer',
+    org: 'Department of Veterans Affairs',
+    start: '2022',
+    end: '2024',
+    summary: 'Zero trust architecture rollout across a federal environment. The work was less about any single tool and more about how identity, network segmentation, and policy enforcement compose when the existing footprint is large and old.',
+  },
+  {
+    i18nKey: 'ford',
+    role: 'Cybersecurity Engineer',
+    org: 'Ford',
+    start: '2018',
+    end: '2022',
+    summary: 'Started in the SOC, then moved into cyber engineering. Pivoting from pure ops into security taught me to look at the same systems through a different lens: less about whether they run, more about what they assume.',
+  },
+  {
+    i18nKey: 'gd-satellite',
+    role: 'Linux Systems Administrator (Satellite / RHEL)',
+    org: 'General Dynamics',
+    start: '2019',
+    end: '2021',
+    summary: 'Came back to GD to run Red Hat Satellite and RHEL fleet management. Patch lifecycles, content views, errata. The kind of work that is invisible when it goes well and very loud when it does not.',
+  },
+  {
+    i18nKey: 'gd-first',
+    role: 'Linux Systems Administrator',
+    org: 'General Dynamics',
+    start: '2016',
+    end: '2018',
+    summary: 'First role out of school. Learned the trade on a real fleet: package management, kickstarts, the difference between a runbook that works and one that just looks like one.',
+  },
+];
+
+// Skills inventory. Add or correct items inline.
+const skills: { key: string; label: string; items: string[] }[] = [
+  { key: 'linux', label: 'Linux & systems', items: ['RHEL', 'Red Hat Satellite', 'fleet patching', 'kickstart provisioning'] },
+  { key: 'containers', label: 'Containers', items: ['Docker', 'Docker Compose', 'Kubernetes', 'multi-tenant OpenShift'] },
+  { key: 'automation', label: 'Automation', items: ['Ansible', 'Ansible Automation Platform'] },
+  { key: 'security', label: 'Security', items: ['SOC operations', 'zero-trust architecture', 'enterprise PAM', 'vulnerability management'] },
+  { key: 'networking', label: 'Networking', items: ['routing & switching', 'DNS', 'reverse proxy / TLS'] },
+  { key: 'ai', label: 'AI & platform', items: ['MCP', 'Claude Code skills & sub-agents', 'AWS Bedrock RAG', 'AI agent governance', 'ADR-driven design'] },
+  { key: 'scripting', label: 'Scripting', items: ['Bash', 'Python'] },
+];
+
+const certsHeld = ['RHCE 7', 'CySA+', 'Security+', 'Network+', 'CCNA'];
+const certsInProgress = ['EX294 (RHCE)', 'EX280 (OpenShift)', 'EX380 (OpenShift Automation)'];
+---
+<BaseLayout title="experience &middot; rt-541.io" description="Career timeline.">
+  <section class="max-w-3xl mx-auto px-6 pt-16 pb-8">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20" data-i18n="exp.eyebrow">
+      experience
+    </p>
+    <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-2" data-i18n="exp.h1">Career timeline</h1>
+    <p class="text-[14px] text-subtle" data-i18n="exp.subtitle">Roles, in reverse-chronological order.</p>
+  </section>
+
+  <ul class="max-w-3xl mx-auto px-6 list-none p-0">
+    {entries.map(e => <TimelineEntry {...e} />)}
+  </ul>
+
+  <section class="max-w-3xl mx-auto px-6 pt-14">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4" data-i18n="exp.skills.label">// skills</p>
+    <dl class="m-0">
+      {skills.map(group => (
+        <div class="grid grid-cols-[9rem,1fr] gap-6 py-3 border-b border-chrome/10">
+          <dt class="font-mono text-[11px] tracking-meta text-subtle uppercase pt-0.5" data-i18n={`exp.skill.${group.key}`}>{group.label}</dt>
+          <dd class="text-[14px] text-ice m-0">{group.items.join('  ·  ')}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12 pb-20">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4" data-i18n="exp.certs.label">// certifications</p>
+    <dl class="m-0">
+      <div class="grid grid-cols-[9rem,1fr] gap-6 py-3 border-b border-chrome/10">
+        <dt class="font-mono text-[11px] tracking-meta text-subtle uppercase pt-0.5" data-i18n="exp.certs.held">held</dt>
+        <dd class="text-[14px] text-ice m-0">{certsHeld.join('  ·  ')}</dd>
+      </div>
+      <div class="grid grid-cols-[9rem,1fr] gap-6 py-3 border-b border-chrome/10">
+        <dt class="font-mono text-[11px] tracking-meta text-muted uppercase pt-0.5" data-i18n="exp.certs.inprogress">in progress</dt>
+        <dd class="text-[14px] text-muted m-0">{certsInProgress.join('  ·  ')}</dd>
+      </div>
+    </dl>
+  </section>
+</BaseLayout>

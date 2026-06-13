@@ -1,0 +1,21 @@
+---
+interface Props {
+  i18nKey?: string;
+  role: string;
+  org: string;
+  start: string;       // 'YYYY-MM' or 'YYYY'
+  end?: string;        // omit / 'present'
+  summary: string;
+}
+const { i18nKey, role, org, start, end = 'present', summary } = Astro.props;
+---
+<li class="py-6 border-b border-chrome/10 grid grid-cols-[7rem,1fr] gap-6">
+  <time class="font-mono text-[11px] tracking-meta text-subtle pt-1">
+    {start} &mdash; {end}
+  </time>
+  <div>
+    <h3 class="font-serif text-[20px] text-chrome leading-tight" data-i18n={i18nKey ? `exp.entry.${i18nKey}.role` : undefined}>{role}</h3>
+    <p class="font-mono text-[11px] tracking-meta text-subtle uppercase mt-1">{org}</p>
+    <p class="text-[15px] text-ice leading-[1.65] mt-3" data-i18n={i18nKey ? `exp.entry.${i18nKey}.summary` : undefined}>{summary}</p>
+  </div>
+</li>

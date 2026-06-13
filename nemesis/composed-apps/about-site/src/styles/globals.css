@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background: #1C2A40;
+    color: #DCE4EF;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    flex: 1;
+  }
+  h1, h2, h3, h4 {
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    color: #F4ECD8;
+    letter-spacing: -0.015em;
+  }
+  a {
+    color: inherit;
+  }
+  a:focus-visible {
+    outline: 1.5px solid currentColor;
+    outline-offset: 3px;
+  }
+}
+
+/* Typography for rendered Markdown content (blog posts, project descriptions). */
+/* Applied via a wrapper class on the rendered <Content /> output. */
+.prose-content {
+  --prose-fg: #DCE4EF;
+  --prose-heading: #F4ECD8;
+  --prose-link: #F4ECD8;
+}
+.prose-content p { margin: 0 0 1.25em; line-height: 1.75; color: var(--prose-fg); }
+.prose-content h2 { margin: 2em 0 0.75em; font-size: 1.5rem; line-height: 1.25; color: var(--prose-heading); }
+.prose-content h3 { margin: 1.6em 0 0.6em; font-size: 1.2rem; color: var(--prose-heading); }
+.prose-content ul, .prose-content ol { margin: 0 0 1.25em; padding-left: 1.5em; }
+.prose-content li { margin: 0.25em 0; line-height: 1.7; }
+.prose-content a { text-decoration: underline; text-underline-offset: 3px; color: var(--prose-link); }
+.prose-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(244, 236, 216, 0.08);
+  color: #F4ECD8;
+}
+.prose-content pre {
+  background: #0F1622;
+  border: 1px solid rgba(244, 236, 216, 0.1);
+  border-radius: 6px;
+  padding: 1em;
+  overflow-x: auto;
+  margin: 0 0 1.25em;
+}
+.prose-content pre code { padding: 0; background: transparent; }
+.prose-content blockquote {
+  margin: 0 0 1.25em;
+  padding-left: 1em;
+  border-left: 2px solid rgba(244, 236, 216, 0.3);
+  color: #A6B3C9;
+}

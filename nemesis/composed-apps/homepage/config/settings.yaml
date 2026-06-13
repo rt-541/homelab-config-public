@@ -1,0 +1,23 @@
+title: rt-541 homelab
+favicon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/homepage.png
+theme: dark
+color: slate
+headerStyle: boxed
+target: _blank
+
+layout:
+  Media:
+    style: row
+    columns: 3
+  Infra:
+    style: row
+    columns: 4
+  Apps:
+    style: row
+    columns: 4
+  LLM:
+    style: row
+    columns: 2
+  Game Servers:
+    style: row
+    columns: 4

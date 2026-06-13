@@ -1,0 +1,56 @@
+---
+services:
+  nemesis-bot:
+    build: .
+    container_name: nemesis-bot
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./state:/state
+      - /docker/game/zomboid-dev/ZomboidDedicatedServer/steamapps/workshop:/acf/zomboid-dev:ro
+      - /docker/game/zomboid/ZomboidDedicatedServer/steamapps/workshop:/acf/zomboid-prod:ro
+      - ../minecraft-atm9-survival/allowed_users.json:/mc/allowed_users.json
+      - /docker/game/minecraft/minecraftatm9s_data/ops.json:/mc/ops.json
+    environment:
+      DISCORD_TOKEN: "${DISCORD_TOKEN}"
+
+      # --- Roles ---
+      # To add a role: add ROLE_<KEY>_ID to .env, define NAME and CONTAINERS here.
+      # CONTAINERS is a comma-separated list of container names, or * for admin.
+
+      ROLE_ADMIN_ID: "${ROLE_ADMIN_ID}"
+      ROLE_ADMIN_NAME: "Admin"
+      ROLE_ADMIN_CONTAINERS: "*"
+
+      ROLE_PLEX_ID: "${ROLE_PLEX_ID}"
+      ROLE_PLEX_NAME: "Plex"
+      ROLE_PLEX_CONTAINERS: "plex-nfs,qbittorrent,overseerr,sonarr,radarr"
+
+      ROLE_ZOMBOID_ID: "${ROLE_ZOMBOID_ID}"
+      ROLE_ZOMBOID_NAME: "Zomboid"
+      ROLE_ZOMBOID_CONTAINERS: "zomboid-dedicated-server,zomboid-dev-server"
+
+      ROLE_MINECRAFT_ID: "${ROLE_MINECRAFT_ID}"
+      ROLE_MINECRAFT_NAME: "Minecraft"
+      ROLE_MINECRAFT_CONTAINERS: "mcatm9s,mc-deceasedcraft"
+
+      ROLE_MCADMIN_ID: "${ROLE_MCADMIN_ID}"
+      ROLE_MCADMIN_NAME: "Minecraft Admin"
+      ROLE_MCADMIN_CONTAINERS: "mcatm9s,mc-deceasedcraft"
+
+      MC_ALLOWLIST_PATH: "/mc/allowed_users.json"
+      MC_OPS_PATH: "/mc/ops.json"
+
+      # --- Webhooks ---
+      DEFAULT_WEBHOOK_URL: "${DEFAULT_WEBHOOK_URL}"
+      ZOMBOID_WEBHOOK_URL: "${ZOMBOID_WEBHOOK_URL}"
+      ATM9S_WEBHOOK_URL: "${ATM9S_WEBHOOK_URL}"
+
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M

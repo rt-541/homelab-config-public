@@ -1,0 +1,89 @@
+services:
+  vllm:
+    image: intel/llm-scaler-vllm:0.14.0-b8.3.1
+    container_name: plex-compute-vllm
+    restart: unless-stopped
+    devices:
+      - /dev/dri:/dev/dri
+    shm_size: 4g
+    entrypoint: ["vllm"]
+    command:
+      - serve
+      - Qwen/Qwen2.5-7B-Instruct
+      - --host
+      - "0.0.0.0"
+      - --port
+      - "8000"
+      - --served-model-name
+      - qwen2.5-7b-instruct
+      # reserve ~2.5GB (8%) of the 32GB card for Plex: 1 concurrent 4K HDR
+      # transcode (~2GB) + driver headroom; additional streams fall back to CPU
+      - --gpu-memory-utilization
+      - "0.92"
+      - --max-model-len
+      - "16384"
+    environment:
+      HF_HOME: /models
+    volumes:
+      - /docker/llm/models:/models
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      # first start downloads ~15GB of weights then loads them
+      start_period: 30m
+    deploy:
+      resources:
+        limits:
+          cpus: '8'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+    labels:
+      - "autoheal=true"
+
+  plex-compute-discord:
+    image: alpine:latest
+    container_name: plex-compute-discord
+    restart: unless-stopped
+    depends_on:
+      - vllm
+    environment:
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - QUEUE_ALERT_THRESHOLD=${QUEUE_ALERT_THRESHOLD:-5}
+    volumes:
+      - ./notify.sh:/notify.sh:ro
+    entrypoint: /bin/sh
+    command: ["/notify.sh"]
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: "128M"
+        reservations:
+          cpus: '0.25'
+          memory: "64M"
+
+  plex-compute-autoheal:
+    image: willfarrell/autoheal:latest
+    container_name: plex-compute-autoheal
+    restart: unless-stopped
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: autoheal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  plex-compute-logs:
+    image: amir20/dozzle:latest
+    container_name: plex-compute-logs
+    restart: unless-stopped
+    ports:
+      - "9999:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      DOZZLE_FILTER: "name=plex-compute*"

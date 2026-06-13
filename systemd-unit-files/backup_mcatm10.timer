@@ -1,0 +1,9 @@
+[Unit]
+Description=Runs backup_minecraft.service at 4 AM EST
+
+[Timer]
+OnCalendar=*-*-* 09:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
