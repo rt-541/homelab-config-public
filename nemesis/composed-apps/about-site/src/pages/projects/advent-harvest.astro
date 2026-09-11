@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Detail page for the Advent Harvest card. English-only by design: no data-i18n keys.
+
+const milestones: { when: string; title: string; body: string }[] = [
+  {
+    when: '2026-05',
+    title: 'Foundation & first walk',
+    body: 'Godot 4 project stood up: hex overworld, party movement, the day/turn loop, and the first save scaffolding. The first milestone tag is literally the first walk across a generated world.',
+  },
+  {
+    when: '2026-05',
+    title: 'Tactics framework & tactical terrain',
+    body: 'The turn-based battle framework, then terrain that matters inside it: elevation, cover, and movement costs that make the map part of the fight.',
+  },
+  {
+    when: '2026-06',
+    title: 'Biomes online, worldgen v2',
+    body: 'The terrain model rebuilt around an ocean substrate with seed-driven variety from continents to archipelagos, and a climate field layered from latitude and elevation. Biome placement became core-plus-accent instead of noise soup.',
+  },
+  {
+    when: '2026-07',
+    title: 'Worldgen v3: naturalness passes',
+    body: 'Flow-directed erosion so rivers carve valleys with riparian banks. A ridge tracer that builds connected mountain systems with foothills and passes. A coastline carver for fjords, bays, and headlands. Every pass gated by metrics over 300-seed surveys.',
+  },
+  {
+    when: '2026-07',
+    title: 'The 2.5D look',
+    body: 'An overnight eight-task run that replaced the hex-chart look: ground tilt and a close camera, elevation tiers with deterministic ramps, tier-blocked pathfinding, fifteen prop variants with baked shadows, neighbor-blended organic ground with no visible grid, cliff relief strips, and y-sorted props. 516 of 516 tests green at the end of it.',
+  },
+  {
+    when: '2026-07',
+    title: 'Worldgen v4: region-first biomes & daunting mountains',
+    body: 'Organic land regions grown from seeds with river- and slope-snapped borders, a rarest-first biome auction that breaks monoculture, and climate v2. Then the mountains got teeth: alpine height boosts so faces read and block as walls, guaranteed passes so they never wall a region off, and moisture-driven snowlines.',
+  },
+  {
+    when: '2026-07',
+    title: '3D overworld ships',
+    body: 'The 3D overworld became the shipping scene, pinned to Forward+ (Vulkan), with cliff bands, hillshade contrast, and a lower sun for readable relief.',
+  },
+  {
+    when: '2026-08',
+    title: 'Controller-first UI & real saves',
+    body: 'An eight-wedge radial menu aimed by stick or mouse, a pause menu with in-game save/load, and saves that carry real progress rather than acting as bookmarks, with round-trip assertions to keep them honest. A panel host brings map, team, and notes together.',
+  },
+  {
+    when: 'now',
+    title: 'Demo roadmap',
+    body: 'A combat-first path (M6 to M10) toward a build friends can actually play.',
+  },
+];
+
+const shots: { src: string; alt: string; caption: string }[] = [
+  {
+    src: '/advent-harvest/baseline_z2.0.png',
+    alt: 'Early Advent Harvest overworld: flat hex-chart look with a visible grid',
+    caption: 'Before: the original hex-chart overworld, visible grid and all.',
+  },
+  {
+    src: '/advent-harvest/t7b-cohesion_z2.0.png',
+    alt: 'Advent Harvest 2.5D overworld: blended ground, cliff strips, trees and rocks with shadows',
+    caption: 'After the 2.5D pass: neighbor-blended ground, cliff relief, y-sorted props, no visible grid.',
+  },
+  {
+    src: '/advent-harvest/v3b-formations_z40.0.png',
+    alt: 'Zoomed-out winter region with formation-driven vegetation clusters',
+    caption: 'Map scale: formation-driven vegetation cover flowing across biome borders.',
+  },
+  {
+    src: '/advent-harvest/c3_overworld3d_z40.0.png',
+    alt: 'Carved coastline with dense forest meeting open ocean',
+    caption: 'A carved coastline meeting the ocean substrate.',
+  },
+  {
+    src: '/advent-harvest/montage_500.jpg',
+    alt: 'Montage grid of 500 generated world maps, each a different landmass layout',
+    caption: '500 seeded worlds from one generator: continents to archipelagos, no two alike.',
+  },
+];
+---
+<BaseLayout title="advent harvest &middot; rt-541.io" description="Advent Harvest: development milestones and screenshots.">
+  <section class="max-w-3xl mx-auto px-6 pt-16 pb-8">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20">
+      <a href="/projects" class="no-underline hover:underline">projects</a> / advent harvest
+    </p>
+    <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-3">Advent Harvest</h1>
+    <p class="text-[15px] text-ice leading-[1.65] max-w-[58ch]">
+      A turn-based creature-team battler with roguelite dungeon crawling, built in Godot 4. The systems come first:
+      a procedurally generated overworld you walk across, tactical battles on terrain that matters, and saves that
+      hold up under test. Stand-in art while the bones get strong. In active development.
+    </p>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-6">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// by the numbers</p>
+    <dl class="grid grid-cols-2 sm:grid-cols-4 gap-4 m-0">
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">tests</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">516</dd>
+      </div>
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">assertions</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">134k</dd>
+      </div>
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">seeds per survey</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">300</dd>
+      </div>
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">generator version</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">v4</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-2">// milestones</p>
+    <ul class="list-none p-0 m-0">
+      {milestones.map(m => (
+        <li class="py-5 border-b border-chrome/10 grid grid-cols-[5rem,1fr] gap-6">
+          <time class="font-mono text-[11px] tracking-meta text-subtle pt-1">{m.when}</time>
+          <div>
+            <h2 class="font-serif text-[18px] text-chrome leading-tight m-0">{m.title}</h2>
+            <p class="text-[14px] text-ice leading-[1.65] mt-2 mb-0">{m.body}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12 pb-20">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// screenshots</p>
+    <div class="flex flex-col gap-8">
+      {shots.map(s => (
+        <figure class="m-0">
+          <img src={s.src} alt={s.alt} loading="lazy" class="w-full h-auto rounded border border-chrome/20" />
+          <figcaption class="font-mono text-[11px] tracking-meta text-subtle mt-2">{s.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

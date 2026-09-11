@@ -1,6 +1,6 @@
 ---
 title: "MCP safeguards plugin"
-order: 6
+order: 8
 status: redacted
 summary: "Guardrails for Model Context Protocol tool use inside an enterprise AI agent platform. Details redacted."
 ---

@@ -22,7 +22,6 @@ const readout: { key: string; label: string; value: string }[] = [
 const links: { label: string; href: string }[] = [
   { label: 'github', href: 'https://github.com/rt-541' },
   { label: 'linkedin', href: 'https://www.linkedin.com/in/arthur-schneider-691712148/' },
-  { label: 'steam', href: 'https://steamcommunity.com/id/yargblarg' },
   { label: 'spotify', href: 'https://open.spotify.com/user/arthurschneider6' },
   { label: 'email', href: 'mailto:arthurschneider.v@gmail.com' },
 ];
@@ -72,7 +71,7 @@ const orbits = [
       <p class="profile-eyebrow" data-i18n="home.eyebrow">observatory log &middot; designation RT-541</p>
       <h1 class="profile-name">Arthur<br />Schneider</h1>
       <p class="profile-tagline" data-i18n="home.tagline">
-        Platform engineer. Nine years across Linux, security, and the infrastructure that keeps AI agents honest in production.
+        Platform engineer. Ten years across Linux, security, and the infrastructure that keeps AI agents honest in production.
       </p>
 
       <dl class="profile-readout">
@@ -90,10 +89,6 @@ const orbits = [
         {links.map(l => <a href={l.href}>{l.label}</a>)}
       </div>
 
-      <a href="https://www.instagram.com/alphasierra6victor/" class="ig-card" aria-label="Instagram QR code, scan or tap to follow">
-        <img src="/alphasierra6victor_qr.png" width="120" height="138" alt="Instagram QR code for @alphasierra6victor" />
-        <span data-i18n="home.igCaption">scan to follow &middot; @alphasierra6victor</span>
-      </a>
     </div>
 
     <div class="scroll-cue" aria-hidden="true"><span data-i18n="home.scroll">scroll</span> &darr;</div>
@@ -102,7 +97,7 @@ const orbits = [
   <article class="max-w-2xl mx-auto px-6 pt-16 pb-20">
     <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-5" data-i18n="section.whoami">// who I am</p>
     <p class="text-[16px] leading-[1.75] text-ice mb-5" data-i18n="home.bio.p1">
-      I am a platform engineer. For about nine years I have worked the layer most people never see: the Linux fleets, the automation, the security boundaries, and lately the guardrails that let AI agents run in production without causing trouble.
+      I am a platform engineer. For about ten years I have worked the layer most people never see: the Linux fleets, the automation, the security boundaries, and lately the guardrails that let AI agents run in production without causing trouble.
     </p>
     <p class="text-[16px] leading-[1.75] text-ice mb-5" data-i18n="home.bio.p2">
       The path here was not a straight line. I started in Linux systems administration, spent several years in security going from a SOC seat to zero-trust architecture, then came back around to platform work. Each detour changed how I see the systems I build. Ops taught me what breaks. Security taught me what people quietly assume.
@@ -128,6 +123,10 @@ const orbits = [
       <li class="py-3 flex justify-between">
         <span class="text-ice" data-i18n="elsewhere.experience">career timeline</span>
         <a href="/experience" class="font-mono text-[11px] text-subtle no-underline hover:underline">/experience &rarr;</a>
+      </li>
+      <li class="py-3 flex justify-between">
+        <span class="text-ice">resume</span>
+        <a href="/resume" class="font-mono text-[11px] text-subtle no-underline hover:underline">/resume &rarr;</a>
       </li>
     </ul>
   </article>
@@ -269,26 +268,6 @@ const orbits = [
     transition: background 0.2s, color 0.2s;
   }
   .profile-links a:hover { background: #F4ECD8; color: #0F1622; }
-
-  .ig-card {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1.5rem;
-    background: #ffffff;
-    padding: 0.75rem;
-    border-radius: 10px;
-    text-decoration: none;
-  }
-  .ig-card img { display: block; width: 120px; height: auto; }
-  .ig-card span {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #1C2A40;
-  }
 
   .scroll-cue {
     position: absolute;

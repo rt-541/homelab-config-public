@@ -1,6 +1,6 @@
 ---
 title: "Bedrock RAG portal"
-order: 8
+order: 10
 status: redacted
 summary: "A retrieval-augmented generation portal on AWS Bedrock for internal knowledge access. Details redacted."
 ---

@@ -14,6 +14,7 @@ services:
       DEFAULT_WEBHOOK_URL: "${DEFAULT_WEBHOOK_URL}"
       ZOMBOID_WEBHOOK_URL: "${ZOMBOID_WEBHOOK_URL}"
       ATM9S_WEBHOOK_URL: "${ATM9S_WEBHOOK_URL}"
+      PALWORLD_START_MESSAGE: "${PALWORLD_START_MESSAGE}"
     deploy:
       resources:
         limits:

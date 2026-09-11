@@ -1,0 +1,6 @@
+# Contains the files encryption key + VAPID private key + livekit secret.
+# Losing it after first run means losing access to stored files.
+secrets.env
+
+# generate_config.sh backups
+*.old

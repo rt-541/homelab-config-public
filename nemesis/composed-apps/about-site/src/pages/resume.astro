@@ -1,0 +1,215 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Mirrors the master CV (career-ops cv.md). English-only by design: no data-i18n keys.
+// Contact deliberately omits the phone number on the public page.
+
+interface Role {
+  role: string;
+  org: string;
+  dates: string;
+  bullets: string[];
+}
+
+const roles: Role[] = [
+  {
+    role: 'Senior Systems / Platform Engineer',
+    org: 'Centene (Fortune 25)',
+    dates: 'Apr 2025 – Present',
+    bullets: [
+      'Core contributor to the multi-tenant migration of Ansible Automation Platform onto OpenShift (ACM, Argo CD GitOps) serving 50+ tenant teams, involved from planning through cutover; co-authored the multi-tenancy ADR (AppProjects, Kyverno, Kubernetes RBAC, NetworkPolicy) that cut tenant onboarding from weeks to days.',
+      'Founded the org-wide AI agent platform: built the governed skills and plugins marketplace (19 skills, 5 plugins, blocking CI validators, self-service team onboarding) adopted as the organization’s single source of truth, and authored the accepted enterprise standard for AI agents touching production systems.',
+      'After an ungoverned AI-assisted script corrupted production data, built the hook-enforced runtime guardrail framework adopted as the enterprise standard; the governed toolchain scored 100% on a 19-assertion internal benchmark vs 32% without it.',
+      'Drove the engineering of the enterprise PAM migration (sudo/SSSD to Delinea Server Suite) across 700+ production hosts and 77 application groups: designed the approach, migrated the privilege configuration to centrally auditable AD-backed roles, and supported every production cutover wave.',
+      'Built the PAM migration toolchain: a preflight rule engine enforcing separation of duties and blocking dangerous privilege wildcards, plus dry-run apply/verify automation with a change-number audit trail. Cut operator effort 70% per wave; now maintained by other engineers.',
+      'Primary engineer for the enterprise Red Hat Satellite platform (master plus six capsules across on-prem, AWS, and Azure with F5 capsule HA); led its zero-outage upgrade across two version hops in a single change window, clearing every outstanding CVE.',
+      'Built the Satellite configuration-as-code platform: 30 Ansible roles replacing UI-driven configuration with version-controlled, peer-reviewed code, and the GitLab CI pipeline that maps each configuration change to the matching automation job.',
+      'De facto maintainer of the enterprise Ansible execution-environment platform serving 11 teams: introduced its first CI/CD, automated testing, and promote/rollback discipline, and delivered images with dependency sets those teams could not build themselves.',
+      'Traced a fleet-wide provisioning outage to the bootloader-to-kernel handoff after systematically disproving 13 candidate causes by direct test; separately found silent configuration drift that had the compliance platform reporting success while enforcing nothing.',
+      'Authored 14 Architecture Decision Records setting platform direction and wrote strategy papers for Director-through-VP audiences; additionally served as Scrum Master, restructuring the team’s portfolio into a charge-code-driven hierarchy.',
+      'Architected the internal documentation portal and RAG chatbot: a CloudFront-fronted docs portal with Bedrock Claude indexed across Markdown, Confluence, GitLab, and ServiceNow KB, with SAML federation enforcing knowledge-tier RBAC.',
+    ],
+  },
+  {
+    role: 'Senior Cyber Security Engineer',
+    org: 'U.S. Department of Veterans Affairs',
+    dates: '2024',
+    bullets: [
+      'Spearheaded a Zero Trust capability assessment using the CISA Zero Trust Maturity Model across Identity, Device, Network, Data, and Application & Workload pillars; delivered the baseline and gap analysis, Security Impact Analysis, and implementation roadmaps.',
+      'Implemented ServiceNow-based tracking and dashboards monitoring Zero Trust progress across systems and teams, eliminating duplicate cross-team efforts.',
+    ],
+  },
+  {
+    role: 'Cyber Security Engineer',
+    org: 'Ford Motor Company',
+    dates: '2021 – 2024',
+    bullets: [
+      'Led the Trend Micro Deep Security and Vision One migration, consolidating HIPS, AV, firewall, EDR, and XDR from legacy tools into a unified security platform.',
+      'Orchestrated Habitat-to-Ansible re-platforming for configuration and deployment management across system environments.',
+      'Drove the CISA v2 Device-pillar Zero Trust evaluation: inventory management, configuration control, and EDR/XDR rollout aligned with ZT principles.',
+    ],
+  },
+  {
+    role: 'Linux Systems Engineer',
+    org: 'General Dynamics Land Systems',
+    dates: '2019 – 2021',
+    bullets: [
+      'Managed the Red Hat Satellite implementation for the RHEL fleet: automated patching, repository configuration, and HA/DR with Ansible integration.',
+      'Oversaw the Solaris-to-RHEL migration: scripted automated migration with post-migration validation, minimizing downtime.',
+    ],
+  },
+  {
+    role: 'Security Operations Specialist',
+    org: 'Ford Motor Company',
+    dates: '2018 – 2019',
+    bullets: [
+      'Administered QRadar SIEM and HX/FireEye XDR operations; built specialized tooling to streamline administration within appliance constraints.',
+    ],
+  },
+  {
+    role: 'Linux Systems Administrator',
+    org: 'General Dynamics Land Systems',
+    dates: '2016 – 2018',
+    bullets: [
+      'Linux operations across Solaris and RHEL: access management, application and database server deployments, and UNIX team tooling.',
+    ],
+  },
+];
+
+const projects: { name: string; body: string; href?: string }[] = [
+  {
+    name: 'obsidian-toolkit (open source)',
+    body: 'MCP server, Claude Code skill, and conventions for agent-driven Obsidian knowledge-base workflows. TypeScript, unit-tested, MIT licensed.',
+    href: 'https://github.com/rt-541/obsidian-toolkit',
+  },
+  {
+    name: 'Homelab platform (rt-541.io)',
+    body: 'Self-hosted platform on a two-node Proxmox cluster: 30+ Docker services behind Traefik with automated TLS, DNS, analytics, and monitoring, all managed as code (Ansible, Terraform, per-host Compose monorepo). Public mirrors: kuat-drive-yards-public, homelab-config-public.',
+    href: 'https://github.com/rt-541',
+  },
+  {
+    name: 'Day-2 Satellite reporting platform',
+    body: 'Eight-flavor reporting suite replacing seven legacy shell scripts; each report is simultaneously archived as markdown, emailed to its distribution list, and published to the documentation wiki, backed by pure-stdlib filter plugins and per-flavor Molecule test scenarios.',
+  },
+  {
+    name: 'ChurnCore — Project Zomboid mod suite (in development)',
+    body: 'Three-mod suite for a private Build 42 multiplayer server: a framework engine (stages, registries, UI, client/server state sync), an event director driving missions, radio broadcasts, and dynamic events, and a bridge to an NPC mod. Lua, unit-tested, with a scripted deploy loop.',
+    href: '/projects',
+  },
+  {
+    name: 'Advent Harvest (in development)',
+    body: 'Turn-based creature-team battler with roguelite dungeon crawling, built in Godot 4: seed-driven procedural overworld generation from continents to archipelagos, latitude- and elevation-driven biomes, hex-grid pathfinding, and a tested save system.',
+    href: '/projects/advent-harvest',
+  },
+];
+
+const skills: { label: string; items: string }[] = [
+  { label: 'Cloud & Platform', items: 'AWS (EC2, IAM, KMS, Lambda, Bedrock, OpenSearch, STS), OpenShift 4.16–4.20, ACM, Argo CD, Kyverno, vSphere, Proxmox' },
+  { label: 'IaC & Automation', items: 'Ansible Automation Platform 2.4/2.6, Ansible (collections, roles, Molecule, ansible-lint), Terraform, Packer, Event-Driven Ansible, GitLab CI/CD, Configuration-as-Code' },
+  { label: 'Linux', items: 'RHEL 7–10, Amazon Linux 2023, SUSE, Ubuntu, Red Hat Satellite 6.16–6.19, LEAPP, SSSD, Delinea Server Suite / Centrify' },
+  { label: 'AI / Agentic', items: 'Claude Code (skills, plugins, hooks, subagents), Model Context Protocol (server authoring; open source: obsidian-toolkit), agent evals and benchmarking, runtime guardrails and policy enforcement, AWS Bedrock RAG, AI governance standards' },
+  { label: 'Languages', items: 'Python, Bash, PowerShell, TypeScript, Jinja2, YAML' },
+  { label: 'Security', items: 'EDR/XDR (CrowdStrike Falcon, MS Defender, Trend Micro Vision One, HX/FireEye), SIEM (QRadar, Splunk), PAM (Delinea, sudo, SSSD), IAM/MFA (RSA SecurID, AD integration), vulnerability management (Tenable Nessus), hardening (CIS L2, ansible-lockdown), POSIX ACLs, Zero Trust (CISA ZTMM), SOX evidence, enterprise PKI' },
+  { label: 'Process', items: 'Architecture Decision Records (14 authored), Scrum / SAFe, portfolio and backlog governance, ServiceNow change control, technical writing for executive audiences' },
+];
+
+const certsEarned = 'RHCE (RHEL 7), CompTIA CySA+, CompTIA Security+, CompTIA Network+, CCNA';
+const certsInProgress = 'RHCE (EX294), Red Hat Certified OpenShift Administrator (EX280), OpenShift Automation (EX380)';
+---
+<BaseLayout title="resume &middot; rt-541.io" description="Arthur Schneider, platform engineer. Resume.">
+  <article class="resume max-w-3xl mx-auto px-6 pt-16 pb-20">
+    <header class="mb-10">
+      <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20">resume</p>
+      <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-2">Arthur Schneider</h1>
+      <p class="text-[15px] text-ice mb-3">Platform engineer &middot; Linux, cloud, security, and AI infrastructure</p>
+      <p class="font-mono text-[11px] tracking-meta text-subtle">
+        Macomb, MI &middot;
+        <a href="mailto:arthurschneider.v@gmail.com" class="no-underline hover:underline">arthurschneider.v@gmail.com</a> &middot;
+        <a href="https://github.com/rt-541" class="no-underline hover:underline">github.com/rt-541</a> &middot;
+        <a href="https://www.linkedin.com/in/arthur-schneider-691712148/" class="no-underline hover:underline">linkedin</a>
+      </p>
+    </header>
+
+    <section class="mb-10">
+      <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// summary</p>
+      <p class="text-[15px] text-ice leading-[1.7]">
+        Platform engineer with 10 years across Linux, cloud, and security, currently building an enterprise AI agent
+        platform alongside the Linux estate that funds it. At Centene (Fortune 25 healthcare), a core engineer on the
+        platform behind a 28,000-host RHEL estate serving 50+ tenant teams: led the zero-outage Satellite estate
+        upgrade, built its 30-role configuration-as-code layer, drove the engineering of an enterprise PAM migration
+        across 700+ hosts, contributed to the multi-tenant AAP-on-OpenShift migration from planning through cutover,
+        and founded the org-wide AI agent platform: a governed skills marketplace, the accepted enterprise agent
+        standard, hook-enforced runtime guardrails, and an open-source MCP server. Ships platform tooling other
+        engineers adopt and maintain.
+      </p>
+    </section>
+
+    <section class="mb-10">
+      <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-2">// experience</p>
+      {roles.map(r => (
+        <div class="py-5 border-b border-chrome/10">
+          <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+            <h2 class="font-serif text-[19px] text-chrome leading-tight m-0">{r.role} &middot; <span class="text-ice">{r.org}</span></h2>
+            <span class="font-mono text-[11px] tracking-meta text-subtle whitespace-nowrap">{r.dates}</span>
+          </div>
+          <ul class="mt-3 pl-5 list-disc text-[14px] text-ice leading-[1.65] flex flex-col gap-2">
+            {r.bullets.map(b => <li>{b}</li>)}
+          </ul>
+        </div>
+      ))}
+    </section>
+
+    <section class="mb-10">
+      <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-2">// selected projects</p>
+      {projects.map(p => (
+        <div class="py-4 border-b border-chrome/10">
+          <h2 class="font-serif text-[17px] text-chrome leading-tight m-0">
+            {p.href ? <a href={p.href} class="no-underline hover:underline text-chrome">{p.name}</a> : p.name}
+          </h2>
+          <p class="text-[14px] text-ice leading-[1.65] mt-1 mb-0">{p.body}</p>
+        </div>
+      ))}
+    </section>
+
+    <section class="mb-10">
+      <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// skills</p>
+      <dl class="m-0">
+        {skills.map(g => (
+          <div class="grid grid-cols-1 sm:grid-cols-[10rem,1fr] gap-1 sm:gap-6 py-3 border-b border-chrome/10">
+            <dt class="font-mono text-[11px] tracking-meta text-subtle uppercase pt-0.5">{g.label}</dt>
+            <dd class="text-[14px] text-ice m-0">{g.items}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <section class="mb-10">
+      <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// certifications</p>
+      <dl class="m-0">
+        <div class="grid grid-cols-1 sm:grid-cols-[10rem,1fr] gap-1 sm:gap-6 py-3 border-b border-chrome/10">
+          <dt class="font-mono text-[11px] tracking-meta text-subtle uppercase pt-0.5">earned</dt>
+          <dd class="text-[14px] text-ice m-0">{certsEarned}</dd>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-[10rem,1fr] gap-1 sm:gap-6 py-3 border-b border-chrome/10">
+          <dt class="font-mono text-[11px] tracking-meta text-muted uppercase pt-0.5">in progress</dt>
+          <dd class="text-[14px] text-muted m-0">{certsInProgress}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section>
+      <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// education</p>
+      <p class="text-[14px] text-ice m-0">Associate degree &middot; Networking Specialist &middot; Jackson College</p>
+    </section>
+  </article>
+</BaseLayout>
+
+<style is:global>
+  @media print {
+    header:not(.resume header), footer, .scroll-cue, nav { display: none !important; }
+    body { background: #fff !important; color: #111 !important; }
+    .resume, .resume * { color: #111 !important; border-color: #ccc !important; }
+    .resume a { text-decoration: none; }
+    .resume { padding-top: 0 !important; }
+  }
+</style>

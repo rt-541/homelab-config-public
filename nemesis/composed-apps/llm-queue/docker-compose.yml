@@ -1,0 +1,61 @@
+services:
+  llm-queue:
+    build: .
+    image: llm-queue:local
+    container_name: llm-queue
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - /docker/llm-queue/data:/data
+    # Ollama (CPU backend) binds the docker0 gateway on the host; reach it via
+    # host.docker.internal. The B70 vLLM (GPU) is a different host on the LAN.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - proxy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8080/healthz', timeout=4).status==200 else 1)"]
+      interval: 30s
+      timeout: 6s
+      retries: 3
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 512M
+        reservations:
+          memory: 128M
+    labels:
+      - "autoheal=true"
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.llm-queue.rule=Host(`queue.rt-541.io`)"
+      - "traefik.http.routers.llm-queue.entrypoints=secure"
+      - "traefik.http.routers.llm-queue.tls.certresolver=default"
+      # PUBLIC (Phase B): no lan-only — the LiteLLM virtual key is the gate.
+      # Defense-in-depth: per-source rate limit + global in-flight cap.
+      - "traefik.http.routers.llm-queue.middlewares=queue-ratelimit@docker,queue-inflight@docker"
+      - "traefik.http.middlewares.queue-ratelimit.ratelimit.average=30"
+      - "traefik.http.middlewares.queue-ratelimit.ratelimit.burst=15"
+      - "traefik.http.middlewares.queue-inflight.inflightreq.amount=20"
+      - "traefik.http.services.llm-queue.loadbalancer.server.port=8080"
+
+  # Label-scoped autoheal: restarts only containers in this stack that carry
+  # `autoheal=true` AND report an unhealthy healthcheck (the llm-queue /healthz).
+  llm-queue-autoheal:
+    image: willfarrell/autoheal:latest
+    container_name: llm-queue-autoheal
+    restart: unless-stopped
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: autoheal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  # TODO (deferred for the MVP, per the sidecar menu): offen/docker-volume-backup
+  # of /docker/llm-queue/data, amir20/dozzle log viewer, and a Discord
+  # start/stop notifier. Add once the queue is exercised in anger.
+
+networks:
+  proxy:
+    external: true

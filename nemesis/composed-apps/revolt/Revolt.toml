@@ -1,0 +1,18 @@
+# All secrets are stored in secrets.env
+# Any configuration added to this file will be overwritten by generate_config on run; however,
+# the script will back up your old configuration so you can copy over your old configuration
+# values if needed.
+[hosts]
+app = "https://chat.rt-541.io"
+api = "https://chat.rt-541.io/api"
+events = "wss://chat.rt-541.io/ws"
+autumn = "https://chat.rt-541.io/autumn"
+january = "https://chat.rt-541.io/january"
+
+[hosts.livekit]
+worldwide = "wss://chat.rt-541.io/livekit"
+
+[api.livekit.nodes.worldwide]
+url = "http://livekit:7880"
+lat = 0.0
+lon = 0.0

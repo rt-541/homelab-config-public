@@ -24,7 +24,7 @@ api:
 serversTransport:
   insecureSkipVerify: true
 log:
-  level: DEBUG
+  level: INFO
 accessLog:
   filePath: "/logs/access.log"
   format: json

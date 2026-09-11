@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { pathToFileURL } from 'node:url';
 import { PLACEHOLDER } from './regen-i18n.ts';
 
 test('test runner works', () => {
@@ -135,7 +136,7 @@ test('emitUiTs: emitted source imports cleanly and matches input', async () => {
   const file = join(dir, `ui-${Date.now()}.ts`);
   try {
     writeFileSync(file, src, 'utf8');
-    const mod = await import(file);
+    const mod = await import(pathToFileURL(file).href);
     assert.deepEqual(mod.t.en, dict.en);
     for (const lang of ['en', 'ja', 'ko', 'zh', 'es', 'de']) {
       assert.deepEqual(Object.keys(mod.t[lang]), Object.keys(dict.en));
@@ -157,7 +158,7 @@ test('emitUiTs: round-trips awkward characters (quotes, newlines, backslash)', a
   const file = join(dir, `ui-${Date.now()}.ts`);
   try {
     writeFileSync(file, src, 'utf8');
-    const mod = await import(file);
+    const mod = await import(pathToFileURL(file).href);
     assert.equal(mod.t.en.msg, tricky);
   } finally {
     rmSync(dir, { recursive: true, force: true });
@@ -178,7 +179,7 @@ test('emitUiTs: preserves key order from en', async () => {
   const file = join(dir, `ui-${Date.now()}.ts`);
   try {
     writeFileSync(file, src, 'utf8');
-    const mod = await import(file);
+    const mod = await import(pathToFileURL(file).href);
     assert.deepEqual(Object.keys(mod.t.ja), ['z', 'a', 'm']);
   } finally {
     rmSync(dir, { recursive: true, force: true });
@@ -293,16 +294,32 @@ function writeSourceUi(path: string): void {
   writeFileSync(path, SOURCE_UI_TS, 'utf8');
 }
 
+// Per-language outputs that pass the always-on programmatic gate
+// (correct script, not identical to the English source).
+const VALID_BY_LANG: Record<string, string> = {
+  Japanese: 'こんにちは',
+  Korean: '안녕하세요',
+  'Mandarin Chinese': '你好',
+  Spanish: 'hola',
+  German: 'hallo',
+};
+
+function validContentFor(systemPrompt: string): string {
+  for (const [name, value] of Object.entries(VALID_BY_LANG)) {
+    if (systemPrompt.includes(name)) return value;
+  }
+  throw new Error(`no language name found in prompt: ${systemPrompt.slice(0, 80)}`);
+}
+
 test('runRegen: cold cache, mock Ollama up, fills cache and emits ui.ts', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'regen-cold-'));
   const uiTsPath = join(dir, 'ui.ts');
   const cachePath = join(dir, 'cache.json');
   writeSourceUi(uiTsPath);
-  let calls = 0;
-  const mock = await startMock((_req, res) => {
-    calls++;
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ message: { content: '<think>x</think>T' } }));
+  let chatCalls = 0;
+  const mock = await startBodyMock((body, _url, res) => {
+    chatCalls++;
+    jsonContent(res, `<think>x</think>${validContentFor(body.messages[0].content)}`);
   });
   try {
     const result = await runRegen({
@@ -312,14 +329,17 @@ test('runRegen: cold cache, mock Ollama up, fills cache and emits ui.ts', async 
       retryDelays: [10, 10, 10],
     });
     assert.equal(result.failures, 0);
-    // 2 keys x 5 non-en langs = 10 calls, plus 1 probe at /api/tags = 11 total HTTP calls
-    assert.equal(calls, 11);
+    // 2 keys x 5 non-en langs = 10 chat calls (single attempt each)
+    assert.equal(chatCalls, 10);
     const cache = JSON.parse(readSync(cachePath, 'utf8'));
+    const expect: Record<string, string> = {
+      ja: 'こんにちは', ko: '안녕하세요', zh: '你好', es: 'hola', de: 'hallo',
+    };
     for (const lang of ['ja','ko','zh','es','de']) {
-      assert.equal(cache[lang].greeting.value, 'T');
-      assert.equal(cache[lang].farewell.value, 'T');
+      assert.equal(cache[lang].greeting.value, expect[lang]);
+      assert.equal(cache[lang].farewell.value, expect[lang]);
     }
-    const mod = await import(uiTsPath);
+    const mod = await import(pathToFileURL(uiTsPath).href);
     for (const lang of ['en','ja','ko','zh','es','de']) {
       assert.deepEqual(Object.keys(mod.t[lang]), ['greeting','farewell']);
     }
@@ -357,7 +377,7 @@ test('runRegen: warm cache makes zero Ollama chat calls', async () => {
     });
     assert.equal(chatCalls, 0);
     assert.equal(result.failures, 0);
-    const mod = await import(uiTsPath);
+    const mod = await import(pathToFileURL(uiTsPath).href);
     assert.equal(mod.t.ja.greeting, 'ja-hello');
   } finally {
     await mock.close();
@@ -716,13 +736,43 @@ test('runRegen gate: all attempts fail -> not cached, counted as failure', async
   }
 });
 
-test('runRegen gate OFF: single attempt, no judge calls, caches as-is', async () => {
+test('runRegen gate OFF: single attempt when output passes Layer 1, no judge calls', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'regen-gate-off-'));
   const uiTsPath = join(dir, 'ui.ts');
   const cachePath = join(dir, 'cache.json');
   writeSourceUi(uiTsPath);
   let trCalls = 0, jdCalls = 0;
   const mock = await startBodyMock((body, _url, res) => {
+    if (body.model === 'tr') { trCalls++; jsonContent(res, 'こんにちは'); }
+    else { jdCalls++; jsonContent(res, 'PASS'); }
+  });
+  try {
+    const result = await runRegen({
+      uiTsPath, cachePath,
+      ollamaUrl: `http://127.0.0.1:${mock.port}`,
+      ollamaModel: 'tr', judgeModel: 'jd',
+      // gateEnabled omitted -> judge off; programmatic gate always runs
+      targetLangs: ['ja'], keyPrefix: 'greet', retryDelays: [10, 10, 10],
+    });
+    assert.equal(result.hits, 1);
+    assert.equal(trCalls, 1);
+    assert.equal(jdCalls, 0);
+    const cache = JSON.parse(readSync(cachePath, 'utf8'));
+    assert.equal(cache.ja.greeting.value, 'こんにちは');
+  } finally {
+    await mock.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('runRegen gate OFF: programmatic gate still rejects invalid output after retries', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'regen-gate-off-reject-'));
+  const uiTsPath = join(dir, 'ui.ts');
+  const cachePath = join(dir, 'cache.json');
+  writeSourceUi(uiTsPath);
+  let trCalls = 0, jdCalls = 0;
+  const mock = await startBodyMock((body, _url, res) => {
+    // English passthrough: identical to source AND missing ja script.
     if (body.model === 'tr') { trCalls++; jsonContent(res, 'hello'); }
     else { jdCalls++; jsonContent(res, 'PASS'); }
   });
@@ -731,16 +781,65 @@ test('runRegen gate OFF: single attempt, no judge calls, caches as-is', async ()
       uiTsPath, cachePath,
       ollamaUrl: `http://127.0.0.1:${mock.port}`,
       ollamaModel: 'tr', judgeModel: 'jd',
-      // gateEnabled omitted -> off
       targetLangs: ['ja'], keyPrefix: 'greet', retryDelays: [10, 10, 10],
     });
-    assert.equal(result.hits, 1);
-    assert.equal(trCalls, 1);
+    assert.equal(result.hits, 0);
+    assert.equal(result.failures, 1);
+    assert.equal(trCalls, 3);  // default maxAttempts, judge gate off
     assert.equal(jdCalls, 0);
-    const cache = JSON.parse(readSync(cachePath, 'utf8'));
-    assert.equal(cache.ja.greeting.value, 'hello'); // passthrough cached: today's behavior
+    assert.equal(existsSyncCheck(cachePath), false); // nothing accepted, nothing saved
   } finally {
     await mock.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('runRegen --force scoped: retranslates in scope, preserves everything else', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'regen-force-scope-'));
+  const uiTsPath = join(dir, 'ui.ts');
+  const cachePath = join(dir, 'cache.json');
+  writeSourceUi(uiTsPath);
+  const warm: Cache = {};
+  for (const lang of ['ja','ko','zh','es','de']) {
+    warm[lang] = {
+      greeting: { hash: hashEn('hello'), value: `${lang}-hello` },
+      farewell: { hash: hashEn('bye'), value: `${lang}-bye` },
+    };
+  }
+  writeFileSync(cachePath, JSON.stringify(warm), 'utf8');
+  const mock = await startBodyMock((_body, _url, res) => jsonContent(res, 'やあ'));
+  try {
+    const result = await runRegen({
+      uiTsPath, cachePath,
+      ollamaUrl: `http://127.0.0.1:${mock.port}`,
+      ollamaModel: 'm',
+      force: true, targetLangs: ['ja'], keyPrefix: 'greet',
+      retryDelays: [10, 10, 10],
+    });
+    assert.equal(result.hits, 1);
+    const cache = JSON.parse(readSync(cachePath, 'utf8'));
+    assert.equal(cache.ja.greeting.value, 'やあ');       // forced, in scope
+    assert.equal(cache.ja.farewell.value, 'ja-bye');     // out of key scope: preserved
+    assert.equal(cache.es.greeting.value, 'es-hello');   // out of lang scope: preserved
+    assert.equal(cache.de.farewell.value, 'de-bye');
+    // Scoped runs now re-emit ui.ts too (previously left stale).
+    assert.equal(result.touchedUiTs, true);
+    const mod = await import(pathToFileURL(uiTsPath).href);
+    assert.equal(mod.t.ja.greeting, 'やあ');
+    assert.equal(mod.t.es.greeting, 'es-hello');
+  } finally {
+    await mock.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('loadCache: corrupt JSON fails loud instead of returning {}', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'cache-corrupt-'));
+  const cachePath = join(dir, 'cache.json');
+  writeFileSync(cachePath, '{"ja": {"k": {truncated', 'utf8');
+  try {
+    assert.throws(() => loadCache(cachePath), /restore it with/i);
+  } finally {
     rmSync(dir, { recursive: true, force: true });
   }
 });

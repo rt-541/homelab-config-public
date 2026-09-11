@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}job {{ job.id[:8] }} · llm-queue{% endblock %}
+{% block body %}
+<div class="panel"
+     {% if job.status in ("queued","running") %}hx-get="/jobs/{{ job.id }}" hx-trigger="every 2s" hx-select=".panel" hx-swap="outerHTML"{% endif %}>
+  <h2 style="margin-top:0;">Job <code>{{ job.id[:8] }}</code>
+    <span class="pill s-{{ job.status }}">{{ job.status }}</span></h2>
+  <p class="muted">
+    backend: <strong>{{ job.alias }}</strong> / {{ job.tier }} ·
+    {% if job.position is not none %}position: {{ job.position }} ·{% endif %}
+    created {{ job.created_at[:19] }}
+    {% if job.finished_at %}· finished {{ job.finished_at[:19] }}{% endif %}
+  </p>
+
+  <label>Prompt</label>
+  <pre>{{ job.prompt }}</pre>
+
+  {% if job.result %}
+  <label>Result <button type="button" style="font-size:.75rem;padding:.2rem .6rem;"
+      onclick="navigator.clipboard.writeText(document.getElementById('res').innerText)">copy</button></label>
+  <pre id="res">{{ job.result }}</pre>
+  {% endif %}
+  {% if job.error %}
+  <label style="color:var(--bad);">Error</label>
+  <pre style="border-color:var(--bad);">{{ job.error }}</pre>
+  {% endif %}
+
+  {% if job.status in ("queued",) %}
+  <form method="post" action="/jobs/{{ job.id }}/cancel" style="margin-top:1rem;">
+    <button type="submit" style="background:var(--bad);color:#fff;">Cancel</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

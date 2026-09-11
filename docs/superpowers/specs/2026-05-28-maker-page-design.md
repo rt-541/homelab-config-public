@@ -75,7 +75,7 @@ The RTSP URL is a LAN address with no credentials, so it lives in the config fil
 
 ### DNS
 
-`cam.rt-541.io` is already covered by the public wildcard `*.rt-541.io` → 68.48.142.234. Add a Pi-hole local record `cam.rt-541.io` → 192.168.1.214 for internal resolution (same pattern as the other services), via the Pi-hole v6 API at `http://localhost:6969/api`.
+`cam.rt-541.io` is already covered by the public wildcard `*.rt-541.io` → CHANGEME. Add a Pi-hole local record `cam.rt-541.io` → 192.168.1.214 for internal resolution (same pattern as the other services), via the Pi-hole v6 API at `http://localhost:6969/api`.
 
 ### Privacy and bandwidth (explicitly accepted)
 

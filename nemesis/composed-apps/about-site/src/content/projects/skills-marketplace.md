@@ -1,6 +1,6 @@
 ---
 title: "AI agent skills marketplace"
-order: 7
+order: 9
 status: redacted
 summary: "An internal marketplace for sharing governed AI agent skills across an engineering org. Details redacted."
 ---

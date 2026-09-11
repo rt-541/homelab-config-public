@@ -1,0 +1,70 @@
+services:
+  llm-gateway:
+    image: ghcr.io/berriai/litellm:main-stable
+    container_name: llm-gateway
+    restart: unless-stopped
+    env_file: .env
+    command: ["--config", "/app/config.yaml", "--port", "4000"]
+    environment:
+      DATABASE_URL: "postgresql://litellm:${POSTGRES_PASSWORD}@llm-gateway-db:5432/litellm"
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - proxy
+      - llm-gateway-internal
+    depends_on:
+      llm-gateway-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:4000/health/liveliness', timeout=4).status==200 else 1)"]
+      interval: 30s
+      timeout: 6s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "autoheal=true"
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.llm-gateway.rule=Host(`llm-gateway.rt-541.io`)"
+      - "traefik.http.routers.llm-gateway.entrypoints=secure"
+      - "traefik.http.routers.llm-gateway.tls.certresolver=default"
+      - "traefik.http.routers.llm-gateway.middlewares=lan-only@docker"
+      - "traefik.http.services.llm-gateway.loadbalancer.server.port=4000"
+      # lan-only is defined once on the traefik container; only reference it here.
+
+  llm-gateway-db:
+    image: postgres:16-alpine
+    container_name: llm-gateway-db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_DB: litellm
+      POSTGRES_USER: litellm
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - /docker/llm-gateway/data/postgres:/var/lib/postgresql/data
+    networks:
+      - llm-gateway-internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U litellm -d litellm"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  llm-gateway-autoheal:
+    image: willfarrell/autoheal:latest
+    container_name: llm-gateway-autoheal
+    restart: unless-stopped
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: autoheal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  proxy:
+    external: true
+  llm-gateway-internal:
+    internal: true

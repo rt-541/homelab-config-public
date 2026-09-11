@@ -14,6 +14,82 @@ This repo is a per-system monorepo (one tree per host):
 - Media/Plex stack lives under `/docker/plex/`
 - On-disk repo path: `/docker/homelab-config` on both hosts
 
+## Network / DNS / DHCP Topology (authoritative — do NOT re-derive)
+
+Do not infer DNS/DHCP authority from on-host Pi-hole state. A Docker `pihole`
+container's `pihole.toml`, its `dhcp.leases` file, and the local ARP table are
+**misleading** here: the nemesis and devastator Pi-holes are non-DHCP
+secondaries with `dhcp.active = false`, so their lease/reservation data is inert
+and stale. Use the facts below as the source of truth.
+
+- **DNS + DHCP authority: the HA Pi-hole pair at VIP `192.168.1.2`.** Both
+  services follow the VIP — the keepalived MASTER serves them, and they fail
+  over together. The **router's own DHCP is OFF**; the router does not hand out
+  leases or hold reservations.
+  - `dns-incomm` `.3` (node incomm, keepalived MASTER) and `dns-sienar` `.4`
+    (node sienar, BACKUP). Privileged Debian 12 LXCs, native **Pi-hole v6**.
+- **DHCP reservations** (MAC -> fixed IP) and **DNS records** live on the HA
+  pair, in Pi-hole **v6 `pihole.toml dns.hosts`** / v6 DHCP config. Edit on the
+  primary `.3`; `nebula-sync` replicates to `.4`. The pair is managed from the
+  `kuat-drive-yards` repo on the control plane (**tarkin**) — see its CLAUDE.md.
+- **DEAD MECHANISM — do not use:** this repo's `ansible/pihole-dns.yml` +
+  `ansible/vars/dns-entries.yml` + `custom.list` is the **v5** path and is a
+  **no-op on the live v6 Pi-holes**. Editing it publishes nothing. The old
+  nemesis Pi-hole `.214` (which it targeted) is decommissioned/unreachable.
+- **Auto DNS from DHCP:** Pi-hole v6 registers leased hostnames under
+  `rt-541.io`, so `<host>.rt-541.io` resolves to that host's **current lease IP**
+  automatically — a name tracks the lease, not a fixed IP. Pin the IP with a
+  reservation to make the name stable.
+- **PREFER DNS NAMES OVER HARDCODED IPs when reaching a host (ssh/scp/curl):**
+  use `<host>.rt-541.io`, not a baked-in `192.168.1.x`. DNS follows the current
+  lease, so it keeps working when a reservation drifts or hasn't applied; a
+  hardcoded "pinned" IP goes stale and fails (observed 2026-06-15: roci's pinned
+  `192.168.1.247` gave "No route to host" while `rocinante.rt-541.io` connected).
+  The ONE exception is the `lan-only` source-IP allowlist below, which genuinely
+  needs a fixed IP.
+- `*.rt-541.io` is a **wildcard** -> Traefik host `192.168.1.214` on the HA
+  Pi-hole, so new web services need NO per-service DNS record. Service vhost
+  entries in `dns-entries.yml` point at `server_ip` (`.214`); host records (a
+  machine itself) use the machine's own IP.
+- **Traefik access control matches source IP only.** The `lan-only@docker`
+  middleware uses `ipallowlist.sourcerange` — it never resolves names, so a
+  DNS name/CNAME does NOT make an allowlist "follow a host." Allowlisted hosts
+  need a **stable IP** (DHCP reservation), e.g. azure-dragon `.164`, rocinante
+  `.247`.
+
+## External Exposure / Public Ingress (authoritative — do NOT re-derive)
+
+The fleet already has a working public ingress; do not ask how to expose a
+service externally — follow this.
+
+- **Single edge: Traefik on nemesis `192.168.1.214`.** It terminates TLS for
+  all `*.rt-541.io` via a **Cloudflare DNS-challenge wildcard cert**
+  (`certResolver: default`). Public DNS for the `rt-541.io` zone is on
+  Cloudflare; internally the wildcard `*.rt-541.io` resolves to `.214` (HA
+  Pi-hole). So a new web service needs **no per-service DNS record**, public or
+  private.
+- **The internet-facing entrypoint is `secure:443`** (`asDefault: true`, HTTP/3
+  on). Port 443 is forwarded from the router to nemesis `.214`. The `web:80`
+  entrypoint just 301-redirects to `secure`.
+- **A service is LAN-only iff its router carries the `lan-only@docker`
+  middleware.** That middleware is the ONLY thing keeping a `secure:443` service
+  internal. **To expose a service to the internet, drop `lan-only@docker` from
+  that router** (Docker-label apps: remove the middleware label; file-provider
+  apps under `traefik/config/*.yml`: remove the `middlewares` line). Everything
+  is exposed-by-`secure` already; the allowlist is the gate.
+- **Defense-in-depth for a public router:** the edge service is the bearer/login
+  on the app itself; add Traefik `ratelimit` + `inflightreq` middleware on the
+  public router. Cloudflare orange-cloud (WAF / edge rate-limit / hides origin)
+  is available on the zone.
+- **Dormant second entrypoint pair `public-web:10080` / `public-secure:10443`**
+  exists for stronger *entrypoint-level* isolation (a separate port-forward that
+  carries only public routers). Currently unused — all traffic rides
+  `secure:443`. Activate it only if you want public traffic on its own
+  entrypoint rather than sharing `secure` with LAN services.
+- **Cross-host apps** (containers not on nemesis, e.g. `<host>`) are
+  wired in via Traefik's **file provider** (`traefik/config/<host>-<app>.yml`),
+  not Docker labels — same `secure` entrypoint, same `lan-only`-to-gate rule.
+
 ## When Creating a New Containerized App
 
 When the user asks to create a new Docker Compose app, **always ask** which sidecars they want using AskUserQuestion with multiSelect. Present the following options:

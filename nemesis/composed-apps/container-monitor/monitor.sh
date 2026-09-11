@@ -120,6 +120,15 @@ notify_event() {
       color=$(get_config_value "$name" "color_start")
       title="${emoji} ${display_name} Started"
       desc=$(get_config_value "$name" "start_message")
+      # start_message_env lets the message live in an env var (e.g. it
+      # contains a join password that must stay out of config.yml)
+      local msg_env
+      msg_env=$(yq e ".overrides.\"${name}\".start_message_env // \"\"" "$CONFIG" 2>/dev/null)
+      if [ -n "$msg_env" ] && [ "$msg_env" != "null" ]; then
+        local msg_val
+        eval "msg_val=\${${msg_env}:-}"
+        [ -n "$msg_val" ] && desc="$msg_val"
+      fi
       ;;
     stop)
       local emoji

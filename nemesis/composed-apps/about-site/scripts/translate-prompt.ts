@@ -15,7 +15,7 @@ export const KEEP_VERBATIM_BRANDS: readonly string[] = [
   'RCON', 'AWS Bedrock', 'Ansible Automation Platform', 'OpenShift',
   'MCP', 'Model Context Protocol', 'Pi-hole', 'ADR', 'OpenNMT',
   'Red Hat Satellite', 'RHEL', 'kickstart', 'runbook', 'RT-541',
-  'Prusa', 'Build 42',
+  'Prusa', 'Build 42', 'Advent Harvest', 'ChurnCore',
 ];
 
 // Game titles + fictional/lore proper nouns. The translator prompt still asks to
@@ -42,45 +42,60 @@ export interface ChatMessage {
   content: string;
 }
 
-const REGISTER_NOTES = `Register per language:
-  ja: ですます調, natural omission of subjects, 私 only when needed
-  ko: 합니다체 (격식체), 저 only when needed, natural ellipsis
-  zh: 书面语 but conversational, avoid over-explicit 我/的
-  es: tuteo (tú), neutral Spain/LatAm where possible, no usted
-  de: du form, no Sie, no needless nominalization`;
+export const REGISTER_BY_LANG: Record<TargetLang, string> = {
+  ja: 'ですます調, natural omission of subjects, 私 only when needed',
+  ko: '합니다체 (격식체), 저 only when needed, natural ellipsis',
+  zh: '书面语 but conversational, avoid over-explicit 我/的',
+  es: 'tuteo (tú), neutral Spain/LatAm where possible, no usted',
+  de: 'du form, no Sie, no needless nominalization',
+};
+
+export interface RetryFeedback { value: string; reason: string }
 
 export function buildPrompt(
   enValue: string,
   lang: TargetLang,
   keepVerbatim: readonly string[] = KEEP_VERBATIM,
+  context?: string,
+  feedback?: RetryFeedback,
 ): ChatMessage[] {
   const langName = LANG_NAMES[lang];
+  // Only mention tokens that actually appear in this string: for a 7b model,
+  // ~55 unrelated tokens dilute the one instruction that matters.
+  const relevant = keepVerbatim.filter(t => enValue.includes(t));
   const system = `You are a professional translator. Translate the user's English text to ${langName}.
 
 Match the source register: short labels stay short, prose stays as prose, "// section" labels keep the // prefix verbatim.
 
-${REGISTER_NOTES}
-
-Output ONLY the translation. No explanation, no preamble, no quotation marks around the translation.
-
-Preserve these tokens verbatim, untranslated: ${keepVerbatim.join(', ')}.`;
-  return [
+Register: ${REGISTER_BY_LANG[lang]}
+${context ? `\nContext: ${context}\n` : ''}
+Output ONLY the translation. No explanation, no preamble, no quotation marks around the translation.${relevant.length > 0 ? `\n\nPreserve these tokens verbatim, untranslated: ${relevant.join(', ')}.` : ''}`;
+  const messages: ChatMessage[] = [
     { role: 'system', content: system },
     { role: 'user', content: enValue },
   ];
+  if (feedback) {
+    messages.push({
+      role: 'user',
+      content: `A previous translation was: ${feedback.value}\nIt was rejected because: ${feedback.reason}\nProvide only a corrected translation.`,
+    });
+  }
+  return messages;
 }
 
 export function buildJudgePrompt(
   en: string,
   candidate: string,
   lang: TargetLang,
+  keepVerbatim: readonly string[] = [],
 ): ChatMessage[] {
   const langName = LANG_NAMES[lang];
+  const relevant = keepVerbatim.filter(t => en.includes(t));
   const system = `You are a strict translation reviewer. You are given an English source and a candidate ${langName} translation. Reply with EXACTLY one of:
 PASS
 FAIL: <short reason>
 
-Judge only accuracy and natural phrasing. Output nothing else.`;
+Judge accuracy and natural phrasing. Expected register: ${REGISTER_BY_LANG[lang]}.${relevant.length > 0 ? ` These tokens must appear verbatim in the candidate: ${relevant.join(', ')}.` : ''} Output nothing else.`;
   const user = `English: ${en}\nCandidate (${langName}): ${candidate}`;
   return [
     { role: 'system', content: system },

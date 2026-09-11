@@ -1,0 +1,122 @@
+# Recyclarr configuration - plex-ops prevention layer.
+#
+# Scores down the junk classes observed in the 2026-09-10 queue audit
+# (malware-bait .exe/.scr/.rar releases from no-name groups, fake 4K / AI
+# upscales, wrong-language grabs) and pins the quality profiles so
+# below-cutoff re-grab churn stops.
+#
+# Mechanism: every custom format below carries the TRaSH default score of
+# -10000 (scores are omitted, so they track the guides). Combined with
+# min_format_score: 0 on the profile, any release matching one of these
+# formats scores below the minimum and is REJECTED at grab time - the junk
+# never reaches the queue.
+#
+# Profile names were read from the live Sonarr/Radarr databases on
+# 2026-09-10. NOTE: the in-use profile names really do contain trailing
+# spaces ("HD - 720p/1080p + ", "HD-1080p + ") - keep the quotes exact or
+# recyclarr will not find the profile.
+#
+# trash_ids verified against TRaSH-Guides master, 2026-09-10.
+
+sonarr:
+  nemesis-sonarr:
+    base_url: http://sonarr:8989
+    api_key: !env_var SONARR_API_KEY
+
+    # Both arrs had zero pre-existing custom formats (verified 2026-09-10),
+    # so recyclarr owns the CF namespace outright.
+    delete_old_custom_formats: true
+    replace_existing_custom_formats: true
+
+    # Profile hygiene: the live profile upgraded "until HDTV-2160p", which is
+    # what kept re-grabbing toward 2160p (the 1080p-over-2160p queue waste).
+    # Cap upgrades at the WEB 1080p group; min_format_score 0 makes the
+    # negative custom formats below act as hard blocks.
+    quality_profiles:
+      - name: "HD - 720p/1080p + "
+        min_format_score: 0
+        upgrade:
+          allowed: true
+          until_quality: WEB 1080p
+          until_score: 10000
+
+    custom_formats:
+      # --- Malware-prone / no-name release groups ---------------------------
+      # Blocks the malware-bait grab class (.exe/.scr/.rar payload releases
+      # ride on retagged, obfuscated, or groupless uploads).
+      - trash_ids:
+          - 9c11cd3f07101cdba90a2d81cf0e56b4 # LQ
+          - e2315f990da2e2cbfc9fa5b7a6fcfe48 # LQ (Release Title)
+          - 82d40da2bc6923f41e14394075dd4b03 # No-RlsGroup
+          - e1a997ddb54e3ecbfe06341ad323c458 # Obfuscated
+          - 06d66ab109d4d2eddb2794d21526d140 # Retags
+        assign_scores_to:
+          - name: "HD - 720p/1080p + "
+          - name: Any
+
+      # --- Upscaled / junk-encode releases ----------------------------------
+      # Blocks fake 4K / AI upscales, AV1 re-encodes, raw BR-DISK dumps, and
+      # extras-mislabeled-as-episodes (the hollow-file class).
+      - trash_ids:
+          - 23297a736ca77c0fc8e70f8edd7ee56c # Upscaled
+          - 15a05bc7c1a36e2b57fd628f8977e2fc # AV1
+          - 85c61753df5da1fb2aab6f2a47426b09 # BR-DISK
+          - fbcb31d8dabd2a319072b84fc0b7249c # Extras
+        assign_scores_to:
+          - name: "HD - 720p/1080p + "
+          - name: Any
+
+      # --- Wrong-language releases ------------------------------------------
+      # "Not Original" (rather than "Not English") so foreign-original series
+      # tracked on purpose stay grabbable in their native audio.
+      - trash_ids:
+          - ae575f95ab639ba5d15f663bf019e3e8 # Language: Not Original
+        assign_scores_to:
+          - name: "HD - 720p/1080p + "
+          - name: Any
+
+radarr:
+  nemesis-radarr:
+    base_url: http://radarr:7878
+    api_key: !env_var RADARR_API_KEY
+
+    delete_old_custom_formats: true
+    replace_existing_custom_formats: true
+
+    # Profile hygiene: upgrades are already OFF on the live profile (a movie
+    # with any file is complete - no 720p-over-1080p re-grab churn). Pin that
+    # here so it cannot drift, and enforce the junk-block score floor.
+    quality_profiles:
+      - name: "HD-1080p + "
+        min_format_score: 0
+        upgrade:
+          allowed: false
+
+    custom_formats:
+      # --- Malware-prone / no-name release groups ---------------------------
+      - trash_ids:
+          - 90a6f9a284dff5103f6346090e6280c8 # LQ
+          - e204b80c87be9497a8a6eaff48f72905 # LQ (Release Title)
+          - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5 # No-RlsGroup
+          - 7357cf5161efbf8c4d5d0c30b4815ee2 # Obfuscated
+          - 5c44f52a8714fdd79bb4d98e2673be1f # Retags
+        assign_scores_to:
+          - name: "HD-1080p + "
+          - name: Any
+
+      # --- Upscaled / junk-encode releases ----------------------------------
+      - trash_ids:
+          - bfd8eb01832d646a0a89c4deb46f8564 # Upscaled
+          - cae4ca30163749b891686f95532519bd # AV1
+          - ed38b889b31be83fda192888e2286d83 # BR-DISK
+          - 0a3f082873eb454bde444150b70253cc # Extras
+        assign_scores_to:
+          - name: "HD-1080p + "
+          - name: Any
+
+      # --- Wrong-language releases ------------------------------------------
+      - trash_ids:
+          - d6e9318c875905d6cfb5bee961afcea9 # Language: Not Original
+        assign_scores_to:
+          - name: "HD-1080p + "
+          - name: Any

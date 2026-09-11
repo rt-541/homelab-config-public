@@ -36,10 +36,24 @@ services:
       # Also note that dollar signs should NOT be doubled when they are not evaluated (e.g. Ansible docker_container module).
       traefik.http.middlewares.traefik-auth.basicauth.users: ${TRAEFIK_BASIC_AUTH}
       traefik.http.routers.traefik.middlewares: traefik-auth
+      # Single authoritative definition of the shared `lan-only@docker` middleware
+      # (LAN + loopback source-IP allowlist). Defined HERE on the always-up traefik
+      # container so it never conflicts. App stacks must only REFERENCE
+      # `lan-only@docker`, never redefine it — duplicate definitions across
+      # containers make Traefik intermittently drop the whole docker config
+      # ("Middleware defined multiple times with different configurations").
+      traefik.http.middlewares.lan-only.ipallowlist.sourcerange: "192.168.1.0/24,127.0.0.1/32"
     environment:
       CF_API_EMAIL: ${CF_API_EMAIL}
       CF_API_KEY: ${CF_API_KEY}
       CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
+      # The rt-541.io zone has a wildcard CNAME (*.rt-541.io -> rt-541.io) that also
+      # shadows every _acme-challenge.<svc>.rt-541.io name. With lego's default CNAME
+      # following, all DNS-01 tokens get written to the shared apex rt-541.io TXT and
+      # collide (across nemesis AND devastator Traefik), causing "Incorrect TXT record".
+      # Disabling CNAME following makes lego write explicit _acme-challenge.<svc> records
+      # (which override the wildcard), so each domain validates independently.
+      LEGO_DISABLE_CNAME_SUPPORT: "true"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/traefik.yml

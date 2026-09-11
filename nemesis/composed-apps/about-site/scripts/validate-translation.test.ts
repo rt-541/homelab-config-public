@@ -103,3 +103,33 @@ test('english passthrough fails for a latin target too', () => {
   assert.equal(r.ok, false);
   assert.match(r.reason!, /identical/i);
 });
+
+import { KEEP_VERBATIM_BRANDS } from './translate-prompt.ts';
+
+test('brand-exact source passes through verbatim in any language', () => {
+  assert.equal(validateProgrammatic('Advent Harvest', 'Advent Harvest', 'ja', KEEP_VERBATIM_BRANDS).ok, true);
+  assert.equal(validateProgrammatic('Advent Harvest', 'Advent Harvest', 'de', KEEP_VERBATIM_BRANDS).ok, true);
+});
+
+test('brand-exact source rejects transliteration', () => {
+  const r = validateProgrammatic('アドベントハーベスト', 'Advent Harvest', 'ja', KEEP_VERBATIM_BRANDS);
+  assert.equal(r.ok, false);
+  assert.match(r.reason!, /verbatim/i);
+});
+
+test('identical-but-correct cognate passes for capitalized latin labels', () => {
+  assert.equal(validateProgrammatic('Status', 'Status', 'de', KEEP_VERBATIM_BRANDS).ok, true);
+  assert.equal(validateProgrammatic('Chat', 'Chat', 'es', KEEP_VERBATIM_BRANDS).ok, true);
+});
+
+test('one-word answer for a paragraph fails as too short', () => {
+  const en = 'Each server is a Docker Compose service with its own resource limits and scheduled backups so everything stays reproducible.';
+  const r = validateProgrammatic('サーバー', en, 'ja', []);
+  assert.equal(r.ok, false);
+  assert.match(r.reason!, /short/i);
+});
+
+test('CJK fullwidth punctuation is allowed', () => {
+  const r = validateProgrammatic('こんにちは。「世界」！', 'hello, "world"!', 'ja', []);
+  assert.equal(r.ok, true);
+});

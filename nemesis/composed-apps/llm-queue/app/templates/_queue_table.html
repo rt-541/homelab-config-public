@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr><th>Job</th><th>Backend</th><th>Status</th><th>Pos</th><th>Created</th></tr>
+  </thead>
+  <tbody>
+    {% for j in jobs %}
+    <tr>
+      <td><a href="/jobs/{{ j.id }}"><code>{{ j.id[:8] }}</code></a></td>
+      <td>{{ j.alias }} <span class="muted">/ {{ j.tier }}</span></td>
+      <td><span class="pill s-{{ j.status }}">{{ j.status }}</span></td>
+      <td>{{ j.position if j.position is not none else "—" }}</td>
+      <td class="muted">{{ j.created_at[:19] }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="muted">No jobs yet. <a href="/submit">Submit one</a>.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>

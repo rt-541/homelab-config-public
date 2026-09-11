@@ -6,6 +6,7 @@ const isActive = (href: string) =>
   href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
 
 const nav: { href: string; label: string }[] = [
+  { href: '/resume', label: 'resume' },
   { href: '/experience', label: 'experience' },
   { href: '/projects', label: 'projects' },
   { href: '/gaming', label: 'gaming' },

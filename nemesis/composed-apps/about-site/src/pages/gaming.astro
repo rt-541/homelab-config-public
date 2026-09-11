@@ -13,7 +13,7 @@ const runningNow: { key: string; game: string; detail: string; join: string; joi
     key: 'minecraft',
     game: 'Minecraft: All the Mods 9',
     detail: 'Modded survival. Whitelisted, so new players get added by hand.',
-    join: 'whitelist via Discord',
+    join: 'whitelisted on request',
     joinKey: 'gaming.now.minecraft.join',
   },
 ];
@@ -75,7 +75,7 @@ const rotation: string[] = [
   <section class="max-w-2xl mx-auto px-6 pt-12">
     <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4" data-i18n="gaming.label.howItRuns">// how it runs</p>
     <div class="prose-content text-[15px]">
-      <p data-i18n="gaming.howItRuns.p1">Each server is a Docker Compose service with its own resource limits, scheduled compressed backups with rotation, and Discord notifications when it starts or stops. Everything is defined in one git repo, so any server is reproducible from config and nothing important lives only in my head.</p>
+      <p data-i18n="gaming.howItRuns.p1">Each server is a Docker Compose service with its own resource limits, scheduled compressed backups with rotation, and chat notifications when it starts or stops. Everything is defined in one git repo, so any server is reproducible from config and nothing important lives only in my head.</p>
       <p data-i18n="gaming.howItRuns.p2">Zomboid gets extra care: RCON-driven recovery that restores a player's items and XP from a backup without handing back a god character, and world-reset automation that starts a fresh map while preserving progression.</p>
     </div>
   </section>
@@ -83,8 +83,7 @@ const rotation: string[] = [
   <section class="max-w-2xl mx-auto px-6 pt-12">
     <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4" data-i18n="gaming.label.howToJoin">// how to join</p>
     <div class="prose-content text-[15px]">
-      <p data-i18n="gaming.howToJoin.p1">Live status, connection details, and passwords live in our Discord. If you know me and want in, that is where to ask. New Minecraft players get whitelisted by hand.</p>
-      <p>Find me on <a href="https://steamcommunity.com/id/yargblarg">Steam</a>.</p>
+      <p data-i18n="gaming.howToJoin.p1">Live status, connection details, and passwords are shared privately. If you know me and want in, just ask. New Minecraft players get whitelisted by hand.</p>
     </div>
   </section>
 

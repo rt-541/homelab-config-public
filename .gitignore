@@ -2,6 +2,9 @@
 .env
 **/.env
 !**/.env.example
+# Backup copies of env files (e.g. .env.bak-123456) — full secret sets, never commit
+**/.env.bak*
+**/*.env.bak*
 
 minecraft_data
 
@@ -19,3 +22,15 @@ __pycache__/
 # Game-server env files (contain webhooks/passwords); keep on host only
 override.env
 default.env
+
+# --- runtime data / state (host-only, never commit) ---
+nemesis/composed-apps/mealie/postgres/
+nemesis/composed-apps/nemesis-bot/state/
+nemesis/composed-apps/homepage/config/logs/
+
+# Per-app env files with secrets (repo policy: no .env committed)
+**/.env.web
+
+# Local Claude Code agent config
+.claude/
+**/.claude/

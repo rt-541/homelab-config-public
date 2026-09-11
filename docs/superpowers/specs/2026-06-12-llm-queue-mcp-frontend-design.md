@@ -181,3 +181,8 @@ any Claude session without leaving the terminal. Two layers:
 > Interpretation note: "the skill" was inferred to mean this Claude Code skill
 > over the queue/MCP. If you meant something else by "the skill," say so and
 > I'll re-aim it.
+
+## Artifacts produced (2026-06-13)
+
+- Model-selection prompt (LLM-assisted `pick_best_backend` path): `nemesis/composed-apps/llm-queue/prompts/model-selection.md`
+- Claude Code skill: `.claude/skills/llm-job/SKILL.md`

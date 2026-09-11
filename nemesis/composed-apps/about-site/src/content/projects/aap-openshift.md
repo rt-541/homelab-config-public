@@ -1,6 +1,6 @@
 ---
 title: "Multi-tenant Ansible Automation Platform"
-order: 9
+order: 11
 status: redacted
 summary: "Multi-tenant Ansible Automation Platform on OpenShift for org-wide infrastructure automation. Details redacted."
 ---

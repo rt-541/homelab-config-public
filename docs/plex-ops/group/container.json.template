@@ -1,0 +1,18 @@
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://host.docker.internal:8788",
+    "NO_PROXY": "host.docker.internal",
+    "no_proxy": "host.docker.internal",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "4096",
+    "RUNNER_URL": "http://nemesis.rt-541.io:8377",
+    "RUNNER_TOKEN": "__PLEXOPS_TOKEN__"
+  },
+  "blockedHosts": ["api.anthropic.com"],
+  "additionalMounts": [
+    {
+      "hostPath": "/mnt/nemesis-media",
+      "containerPath": "/data",
+      "readOnly": true
+    }
+  ]
+}

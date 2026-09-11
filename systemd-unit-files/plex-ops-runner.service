@@ -1,0 +1,28 @@
+[Unit]
+Description=plex-ops action-runner (probe/action HTTP API for the NanoClaw plex-ops agent)
+Documentation=file:/docker/homelab-config/scripts/plex-ops/README.md
+After=network-online.target docker.service local-fs.target
+Wants=network-online.target
+RequiresMountsFor=/docker/homelab-config
+
+[Service]
+Type=simple
+# Runs as aschneider; all docker/filesystem access inside the runner goes
+# through `sudo -n` (same pattern as the house maintenance scripts).
+User=aschneider
+Group=aschneider
+# Token + optional qbit/plex creds (root:root 0600). Also seeds PORT /
+# RUNNER_ENV overrides if set there.
+EnvironmentFile=/etc/plex-ops/runner.env
+# Launch via python3 (bin_t): the script lives under /docker (SELinux
+# default_t), which init_t may not execute directly - python reads it as data.
+ExecStart=/usr/bin/python3 /docker/homelab-config/scripts/plex-ops/runner.py
+Restart=on-failure
+RestartSec=5
+WorkingDirectory=/docker/homelab-config/scripts/plex-ops
+# The runner is read-only by design; keep the unit modest.
+Nice=5
+IOSchedulingClass=best-effort
+
+[Install]
+WantedBy=multi-user.target

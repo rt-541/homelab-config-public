@@ -187,7 +187,8 @@ check_server() {
   echo "[mod-monitor] ${server}: ${total_stale} stale mod(s), ${new_count} new"
 
   # Read notification config
-  local webhook_env webhook_url username footer auto_restart display_name container_name
+  local webhook_env webhook_url username footer auto_restart display_name container_name notify
+  notify=$(yq e ".mod_monitor.servers.${server}.notify // \"true\"" "$CONFIG" 2>/dev/null)
   webhook_env=$(yq e ".mod_monitor.servers.${server}.webhook_env // \"\"" "$CONFIG" 2>/dev/null)
   if [ -n "$webhook_env" ] && [ "$webhook_env" != "null" ]; then
     eval "webhook_url=\${${webhook_env}:-}"
@@ -207,14 +208,16 @@ check_server() {
     desc=$(printf "%s mod(s) behind Steam Workshop (%s new):\n%s\n⏳ Server restarting to update..." "$total_stale" "$new_count" "$mod_list")
     color=16753920  # Orange
 
-    send_discord_notification "$title" "$color" "$desc" "$username" "$footer" "$webhook_url"
+    # notify: false silences routine stale/restarted messages; restart FAILURES
+    # still alert below since those need a human.
+    [ "$notify" = "false" ] || send_discord_notification "$title" "$color" "$desc" "$username" "$footer" "$webhook_url"
 
     echo "[mod-monitor] Restarting ${container_name}..."
     if docker restart "$container_name" 2>/dev/null; then
       echo "[mod-monitor] ${container_name} restarted successfully"
       # Clear stale state — server will download updates on startup
       rm -f "$state_file"
-      send_discord_notification "✅ ${display_name} — Restarted" 65280 \
+      [ "$notify" = "false" ] || send_discord_notification "✅ ${display_name} — Restarted" 65280 \
         "Server has been restarted to pick up mod updates." \
         "$username" "$footer" "$webhook_url"
     else
@@ -228,7 +231,7 @@ check_server() {
     desc=$(printf "%s mod(s) behind Steam Workshop (%s new):\n%s\nManual restart required to update." "$total_stale" "$new_count" "$mod_list")
     color=16753920  # Orange
 
-    send_discord_notification "$title" "$color" "$desc" "$username" "$footer" "$webhook_url"
+    [ "$notify" = "false" ] || send_discord_notification "$title" "$color" "$desc" "$username" "$footer" "$webhook_url"
   fi
 }
 

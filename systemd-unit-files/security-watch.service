@@ -1,0 +1,13 @@
+[Unit]
+Description=Homelab security IOC watcher (cryptominer / persistence detection)
+After=docker.service local-fs.target
+Wants=network-online.target
+RequiresMountsFor=/docker/homelab-config
+
+[Service]
+Type=oneshot
+# Launch via bash: the script lives under /docker (SELinux default_t), which
+# init_t may not execute directly. bash (bin_t) reads it as data instead.
+ExecStart=/usr/bin/bash /docker/homelab-config/scripts/security-watch/security-watch.sh
+Nice=10
+IOSchedulingClass=idle

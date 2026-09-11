@@ -1,11 +1,19 @@
-import type { TargetLang } from './translate-prompt.ts';
+import { KEEP_VERBATIM_BRANDS, type TargetLang } from './translate-prompt.ts';
 
 export interface GateResult { ok: boolean; reason?: string }
 
 // Output longer than en.length * MAX_LEN_RATIO (but never below MIN_LEN_FLOOR)
-// is treated as ballooning gibberish.
+// is treated as ballooning gibberish. CJK output is usually SHORTER than the
+// English, so those languages get a tighter ratio and floor.
 export const MAX_LEN_RATIO = 4;
 export const MIN_LEN_FLOOR = 40;
+export const CJK_MAX_LEN_RATIO = 2;
+export const CJK_MIN_LEN_FLOOR = 16;
+// Lower bound: a one-word answer for a paragraph is truncation, not translation.
+// Skipped for short labels; capped so long paragraphs never over-demand.
+export const MIN_LEN_RATIO_CJK = 0.2;
+export const MIN_LEN_RATIO_LATIN = 0.5;
+export const MIN_LEN_CAP = 160;
 
 type Range = [number, number];
 
@@ -63,7 +71,27 @@ export function validateProgrammatic(
 
   if (trimmed.length === 0) return { ok: false, reason: 'empty output' };
 
-  if (trimmed.toLowerCase() === en.trim().toLowerCase()) {
+  // A source that IS a hard-verbatim BRAND (e.g. a project title like
+  // "Advent Harvest") must pass through unchanged in every language —
+  // identical output is correct here, and CJK script is not required.
+  // Lore tokens (XP, Saturn, ...) stay translatable when whole-source.
+  const enExact = keepVerbatim.find(
+    t => en.trim() === t && KEEP_VERBATIM_BRANDS.includes(t),
+  );
+  if (enExact !== undefined) {
+    return trimmed === enExact
+      ? { ok: true }
+      : { ok: false, reason: `brand source must stay verbatim: ${enExact}` };
+  }
+
+  // Identical output is sometimes correct for latin targets: cognates and
+  // loanwords like "Status" (de) or "Chat" (es). Heuristic: allow it only for
+  // single-word, capitalized labels (UI labels and German nouns capitalize;
+  // a lazy "hello" passthrough stays rejected).
+  const isCjk = REQUIRES_SCRIPT.includes(lang);
+  const enTrim = en.trim();
+  const identicalOk = !isCjk && !/\s/.test(enTrim) && /^[A-Z]/.test(enTrim);
+  if (!identicalOk && trimmed.toLowerCase() === enTrim.toLowerCase()) {
     return { ok: false, reason: 'identical to source (no translation)' };
   }
 
@@ -80,15 +108,25 @@ export function validateProgrammatic(
   }
 
   for (const token of keepVerbatim) {
-    // Only require the token in output when it appears embedded in a longer en string,
-    // not when the entire source IS the token (which may be legitimately translated).
+    // Whole-source brands returned above; a whole-source LORE token may be
+    // legitimately translated, so only embedded tokens are enforced here.
     if (en.includes(token) && en.trim() !== token && !value.includes(token)) {
       return { ok: false, reason: `dropped verbatim token: ${token}` };
     }
   }
 
-  if (value.length > Math.max(en.length * MAX_LEN_RATIO, MIN_LEN_FLOOR)) {
+  const maxRatio = isCjk ? CJK_MAX_LEN_RATIO : MAX_LEN_RATIO;
+  const maxFloor = isCjk ? CJK_MIN_LEN_FLOOR : MIN_LEN_FLOOR;
+  if (value.length > Math.max(en.length * maxRatio, maxFloor)) {
     return { ok: false, reason: 'output too long (likely gibberish)' };
+  }
+
+  if (en.length >= 10) {
+    const minRatio = isCjk ? MIN_LEN_RATIO_CJK : MIN_LEN_RATIO_LATIN;
+    const minLen = Math.min(en.length * minRatio, MIN_LEN_CAP);
+    if (trimmed.length < minLen) {
+      return { ok: false, reason: 'output too short (likely truncated)' };
+    }
   }
 
   return { ok: true };

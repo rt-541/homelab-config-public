@@ -63,6 +63,12 @@ dns_entries:
     ip: "{{ server_ip }}"
     comment: "FlareSolverr proxy"
 
+# DEAD MECHANISM: this file + pihole-dns.yml write the Pi-hole v5 custom.list,
+# which is a NO-OP on the live v6 HA Pi-hole pair (VIP .2). Do NOT add records
+# here expecting them to publish. DNS records + DHCP reservations now live in
+# Pi-hole v6 dns.hosts / DHCP config on the pair, managed from the
+# kuat-drive-yards repo. See CLAUDE.md "Network / DNS / DHCP Topology".
+
 # Add more entries as needed
 # - domain: example.rt-541.io
 #   ip: "{{ server_ip }}"

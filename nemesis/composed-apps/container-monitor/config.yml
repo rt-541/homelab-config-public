@@ -24,6 +24,8 @@ status_report:
 
 exclude:
   - container-monitor
+  # zomboid-dev restarts itself every mod update; its start/stop chatter is noise
+  - zomboid-dev-server
 
 mod_monitor:
   servers:
@@ -33,6 +35,8 @@ mod_monitor:
       container_name: zomboid-dev-server
       acf_path: /acf/zomboid-dev/appworkshop_108600.acf
       auto_restart: true
+      # still auto-restarts on stale mods, but only alerts if the restart FAILS
+      notify: false
       display_name: "Zomboid Dev Server"
       webhook_env: "ZOMBOID_WEBHOOK_URL"
       username: "ZP-742"
@@ -62,3 +66,11 @@ overrides:
     footer: "ATM9 Survival Server"
     webhook_env: "ATM9S_WEBHOOK_URL"
     start_message: "Connect: minecraft.rt-541.io:25567"
+
+  palworld-server:
+    display_name: "Palworld Server"
+    username: "Palworld"
+    footer: "Palworld Server"
+    webhook_env: "ATM9S_WEBHOOK_URL"
+    start_message: "Connect: palworld.rt-541.io:8211"
+    start_message_env: "PALWORLD_START_MESSAGE"

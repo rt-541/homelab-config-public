@@ -1,0 +1,43 @@
+---
+# Recyclarr - TRaSH-guides custom format / quality profile sync for Sonarr + Radarr.
+# Prevention layer of the plex-ops suite:
+#   docs/superpowers/specs/2026-09-10-plex-ops-agents-design.md
+#
+# Runs in cron mode: the container stays up and executes `recyclarr sync` on
+# CRON_SCHEDULE. The synced config is ./recyclarr.yml (in-repo, mounted
+# read-only); secrets come from .env (see .env.example).
+#
+# Sonarr/Radarr live in plex-stack on the external `proxy` network, so this
+# container joins the same network and reaches them by container name
+# (http://sonarr:8989, http://radarr:7878) - no host ports needed.
+
+networks:
+  proxy:
+    external: true
+
+services:
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr:latest
+    container_name: recyclarr
+    restart: unless-stopped
+    # Match the arr stack's PUID/PGID so /docker/recyclarr stays consistently owned.
+    user: "1001:1001"
+    networks:
+      - proxy
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 64M
+    environment:
+      TZ: America/Detroit
+      # Daily at 06:00 (after the overnight grabs, before the user is up).
+      CRON_SCHEDULE: "${CRON_SCHEDULE:-0 6 * * *}"
+      SONARR_API_KEY: "${SONARR_API_KEY}"
+      RADARR_API_KEY: "${RADARR_API_KEY}"
+    volumes:
+      - /docker/recyclarr:/config
+      - ./recyclarr.yml:/config/recyclarr.yml:ro

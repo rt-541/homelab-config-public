@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}llm-queue{% endblock %}</title>
+  <script src="https://unpkg.com/htmx.org@1.9.12"
+          integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
+          crossorigin="anonymous"></script>
+  <style>
+    :root { --bg:#0f1115; --panel:#171a21; --fg:#e6e6e6; --muted:#9aa0a6; --acc:#5b9dff; --ok:#46c267; --bad:#e2576b; --warn:#e6b450; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.5 system-ui,sans-serif; }
+    header { background:var(--panel); padding:.8rem 1.2rem; display:flex; gap:1.2rem; align-items:center; border-bottom:1px solid #262b34; }
+    header a { color:var(--fg); text-decoration:none; }
+    header a:hover { color:var(--acc); }
+    header .brand { font-weight:700; color:var(--acc); }
+    header .spacer { flex:1; }
+    main { max-width:920px; margin:1.5rem auto; padding:0 1.2rem; }
+    .panel { background:var(--panel); border:1px solid #262b34; border-radius:10px; padding:1.2rem; margin-bottom:1.2rem; }
+    label { display:block; margin:.6rem 0 .2rem; color:var(--muted); font-size:.85rem; }
+    textarea, input, select { width:100%; background:#0d0f14; color:var(--fg); border:1px solid #2b313c; border-radius:8px; padding:.6rem; font:inherit; }
+    textarea { min-height:130px; resize:vertical; }
+    button { background:var(--acc); color:#04101f; border:0; border-radius:8px; padding:.6rem 1.1rem; font-weight:600; cursor:pointer; }
+    button:hover { filter:brightness(1.08); }
+    table { width:100%; border-collapse:collapse; }
+    th, td { text-align:left; padding:.5rem .6rem; border-bottom:1px solid #262b34; vertical-align:top; }
+    th { color:var(--muted); font-size:.8rem; text-transform:uppercase; letter-spacing:.04em; }
+    .pill { padding:.1rem .5rem; border-radius:999px; font-size:.78rem; font-weight:600; }
+    .s-queued { background:#23304a; color:var(--acc); }
+    .s-running { background:#3a3320; color:var(--warn); }
+    .s-done { background:#143020; color:var(--ok); }
+    .s-failed { background:#3a1d24; color:var(--bad); }
+    .s-cancelled { background:#2a2d34; color:var(--muted); }
+    code, pre { background:#0d0f14; border:1px solid #2b313c; border-radius:8px; }
+    pre { padding:.9rem; overflow:auto; white-space:pre-wrap; word-break:break-word; }
+    .muted { color:var(--muted); }
+    .row { display:flex; gap:1rem; flex-wrap:wrap; }
+    .row > * { flex:1; min-width:160px; }
+    a.btn { display:inline-block; }
+  </style>
+</head>
+<body>
+  {% if authed %}
+  <header>
+    <a class="brand" href="/">llm-queue</a>
+    <a href="/submit">Submit</a>
+    <a href="/queue">Queue</a>
+    <a href="/history">History</a>
+    <span class="spacer"></span>
+    <a href="/logout" class="muted">Logout</a>
+  </header>
+  {% endif %}
+  <main>{% block body %}{% endblock %}</main>
+</body>
+</html>

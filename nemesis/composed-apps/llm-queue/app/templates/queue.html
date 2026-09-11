@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}queue · llm-queue{% endblock %}
+{% block body %}
+<div class="panel">
+  <h2 style="margin-top:0;">Queue & recent jobs</h2>
+  <div hx-get="/partials/queue" hx-trigger="load, every 2s" hx-swap="innerHTML">
+    {% include "_queue_table.html" %}
+  </div>
+</div>
+{% endblock %}

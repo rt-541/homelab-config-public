@@ -1,0 +1,78 @@
+---
+# Deploy the security-watch IOC watcher (systemd timer) to every Linux node.
+#
+# The watcher script itself ships with the repo checkout at /docker/homelab-config,
+# so each host must have the repo cloned + pulled first. This playbook installs the
+# systemd units, ensures state, and enables the 10-minute timer.
+#
+# Run from the control plane (tarkin) or locally:
+#   cd /docker/homelab-config/ansible
+#   ansible-playbook security-watch.yml
+#
+# Scope: the Docker hosts that have the repo checked out (nemesis, devastator).
+# The Proxmox LXCs are managed from kuat-drive-yards — deploy the
+# watcher there via that repo's equivalent role.
+- name: Deploy security-watch IOC watcher to all Linux nodes
+  hosts: linux_nodes
+  become: true
+  vars:
+    repo_dir: /docker/homelab-config
+  tasks:
+    - name: Check the watcher script is present (repo must be pulled first)
+      ansible.builtin.stat:
+        path: "{{ repo_dir }}/scripts/security-watch/security-watch.sh"
+      register: watcher_script
+
+    - name: Fail clearly if the repo/watcher is missing
+      ansible.builtin.fail:
+        msg: "{{ repo_dir }}/scripts/security-watch/security-watch.sh not found — git pull homelab-config on this host first."
+      when: not watcher_script.stat.exists
+
+    - name: Ensure the watcher script is executable
+      ansible.builtin.file:
+        path: "{{ repo_dir }}/scripts/security-watch/security-watch.sh"
+        mode: "0755"
+
+    - name: Install systemd service + timer units from the repo
+      ansible.builtin.copy:
+        src: "{{ repo_dir }}/systemd-unit-files/{{ item }}"
+        dest: "/etc/systemd/system/{{ item }}"
+        remote_src: true
+        mode: "0644"
+      loop:
+        - security-watch.service
+        - security-watch.timer
+      notify: reload systemd
+
+    - name: Ensure watcher state directory exists
+      ansible.builtin.file:
+        path: /var/lib/security-watch
+        state: directory
+        mode: "0700"
+
+    # Note: scripts/claude-notify/ is not included in this public mirror; without
+    # it, security-watch falls back to logger (journald) instead of Discord.
+    - name: Check the ENG webhook .env is present (else alerts only hit journald)
+      ansible.builtin.stat:
+        path: "{{ repo_dir }}/scripts/claude-notify/.env"
+      register: notify_env
+
+    - name: Warn when the ENG webhook .env is missing on this host
+      ansible.builtin.debug:
+        msg: >-
+          WARNING: {{ repo_dir }}/scripts/claude-notify/.env is missing on
+          {{ inventory_hostname }} — security-watch will still detect and log to
+          journald, but will not post to Discord. Copy the .env here to enable alerts.
+      when: not notify_env.stat.exists
+
+    - name: Enable and start the security-watch timer
+      ansible.builtin.systemd:
+        name: security-watch.timer
+        enabled: true
+        state: started
+        daemon_reload: true
+
+  handlers:
+    - name: reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: true

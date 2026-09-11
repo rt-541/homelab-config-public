@@ -1,0 +1,97 @@
+---
+# Syncthing on devastator: receives the Obsidian vault `projects/` folders from
+# rocinante (C:\obsidian\<vault>\projects) into /docker/obsidian/<vault>/projects
+# so an internal agent fleet can mount them. See README.md for pairing and the
+# roci-side install. Config lives in /docker/syncthing/config.
+services:
+  syncthing:
+    image: syncthing/syncthing:1
+    container_name: syncthing
+    hostname: devastator
+    restart: unless-stopped
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: America/Detroit
+      # LAN-only; no global discovery, no relays. Pairing is by device ID.
+      STGUIADDRESS: "0.0.0.0:8384"
+    volumes:
+      - /docker/syncthing/config:/var/syncthing/config
+      - /docker/obsidian:/var/syncthing/obsidian
+    ports:
+      - "8384:8384"        # web UI, LAN only (no Traefik route yet)
+      - "22000:22000/tcp"  # sync protocol
+      - "22000:22000/udp"  # QUIC
+      # 21027/udp local discovery deliberately not published; devices are
+      # added by ID with an explicit address instead.
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://127.0.0.1:8384/rest/noauth/health"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    labels:
+      - "autoheal=true"
+
+  syncthing-backup:
+    image: offen/docker-volume-backup:v2
+    container_name: syncthing-backup
+    restart: unless-stopped
+    environment:
+      BACKUP_CRON_EXPRESSION: "0 4 * * *"
+      BACKUP_RETENTION_DAYS: "21"
+      BACKUP_FILENAME: "syncthing-%Y-%m-%dT%H-%M-%S.tar.gz"
+    volumes:
+      # Only the Syncthing config (device keys, folder config). The vault data
+      # itself is already replicated on rocinante and is not backed up here.
+      - /docker/syncthing/config:/backup/syncthing-config:ro
+      - /docker/syncthing/backups:/archive
+
+  syncthing-discord:
+    image: alpine:latest
+    container_name: syncthing-discord
+    restart: unless-stopped
+    depends_on:
+      - syncthing
+    environment:
+      - WEBHOOK_URL=${WEBHOOK_URL}
+    volumes:
+      - ./notify.sh:/notify.sh:ro
+    entrypoint: /bin/sh
+    command: ["/notify.sh"]
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: "128M"
+        reservations:
+          cpus: '0.25'
+          memory: "64M"
+
+  syncthing-autoheal:
+    image: willfarrell/autoheal:latest
+    container_name: syncthing-autoheal
+    restart: unless-stopped
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: autoheal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  syncthing-logs:
+    image: amir20/dozzle:latest
+    container_name: syncthing-logs
+    restart: unless-stopped
+    ports:
+      - "9998:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      DOZZLE_FILTER: "name=syncthing*"

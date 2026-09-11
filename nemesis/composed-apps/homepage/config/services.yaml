@@ -162,8 +162,12 @@
         container: plex-compute-vllm
         siteMonitor: http://192.168.1.216:8000/health
     - LLM Queue:
+        href: https://queue.rt-541.io
         icon: mdi-tray-full
-        description: planned (queue.rt-541.io)
+        description: Job queue + MCP
+        server: nemesis
+        container: llm-queue
+        siteMonitor: http://llm-queue:8080/healthz
 
 - Game Servers:
     - Minecraft ATM9:
