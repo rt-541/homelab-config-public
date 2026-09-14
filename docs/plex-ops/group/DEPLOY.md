@@ -65,13 +65,13 @@ Expect `"ok": true`. Do not paste the token into any chat, log, or note.
 
 ## Part 0.5 - the transcode worker (compression waves)
 
-The `reclaim_*` tools drive `devastator/composed-apps/media-transcoder/`
+The `reclaim_*` tools drive `compute-node/composed-apps/media-transcoder/`
 (B70 VA-API worker; see its README). It runs wherever the GPU is; on
 devastator:
 
 ```bash
 sudo mkdir -p /docker/transcode-scratch            # output only lands here (15-25G per film)
-cd /docker/homelab-config/devastator/composed-apps/media-transcoder
+cd /docker/homelab-config/compute-node/composed-apps/media-transcoder
 cp .env.example .env                                # PLEX_TOKEN (session guard), WEBHOOK_URL (optional)
 sudo docker compose up -d && sudo docker compose logs --tail 20   # expect "using VA-API device /dev/dri/renderD128"
 ```
@@ -151,7 +151,7 @@ the agent. Nothing is created.
    `blocked_hosts ["api.anthropic.com"]`). The `plex-ops`
    MCP server is registered with `config add-mcp-server` at
    `https://plex-ops.rt-541.io/mcp` (Traefik route in
-   `nemesis/composed-apps/traefik/config/plex-ops.yml`, live after the
+   `data-host/composed-apps/traefik/config/plex-ops.yml`, live after the
    merge); the CLI and loader refuse plain http off-host. Until the route
    is live the tools are absent and the agent falls back to curl against
    `RUNNER_URL`. The token therefore lives in the NanoClaw database and the
@@ -192,7 +192,7 @@ for a fix on an item you actually want fixed.
 ### 1.7 Homepage
 
 Done in this repo: the `plex-ops runner` tile under Infra in
-`nemesis/composed-apps/homepage/config/services.yaml` (live after the merge
+`data-host/composed-apps/homepage/config/services.yaml` (live after the merge
 and the next homepage `down`/`up -d`).
 
 ## Part 2 - tarkin (Kuma monitoring)
@@ -254,7 +254,7 @@ worktree. After the merge:
 ```bash
 cd /docker/homelab-config && git pull
 sudo bash scripts/plex-ops/deploy-nemesis.sh runner            # drops the worktree drop-in
-cd nemesis/composed-apps/recyclarr && sudo docker compose up -d # re-points the compose mount
+cd data-host/composed-apps/recyclarr && sudo docker compose up -d # re-points the compose mount
 cd ../homepage && sudo docker compose down && sudo docker compose up -d
 ```
 

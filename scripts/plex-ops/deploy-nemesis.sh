@@ -30,7 +30,7 @@ LOG_ROOT=/docker/plex/logs/plex-ops
 LAN_BIND=192.168.1.214
 NFS_CLIENT=192.168.1.216            # devastator (DHCP reservation on the HA Pi-hole pair)
 NFS_EXPORT=/docker/plex/media
-RECYCLARR_DIR="$REPO/nemesis/composed-apps/recyclarr"
+RECYCLARR_DIR="$REPO/data-host/composed-apps/recyclarr"
 RECYCLARR_STATE=/docker/recyclarr
 
 log() { printf '[deploy-nemesis] %s\n' "$*"; }

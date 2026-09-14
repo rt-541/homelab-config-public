@@ -91,7 +91,7 @@ Rule that must hold: the worker never uses a master key.
 ## Question 5: Hosting, layout, Traefik
 
 - Host: **nemesis** (next to Traefik + LiteLLM; ~70Gi free RAM).
-- Layout: `nemesis/composed-apps/llm-queue/` — single service container (job
+- Layout: `data-host/composed-apps/llm-queue/` — single service container (job
   API + web UI + worker + mounted MCP), SQLite volume; standard sidecar menu
   applies; ~256–512M memory limit.
 - Traefik: Phase A `queue.rt-541.io` with the existing `lan-only@docker`
@@ -108,7 +108,7 @@ Rule that must hold: the worker never uses a master key.
 | Frontend | Small custom app; Open WebUI deferred |
 | MCP | Mounted in same app; selection = intent→alias mapping; LiteLLM model groups do dynamic routing |
 | Auth | Friend's LiteLLM virtual key is the login; worker uses the friend's key |
-| Hosting | `nemesis/composed-apps/llm-queue/`, `queue.rt-541.io`, LAN-only first |
+| Hosting | `data-host/composed-apps/llm-queue/`, `queue.rt-541.io`, LAN-only first |
 
 ## Data flow
 
@@ -142,7 +142,7 @@ Rule that must hold: the worker never uses a master key.
 
 ## Sequencing reality (post-B70 bring-up)
 
-The B70 vLLM backend is the live GPU now (`devastator/composed-apps/plex-compute`,
+The B70 vLLM backend is the live GPU now (`compute-node/composed-apps/plex-compute`,
 serving an OpenAI-compatible endpoint at `192.168.1.216:8000`). The **LiteLLM
 gateway (parent Phase 0) is still NOT deployed**. To avoid blocking this
 sub-project on the gateway, the plan is **two-phase**:
@@ -184,5 +184,5 @@ any Claude session without leaving the terminal. Two layers:
 
 ## Artifacts produced (2026-06-13)
 
-- Model-selection prompt (LLM-assisted `pick_best_backend` path): `nemesis/composed-apps/llm-queue/prompts/model-selection.md`
+- Model-selection prompt (LLM-assisted `pick_best_backend` path): `data-host/composed-apps/llm-queue/prompts/model-selection.md`
 - Claude Code skill: `.claude/skills/llm-job/SKILL.md`

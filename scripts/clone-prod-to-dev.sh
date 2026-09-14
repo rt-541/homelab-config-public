@@ -7,7 +7,7 @@ set -e
 
 BACKUP_DIR="/docker/game/zomboid/backups"
 DEV_DATA_DIR="/docker/game/zomboid-dev"
-DEV_COMPOSE_DIR="/docker/homelab-config/nemesis/composed-apps/zomboid/zomboid-dev"
+DEV_COMPOSE_DIR="/docker/homelab-config/data-host/composed-apps/zomboid/zomboid-dev"
 LOG="$DEV_DATA_DIR/clone.log"
 
 mkdir -p "$DEV_DATA_DIR"

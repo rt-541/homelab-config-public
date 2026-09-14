@@ -28,7 +28,7 @@ rest of each vault never leave rocinante.
 sudo mkdir -p /docker/syncthing/config /docker/syncthing/backups \
   /docker/obsidian/<vault-a>/projects /docker/obsidian/<vault-b>/projects
 sudo chown -R 1000:1000 /docker/syncthing /docker/obsidian
-cd /docker/homelab-config/devastator/composed-apps/syncthing
+cd /docker/homelab-config/compute-node/composed-apps/syncthing
 cp .env.example .env   # then paste the webhook URL
 sudo docker compose up -d
 ```
@@ -116,7 +116,7 @@ rocinante. Both folders should show "Up to Date" in both UIs.
 Always down then up from this directory, never `docker restart`:
 
 ```
-cd /docker/homelab-config/devastator/composed-apps/syncthing
+cd /docker/homelab-config/compute-node/composed-apps/syncthing
 sudo docker compose down
 sudo docker compose up -d
 ```

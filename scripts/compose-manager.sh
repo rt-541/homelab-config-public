@@ -8,7 +8,7 @@
 set -euo pipefail
 
 # Configuration
-COMPOSE_DIR="/docker/homelab-config/nemesis/composed-apps"
+COMPOSE_DIR="/docker/homelab-config/data-host/composed-apps"
 EXCLUDE_DIRS=("nvidia-test")  # Add directories to skip here
 
 # Colors for output

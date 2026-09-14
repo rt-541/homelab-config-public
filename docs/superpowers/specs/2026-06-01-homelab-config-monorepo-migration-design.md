@@ -44,8 +44,8 @@ homelab-config/                     (renamed from nemesis-configs; on disk /dock
   docs/superpowers/specs/           design docs
 ```
 
-No name collision: `nemesis/composed-apps/traefik` and
-`devastator/composed-apps/traefik` are distinct paths.
+No name collision: `data-host/composed-apps/traefik` and
+`compute-node/composed-apps/traefik` are distinct paths.
 
 ## Dependency surface to fix (from the scans)
 
@@ -74,9 +74,9 @@ without a `nemesis/` level:
 
 ### Scripts on nemesis (update hardcoded `/docker/nemesis-configs`)
 
-- `scripts/compose-manager.sh:11` (`COMPOSE_DIR`) -> `/docker/homelab-config/nemesis/composed-apps`
+- `scripts/compose-manager.sh:11` (`COMPOSE_DIR`) -> `/docker/homelab-config/data-host/composed-apps`
 - `scripts/fix-compose-env.sh:20` (`COMPOSE_DIR`) -> same
-- `scripts/backup_minecraft.sh:21,42` (compose `-f` path) -> `/docker/homelab-config/nemesis/composed-apps/minecraft/docker-compose.yml`
+- `scripts/backup_minecraft.sh:21,42` (compose `-f` path) -> `/docker/homelab-config/data-host/composed-apps/minecraft/docker-compose.yml`
 - `scripts/clone-prod-to-dev.sh:5,10` -> new path AND fix the pre-existing bug
   (`composed-apps/zomboid-dev` is wrong; real path is `composed-apps/zomboid/zomboid-dev`)
 - `scripts/zomboid-world-reset/restore_items_only.sh:17` (`RCON_DIR`) -> new path
@@ -105,8 +105,8 @@ without a `nemesis/` level:
    `nemesis-bot` on nemesis and `traefik` on devastator; confirm healthy. This is
    safe and reversible on its own and de-risks everything after it.
 2. **Restructure (branch `feature/homelab-monorepo`).** `git mv composed-apps
-   nemesis/composed-apps`. Commit devastator's working configs into
-   `devastator/composed-apps/`. Update the 2 systemd units (+ `daemon-reload`), the
+   data-host/composed-apps`. Commit devastator's working configs into
+   `compute-node/composed-apps/`. Update the 2 systemd units (+ `daemon-reload`), the
    ~6 scripts, and the docs/`.claude` files. Keep `scripts/`, `systemd-unit-files/`,
    `ansible/`, `docs/` at repo root.
 3. **Rename + repoint.** Rename the GitHub repo `nemesis-configs` ->

@@ -6,7 +6,7 @@ A complete self-hosted Discord alternative with text chat, voice/video calls, fi
 
 ### 1. Configure Environment Variables
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/revolt
+cd /docker/homelab-config/data-host/composed-apps/revolt
 cp .env.example .env
 nano .env
 ```
@@ -85,7 +85,7 @@ All services are behind Traefik with automatic SSL/TLS certificates.
 
 ### View Logs
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/revolt
+cd /docker/homelab-config/data-host/composed-apps/revolt
 
 # All services
 sudo docker compose logs -f
@@ -112,7 +112,7 @@ sudo docker compose restart revolt-api
 
 ### Update to Latest Versions
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/revolt
+cd /docker/homelab-config/data-host/composed-apps/revolt
 sudo docker compose pull
 sudo docker compose up -d
 ```

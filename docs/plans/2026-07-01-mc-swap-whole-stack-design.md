@@ -63,6 +63,6 @@ precheck (read on the game container), and the abort-if-stop-fails safety
 
 ## Deploy & verify
 
-- `cd nemesis/composed-apps/nemesis-bot && docker compose up -d --build nemesis-bot`
+- `cd data-host/composed-apps/nemesis-bot && docker compose up -d --build nemesis-bot`
 - Verify: swap between the two MC servers; confirm the outgoing game **and** its
   `-backup` both stop, and the incoming game + its `-backup` both start.

@@ -24,9 +24,9 @@
 - Create `ansible/monitors/monitors.py` + `ansible/monitors/requirements.txt`
 
 **homelab-config (proxies + edge):**
-- Create `nemesis/composed-apps/docker-socket-proxy/docker-compose.yml`
-- Create `devastator/composed-apps/docker-socket-proxy/docker-compose.yml`
-- Create `nemesis/composed-apps/traefik/config/status.yml` (file-provider route)
+- Create `data-host/composed-apps/docker-socket-proxy/docker-compose.yml`
+- Create `compute-node/composed-apps/docker-socket-proxy/docker-compose.yml`
+- Create `data-host/composed-apps/traefik/config/status.yml` (file-provider route)
 - DNS: `status.rt-541.io` on the Pi-holes
 
 ---
@@ -500,11 +500,11 @@ git -C /docker/kuat-drive-yards commit -m "feat(monitors): monitors-as-code + al
 
 ## Task 5: Read-only docker-socket-proxies (homelab-config)
 
-**Files:** Create `nemesis/composed-apps/docker-socket-proxy/docker-compose.yml` and `devastator/composed-apps/docker-socket-proxy/docker-compose.yml`
+**Files:** Create `data-host/composed-apps/docker-socket-proxy/docker-compose.yml` and `compute-node/composed-apps/docker-socket-proxy/docker-compose.yml`
 
 - [ ] **Step 1: Write the nemesis proxy compose**
 
-`/docker/homelab-config/nemesis/composed-apps/docker-socket-proxy/docker-compose.yml`:
+`/docker/homelab-config/data-host/composed-apps/docker-socket-proxy/docker-compose.yml`:
 ```yaml
 ---
 services:
@@ -530,7 +530,7 @@ services:
 - [ ] **Step 2: Bring up the nemesis proxy + verify (read-only)**
 
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/docker-socket-proxy
+cd /docker/homelab-config/data-host/composed-apps/docker-socket-proxy
 sudo docker compose up -d
 curl -sS -o /dev/null -w "containers: %{http_code}\n" http://192.168.1.214:2375/v1.41/containers/json
 curl -sS -o /dev/null -w "post-blocked: %{http_code}\n" -X POST http://192.168.1.214:2375/v1.41/containers/create
@@ -539,21 +539,21 @@ Expected: containers → `200`; the POST → `403` (writes blocked).
 
 - [ ] **Step 3: Write the devastator proxy compose** (identical except the bind IP)
 
-`/docker/homelab-config/devastator/composed-apps/docker-socket-proxy/docker-compose.yml`: same as Step 1 but the port line is `- "192.168.1.216:2375:2375"`.
+`/docker/homelab-config/compute-node/composed-apps/docker-socket-proxy/docker-compose.yml`: same as Step 1 but the port line is `- "192.168.1.216:2375:2375"`.
 
 - [ ] **Step 4: Deploy on devastator**
 
 ```bash
-ssh -o IdentitiesOnly=yes -i ~/.ssh/id_rsa aschneider@192.168.1.216 "mkdir -p /docker/homelab-config/devastator/composed-apps/docker-socket-proxy"
-scp -o IdentitiesOnly=yes -i ~/.ssh/id_rsa /docker/homelab-config/devastator/composed-apps/docker-socket-proxy/docker-compose.yml aschneider@192.168.1.216:/docker/homelab-config/devastator/composed-apps/docker-socket-proxy/docker-compose.yml
-ssh -o IdentitiesOnly=yes -i ~/.ssh/id_rsa aschneider@192.168.1.216 "cd /docker/homelab-config/devastator/composed-apps/docker-socket-proxy && sudo docker compose up -d && curl -sS -o /dev/null -w 'containers: %{http_code}\n' http://192.168.1.216:2375/v1.41/containers/json"
+ssh -o IdentitiesOnly=yes -i ~/.ssh/id_rsa aschneider@192.168.1.216 "mkdir -p /docker/homelab-config/compute-node/composed-apps/docker-socket-proxy"
+scp -o IdentitiesOnly=yes -i ~/.ssh/id_rsa /docker/homelab-config/compute-node/composed-apps/docker-socket-proxy/docker-compose.yml aschneider@192.168.1.216:/docker/homelab-config/compute-node/composed-apps/docker-socket-proxy/docker-compose.yml
+ssh -o IdentitiesOnly=yes -i ~/.ssh/id_rsa aschneider@192.168.1.216 "cd /docker/homelab-config/compute-node/composed-apps/docker-socket-proxy && sudo docker compose up -d && curl -sS -o /dev/null -w 'containers: %{http_code}\n' http://192.168.1.216:2375/v1.41/containers/json"
 ```
 Expected: `200`.
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git -C /docker/homelab-config add nemesis/composed-apps/docker-socket-proxy/docker-compose.yml devastator/composed-apps/docker-socket-proxy/docker-compose.yml
+git -C /docker/homelab-config add data-host/composed-apps/docker-socket-proxy/docker-compose.yml compute-node/composed-apps/docker-socket-proxy/docker-compose.yml
 git -C /docker/homelab-config commit -m "feat(monitor): read-only docker-socket-proxies on nemesis + devastator"
 ```
 
@@ -563,11 +563,11 @@ git -C /docker/homelab-config commit -m "feat(monitor): read-only docker-socket-
 
 ## Task 6: Traefik route for status.rt-541.io → VIP + DNS (homelab-config)
 
-**Files:** Create `nemesis/composed-apps/traefik/config/status.yml`
+**Files:** Create `data-host/composed-apps/traefik/config/status.yml`
 
 - [ ] **Step 1: Write the Traefik file-provider config**
 
-`/docker/homelab-config/nemesis/composed-apps/traefik/config/status.yml` (the `config` dir is the watched file provider):
+`/docker/homelab-config/data-host/composed-apps/traefik/config/status.yml` (the `config` dir is the watched file provider):
 ```yaml
 http:
   middlewares:
@@ -621,7 +621,7 @@ Expected: `200` or a redirect from this LAN host (admin allowed on LAN).
 - [ ] **Step 4: Commit**
 
 ```bash
-git -C /docker/homelab-config add nemesis/composed-apps/traefik/config/status.yml
+git -C /docker/homelab-config add data-host/composed-apps/traefik/config/status.yml
 git -C /docker/homelab-config commit -m "feat(traefik): route status.rt-541.io to the Kuma VIP (public status, LAN admin)"
 ```
 
@@ -644,7 +644,7 @@ Expected: `200`. (If assets 403, add the blocked PathPrefix to the public router
 
 - [ ] **Step 5: Confirm container-health monitors are green** (after Task 5 Step 6) on both Kumas.
 
-- [ ] **Step 6: Final commit (ops note)** — append a short "## Monitor" section to `nemesis/composed-apps/umami/README.md` or create `kuat-drive-yards/docs/MONITOR.md` documenting: the two LXCs, the VIP, `monitors.py` usage, the alert-follows-VIP mechanism, and the status page URL. Commit in the relevant repo.
+- [ ] **Step 6: Final commit (ops note)** — append a short "## Monitor" section to `data-host/composed-apps/umami/README.md` or create `kuat-drive-yards/docs/MONITOR.md` documenting: the two LXCs, the VIP, `monitors.py` usage, the alert-follows-VIP mechanism, and the status page URL. Commit in the relevant repo.
 
 ---
 

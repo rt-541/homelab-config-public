@@ -41,11 +41,11 @@
 #
 # STEP 4: Deploy to server
 #   a. Stop the server:
-#        cd /docker/homelab-config/nemesis/composed-apps/zomboid && sudo docker compose down
+#        cd /docker/homelab-config/data-host/composed-apps/zomboid && sudo docker compose down
 #   b. Run this script to reset existing players:
 #        ./scripts/reset-spncc-customisation.sh prod
 #   c. Start the server:
-#        cd /docker/homelab-config/nemesis/composed-apps/zomboid && sudo docker compose up -d
+#        cd /docker/homelab-config/data-host/composed-apps/zomboid && sudo docker compose up -d
 #   d. Players will get the customisation window on next login
 #
 # ═══════════════════════════════════════════════════════════════════════

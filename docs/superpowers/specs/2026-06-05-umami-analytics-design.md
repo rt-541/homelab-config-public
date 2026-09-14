@@ -2,7 +2,7 @@
 
 Date: 2026-06-05
 Status: Approved (brainstorming) — pending implementation plan
-Repo: `homelab-config` (per-host monorepo; about-site + new apps under `nemesis/composed-apps/`)
+Repo: `homelab-config` (per-host monorepo; about-site + new apps under `data-host/composed-apps/`)
 
 ## Goal
 
@@ -22,7 +22,7 @@ No per-person profiling. Fully self-hosted on **nemesis**.
 Two new Docker Compose apps on nemesis, following the existing pattern
 (`proxy` network + Traefik labels, like `about-site`):
 
-### Component 1 — Umami (`nemesis/composed-apps/umami/`)
+### Component 1 — Umami (`data-host/composed-apps/umami/`)
 - `umami` (`ghcr.io/umami-software/umami:postgresql-latest`) on `proxy` + a
   private `umami-internal` net; `umami-db` (`postgres:16-alpine`) on the internal
   net with a named volume + healthcheck.
@@ -35,7 +35,7 @@ Two new Docker Compose apps on nemesis, following the existing pattern
 - Must read the real client IP from `X-Forwarded-For` (trust the Traefik proxy)
   so GeoIP uses the visitor IP, not Traefik's.
 
-### Component 2 — GoAccess (`nemesis/composed-apps/goaccess/`)
+### Component 2 — GoAccess (`data-host/composed-apps/goaccess/`)
 - `goaccess` (`allinurl/goaccess`) reads the **Traefik access log** (mounted
   read-only) in real-time, with a **GeoIP mmdb** (DB-IP Lite free country DB — no
   account/license needed), writing a self-updating HTML report to a volume.
@@ -45,7 +45,7 @@ Two new Docker Compose apps on nemesis, following the existing pattern
 - Scope GoAccess to `about.rt-541.io` requests (filter by Host) for v1.
 
 ### Traefik change
-- Enable **access logging** in `nemesis/composed-apps/traefik/traefik.yml`
+- Enable **access logging** in `data-host/composed-apps/traefik/traefik.yml`
   (`accessLog` to a file on a shared volume, JSON or CLF; include `ClientHost`).
   Restart Traefik (down/up) to apply.
 - **Log retention:** rotate the access log with short retention (≈7 days) so raw
@@ -93,15 +93,15 @@ Then rebuild (`npm run build`) + `docker compose up -d` the about-site. The
 
 ## Secrets
 
-`nemesis/composed-apps/umami/.env` (gitignored): `POSTGRES_PASSWORD`,
+`data-host/composed-apps/umami/.env` (gitignored): `POSTGRES_PASSWORD`,
 `DATABASE_URL`, `APP_SECRET` (random), optional `MAXMIND_LICENSE_KEY`. Committed
 `.env.example` documents the keys. GoAccess needs no secrets (free mmdb).
 
 ## Components
 
-- Create: `nemesis/composed-apps/umami/docker-compose.yml` + `.env` (gitignored) + `.env.example`
-- Create: `nemesis/composed-apps/goaccess/docker-compose.yml` (+ goaccess.conf, nginx.conf)
-- Modify: `nemesis/composed-apps/traefik/traefik.yml` (enable accessLog) + log rotation
+- Create: `data-host/composed-apps/umami/docker-compose.yml` + `.env` (gitignored) + `.env.example`
+- Create: `data-host/composed-apps/goaccess/docker-compose.yml` (+ goaccess.conf, nginx.conf)
+- Modify: `data-host/composed-apps/traefik/traefik.yml` (enable accessLog) + log rotation
 - Modify: about-site base Astro layout/head (add the tracking tag)
 - DNS: `analytics.rt-541.io`, `logs.rt-541.io` records on the Pi-holes
 

@@ -26,8 +26,8 @@
 
 **homelab-config:**
 - Create `ansible/playbooks/host_exporters.yml` (node_exporter native on sienar/incomm + smartctl_exporter; targets the PVE hosts)
-- Create `nemesis/composed-apps/node-exporter/docker-compose.yml` + `devastator/composed-apps/node-exporter/docker-compose.yml`
-- Create `nemesis/composed-apps/traefik/config/grafana.yml`
+- Create `data-host/composed-apps/node-exporter/docker-compose.yml` + `compute-node/composed-apps/node-exporter/docker-compose.yml`
+- Create `data-host/composed-apps/traefik/config/grafana.yml`
 - DNS `grafana.rt-541.io` on the Pi-holes
 
 ---
@@ -120,7 +120,7 @@ git -C /docker/kuat-drive-yards commit -m "feat(tf): HA observability LXC pair (
 
 ## Task 2: Mint a read-only PVE token + host exporters (homelab-config)
 
-**Files:** Create `homelab-config/ansible/playbooks/host_exporters.yml`, `nemesis|devastator/composed-apps/node-exporter/docker-compose.yml`
+**Files:** Create `homelab-config/ansible/playbooks/host_exporters.yml`, `nemesis|compute-node/composed-apps/node-exporter/docker-compose.yml`
 
 - [ ] **Step 1: Mint a read-only PVE API token for pve-exporter (cluster-wide)**
 
@@ -147,7 +147,7 @@ If the Debian package is absent (`pkg-missing`), install the binary: download th
 
 - [ ] **Step 4: node_exporter container on the docker hosts (nemesis, devastator)**
 
-`nemesis/composed-apps/node-exporter/docker-compose.yml`:
+`data-host/composed-apps/node-exporter/docker-compose.yml`:
 ```yaml
 ---
 services:
@@ -162,12 +162,12 @@ services:
     volumes:
       - /:/host:ro,rslave
 ```
-Up it: `cd /docker/homelab-config/nemesis/composed-apps/node-exporter && sudo docker compose up -d`. Verify `curl -s http://192.168.1.214:9100/metrics | head -1`. Repeat for devastator (same file; deploy + `up -d` on `aschneider@192.168.1.216`; verify `http://192.168.1.216:9100`).
+Up it: `cd /docker/homelab-config/data-host/composed-apps/node-exporter && sudo docker compose up -d`. Verify `curl -s http://192.168.1.214:9100/metrics | head -1`. Repeat for devastator (same file; deploy + `up -d` on `aschneider@192.168.1.216`; verify `http://192.168.1.216:9100`).
 
 - [ ] **Step 5: Commit (homelab-config)**
 
 ```bash
-git -C /docker/homelab-config add nemesis/composed-apps/node-exporter/docker-compose.yml devastator/composed-apps/node-exporter/docker-compose.yml
+git -C /docker/homelab-config add data-host/composed-apps/node-exporter/docker-compose.yml compute-node/composed-apps/node-exporter/docker-compose.yml
 git -C /docker/homelab-config commit -m "feat(obs): node_exporter on docker hosts; (PVE-host exporters installed via apt)"
 ```
 
@@ -525,9 +525,9 @@ git -C /docker/kuat-drive-yards commit -m "feat(obs): Grafana + provisioned data
 
 ## Task 6: Traefik route + DNS + status verification (homelab-config)
 
-**Files:** Create `nemesis/composed-apps/traefik/config/grafana.yml`
+**Files:** Create `data-host/composed-apps/traefik/config/grafana.yml`
 
-- [ ] **Step 1: `nemesis/composed-apps/traefik/config/grafana.yml`** (route → VIP, LAN-only)
+- [ ] **Step 1: `data-host/composed-apps/traefik/config/grafana.yml`** (route → VIP, LAN-only)
 
 ```yaml
 http:
@@ -571,7 +571,7 @@ Expected: `200`.
 - [ ] **Step 5: Commit**
 
 ```bash
-git -C /docker/homelab-config add nemesis/composed-apps/traefik/config/grafana.yml
+git -C /docker/homelab-config add data-host/composed-apps/traefik/config/grafana.yml
 git -C /docker/homelab-config commit -m "feat(obs): route grafana.rt-541.io to the obs VIP (LAN-only)"
 ```
 

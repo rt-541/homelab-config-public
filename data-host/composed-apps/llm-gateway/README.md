@@ -14,7 +14,7 @@ never exposed to the internet.
   Prisma schema rejects sqlite.
 
 ## Run
-    cd /docker/homelab-config/nemesis/composed-apps/llm-gateway
+    cd /docker/homelab-config/data-host/composed-apps/llm-gateway
     sudo docker compose down && sudo docker compose up -d   # restart = down+up
 
 ## Issue / revoke a key

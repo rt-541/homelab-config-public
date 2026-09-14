@@ -80,9 +80,9 @@ Traefik** — so alerting survives even a nemesis/Traefik outage.
 - `kuat-drive-yards`: `environments/homelab/main.tf` (`monitor_primary` /
   `monitor_secondary` LXC modules); `ansible/playbooks/setup_kuma.yml` (Node +
   Kuma + systemd + keepalived + the notify script); `ansible/monitors/monitors.py`.
-- `homelab-config`: `nemesis/composed-apps/docker-socket-proxy/` +
-  `devastator/composed-apps/docker-socket-proxy/`; a Traefik file-provider config
-  `nemesis/composed-apps/traefik/config/status.yml`; DNS record on the Pi-holes.
+- `homelab-config`: `data-host/composed-apps/docker-socket-proxy/` +
+  `compute-node/composed-apps/docker-socket-proxy/`; a Traefik file-provider config
+  `data-host/composed-apps/traefik/config/status.yml`; DNS record on the Pi-holes.
 - Manual one-time (Kuma UI, each instance or scripted): admin account; paste the
   Discord webhook into a notification named consistently so `monitors.py` can
   attach it; build the public status page (select monitors).
