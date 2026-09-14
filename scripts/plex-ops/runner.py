@@ -8,6 +8,7 @@ the NanoClaw plex-ops agent:
     GET  /probe/<name>                 deterministic read-only probes
     GET  /arr/<app>/api/v3/...         GET-only Sonarr/Radarr passthrough
     POST /action/<name>                whitelisted, re-verifying actions
+    POST /mcp                          the same surfaces as MCP tools (mcp.py)
 
 Everything except /healthz requires `Authorization: Bearer <token>`; the
 token is PLEXOPS_TOKEN from the env file at $RUNNER_ENV (default
@@ -31,6 +32,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import plexops_lib as lib
 import probes
 import actions
+import mcp
 
 MAX_BODY_BYTES = 1024 * 1024  # nothing legitimate is close to 1 MiB
 
@@ -199,6 +201,8 @@ class RunnerHandler(BaseHTTPRequestHandler):
             self._handle_passthrough(segs, parsed)
         elif segs and segs[0] == "action":
             self._handle_action(segs, params)
+        elif segs == ["mcp"]:
+            self._handle_mcp()
         else:
             env = lib.PlexOpsError("not-found", "unknown route: %s" % parsed.path,
                                    404).envelope()
@@ -323,6 +327,54 @@ class RunnerHandler(BaseHTTPRequestHandler):
             self._send_json(500, err.envelope())
         record["duration_ms"] = int((time.time() - t0) * 1000)
         self._audit(record)
+
+    def _handle_mcp(self):
+        """POST /mcp: MCP over streamable HTTP (stateless JSON responses).
+        One audit line per JSON-RPC message; tool calls carry the same
+        body/dry_run/before/after fields as REST actions."""
+        t0 = time.time()
+        if self.command != "POST":
+            self._audit({"kind": "mcp", "name": None, "status": 405, "ok": False,
+                         "summary": "mcp is POST-only (%s)" % self.command})
+            self._send_json(405, lib.PlexOpsError(
+                "method-not-allowed", "mcp endpoint is POST-only", 405).envelope())
+            return
+        try:
+            try:
+                length = int(self.headers.get("Content-Length") or 0)
+            except ValueError:
+                length = 0
+            if length > MAX_BODY_BYTES:
+                raise lib.PlexOpsError("bad-request", "request body too large", 400)
+            raw = self.rfile.read(length) if length else b""
+            try:
+                payload = json.loads(raw) if raw else None
+            except ValueError:
+                payload = None
+            if payload is None:
+                self._audit({"kind": "mcp", "name": "invalid", "status": 400, "ok": False,
+                             "summary": "mcp body is not valid JSON",
+                             "duration_ms": int((time.time() - t0) * 1000)})
+                self._send_json(400, {"jsonrpc": "2.0", "id": None,
+                                      "error": {"code": mcp.PARSE_ERROR,
+                                                "message": "parse error"}})
+                return
+            status, body, audits = mcp.handle(payload)
+        except lib.PlexOpsError as e:
+            self._audit({"kind": "mcp", "name": None, "status": e.status, "ok": False,
+                         "summary": e.message,
+                         "duration_ms": int((time.time() - t0) * 1000)})
+            self._send_json(e.status, e.envelope())
+            return
+        duration = int((time.time() - t0) * 1000)
+        for record in audits:
+            record.setdefault("status", status)
+            record["duration_ms"] = duration
+            self._audit(record)
+        if body is None:
+            self._send_raw(status, "application/json", b"")
+        else:
+            self._send_json(status, body)
 
     # -- HTTP verbs all feed one router (405s decided per-surface) ----------
 

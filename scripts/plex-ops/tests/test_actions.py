@@ -377,8 +377,23 @@ class QueueRemoveTests(OfflineTestCase):
     def test_still_in_queue_after_delete_is_409(self):
         self.arr_get.side_effect = [{"records": [queue_item()]},
                                     {"records": [queue_item()]}]
-        self.assertPlexOpsError(409, "verify-failed", actions.action_queue_remove,
-                                {"app": "sonarr", "id": 12345})
+        e = self.assertPlexOpsError(409, "verify-failed", actions.action_queue_remove,
+                                    {"app": "sonarr", "id": 12345, "removeData": True})
+        self.assertIn("still present", e.message)
+
+    def test_completed_download_without_remove_data_is_refused(self):
+        # Sonarr re-tracks a completed download that stays in the client under
+        # the same queue id, so remove-without-data is a no-op: refuse it.
+        self.arr_get.return_value = {"records": [queue_item(sizeleft=0)]}
+        e = self.assertPlexOpsError(409, "verify-failed", actions.action_queue_remove,
+                                    {"app": "sonarr", "id": 12345, "blocklist": True,
+                                     "dry_run": True})
+        self.assertIn("removeData", e.message)
+        self.arr_call.assert_not_called()
+        # an in-progress download (sizeleft > 0) may still be removed without data
+        self.arr_get.return_value = {"records": [queue_item(sizeleft=500)]}
+        res = actions.action_queue_remove({"app": "sonarr", "id": 12345, "dry_run": True})
+        self.assertDryShape(res, "queue-remove")
 
     def test_classifier_not_upgrade(self):
         item = queue_item(
@@ -389,7 +404,7 @@ class QueueRemoveTests(OfflineTestCase):
         self.arr_get.return_value = {"records": [item]}
         res = actions.action_queue_remove(
             {"app": "sonarr", "id": 12345, "expect": "not-upgrade",
-             "dry_run": True})
+             "removeData": True, "dry_run": True})
         self.assertEqual(res["before"]["classification"], "not-upgrade")
         self.assertIn("Not an upgrade for existing episode file(s)",
                       res["before"]["evidence"])
@@ -714,8 +729,9 @@ class SharedHelperTests(unittest.TestCase):
 class WhitelistTests(OfflineTestCase):
     def test_actions_whitelist_matches_contract(self):
         self.assertEqual(sorted(actions.ACTIONS), [
-            "delete-download", "pull-recreate", "queue-remove",
-            "restart-prowlarr", "resurrect-stragglers", "search",
+            "delete-download", "fill-missing", "pull-recreate", "queue-remove",
+            "reclaim-pause", "reclaim-pilot-ack", "reclaim-resume", "reclaim-schedule",
+            "replace-file", "restart-prowlarr", "resurrect-stragglers", "search",
         ])
         for fn in actions.ACTIONS.values():
             self.assertTrue(callable(fn))

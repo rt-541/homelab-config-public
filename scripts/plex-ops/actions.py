@@ -17,6 +17,7 @@ Every action:
   (house rule; lib.compose runs `sudo -n docker compose` in the stack dir).
 """
 
+import os
 import time
 
 import plexops_lib as lib
@@ -351,6 +352,18 @@ def action_queue_remove(body):
             % (qid, view["classification"], expect),
             detail={"item": view},
         )
+    # A COMPLETED download that stays in the client is re-tracked by the arr
+    # on its next client poll under the SAME queue id (ids derive from the
+    # download), so "remove from queue, keep the download" is a no-op that
+    # only looks like it worked (observed 2026-09-14: 9 items removed twice,
+    # back within a minute). Refuse it; the caller must delete the download.
+    if not remove_data and (view.get("sizeleft") or 0) == 0:
+        _verify_failed(
+            "queue item %d is a completed download still in the client; removing it "
+            "without removeData re-tracks it under the same id - pass removeData: true"
+            % qid,
+            detail={"item": view, "hint": "removeData: true (blocklist keeps it from being grabbed again)"},
+        )
     if remove_data and item.get("outputPath"):
         try:
             lib.safe_download_path(_host_path(item["outputPath"]))
@@ -565,13 +578,327 @@ def action_delete_download(body):
 
 
 # ---------------------------------------------------------------------------
+# Help-desk item actions (CONTRACT.md 5.7 / 5.8). Both address exactly ONE
+# episode (sonarr) or movie (radarr) by id - never a season or a series -
+# and re-verify that item's file state before and after.
+
+
+def _quality_name(f):
+    return (((f or {}).get("quality") or {}).get("quality") or {}).get("name")
+
+
+def _file_view(f):
+    if not f or f.get("id") is None:
+        return None
+    return {"id": f.get("id"), "path": lib.arr_host_path(f.get("path")),
+            "size": f.get("size"), "quality": _quality_name(f)}
+
+
+def _item_target(app, body):
+    """Resolve the single item an action addresses -> (kind, id, path, record).
+    409 when the id no longer exists in the arr."""
+    if app == "sonarr":
+        if body.get("movie_id") is not None:
+            _bad("sonarr takes episode_id, not movie_id")
+        rid = _get_id(body, "episode_id")
+        kind, path = "episode", "/api/v3/episode/%d" % rid
+    else:
+        if body.get("episode_id") is not None:
+            _bad("radarr takes movie_id, not episode_id")
+        rid = _get_id(body, "movie_id")
+        kind, path = "movie", "/api/v3/movie/%d" % rid
+    rec = _arr_resource(app, path)
+    if rec is None:
+        _verify_failed("%s %d not found in %s" % (kind, rid, app),
+                       detail={"missing_ids": [rid]})
+    return kind, rid, path, rec
+
+
+def _current_file(app, kind, rec):
+    """The item's file record, fetched separately when the arr only embeds
+    the id. None when the item has no file."""
+    f = rec.get("episodeFile" if kind == "episode" else "movieFile")
+    if not f and rec.get("hasFile"):
+        fid = rec.get("episodeFileId" if kind == "episode" else "movieFileId")
+        if fid:
+            f = _arr_resource(app, "/api/v3/%sfile/%d" % (kind, fid))
+    return f if (f and f.get("id") is not None) else None
+
+
+def _latest_grab_history(app, kind, rid):
+    """(history_id, source_title) of the newest grab/import record for the
+    item - the record to mark failed so the arr blocklists that release.
+    (None, None) when there is no such history."""
+    if kind == "episode":
+        resp = lib.arr_get("sonarr", "/api/v3/history",
+                           {"episodeId": rid, "pageSize": 50,
+                            "sortKey": "date", "sortDirection": "descending"})
+        recs = (resp or {}).get("records") or []
+    else:
+        recs = lib.arr_get("radarr", "/api/v3/history/movie", {"movieId": rid}) or []
+    recs = sorted([r for r in recs if isinstance(r, dict) and r.get("id") is not None],
+                  key=lambda r: r.get("date") or "", reverse=True)
+    grabs = [r for r in recs if r.get("eventType") == "grabbed"]
+    imports = [r for r in recs if r.get("eventType") == "downloadFolderImported"]
+    # The file on disk came from the newest import; blocklist the grab that
+    # produced THAT download (matched by downloadId), not a later grab that
+    # never imported. Fall back to the import record, then any grab.
+    if imports:
+        did = imports[0].get("downloadId")
+        for g in grabs:
+            if not did or g.get("downloadId") == did:
+                return g["id"], g.get("sourceTitle")
+        return imports[0]["id"], imports[0].get("sourceTitle")
+    if grabs:
+        return grabs[0]["id"], grabs[0].get("sourceTitle")
+    return None, None
+
+
+def _search_command(app, kind, rid):
+    if app == "radarr":
+        return ({"name": "MoviesSearch", "movieIds": [rid]},
+                "POST radarr /api/v3/command MoviesSearch movieIds=[%d]" % rid)
+    return ({"name": "EpisodeSearch", "episodeIds": [rid]},
+            "POST sonarr /api/v3/command EpisodeSearch episodeIds=[%d]" % rid)
+
+
+def _run_search(app, cmd, performed, step):
+    resp = lib.arr_call(app, "POST", "/api/v3/command", body=cmd) or {}
+    performed.append(step)
+    command_id = resp.get("id")
+    if command_id is None:
+        _verify_failed("%s did not return a command id" % app,
+                       detail={"performed": performed, "response": resp})
+    return command_id, resp.get("status") or resp.get("state")
+
+
+def action_replace_file(body):
+    """A user reported the current file as bad: blocklist the release that
+    produced it (newest grab/import history marked failed), delete the file
+    through the arr, and search for a replacement."""
+    body = _require_body(body)
+    dry_run = _get_bool(body, "dry_run")
+    app = _require_arr(body)
+    blocklist = _get_bool(body, "blocklist", True)
+    kind, rid, path, rec = _item_target(app, body)
+
+    f = _current_file(app, kind, rec)
+    if f is None:
+        _verify_failed("%s %d has no file to replace" % (kind, rid),
+                       detail={"has_file": False, "title": rec.get("title")})
+    hist_id, source_title = _latest_grab_history(app, kind, rid) if blocklist else (None, None)
+
+    before = {"app": app, "%s_id" % kind: rid, "title": rec.get("title"),
+              "series_id": rec.get("seriesId") if kind == "episode" else None,
+              "file": _file_view(f), "history_id": hist_id, "source_title": source_title}
+    planned = []
+    if blocklist:
+        if hist_id is not None:
+            planned.append("POST %s /api/v3/history/failed/%d (blocklist %r)"
+                           % (app, hist_id, source_title))
+        else:
+            planned.append("blocklist skipped: no grab/import history for %s %d"
+                           % (kind, rid))
+    planned.append("DELETE %s /api/v3/%sfile/%d (%s)"
+                   % (app, kind, f["id"], lib.arr_host_path(f.get("path"))))
+    cmd, search_step = _search_command(app, kind, rid)
+    planned.append(search_step)
+    if dry_run:
+        return _dry_result("replace-file", before, planned)
+
+    performed = []
+    if blocklist:
+        if hist_id is not None:
+            lib.arr_call(app, "POST", "/api/v3/history/failed/%d" % hist_id)
+        performed.append(planned[0])
+    lib.arr_call(app, "DELETE", "/api/v3/%sfile/%d" % (kind, f["id"]))
+    performed.append(planned[-2])
+    rec2 = _arr_resource(app, path)
+    if rec2 is None or rec2.get("hasFile"):
+        _verify_failed("%s %d still has a file after delete" % (kind, rid),
+                       detail={"performed": performed, "has_file": bool(rec2 and rec2.get("hasFile"))})
+    command_id, state = _run_search(app, cmd, performed, search_step)
+    after = {"has_file": False, "blocklisted": bool(blocklist and hist_id is not None),
+             "command_id": command_id, "command_state": state}
+    return _result("replace-file", False, before, planned, performed, after, True)
+
+
+def action_fill_missing(body):
+    """A user reported an item missing: make sure it is monitored, then
+    search. Refuses (409) when the item already has a file - that is a
+    replace-file request, not a fill."""
+    body = _require_body(body)
+    dry_run = _get_bool(body, "dry_run")
+    app = _require_arr(body)
+    monitor = _get_bool(body, "monitor", True)
+    kind, rid, path, rec = _item_target(app, body)
+
+    if rec.get("hasFile"):
+        _verify_failed("%s %d already has a file" % (kind, rid),
+                       detail={"has_file": True, "title": rec.get("title"),
+                               "file": _file_view(_current_file(app, kind, rec))})
+    need_monitor = monitor and not rec.get("monitored")
+    before = {"app": app, "%s_id" % kind: rid, "title": rec.get("title"),
+              "series_id": rec.get("seriesId") if kind == "episode" else None,
+              "monitored": bool(rec.get("monitored")), "has_file": False,
+              "air_date": rec.get("airDate") if kind == "episode" else rec.get("year")}
+    planned = []
+    if need_monitor:
+        if kind == "episode":
+            planned.append("PUT sonarr /api/v3/episode/monitor episodeIds=[%d] monitored=true" % rid)
+        else:
+            planned.append("PUT radarr /api/v3/movie/%d monitored=true" % rid)
+    cmd, search_step = _search_command(app, kind, rid)
+    planned.append(search_step)
+    if dry_run:
+        return _dry_result("fill-missing", before, planned)
+
+    performed = []
+    if need_monitor:
+        if kind == "episode":
+            lib.arr_call("sonarr", "PUT", "/api/v3/episode/monitor",
+                         body={"episodeIds": [rid], "monitored": True})
+        else:
+            obj = dict(rec)
+            obj["monitored"] = True
+            lib.arr_call("radarr", "PUT", "/api/v3/movie/%d" % rid, body=obj)
+        performed.append(planned[0])
+        rec2 = _arr_resource(app, path)
+        if rec2 is None or not rec2.get("monitored"):
+            _verify_failed("%s %d is still unmonitored after update" % (kind, rid),
+                           detail={"performed": performed})
+    command_id, state = _run_search(app, cmd, performed, search_step)
+    after = {"monitored": True if need_monitor else bool(rec.get("monitored")),
+             "command_id": command_id, "command_state": state}
+    return _result("fill-missing", False, before, planned, performed, after, True)
+
+
+# ---------------------------------------------------------------------------
+# Compression-wave actions (CONTRACT.md 5.9-5.12). reclaim-schedule REPLACES
+# the worker queue with the chosen set (the plan for one window); the flag
+# actions touch/remove the worker's PAUSE / PILOT_ACK files. The worker
+# itself (media-transcoder) is never started or stopped from here.
+
+import probes as _probes  # noqa: E402  (plan logic is shared with the probe)
+
+
+def _reclaim_plan_from_body(body):
+    window = body.get("window", "tonight")
+    if window not in ("tonight", "workday", "next"):
+        _bad("window must be tonight, workday, or next")
+    hours = body.get("hours")
+    if hours is not None and (isinstance(hours, bool) or not isinstance(hours, (int, float))
+                              or hours <= 0):
+        _bad("hours must be a positive number")
+    limit = body.get("limit")
+    if limit is not None and (not isinstance(limit, int) or isinstance(limit, bool) or limit <= 0):
+        _bad("limit must be a positive integer")
+    return _probes.reclaim_plan(window, hours, limit, _get_bool(body, "refresh"))
+
+
+def action_reclaim_schedule(body):
+    """Queue a compression wave: either the given titles or the plan for a
+    window. The queue file is replaced wholesale, so what is queued is
+    exactly the wave; the worker picks it up inside its windows."""
+    body = _require_body(body)
+    dry_run = _get_bool(body, "dry_run")
+    titles = body.get("titles")
+    if titles is not None and (not isinstance(titles, list) or not titles
+                               or not all(isinstance(t, str) and t.strip() for t in titles)):
+        _bad("titles must be a non-empty list of strings")
+    plan = _reclaim_plan_from_body(body)
+    rep = lib.latest_reclaim_report()
+    cands = {c["title"]: c for c in _probes._candidate_rows(rep[1])} if rep else {}
+    if titles is None:
+        chosen = plan["selected"]
+    else:
+        missing = [t for t in titles if t not in cands]
+        if missing:
+            _verify_failed("titles not among the current transcode candidates: %s" % missing,
+                           detail={"missing_titles": missing,
+                                   "hint": "titles must match the scan report exactly"})
+        chosen = [dict(cands[t], est_minutes=_probes._plan_minutes(cands[t]["size_gb"]))
+                  for t in titles]
+    for c in chosen:
+        if lib.reclaim_keep_match(c["title"]):
+            _verify_failed("keep-list title refused: %s" % c["title"], detail={"title": c["title"]})
+    if not chosen:
+        _verify_failed("nothing fits the window budget", detail={"window": plan["window"]})
+    # Re-verify every source file is still there and not hollow.
+    rows, gone = [], []
+    for c in chosen:
+        path = os.path.join(lib.PLEX_ROOT, c["rel_path"])
+        st = lib.stat_file(path)
+        if st is None or st["sparse"]:
+            gone.append({"title": c["title"], "reason": "missing" if st is None else "sparse"})
+            continue
+        rows.append((c["rel_path"], st["size_bytes"], c["est_target_gb"], c["title"]))
+    if gone:
+        _verify_failed("source files missing or hollow: %s" % [g["title"] for g in gone],
+                       detail={"gone": gone})
+    before = {"queue_rows": len(lib.reclaim_queue_rows()), "window": plan["window"],
+              "flags": plan["flags"], "counts": plan["counts"] if titles is None else None}
+    planned = ["write %s with %d titles (%s, est. gain %.0f GiB, est. %.1f h)"
+               % (lib.RECLAIM_QUEUE, len(rows), plan["window"]["label"] or "manual",
+                  sum(c["est_gain_gb"] for c in chosen),
+                  sum(c["est_minutes"] for c in chosen) / 60.0)]
+    planned += ["  %s [%s, %.0f GiB -> ~%s GiB]" % (c["title"], c["band"], c["size_gb"],
+                                                   c["est_target_gb"]) for c in chosen]
+    if dry_run:
+        return _dry_result("reclaim-schedule", before, planned)
+    lib.write_reclaim_queue(rows)
+    performed = list(planned)
+    now_rows = lib.reclaim_queue_rows()
+    if {r["rel_path"] for r in now_rows} != {r[0] for r in rows}:
+        _verify_failed("queue does not match the scheduled set after write",
+                       detail={"performed": performed, "queue_rows": len(now_rows)})
+    after = {"queue_rows": len(now_rows), "est_gain_gb": round(sum(c["est_gain_gb"] for c in chosen), 1),
+             "est_hours": round(sum(c["est_minutes"] for c in chosen) / 60.0, 2),
+             "titles": [c["title"] for c in chosen]}
+    return _result("reclaim-schedule", False, before, planned, performed, after, True)
+
+
+def _flag_action(name, path, want_present):
+    def _run(body):
+        body = _require_body(body)
+        dry_run = _get_bool(body, "dry_run")
+        present = os.path.exists(path)
+        before = {"flag": os.path.basename(path), "present": present,
+                  "flags": lib.reclaim_flags()}
+        if present == want_present:
+            return _result(name, dry_run, before, [], [], None if dry_run else before, None if dry_run else True)
+        planned = [("sudo touch %s" if want_present else "sudo rm -f %s") % path]
+        if dry_run:
+            return _dry_result(name, before, planned)
+        lib.sudo(["touch", path] if want_present else ["rm", "-f", path])
+        if os.path.exists(path) != want_present:
+            _verify_failed("%s still %s" % (path, "absent" if want_present else "present"),
+                           detail={"performed": planned})
+        after = {"flag": os.path.basename(path), "present": want_present,
+                 "flags": lib.reclaim_flags()}
+        return _result(name, False, before, planned, list(planned), after, True)
+    return _run
+
+
+action_reclaim_pause = _flag_action("reclaim-pause", lib.RECLAIM_PAUSE, True)
+action_reclaim_resume = _flag_action("reclaim-resume", lib.RECLAIM_PAUSE, False)
+action_reclaim_pilot_ack = _flag_action("reclaim-pilot-ack", lib.RECLAIM_PILOT_ACK, True)
+
+
+# ---------------------------------------------------------------------------
 # Whitelist (CONTRACT.md section 7.3)
 
 ACTIONS = {
+    "reclaim-schedule": action_reclaim_schedule,
+    "reclaim-pause": action_reclaim_pause,
+    "reclaim-resume": action_reclaim_resume,
+    "reclaim-pilot-ack": action_reclaim_pilot_ack,
     "restart-prowlarr": action_restart_prowlarr,
     "pull-recreate": action_pull_recreate,
     "resurrect-stragglers": action_resurrect_stragglers,
     "queue-remove": action_queue_remove,
     "search": action_search,
     "delete-download": action_delete_download,
+    "replace-file": action_replace_file,
+    "fill-missing": action_fill_missing,
 }

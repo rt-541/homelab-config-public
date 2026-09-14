@@ -14,9 +14,14 @@ and act per the tier table. All calls go to `$RUNNER_URL` with
   - `malware-ext` -> `queue-remove` with `blocklist: true, removeData: true`,
     then `search` to re-grab the target, and if the arr leaves the payload
     behind (output path still present after removal), `delete-download` it.
-  - `not-upgrade` -> `queue-remove` with `blocklist: true, removeData: false`.
+  - `not-upgrade` -> `queue-remove` with `blocklist: true, removeData: true`.
+    (Always `removeData: true` for a completed download: Sonarr re-tracks a
+    download that stays in the client under the same queue id within a
+    minute, so a remove without it is a no-op; the runner refuses it.)
 - **Approval tier** (numbered list, wait for `approve ...`):
-  - `mapping-mismatch`, `sample-stall`, `unknown`.
+  - `mapping-mismatch`, `sample-stall`, `unknown`: on approval,
+    `queue-remove` with `blocklist: true, removeData: true` (same reason as
+    above; never propose a remove without `removeData`).
   - `unknown` includes healthy in-progress downloads: list an `unknown` item
     only when its evidence shows something actually wrong (warning status,
     stalled, error message). A downloading item with no warnings is not a

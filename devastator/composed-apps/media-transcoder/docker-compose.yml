@@ -1,0 +1,44 @@
+# media-transcoder: batch-compress 4K remuxes on the Arc Pro B70 (VA-API),
+# reading/writing the nemesis media libraries over NFS (same volume pattern
+# as the plex app). The worker self-schedules: it only starts encodes inside
+# the windows in transcode-policy.conf and idles otherwise, so there are no
+# systemd timers to manage. One replica only.
+#
+# Queue and state live on the share at /docker/plex/media/.reclaim/ and are
+# produced by scripts/media-reclaim/ on nemesis. See README.md for the
+# campaign runbook and the pilot gate.
+services:
+  media-transcoder:
+    image: lscr.io/linuxserver/ffmpeg:latest
+    container_name: media-transcoder
+    restart: unless-stopped
+    entrypoint: ["/bin/bash", "/worker.sh"]
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - nfs_media:/data
+      - /docker/transcode-scratch:/scratch
+      - ./worker.sh:/worker.sh:ro
+      - ./transcode-policy.conf:/policy.conf:ro
+    environment:
+      TZ: America/Detroit
+      # Optional: Plex session guard + Discord notifications (.env)
+      PLEX_URL: "${PLEX_URL:-http://devastator.rt-541.io:32400}"
+      PLEX_TOKEN: "${PLEX_TOKEN:-}"
+      WEBHOOK_URL: "${WEBHOOK_URL:-}"
+    deploy:
+      resources:
+        limits:
+          cpus: "6"
+          memory: "8G"
+        reservations:
+          cpus: "2"
+          memory: "2G"
+
+volumes:
+  nfs_media:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.1.214,rw,nfsvers=4
+      device: ":/"

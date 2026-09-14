@@ -222,6 +222,145 @@ every chunk.
 `apparent_bytes`/`allocated_bytes` are present only on `sparse-file` findings.
 Findings are report-only; the probe deletes nothing.
 
+### 3.5 `GET /probe/lookup?app=<sonarr|radarr>&q=<title>[&season=N[&episode=M]]`
+
+Help-desk title resolution. `app` and `q` required; `season`/`episode` are
+sonarr-only and `episode` requires `season` (400 otherwise). Read-only: one
+`GET /api/v3/series` (or `/movie`), plus one `GET /api/v3/episode` when a
+season is requested and the series resolved.
+
+Matching (`probes._title_score`, over the title and its alternate titles,
+case-insensitive, punctuation stripped): exact 100, prefix 90, substring 80,
+else 70 x (fraction of query words present). Candidates below 40 are
+dropped; the top 5 are returned, best score first, newer year first on ties.
+`resolved_id` is the single candidate's id, or the top id when it scores
+>= 90 and beats the runner-up; otherwise null (the agent must ask).
+
+```json
+{
+  "ok": true, "probe": "lookup", "ts": "...", "app": "sonarr",
+  "query": "the show", "season": 3, "episode": 5,
+  "matches": [
+    {"id": 10, "title": "The Show", "year": 2019, "monitored": true,
+     "path": "/docker/plex/media/tv/The Show", "score": 100,
+     "status": "continuing", "episode_file_count": 20, "episode_count": 22,
+     "seasons": [{"season": 3, "monitored": true,
+                  "episode_file_count": 9, "total_episode_count": 10}]}
+  ],
+  "resolved_id": 10,
+  "episodes": [
+    {"id": 305, "season": 3, "episode": 5, "title": "...", "air_date": "2021-02-01",
+     "monitored": true, "has_file": false, "file": null}
+  ]
+}
+```
+
+radarr matches carry `has_file` and `file` (`{id, path, size, quality}`)
+instead of `status`/`seasons`; `episodes` is always null for radarr and for
+an unresolved series. `file.path` and `path` are host paths.
+
+### 3.6 `GET /probe/reclaim-status`
+
+Compression-campaign state from the NFS-shared `/docker/plex/media/.reclaim/`
+tree (written by `scripts/media-reclaim/` and the `media-transcoder` worker)
+and the newest scan report under `/docker/plex/logs/media-reclaim/`.
+
+```json
+{
+  "ok": true, "probe": "reclaim-status", "ts": "...",
+  "queue": {"total": 7, "remaining": 5, "done": 2, "failed": 0,
+            "next": "<title>", "remaining_source_gb": 401.2},
+  "saved_gb": 118.4,
+  "failed_recent": [{"rel_path": "...", "reason": "ffmpeg-rc=1"}],
+  "flags": {"paused": false, "pilot_ack": false, "pilot_notified": false, "complete_notified": false},
+  "pilot_limit": 3,
+  "window": {"in_window": true,
+             "current": {"label": "daily 22:30-06:30", "start": "...", "end": "...", "hours": 8.0,
+                         "overnight": true, "remaining_hours": 6.1},
+             "next": {"label": "Mon-Fri 08:30-16:30", "start": "...", "end": "...", "hours": 8.0, "overnight": false}},
+  "worker_status": "<tail of status.md or null>",
+  "last_df_checkpoint": "<line or null>",
+  "candidates": {"remaining": 272, "est_gain_gb": 10547.9, "report_age_minutes": 7}
+}
+```
+
+`saved_gb` sums `saved:N` from ledger `transcode-replace` rows. Windows are
+parsed from `devastator/composed-apps/media-transcoder/transcode-policy.conf`
+(`WINDOWS=`), mirroring the worker.
+
+### 3.7 `GET /probe/reclaim-plan?window=<tonight|workday|next>[&hours=H][&limit=N][&refresh=true]`
+
+"What can we compress tonight." Candidates are the newest scan report's
+`transcode` rows (no SKIP, not keep-list, not in `done.list`/`failed.list`),
+in report order (largest expected gain first). The budget is the chosen
+window's hours (`tonight` = the current or next overnight window, with the
+remaining hours when inside it; `workday` = the next daytime window;
+`next` = the soonest), or `hours`. Each title costs
+`size_gb / RECLAIM_GB_PER_HOUR` hours (env, default 60 = about one film an
+hour); titles are taken greedily while they fit, up to `limit`.
+`refresh=true` (or no report yet) runs the read-only `scan_candidates.py`
+first (about a minute; writes a stamped report dir).
+
+```json
+{
+  "ok": true, "probe": "reclaim-plan", "ts": "...",
+  "window": {"kind": "tonight", "label": "daily 22:30-06:30", "start": "...", "end": "...", "budget_hours": 6.1},
+  "gb_per_hour": 60.0,
+  "counts": {"large": 4, "medium": 0, "small": 0, "total": 4},
+  "est_gain_gb": 243.6, "est_hours": 5.63,
+  "selected": [{"title": "Forrest Gump (1994)", "mount": "media", "size_gb": 87.3,
+                "est_target_gb": "24", "est_gain_gb": 62.9, "est_minutes": 87,
+                "band": "large", "rel_path": "media/movies/Forrest Gump (1994)/....mkv",
+                "queued": false, "flags": "-"}],
+  "remaining_candidates": 272, "remaining_est_gain_gb": 10547.9, "already_queued": 0,
+  "report": {"dir": "...", "age_minutes": 7},
+  "flags": {"paused": false, "pilot_ack": false, "...": "..."},
+  "notes": ["pilot gate: the worker stops after 3 encodes until reclaim-pilot-ack"]
+}
+```
+
+Bands by source size: `large` >= 60 GiB, `medium` >= 40, else `small`.
+
+### 3.8 `GET /probe/title-stats?app=<sonarr|radarr>&(q=<title>|id=N)`
+
+Everything known about one show or movie, from three read-only sources:
+
+- **size** from the arr record: sonarr `statistics` (`on_disk_gb`, `files`,
+  `episodes_aired`, `episodes_total`, `seasons`, `percent_on_disk`); radarr
+  `sizeOnDisk` + `movieFile` (`on_disk_gb`, `files`, `quality`, `path`).
+- **plex** from the Plex server's history (`PLEX_URL`/`PLEX_TOKEN` in the
+  runner env; default URL `http://devastator.rt-541.io:32400`). The library
+  item is located by external id (`tvdb://`, `tmdb://`, `imdb://` guids,
+  title+year fallback); its section history (paged, cached 10 min) is
+  filtered to the movie's rating key or the show's `grandparentKey`.
+  `watchers` = distinct Plex accounts (a person counts once for a show, not
+  per episode), `plays` = history rows, `users` = per-account plays,
+  distinct items and last watched, plus `first_watched`/`last_watched`,
+  `rating_key`, `added_at`. Names come from `/accounts`.
+- **requests** from Seerr (`SEERR_URL` default `http://localhost:5055`; api
+  key from `SEERR_API_KEY` or `/docker/seerr/settings.json`), via
+  `/api/v1/{movie|tv}/{tmdbId}` -> `mediaInfo.requests`: `[{"by", "email",
+  "date", "status", "is4k"}]`; `[]` when Seerr knows the title but holds no
+  request, `null` when it has no record at all.
+
+`q` resolves through the lookup probe; an ambiguous title returns
+`{"resolved": false, "matches": [...]}` instead. Plex or Seerr being
+unreachable is a `notes` entry, never a failure: the answer degrades to
+what is known. Notes also state the inherent gap: both histories live in
+per-server databases, so anything before a rebuild is gone.
+
+```json
+{"ok": true, "probe": "title-stats", "ts": "...", "app": "sonarr", "resolved": true,
+ "id": 3, "title": "3 Body Problem", "year": 2024, "monitored": true, "added": "2024-03-21",
+ "ids": {"tvdb": 411959, "tmdb": 108545, "imdb": "tt13016388"},
+ "size": {"on_disk_gb": 63.2, "files": 8, "episodes_aired": 8, "episodes_total": 16, "seasons": 1, "percent_on_disk": 100},
+ "plex": {"rating_key": "500", "added_at": "...", "watchers": 2, "plays": 4,
+          "users": [{"account_id": 1, "name": "rt541", "plays": 2, "distinct_items": 2, "last_watched": "..."}],
+          "first_watched": "...", "last_watched": "..."},
+ "requests": [{"by": "aschu9", "email": "...", "date": "2024-03-20", "status": "approved", "is4k": false}],
+ "notes": ["Plex history only covers this server's database; watches before a rebuild are not counted"]}
+```
+
 ## 4. Read-only arr passthrough - `GET /arr/<app>/api/v3/...`
 
 - `app` in `{sonarr, radarr}` (404 otherwise). Path must start `/api/v3/`
@@ -325,7 +464,10 @@ Body:
 `blocklist`/`removeData` default `false`. `expect` (optional) is a
 queue-health classification; pre-verify re-fetches the queue, 409s if `id` is
 gone, and 409s if `expect` is given and the item now classifies differently
-(the current item is in `detail`). When `removeData: true` and the item has an
+(the current item is in `detail`). A completed download (`sizeleft == 0`)
+with `removeData: false` is also a 409: the arr re-tracks a download that
+stays in the client under the same queue id on its next poll, so the
+removal would only appear to work (observed 2026-09-14). When `removeData: true` and the item has an
 output path, that path must resolve under `/docker/plex/media/downloads`
 (never `.Trash`) or the action 409s. Executes arr
 `DELETE /api/v3/queue/{id}?removeFromClient=<removeData>&blocklist=<blocklist>&skipRedownload=true`.
@@ -373,6 +515,75 @@ Body: `{"path": "/docker/plex/media/downloads/...", "allow_qbit_owned": false, "
   "samefile_hits": [], "qbit_checked": bool,
   "qbit_owner": {"hash", "name"} | null}`;
   `after`: `{"exists": false}`.
+
+### 5.7 `replace-file`
+
+Body: `{"app": "sonarr", "episode_id": 200, "blocklist": true, "dry_run": false}`
+or `{"app": "radarr", "movie_id": 7, ...}`. Exactly one item; `blocklist`
+defaults true.
+
+Pre-verify: the item exists (409 `missing_ids`) and has a file (409
+`has_file: false`); the file record is fetched separately when the arr only
+embeds its id. With `blocklist`, the history record to mark failed is located
+(`GET /api/v3/history?episodeId=` for sonarr, `GET /api/v3/history/movie?movieId=`
+for radarr): the `grabbed` record whose `downloadId` matches the newest
+`downloadFolderImported` record (the grab that produced the file on disk;
+`source_title` is then the release name), falling back to that import
+record, then to the newest grab. No history at all means the blocklist step
+is reported as skipped, not an error.
+
+Steps: `POST /api/v3/history/failed/{historyId}` (arr marks the release
+failed and blocklists it), `DELETE /api/v3/{episodefile|moviefile}/{id}`
+(arr deletes the file from disk), then `EpisodeSearch` / `MoviesSearch`.
+Post-verify between delete and search: the item reports `hasFile: false`
+(409 otherwise, with `performed`).
+
+`before`: `{"app", "<episode|movie>_id", "title", "series_id", "file": {id, path, size, quality}, "history_id", "source_title"}`;
+`after`: `{"has_file": false, "blocklisted": bool, "command_id", "command_state"}`.
+
+### 5.8 `fill-missing`
+
+Body: `{"app": "sonarr", "episode_id": 200, "monitor": true, "dry_run": false}`
+or `{"app": "radarr", "movie_id": 7, ...}`. `monitor` defaults true.
+
+Pre-verify: the item exists (409) and has NO file (409 `has_file: true` with
+the current file in `detail`; that is a replace-file request). Steps: when
+`monitor` and the item is unmonitored, `PUT /api/v3/episode/monitor`
+(sonarr) or `PUT /api/v3/movie/{id}` with the full object and
+`monitored: true` (radarr), re-verified (409 if still unmonitored); then the
+search command.
+
+`before`: `{"app", "<episode|movie>_id", "title", "series_id", "monitored", "has_file": false, "air_date"}`;
+`after`: `{"monitored": true, "command_id", "command_state"}`.
+
+### 5.9 `reclaim-schedule`
+
+Body: `{"window": "tonight", "hours": 6, "limit": 5, "titles": ["..."], "refresh": false, "dry_run": false}`
+(all optional; `titles` are exact titles from the scan report, otherwise the
+section-3.7 plan for `window`/`hours`/`limit` is used). The worker queue
+`/docker/plex/media/.reclaim/queue/queue.tsv` is REPLACED with the chosen
+set: what is queued is exactly the wave.
+
+Pre-verify: every title is a current transcode candidate (409
+`missing_titles`), none is on the keep list (409, re-checked from
+`scripts/media-reclaim/keep-list.conf`), and every source file still exists
+and is not hollow (`stat`, 409 `gone`). The queue is written largest-first
+via a temp file and `sudo install`, so the worker never reads a partial
+file. Post-verify: the queue's `rel_path` set equals the scheduled set.
+
+`before`: `{"queue_rows", "window", "flags", "counts"}`; `planned`: one
+summary line plus one line per title; `after`: `{"queue_rows",
+"est_gain_gb", "est_hours", "titles"}`. The worker itself is never started
+or stopped from here; it picks the queue up inside its windows.
+
+### 5.10 `reclaim-pause` / 5.11 `reclaim-resume` / 5.12 `reclaim-pilot-ack`
+
+Body: `{"dry_run": false}`. Touch (`pause`, `pilot-ack`) or remove
+(`resume`) the worker's flag file (`PAUSE`, `PILOT_ACK`) under
+`.reclaim/`. Idempotent: an already-satisfied request is a successful
+no-op (`planned: []`). `before`/`after`: `{"flag", "present", "flags"}`.
+The worker checks `PAUSE` between jobs (a running encode finishes) and
+stops after `PILOT_LIMIT` encodes until `PILOT_ACK` exists.
 
 ## 6. Audit log
 
@@ -556,8 +767,10 @@ def probe_queue_health(params): ...       # params: parsed query dict (unused)
 def probe_service_health(params): ...
 def probe_disk(params): ...
 def probe_library_audit(params): ...      # reads params["app"], ["chunk"], ["chunks"]
+def probe_lookup(params): ...              # reads params["app"], ["q"], ["season"], ["episode"]
 PROBES = {"queue-health": probe_queue_health, "service-health": probe_service_health,
-          "disk": probe_disk, "library-audit": probe_library_audit}
+          "disk": probe_disk, "library-audit": probe_library_audit,
+          "lookup": probe_lookup}
 ```
 
 Each probe takes the parsed query params as a `dict[str, str]`, returns the
@@ -573,12 +786,16 @@ def action_resurrect_stragglers(body): ...
 def action_queue_remove(body): ...
 def action_search(body): ...
 def action_delete_download(body): ...
+def action_replace_file(body): ...
+def action_fill_missing(body): ...
 ACTIONS = {"restart-prowlarr": action_restart_prowlarr,
            "pull-recreate": action_pull_recreate,
            "resurrect-stragglers": action_resurrect_stragglers,
            "queue-remove": action_queue_remove,
            "search": action_search,
-           "delete-download": action_delete_download}
+           "delete-download": action_delete_download,
+           "replace-file": action_replace_file,
+           "fill-missing": action_fill_missing}
 ```
 
 Each takes the parsed JSON body `dict`, returns the section-5 payload
@@ -590,6 +807,54 @@ re-verification failures) on any refusal.
 `def main():` - binds `$BIND:RUNNER_PORT` (default `0.0.0.0`), dispatches:
 `GET /healthz` (unauthenticated liveness, section 1),
 `GET /probe/<name>` -> `PROBES`, `POST /action/<name>` -> `ACTIONS`,
-`GET /arr/<app>/api/v3/...` -> `arr_get_raw`. Wraps every authed call in
-timing + `audit_append`, converts `PlexOpsError` to its envelope and any
-other exception to the 500 envelope. Runner never mutates anything itself.
+`GET /arr/<app>/api/v3/...` -> `arr_get_raw`, `POST /mcp` -> `mcp.handle`.
+Wraps every authed call in timing + `audit_append`, converts `PlexOpsError`
+to its envelope and any other exception to the 500 envelope. Runner never
+mutates anything itself.
+
+### 7.5 `mcp.py`
+
+Imports `plexops_lib`, `probes`, `actions` (+ stdlib). Exports `TOOLS` (the
+tool table), `tool_list()`, `dispatch(msg) -> (response|None, audit)`, and
+`handle(payload) -> (http_status, body|None, audit_records)`. Contains no
+business logic: every tool resolves to a `PROBES`/`ACTIONS` entry or to
+`arr_get_raw` with the section-4 rules re-applied.
+
+## 8. MCP surface - `POST /mcp`
+
+The same surfaces as typed tools for the agent's Claude Code harness
+(Model Context Protocol, JSON-RPC 2.0 over streamable HTTP, stateless).
+Bearer auth as everywhere; `GET`/other methods are 405; a non-JSON body is
+HTTP 400 with JSON-RPC error `-32700`. Supported: `initialize`
+(protocol versions 2025-06-18, 2025-03-26, 2024-11-05; unknown requested
+version -> newest), `notifications/*` (HTTP 202, empty body), `ping`,
+`tools/list`, `tools/call`. Batches (arrays) are accepted. No sessions, no
+SSE streams, no resources/prompts.
+
+Tools and their REST equivalents:
+
+| Tool | Surface |
+|---|---|
+| `lookup(app, query, season?, episode?)` | `GET /probe/lookup` (`query` -> `q`) |
+| `queue_health()`, `service_health()`, `disk()`, `library_audit(app, chunk, chunks?)` | the probes |
+| `arr_get(app, path, params?)` | section-4 passthrough, same denials; non-2xx upstream -> `upstream-error` |
+| `replace_file`, `fill_missing`, `search`, `queue_remove`, `delete_download`, `restart_prowlarr`, `pull_recreate`, `resurrect_stragglers` | `POST /action/<name with dashes>`, identical bodies |
+
+A tool call returns `result.content[0].text` = the JSON payload the REST
+surface would return (also in `structuredContent`), `isError: false`. A
+`PlexOpsError` (400/404/409/502) or unexpected exception becomes
+`isError: true` with the section-2 envelope as the text - a tool-level
+error, never a JSON-RPC error, so the model sees `error`/`message`/`detail`.
+JSON-RPC errors are reserved for protocol faults: unknown method `-32601`,
+unknown tool or bad params `-32602`, malformed message `-32600`.
+
+Audit: one line per JSON-RPC message, `kind: "mcp"`, `name` = the method or
+`tools/call <tool>`; tool calls carry `body` (the arguments), `dry_run`,
+`before`/`after` like REST actions.
+
+Client config (Claude Code / NanoClaw `mcpServers`):
+
+```json
+{"plex-ops": {"type": "http", "url": "http://nemesis.rt-541.io:8377/mcp",
+              "headers": {"Authorization": "Bearer <PLEXOPS_TOKEN>"}}}
+```
