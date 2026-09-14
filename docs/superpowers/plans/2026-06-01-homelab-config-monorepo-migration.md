@@ -4,7 +4,7 @@
 
 **Goal:** Consolidate the nemesis and devastator Docker-Compose configs into one history-preserving GitHub repo `homelab-config`, laid out per-system, after first relativizing the few absolute bind mounts so nothing breaks on the move.
 
-**Architecture:** Work in three reversible phases. Phase A hardens the 5 absolute in-repo bind mounts into relative paths while everything is still at `/docker/nemesis-configs` (and devastator at `/docker/devastator-configs`), verifying each touched app. Phase B restructures the repo on nemesis (`git mv` to `nemesis/composed-apps`, import devastator's configs to `devastator/composed-apps`, update scripts/systemd/docs). Phase C renames the GitHub repo, repoints the remote, moves the on-disk dir to `/docker/homelab-config`, and clones it on devastator. Running containers use `restart: unless-stopped`, so they keep running by container ID throughout; only the apps with in-repo mounts (traefik on both hosts, nemesis-bot) get a deliberate `down/up`.
+**Architecture:** Work in three reversible phases. Phase A hardens the 5 absolute in-repo bind mounts into relative paths while everything is still at `/docker/nemesis-configs` (and devastator at `/docker/devastator-configs`), verifying each touched app. Phase B restructures the repo on nemesis (`git mv` to `data-host/composed-apps`, import devastator's configs to `compute-node/composed-apps`, update scripts/systemd/docs). Phase C renames the GitHub repo, repoints the remote, moves the on-disk dir to `/docker/homelab-config`, and clones it on devastator. Running containers use `restart: unless-stopped`, so they keep running by container ID throughout; only the apps with in-repo mounts (traefik on both hosts, nemesis-bot) get a deliberate `down/up`.
 
 **Tech Stack:** Docker Compose (use `sudo docker compose`), git, systemd, RHEL 9, SSH to devastator (`aschneider@192.168.1.216`).
 
@@ -185,20 +185,20 @@ ssh aschneider@192.168.1.216 'cd /docker/devastator-configs && git add composed-
 
 ### Task B1: Move composed-apps under nemesis/
 
-**Files:** all of `composed-apps/` -> `nemesis/composed-apps/`
+**Files:** all of `composed-apps/` -> `data-host/composed-apps/`
 
 - [ ] **Step 1: git mv the tree**
 
 Run:
 ```bash
-cd /docker/nemesis-configs && mkdir -p nemesis && git mv composed-apps nemesis/composed-apps
+cd /docker/nemesis-configs && mkdir -p nemesis && git mv composed-apps data-host/composed-apps
 ```
 Expected: git stages renames for every tracked file under composed-apps.
 
 - [ ] **Step 2: Verify the move and that no running container is affected yet**
 
 Run: `git -C /docker/nemesis-configs status | head -20`
-Expected: renames `composed-apps/... -> nemesis/composed-apps/...`. Running containers are untouched (they still reference the old on-disk path; the on-disk path does not change until Phase C).
+Expected: renames `composed-apps/... -> data-host/composed-apps/...`. Running containers are untouched (they still reference the old on-disk path; the on-disk path does not change until Phase C).
 
 - [ ] **Step 3: Commit the restructure**
 
@@ -207,9 +207,9 @@ Run:
 git -C /docker/nemesis-configs commit -m "refactor(repo): move composed-apps under nemesis/ for per-system monorepo"
 ```
 
-### Task B2: Import devastator configs into devastator/composed-apps
+### Task B2: Import devastator configs into compute-node/composed-apps
 
-**Files:** create `devastator/composed-apps/{plex,traefik,pihole}/...`
+**Files:** create `compute-node/composed-apps/{plex,traefik,pihole}/...`
 
 - [ ] **Step 1: Copy devastator's committed configs to nemesis**
 
@@ -218,19 +218,19 @@ Run:
 mkdir -p /docker/nemesis-configs/devastator
 rsync -av --exclude='.git' aschneider@192.168.1.216:/docker/devastator-configs/composed-apps /docker/nemesis-configs/devastator/
 ```
-Expected: `devastator/composed-apps/{plex,traefik,pihole}/` now exist on nemesis, with the relativized traefik mounts from Task A4.
+Expected: `compute-node/composed-apps/{plex,traefik,pihole}/` now exist on nemesis, with the relativized traefik mounts from Task A4.
 
 - [ ] **Step 2: Sanity-check the imported traefik mounts are relative**
 
-Run: `grep -nE 'traefik.yml|/config' /docker/nemesis-configs/devastator/composed-apps/traefik/docker-compose.yml`
+Run: `grep -nE 'traefik.yml|/config' /docker/nemesis-configs/compute-node/composed-apps/traefik/docker-compose.yml`
 Expected: shows `./traefik.yml:/traefik.yml` and `./config:/config` (NOT absolute `/docker/devastator-configs/...`).
 
 - [ ] **Step 3: Commit**
 
 Run:
 ```bash
-git -C /docker/nemesis-configs add devastator/composed-apps
-git -C /docker/nemesis-configs commit -m "feat(repo): import devastator configs into devastator/composed-apps"
+git -C /docker/nemesis-configs add compute-node/composed-apps
+git -C /docker/nemesis-configs commit -m "feat(repo): import devastator configs into compute-node/composed-apps"
 ```
 
 ### Task B3: Update nemesis scripts to the new paths
@@ -244,16 +244,16 @@ git -C /docker/nemesis-configs commit -m "feat(repo): import devastator configs 
 
 - [ ] **Step 1: compose-manager.sh and fix-compose-env.sh**
 
-In both, change `COMPOSE_DIR="/docker/nemesis-configs/composed-apps"` to `COMPOSE_DIR="/docker/homelab-config/nemesis/composed-apps"`.
+In both, change `COMPOSE_DIR="/docker/nemesis-configs/composed-apps"` to `COMPOSE_DIR="/docker/homelab-config/data-host/composed-apps"`.
 
 - [ ] **Step 2: backup_minecraft.sh (two lines)**
 
-Change both occurrences of `/docker/nemesis-configs/composed-apps/minecraft/docker-compose.yml` to `/docker/homelab-config/nemesis/composed-apps/minecraft/docker-compose.yml`.
+Change both occurrences of `/docker/nemesis-configs/composed-apps/minecraft/docker-compose.yml` to `/docker/homelab-config/data-host/composed-apps/minecraft/docker-compose.yml`.
 
 - [ ] **Step 3: clone-prod-to-dev.sh (path move AND bug fix)**
 
 Change line 5 comment `/docker/nemesis-configs/scripts/clone-prod-to-dev.sh` to `/docker/homelab-config/scripts/clone-prod-to-dev.sh`.
-Change line 10 `DEV_COMPOSE_DIR="/docker/nemesis-configs/composed-apps/zomboid-dev"` to the CORRECT path `DEV_COMPOSE_DIR="/docker/homelab-config/nemesis/composed-apps/zomboid/zomboid-dev"` (the old value pointed at a non-existent `composed-apps/zomboid-dev`; the real location is nested under `zomboid/`).
+Change line 10 `DEV_COMPOSE_DIR="/docker/nemesis-configs/composed-apps/zomboid-dev"` to the CORRECT path `DEV_COMPOSE_DIR="/docker/homelab-config/data-host/composed-apps/zomboid/zomboid-dev"` (the old value pointed at a non-existent `composed-apps/zomboid-dev`; the real location is nested under `zomboid/`).
 
 - [ ] **Step 4: restore_items_only.sh**
 
@@ -287,11 +287,11 @@ In `systemd-unit-files/docker-clean.service` change `ExecStart=/docker/nemesis-c
 
 - [ ] **Step 2: Update CLAUDE.md path examples**
 
-Replace the `cd /docker/nemesis-configs/composed-apps/zomboid` examples with `cd /docker/homelab-config/nemesis/composed-apps/zomboid`. Update the "Project Structure" line to describe the per-system layout (`<system>/composed-apps/<app>`).
+Replace the `cd /docker/nemesis-configs/composed-apps/zomboid` examples with `cd /docker/homelab-config/data-host/composed-apps/zomboid`. Update the "Project Structure" line to describe the per-system layout (`<system>/composed-apps/<app>`).
 
 - [ ] **Step 3: Update doc/README path references**
 
-Replace `/docker/nemesis-configs` occurrences in `scripts/README.md`, `scripts/zomboid-world-reset/RUNBOOK.md`, `scripts/zomboid-b42-migration/README.md`, and `ansible/README.md` with the corresponding `/docker/homelab-config[/nemesis/composed-apps]` path.
+Replace `/docker/nemesis-configs` occurrences in `scripts/README.md`, `scripts/zomboid-world-reset/RUNBOOK.md`, `scripts/zomboid-b42-migration/README.md`, and `ansible/README.md` with the corresponding `/docker/homelab-config[/data-host/composed-apps]` path.
 
 - [ ] **Step 4: Grep for remaining references (excluding the design/plan docs which describe the migration)**
 
@@ -309,7 +309,7 @@ git -C /docker/nemesis-configs commit -m "docs: update paths to /docker/homelab-
 ### Task B5: Update .claude allowlists (cosmetic) and push the branch
 
 **Files:**
-- Modify: `.claude/settings.local.json`, `nemesis/composed-apps/.claude/settings.local.json`, `nemesis/composed-apps/zomboid/.claude/settings.local.json`
+- Modify: `.claude/settings.local.json`, `data-host/composed-apps/.claude/settings.local.json`, `data-host/composed-apps/zomboid/.claude/settings.local.json`
 
 - [ ] **Step 1: Repoint allowlist entries**
 
@@ -319,7 +319,7 @@ In each of the three settings files, replace `/docker/nemesis-configs` with the 
 
 Run:
 ```bash
-git -C /docker/nemesis-configs add .claude/settings.local.json 'nemesis/composed-apps/.claude/settings.local.json' 'nemesis/composed-apps/zomboid/.claude/settings.local.json'
+git -C /docker/nemesis-configs add .claude/settings.local.json 'data-host/composed-apps/.claude/settings.local.json' 'data-host/composed-apps/zomboid/.claude/settings.local.json'
 git -C /docker/nemesis-configs commit -m "chore(claude): repoint permission allowlists to homelab-config paths"
 ```
 
@@ -380,20 +380,20 @@ Expected: success, no auth/404 error.
 - [ ] **Step 1: Move the directory**
 
 Run: `sudo mv /docker/nemesis-configs /docker/homelab-config`
-Expected: directory moved; `ls /docker/homelab-config/nemesis/composed-apps` lists the apps.
+Expected: directory moved; `ls /docker/homelab-config/data-host/composed-apps` lists the apps.
 
 - [ ] **Step 2: Re-up Traefik from the new path**
 
 Run:
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/traefik && sudo docker compose down && sudo docker compose up -d
+cd /docker/homelab-config/data-host/composed-apps/traefik && sudo docker compose down && sudo docker compose up -d
 ```
 
 - [ ] **Step 3: Re-up nemesis-bot from the new path**
 
 Run:
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/nemesis-bot && sudo docker compose down && sudo docker compose up -d
+cd /docker/homelab-config/data-host/composed-apps/nemesis-bot && sudo docker compose down && sudo docker compose up -d
 ```
 
 - [ ] **Step 4: Verify mounts now resolve under /docker/homelab-config and routing works**
@@ -404,7 +404,7 @@ sudo docker inspect traefik --format '{{range .Mounts}}{{.Source}}{{"\n"}}{{end}
 curl -skI https://about.rt-541.io | head -1
 sudo docker inspect nemesis-bot --format '{{range .Mounts}}{{.Source}}{{"\n"}}{{end}}'
 ```
-Expected: traefik sources now under `/docker/homelab-config/nemesis/composed-apps/traefik/...`; HTTP 200/3xx; nemesis-bot allowlist source under the new path.
+Expected: traefik sources now under `/docker/homelab-config/data-host/composed-apps/traefik/...`; HTTP 200/3xx; nemesis-bot allowlist source under the new path.
 
 ### Task C4: Update the LIVE systemd units
 
@@ -459,7 +459,7 @@ Expected: plex, traefik, pihole stopped. (Brief Plex downtime here; do it at a q
 
 Run:
 ```bash
-ssh aschneider@192.168.1.216 'for a in plex traefik pihole; do cd /docker/homelab-config/devastator/composed-apps/$a && sudo docker compose up -d; done'
+ssh aschneider@192.168.1.216 'for a in plex traefik pihole; do cd /docker/homelab-config/compute-node/composed-apps/$a && sudo docker compose up -d; done'
 ```
 
 - [ ] **Step 4: Verify live mounts and health from the new path**
@@ -469,7 +469,7 @@ Run:
 ssh aschneider@192.168.1.216 "sudo docker inspect plex traefik pihole --format '{{.Name}}: {{range .Mounts}}{{.Source}} {{end}}'"
 ssh aschneider@192.168.1.216 'sudo docker ps --format "{{.Names}}\t{{.Status}}" | grep -iE "plex|traefik|pihole"'
 ```
-Expected: plex config from `/docker/plex/config`, traefik from `/docker/homelab-config/devastator/composed-apps/traefik/...`, pihole from `/docker/pihole/...`; all Up. Confirm Plex plays a title and Pi-hole resolves DNS.
+Expected: plex config from `/docker/plex/config`, traefik from `/docker/homelab-config/compute-node/composed-apps/traefik/...`, pihole from `/docker/pihole/...`; all Up. Confirm Plex plays a title and Pi-hole resolves DNS.
 
 ### Task C6: Decommission the old locations (after full validation)
 
@@ -490,7 +490,7 @@ Keep the `.bak` copies for a few days as rollback, then delete. (We rename rathe
 - [ ] nemesis: `git -C /docker/homelab-config remote -v` shows `homelab-config`; `git status` clean on main.
 - [ ] nemesis: `grep -rn '/docker/nemesis-configs' /docker/homelab-config --include='*.sh' --include='*.service' --include='*.yml'` returns nothing (design/plan docs excepted).
 - [ ] nemesis: both systemd units have ExecStart under `/docker/homelab-config/scripts`; `systemd-analyze verify` clean.
-- [ ] devastator: plex/traefik/pihole Up from `/docker/homelab-config/devastator/composed-apps`; Plex plays; Pi-hole resolves.
+- [ ] devastator: plex/traefik/pihole Up from `/docker/homelab-config/compute-node/composed-apps`; Plex plays; Pi-hole resolves.
 - [ ] devastator: `/docker/devastator-configs` renamed to `.bak`.
 - [ ] Both `.bak` directories scheduled for deletion after a soak period.
 

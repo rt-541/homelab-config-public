@@ -95,7 +95,7 @@ No SSH, tunnels, or bring-up exist anywhere in this path.
 3. **LiteLLM proxy**. One container on nemesis. A `config.yaml` defines backends,
    the model allowlist, per-key budgets/limits, and the global concurrency cap.
    Owns all authN/authZ and routing. Exposes only OpenAI-compatible inference
-   endpoints. New composed-app at `nemesis/composed-apps/llm-gateway/` in the
+   endpoints. New composed-app at `data-host/composed-apps/llm-gateway/` in the
    `homelab-config` monorepo (see migration spec). **Key storage:
    simple file-based virtual keys for now** (no database); revisit a DB only if the
    friend count or audit needs grow.
@@ -127,7 +127,7 @@ No SSH, tunnels, or bring-up exist anywhere in this path.
   devastator as a Plex-safe sub-project (see below), then add it to LiteLLM as a
   `direct`, always-warm backend that becomes the default. CPU Ollama drops to
   fallback. The vLLM stack config lives at
-  `devastator/composed-apps/plex-compute/` in the `homelab-config` monorepo (see the
+  `compute-node/composed-apps/plex-compute/` in the `homelab-config` monorepo (see the
   migration spec, `2026-06-01-homelab-config-monorepo-migration-design.md`).
 - **Future (the beast):** the dedicated Threadripper dual-B70 node joins as another
   `direct` backend and becomes primary. Gateway change is a single config entry.

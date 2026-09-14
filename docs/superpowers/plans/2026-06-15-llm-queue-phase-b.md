@@ -12,7 +12,7 @@
 
 **How to run the test suite (every "run tests" step assumes this):**
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/llm-queue
+cd /docker/homelab-config/data-host/composed-apps/llm-queue
 sudo docker run --rm -v "$PWD":/app -w /app python:3.12-slim \
   sh -c "pip install -q -r requirements.txt && python -m pytest -q"
 ```
@@ -25,11 +25,11 @@ Add `cryptography>=43,<45` to `requirements.txt` in Task 3 so it is present for 
 ### Task 1: Scaffold the `llm-gateway` composed-app
 
 **Files:**
-- Create: `nemesis/composed-apps/llm-gateway/docker-compose.yml`
-- Create: `nemesis/composed-apps/llm-gateway/config.yaml`
-- Create: `nemesis/composed-apps/llm-gateway/.env.example`
-- Create: `nemesis/composed-apps/llm-gateway/.gitignore`
-- Create: `nemesis/composed-apps/llm-gateway/README.md`
+- Create: `data-host/composed-apps/llm-gateway/docker-compose.yml`
+- Create: `data-host/composed-apps/llm-gateway/config.yaml`
+- Create: `data-host/composed-apps/llm-gateway/.env.example`
+- Create: `data-host/composed-apps/llm-gateway/.gitignore`
+- Create: `data-host/composed-apps/llm-gateway/README.md`
 
 - [ ] **Step 1: Write `.gitignore`**
 
@@ -174,7 +174,7 @@ never exposed to the internet.
   persistence (its Prisma schema rejects sqlite).
 
 ## Run
-    cd /docker/homelab-config/nemesis/composed-apps/llm-gateway
+    cd /docker/homelab-config/data-host/composed-apps/llm-gateway
     sudo docker compose down && sudo docker compose up -d   # restart = down+up
 
 ## Issue / revoke a key
@@ -195,7 +195,7 @@ never exposed to the internet.
 sudo mkdir -p /docker/llm-gateway/data
 cp .env.example .env
 # edit .env: set LITELLM_MASTER_KEY and LITELLM_SALT_KEY to real random values
-cd /docker/homelab-config/nemesis/composed-apps/llm-gateway
+cd /docker/homelab-config/data-host/composed-apps/llm-gateway
 sudo docker compose up -d
 ```
 
@@ -213,7 +213,7 @@ Expected: liveliness OK; models list shows only the three aliases.
 
 ```bash
 cd /docker/homelab-config
-sudo git add nemesis/composed-apps/llm-gateway
+sudo git add data-host/composed-apps/llm-gateway
 sudo git commit -m "feat(llm-gateway): LAN-only LiteLLM proxy fronting vLLM + Ollama"
 ```
 
@@ -287,9 +287,9 @@ No commit (verification only). Record the working `/key/info` auth mode for Task
 ### Task 3: Fernet crypto helper for per-job key storage
 
 **Files:**
-- Modify: `nemesis/composed-apps/llm-queue/requirements.txt`
-- Create: `nemesis/composed-apps/llm-queue/app/crypto.py`
-- Create: `nemesis/composed-apps/llm-queue/tests/test_crypto.py`
+- Modify: `data-host/composed-apps/llm-queue/requirements.txt`
+- Create: `data-host/composed-apps/llm-queue/app/crypto.py`
+- Create: `data-host/composed-apps/llm-queue/tests/test_crypto.py`
 
 - [ ] **Step 1: Add the dependency**
 
@@ -378,10 +378,10 @@ Expected: `test_crypto.py` passes; full suite still green.
 
 ```bash
 cd /docker/homelab-config
-sudo git add nemesis/composed-apps/llm-queue/app/crypto.py \
-  nemesis/composed-apps/llm-queue/tests/test_crypto.py \
-  nemesis/composed-apps/llm-queue/tests/conftest.py \
-  nemesis/composed-apps/llm-queue/requirements.txt
+sudo git add data-host/composed-apps/llm-queue/app/crypto.py \
+  data-host/composed-apps/llm-queue/tests/test_crypto.py \
+  data-host/composed-apps/llm-queue/tests/conftest.py \
+  data-host/composed-apps/llm-queue/requirements.txt
 sudo git commit -m "feat(llm-queue): Fernet crypto helper for per-job key storage"
 ```
 
@@ -390,9 +390,9 @@ sudo git commit -m "feat(llm-queue): Fernet crypto helper for per-job key storag
 ### Task 4: Persist + scrub the encrypted key on the job row
 
 **Files:**
-- Modify: `nemesis/composed-apps/llm-queue/app/db.py` (SCHEMA, `add_job`, new `scrub_key`)
-- Modify: `nemesis/composed-apps/llm-queue/app/models.py` (`Job.enc_key`, `from_row`)
-- Modify: `nemesis/composed-apps/llm-queue/tests/test_db.py`
+- Modify: `data-host/composed-apps/llm-queue/app/db.py` (SCHEMA, `add_job`, new `scrub_key`)
+- Modify: `data-host/composed-apps/llm-queue/app/models.py` (`Job.enc_key`, `from_row`)
+- Modify: `data-host/composed-apps/llm-queue/tests/test_db.py`
 
 - [ ] **Step 1: Write the failing test** — append to `tests/test_db.py`:
 
@@ -491,9 +491,9 @@ Expected: new test passes; existing `test_db.py` + full suite green.
 
 ```bash
 cd /docker/homelab-config
-sudo git add nemesis/composed-apps/llm-queue/app/db.py \
-  nemesis/composed-apps/llm-queue/app/models.py \
-  nemesis/composed-apps/llm-queue/tests/test_db.py
+sudo git add data-host/composed-apps/llm-queue/app/db.py \
+  data-host/composed-apps/llm-queue/app/models.py \
+  data-host/composed-apps/llm-queue/tests/test_db.py
 sudo git commit -m "feat(llm-queue): persist + scrub per-job encrypted key"
 ```
 
@@ -502,8 +502,8 @@ sudo git commit -m "feat(llm-queue): persist + scrub per-job encrypted key"
 ### Task 5: Validate a LiteLLM key in `auth.py`; owner = key hash
 
 **Files:**
-- Modify: `nemesis/composed-apps/llm-queue/app/auth.py`
-- Modify: `nemesis/composed-apps/llm-queue/tests/test_api.py` (or a new `tests/test_auth.py`)
+- Modify: `data-host/composed-apps/llm-queue/app/auth.py`
+- Modify: `data-host/composed-apps/llm-queue/tests/test_api.py` (or a new `tests/test_auth.py`)
 
 - [ ] **Step 1: Write the failing test** — create `tests/test_auth.py`:
 
@@ -641,11 +641,11 @@ Expected: `test_auth.py` passes; full suite green after the owner-assertion upda
 
 ```bash
 cd /docker/homelab-config
-sudo git add nemesis/composed-apps/llm-queue/app/auth.py \
-  nemesis/composed-apps/llm-queue/app/middleware.py \
-  nemesis/composed-apps/llm-queue/tests/test_auth.py \
-  nemesis/composed-apps/llm-queue/tests/conftest.py \
-  nemesis/composed-apps/llm-queue/tests/test_api.py
+sudo git add data-host/composed-apps/llm-queue/app/auth.py \
+  data-host/composed-apps/llm-queue/app/middleware.py \
+  data-host/composed-apps/llm-queue/tests/test_auth.py \
+  data-host/composed-apps/llm-queue/tests/conftest.py \
+  data-host/composed-apps/llm-queue/tests/test_api.py
 sudo git commit -m "feat(llm-queue): validate LiteLLM keys via gateway; owner = key hash"
 ```
 
@@ -654,8 +654,8 @@ sudo git commit -m "feat(llm-queue): validate LiteLLM keys via gateway; owner = 
 ### Task 6: Route `backends.run` through the gateway with the caller's key
 
 **Files:**
-- Modify: `nemesis/composed-apps/llm-queue/app/backends.py`
-- Modify: `nemesis/composed-apps/llm-queue/tests/test_backends.py`
+- Modify: `data-host/composed-apps/llm-queue/app/backends.py`
+- Modify: `data-host/composed-apps/llm-queue/tests/test_backends.py`
 
 - [ ] **Step 1: Write the failing test** — append to `tests/test_backends.py`:
 
@@ -767,8 +767,8 @@ Expected: new test passes. NOTE: `test_worker.py` and `test_mcp.py` use a `_fake
 
 ```bash
 cd /docker/homelab-config
-sudo git add nemesis/composed-apps/llm-queue/app/backends.py \
-  nemesis/composed-apps/llm-queue/tests/test_backends.py
+sudo git add data-host/composed-apps/llm-queue/app/backends.py \
+  data-host/composed-apps/llm-queue/tests/test_backends.py
 sudo git commit -m "feat(llm-queue): route backends.run through the LiteLLM gateway"
 ```
 
@@ -777,8 +777,8 @@ sudo git commit -m "feat(llm-queue): route backends.run through the LiteLLM gate
 ### Task 7: Worker decrypts the per-job key, passes it to `run`, scrubs on terminal
 
 **Files:**
-- Modify: `nemesis/composed-apps/llm-queue/app/worker.py`
-- Modify: `nemesis/composed-apps/llm-queue/tests/test_worker.py`
+- Modify: `data-host/composed-apps/llm-queue/app/worker.py`
+- Modify: `data-host/composed-apps/llm-queue/tests/test_worker.py`
 
 - [ ] **Step 1: Write the failing test** — append to `tests/test_worker.py`:
 
@@ -850,8 +850,8 @@ Expected: new test passes; existing worker tests green (their fakes accept `**kw
 
 ```bash
 cd /docker/homelab-config
-sudo git add nemesis/composed-apps/llm-queue/app/worker.py \
-  nemesis/composed-apps/llm-queue/tests/test_worker.py
+sudo git add data-host/composed-apps/llm-queue/app/worker.py \
+  data-host/composed-apps/llm-queue/tests/test_worker.py
 sudo git commit -m "feat(llm-queue): worker decrypts per-job key, scrubs after run"
 ```
 
@@ -860,11 +860,11 @@ sudo git commit -m "feat(llm-queue): worker decrypts per-job key, scrubs after r
 ### Task 8: Submit paths store the caller key; web login takes a key
 
 **Files:**
-- Modify: `nemesis/composed-apps/llm-queue/app/api.py`
-- Modify: `nemesis/composed-apps/llm-queue/app/mcp_server.py`
-- Modify: `nemesis/composed-apps/llm-queue/app/auth.py` (cookie carries owner + key)
-- Modify: `nemesis/composed-apps/llm-queue/app/web.py`
-- Modify: `nemesis/composed-apps/llm-queue/tests/test_api.py`
+- Modify: `data-host/composed-apps/llm-queue/app/api.py`
+- Modify: `data-host/composed-apps/llm-queue/app/mcp_server.py`
+- Modify: `data-host/composed-apps/llm-queue/app/auth.py` (cookie carries owner + key)
+- Modify: `data-host/composed-apps/llm-queue/app/web.py`
+- Modify: `data-host/composed-apps/llm-queue/tests/test_api.py`
 
 - [ ] **Step 1: Write the failing test** — append to `tests/test_api.py` (the REST submit must persist an encrypted key, and the worker must be able to spend it):
 
@@ -1052,12 +1052,12 @@ Expected: new submit test passes; full suite green. Update any remaining test th
 
 ```bash
 cd /docker/homelab-config
-sudo git add nemesis/composed-apps/llm-queue/app/api.py \
-  nemesis/composed-apps/llm-queue/app/mcp_server.py \
-  nemesis/composed-apps/llm-queue/app/auth.py \
-  nemesis/composed-apps/llm-queue/app/web.py \
-  nemesis/composed-apps/llm-queue/app/templates/login.html \
-  nemesis/composed-apps/llm-queue/tests/test_api.py
+sudo git add data-host/composed-apps/llm-queue/app/api.py \
+  data-host/composed-apps/llm-queue/app/mcp_server.py \
+  data-host/composed-apps/llm-queue/app/auth.py \
+  data-host/composed-apps/llm-queue/app/web.py \
+  data-host/composed-apps/llm-queue/app/templates/login.html \
+  data-host/composed-apps/llm-queue/tests/test_api.py
 sudo git commit -m "feat(llm-queue): key-as-login; submit paths persist caller key"
 ```
 
@@ -1066,10 +1066,10 @@ sudo git commit -m "feat(llm-queue): key-as-login; submit paths persist caller k
 ### Task 9: Wire env, rebuild, end-to-end smoke on the LAN
 
 **Files:**
-- Modify: `nemesis/composed-apps/llm-queue/.env.example`
-- Modify: `nemesis/composed-apps/llm-queue/.env` (not committed)
-- Modify: `nemesis/composed-apps/llm-queue/docker-compose.yml` (depends_on the gateway is cross-stack; instead document ordering)
-- Modify: `nemesis/composed-apps/llm-queue/README.md`
+- Modify: `data-host/composed-apps/llm-queue/.env.example`
+- Modify: `data-host/composed-apps/llm-queue/.env` (not committed)
+- Modify: `data-host/composed-apps/llm-queue/docker-compose.yml` (depends_on the gateway is cross-stack; instead document ordering)
+- Modify: `data-host/composed-apps/llm-queue/README.md`
 
 - [ ] **Step 1: Add the new env keys to `.env.example`**
 
@@ -1089,7 +1089,7 @@ JOB_KEY_SECRET=REPLACE_ME
 - [ ] **Step 3: Rebuild + restart the queue**
 
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/llm-queue
+cd /docker/homelab-config/data-host/composed-apps/llm-queue
 sudo docker compose down && sudo docker compose up -d --build
 sleep 10
 curl -s -o /dev/null -w "%{http_code}\n" https://queue.rt-541.io/healthz   # 200
@@ -1115,9 +1115,9 @@ Expected: authed job completes; unauth → 401.
 
 ```bash
 cd /docker/homelab-config
-sudo git add nemesis/composed-apps/llm-queue/.env.example \
-  nemesis/composed-apps/llm-queue/README.md \
-  nemesis/composed-apps/llm-queue/docker-compose.yml
+sudo git add data-host/composed-apps/llm-queue/.env.example \
+  data-host/composed-apps/llm-queue/README.md \
+  data-host/composed-apps/llm-queue/docker-compose.yml
 sudo git commit -m "feat(llm-queue): wire gateway + per-job key env; Phase B live on LAN"
 ```
 
@@ -1128,7 +1128,7 @@ sudo git commit -m "feat(llm-queue): wire gateway + per-job key env; Phase B liv
 ### Task 10: Publish `queue.rt-541.io`; add rate limiting
 
 **Files:**
-- Modify: `nemesis/composed-apps/llm-queue/docker-compose.yml` (Traefik labels)
+- Modify: `data-host/composed-apps/llm-queue/docker-compose.yml` (Traefik labels)
 
 - [ ] **Step 1: Add rate-limit + in-flight middleware and drop `lan-only`** — in the `llm-queue` service labels, replace the middleware line and the `lan-only` definition with a public middleware chain:
 
@@ -1144,7 +1144,7 @@ Remove the `traefik.http.routers.llm-queue.middlewares=lan-only@docker` line and
 - [ ] **Step 2: Restart the queue**
 
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/llm-queue
+cd /docker/homelab-config/data-host/composed-apps/llm-queue
 sudo docker compose down && sudo docker compose up -d
 ```
 
@@ -1162,14 +1162,14 @@ curl -s -o /dev/null -w "%{http_code}\n" https://llm-gateway.rt-541.io/v1/models
 ```
 Expected: queue reachable + gated; gateway unreachable off-LAN.
 
-- [ ] **Step 4: Update Homepage tile** — note the queue is now externally reachable (per the standing "keep Homepage updated" rule). Edit `nemesis/composed-apps/homepage/config/services.yaml` description if it states "LAN-only".
+- [ ] **Step 4: Update Homepage tile** — note the queue is now externally reachable (per the standing "keep Homepage updated" rule). Edit `data-host/composed-apps/homepage/config/services.yaml` description if it states "LAN-only".
 
 - [ ] **Step 5: Commit**
 
 ```bash
 cd /docker/homelab-config
-sudo git add nemesis/composed-apps/llm-queue/docker-compose.yml \
-  nemesis/composed-apps/homepage/config/services.yaml
+sudo git add data-host/composed-apps/llm-queue/docker-compose.yml \
+  data-host/composed-apps/homepage/config/services.yaml
 sudo git commit -m "feat(llm-queue): expose queue.rt-541.io publicly with rate limiting"
 ```
 

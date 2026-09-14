@@ -14,7 +14,7 @@ A single place to reach everything. Two surfaces:
 - LAN host = `home.rt-541.io`.
 
 ## Component 1 — Homepage (LAN)
-- **New composed-app** `nemesis/composed-apps/homepage/`, image `ghcr.io/gethomepage/homepage`, `restart: unless-stopped`, on the `proxy` network.
+- **New composed-app** `data-host/composed-apps/homepage/`, image `ghcr.io/gethomepage/homepage`, `restart: unless-stopped`, on the `proxy` network.
 - **Traefik:** `Host(\`home.rt-541.io\`)`, `secure` entrypoint, TLS, middleware **`lan-only@docker`** (already defined in `umami/docker-compose.yml`: ipallowlist `192.168.1.0/24,127.0.0.1/32`). Homepage needs `HOMEPAGE_ALLOWED_HOSTS=home.rt-541.io` env.
 - **Config = committed YAML** in `./config/` (bind-mounted to `/app/config`): `settings.yaml`, `services.yaml`, `bookmarks.yaml`, `widgets.yaml`, `docker.yaml`.
 - **Service groups** (tiles with href + icon + status):

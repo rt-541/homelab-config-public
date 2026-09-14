@@ -36,7 +36,7 @@ runner, probes) is read-only.
    custom format and profile change without applying it:
 
    ```
-   cd /docker/homelab-config/nemesis/composed-apps/recyclarr
+   cd /docker/homelab-config/data-host/composed-apps/recyclarr
    sudo docker compose run --rm recyclarr sync --preview
    ```
 

@@ -6,9 +6,10 @@
 
 
 ## Project Structure
-This repo is a per-system monorepo (one tree per host):
-- `nemesis/composed-apps/<app-name>/docker-compose.yml`: nemesis apps, one directory per app
-- `devastator/composed-apps/<app-name>/docker-compose.yml`: devastator apps (Plex, Pi-hole, Traefik, and the B70 vLLM stack)
+This repo is a per-system monorepo (one tree per host role; `data-host` is the
+storage/services box "nemesis", `compute-node` is the GPU box "devastator"):
+- `data-host/composed-apps/<app-name>/docker-compose.yml`: nemesis apps, one directory per app
+- `compute-node/composed-apps/<app-name>/docker-compose.yml`: devastator apps (Plex, Pi-hole, Traefik, and the B70 vLLM stack)
 - `scripts/`, `systemd-unit-files/`, `ansible/`, `docs/`: shared, host-agnostic, at the repo root
 - Game server data lives under `/docker/game/<game-name>/`
 - Media/Plex stack lives under `/docker/plex/`
@@ -181,8 +182,8 @@ Web-based real-time log viewer for all containers in the compose stack.
 - **"Restart" always means `down` then `up -d`** — never `docker compose restart`, as it does not re-read the compose file or pick up environment variable changes
 - Run from the app's compose directory, e.g.:
   ```
-  cd /docker/homelab-config/nemesis/composed-apps/zomboid && sudo docker compose down
-  cd /docker/homelab-config/nemesis/composed-apps/zomboid && sudo docker compose up -d
+  cd /docker/homelab-config/data-host/composed-apps/zomboid && sudo docker compose down
+  cd /docker/homelab-config/data-host/composed-apps/zomboid && sudo docker compose up -d
   ```
 - Never use `docker stop <container>` or `docker start <container>` — always go through compose
 

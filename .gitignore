@@ -24,9 +24,9 @@ override.env
 default.env
 
 # --- runtime data / state (host-only, never commit) ---
-nemesis/composed-apps/mealie/postgres/
-nemesis/composed-apps/nemesis-bot/state/
-nemesis/composed-apps/homepage/config/logs/
+data-host/composed-apps/mealie/postgres/
+data-host/composed-apps/nemesis-bot/state/
+data-host/composed-apps/homepage/config/logs/
 
 # Per-app env files with secrets (repo policy: no .env committed)
 **/.env.web

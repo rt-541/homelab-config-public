@@ -33,7 +33,7 @@
 **Step 1: Create directory**
 
 ```bash
-mkdir -p /docker/homelab-config/nemesis/composed-apps/nemesis-bot/state
+mkdir -p /docker/homelab-config/data-host/composed-apps/nemesis-bot/state
 ```
 
 **Step 2: Write Dockerfile**
@@ -1133,8 +1133,8 @@ ATM9S_WEBHOOK_URL=https://discord.com/api/webhooks/...
 **Step 3: Copy .env values from container-monitor**
 
 ```bash
-cp /docker/homelab-config/nemesis/composed-apps/container-monitor/.env \
-   /docker/homelab-config/nemesis/composed-apps/nemesis-bot/.env
+cp /docker/homelab-config/data-host/composed-apps/container-monitor/.env \
+   /docker/homelab-config/data-host/composed-apps/nemesis-bot/.env
 # Then add DISCORD_TOKEN and all ROLE_ID_* values to the .env
 ```
 
@@ -1191,7 +1191,7 @@ In your server settings → Roles, create these five roles:
 **Step 1: Build the new image**
 
 ```bash
-sudo docker compose -f /docker/homelab-config/nemesis/composed-apps/nemesis-bot/docker-compose.yml build
+sudo docker compose -f /docker/homelab-config/data-host/composed-apps/nemesis-bot/docker-compose.yml build
 ```
 
 Expected: no errors.
@@ -1199,13 +1199,13 @@ Expected: no errors.
 **Step 2: Stop the old container-monitor**
 
 ```bash
-sudo docker compose -f /docker/homelab-config/nemesis/composed-apps/container-monitor/docker-compose.yml down
+sudo docker compose -f /docker/homelab-config/data-host/composed-apps/container-monitor/docker-compose.yml down
 ```
 
 **Step 3: Start nemesis-bot**
 
 ```bash
-sudo docker compose -f /docker/homelab-config/nemesis/composed-apps/nemesis-bot/docker-compose.yml up -d
+sudo docker compose -f /docker/homelab-config/data-host/composed-apps/nemesis-bot/docker-compose.yml up -d
 ```
 
 **Step 4: Check logs**

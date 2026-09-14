@@ -72,7 +72,7 @@ executed from the control plane (tarkin).
    installs ELRepo `kernel-ml` and reboots into it; verifies `/dev/dri` gains
    the B70's card + render node and a containerized `sycl-ls`/`clinfo` sees
    the GPU.
-3. **vLLM composed-app** at `devastator/composed-apps/plex-compute/` in
+3. **vLLM composed-app** at `compute-node/composed-apps/plex-compute/` in
    homelab-config (location locked by the parent spec). Intel
    `llm-scaler-vllm` image, `/dev/dri` device mount, `restart:
    unless-stopped`, OpenAI-compatible endpoint exposed LAN-only.

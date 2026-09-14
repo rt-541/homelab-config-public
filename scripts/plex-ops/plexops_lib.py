@@ -65,7 +65,7 @@ QBIT_PATH_PREFIX = "/data/downloads"
 # Compose stacks the runner may act on (down/up only, never `restart`).
 PLEX_STACK = "plex-stack"
 STACKS = {
-    "plex-stack": "/docker/homelab-config/nemesis/composed-apps/plex-stack",
+    "plex-stack": "/docker/homelab-config/data-host/composed-apps/plex-stack",
 }
 
 MALWARE_EXT = (".exe", ".scr", ".rar", ".lnk", ".zipx")

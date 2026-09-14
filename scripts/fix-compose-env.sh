@@ -17,7 +17,7 @@
 
 set -euo pipefail
 
-COMPOSE_DIR="/docker/homelab-config/nemesis/composed-apps"
+COMPOSE_DIR="/docker/homelab-config/data-host/composed-apps"
 DRY_RUN=true
 
 if [[ "${1:-}" == "--apply" ]]; then

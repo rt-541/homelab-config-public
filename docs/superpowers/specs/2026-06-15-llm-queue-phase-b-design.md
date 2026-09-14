@@ -66,7 +66,7 @@ internet-reachable.
 ## Components
 
 ### B1 — `llm-gateway` (new composed-app, LAN-only)
-- `nemesis/composed-apps/llm-gateway/`: LiteLLM proxy container + `config.yaml`.
+- `data-host/composed-apps/llm-gateway/`: LiteLLM proxy container + `config.yaml`.
 - **Virtual keys**: file/db-backed (LiteLLM `--config` + a keys store). Per key:
   `max_budget`, `rpm_limit`, `tpm_limit`, `max_parallel_requests`, `timeout`.
 - **Model groups** map the queue's aliases: `fast`→vLLM, `background`→Ollama,

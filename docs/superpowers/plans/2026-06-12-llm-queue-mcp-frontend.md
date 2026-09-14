@@ -4,7 +4,7 @@
 
 **Goal:** A small web app on nemesis where the user (and later friends) submit LLM jobs, see queue position, and collect results — plus a mounted MCP server so Claude sessions can do the same, with a rules-based "pick the best backend" chooser.
 
-**Architecture:** Single FastAPI container (`nemesis/composed-apps/llm-queue/`): SQLite jobs table, an async worker pool with one slot per backend tier, server-rendered Jinja2 + HTMX UI, and a FastMCP server mounted at `/mcp`. Phase A (LAN MVP) calls backends directly by capability alias (`gpu`→B70 vLLM `192.168.1.216:8000`, `cpu`→nemesis Ollama `127.0.0.1:11434`); Phase B swaps the backend client to LiteLLM for friend-facing auth/quota. Behind Traefik at `queue.rt-541.io`, LAN-only first.
+**Architecture:** Single FastAPI container (`data-host/composed-apps/llm-queue/`): SQLite jobs table, an async worker pool with one slot per backend tier, server-rendered Jinja2 + HTMX UI, and a FastMCP server mounted at `/mcp`. Phase A (LAN MVP) calls backends directly by capability alias (`gpu`→B70 vLLM `192.168.1.216:8000`, `cpu`→nemesis Ollama `127.0.0.1:11434`); Phase B swaps the backend client to LiteLLM for friend-facing auth/quota. Behind Traefik at `queue.rt-541.io`, LAN-only first.
 
 **Tech Stack:** Python 3.12, FastAPI, Uvicorn, SQLite (stdlib `sqlite3`/`aiosqlite`), Jinja2, HTMX, `httpx` (OpenAI-compatible calls), FastMCP, Docker Compose, Traefik.
 
@@ -12,11 +12,11 @@
 
 **Decisions locked (from the spec):** app `llm-queue`; host `queue.rt-541.io` (MCP at `/mcp`); 1 worker slot per tier (`gpu`,`cpu`); 30-day retention + self-delete; FastAPI + Jinja2 + HTMX single container; `pick_best_backend` = transparent rules table; LAN-only first. Phase A has no LiteLLM (direct-to-backend), Phase B adds it.
 
-**Conventions:** follow CLAUDE.md — `restart: unless-stopped`, `.env` for secrets, sidecars via the menu, container name = dir name. Copy the Traefik LAN-only pattern from `nemesis/composed-apps/umami/docker-compose.yml`. Deploy from the app dir with `docker compose down && up -d`.
+**Conventions:** follow CLAUDE.md — `restart: unless-stopped`, `.env` for secrets, sidecars via the menu, container name = dir name. Copy the Traefik LAN-only pattern from `data-host/composed-apps/umami/docker-compose.yml`. Deploy from the app dir with `docker compose down && up -d`.
 
 ---
 
-## File structure (all under `nemesis/composed-apps/llm-queue/`)
+## File structure (all under `data-host/composed-apps/llm-queue/`)
 
 - `docker-compose.yml` — the service + sidecars, Traefik labels
 - `Dockerfile` — python:3.12-slim + deps

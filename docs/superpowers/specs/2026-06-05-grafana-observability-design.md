@@ -78,8 +78,8 @@ Traefik route). DNS `grafana.rt-541.io → 192.168.1.214` on the Pi-holes.
   grafana datasource + dashboards + alerting). A read-only PVE API token for
   pve-exporter (gitignored).
 - `homelab-config`: `ansible/playbooks/node_exporter.yml` (native on sienar/incomm
-  + smartctl_exporter there) + `nemesis|devastator/composed-apps/node-exporter/`
-  (container on the docker hosts); `nemesis/composed-apps/traefik/config/grafana.yml`
+  + smartctl_exporter there) + `nemesis|compute-node/composed-apps/node-exporter/`
+  (container on the docker hosts); `data-host/composed-apps/traefik/config/grafana.yml`
   (route → VIP, LAN-only); DNS record.
 
 ## Data flow / HA

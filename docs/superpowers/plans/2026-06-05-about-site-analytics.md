@@ -4,7 +4,7 @@
 
 **Goal:** Stand up privacy-friendly aggregate analytics for about.rt-541.io by region: Umami (cookieless JS, human page-views) + GoAccess (server-side, all-traffic from Traefik logs + GeoIP), both LAN-only dashboards.
 
-**Architecture:** Two Docker Compose apps on nemesis (`nemesis/composed-apps/{umami,goaccess}`), behind the existing Traefik (`proxy` net, `secure` entrypoint, `default` Cloudflare certresolver). Traefik gets access logging enabled (JSON) on a shared volume that GoAccess reads. The about-site adds one cookieless `<script>` to `BaseLayout.astro`. Local DNS records point the two subdomains at nemesis (192.168.1.214).
+**Architecture:** Two Docker Compose apps on nemesis (`data-host/composed-apps/{umami,goaccess}`), behind the existing Traefik (`proxy` net, `secure` entrypoint, `default` Cloudflare certresolver). Traefik gets access logging enabled (JSON) on a shared volume that GoAccess reads. The about-site adds one cookieless `<script>` to `BaseLayout.astro`. Local DNS records point the two subdomains at nemesis (192.168.1.214).
 
 **Tech Stack:** Docker Compose, Traefik v3, Umami v2 + Postgres 16, GoAccess + nginx:alpine, DB-IP Lite GeoIP mmdb, Astro (about-site), Pi-hole v6 (DNS).
 
@@ -15,17 +15,17 @@
 ## File Structure
 
 **Create:**
-- `nemesis/composed-apps/umami/docker-compose.yml` — umami + postgres, Traefik split routing
-- `nemesis/composed-apps/umami/.env` — secrets (gitignored)
-- `nemesis/composed-apps/umami/.env.example` — documents the keys
-- `nemesis/composed-apps/goaccess/docker-compose.yml` — goaccess + nginx report server
-- `nemesis/composed-apps/goaccess/goaccess.conf` — GoAccess config (Traefik JSON parse + GeoIP)
-- `nemesis/composed-apps/goaccess/nginx.conf` — serves the report dir
+- `data-host/composed-apps/umami/docker-compose.yml` — umami + postgres, Traefik split routing
+- `data-host/composed-apps/umami/.env` — secrets (gitignored)
+- `data-host/composed-apps/umami/.env.example` — documents the keys
+- `data-host/composed-apps/goaccess/docker-compose.yml` — goaccess + nginx report server
+- `data-host/composed-apps/goaccess/goaccess.conf` — GoAccess config (Traefik JSON parse + GeoIP)
+- `data-host/composed-apps/goaccess/nginx.conf` — serves the report dir
 
 **Modify:**
-- `nemesis/composed-apps/traefik/traefik.yml` — add `accessLog` (JSON)
-- `nemesis/composed-apps/traefik/docker-compose.yml` — mount `/docker/traefik/logs:/logs`
-- `nemesis/composed-apps/about-site/src/layouts/BaseLayout.astro` — add the Umami tag
+- `data-host/composed-apps/traefik/traefik.yml` — add `accessLog` (JSON)
+- `data-host/composed-apps/traefik/docker-compose.yml` — mount `/docker/traefik/logs:/logs`
+- `data-host/composed-apps/about-site/src/layouts/BaseLayout.astro` — add the Umami tag
 - Pi-hole `dns.hosts` — add `analytics.rt-541.io`, `logs.rt-541.io` → 192.168.1.214
 
 ---
@@ -33,9 +33,9 @@
 ## Task 1: Umami app (umami + Postgres, Traefik split routing)
 
 **Files:**
-- Create: `nemesis/composed-apps/umami/.env.example`
-- Create: `nemesis/composed-apps/umami/.env` (gitignored)
-- Create: `nemesis/composed-apps/umami/docker-compose.yml`
+- Create: `data-host/composed-apps/umami/.env.example`
+- Create: `data-host/composed-apps/umami/.env` (gitignored)
+- Create: `data-host/composed-apps/umami/docker-compose.yml`
 
 - [ ] **Step 1: Write `.env.example`**
 
@@ -49,7 +49,7 @@ APP_SECRET=changeme-another-long-random-hex
 
 Run (generates two random secrets and writes `.env`):
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/umami
+cd /docker/homelab-config/data-host/composed-apps/umami
 printf 'POSTGRES_PASSWORD=%s\nAPP_SECRET=%s\n' "$(openssl rand -hex 24)" "$(openssl rand -hex 32)" > .env
 cat .env
 ```
@@ -59,8 +59,8 @@ Expected: a `.env` with two long hex values.
 
 Run:
 ```bash
-grep -qxF 'nemesis/composed-apps/umami/.env' /docker/homelab-config/.gitignore || echo 'nemesis/composed-apps/umami/.env' >> /docker/homelab-config/.gitignore
-git -C /docker/homelab-config check-ignore nemesis/composed-apps/umami/.env
+grep -qxF 'data-host/composed-apps/umami/.env' /docker/homelab-config/.gitignore || echo 'data-host/composed-apps/umami/.env' >> /docker/homelab-config/.gitignore
+git -C /docker/homelab-config check-ignore data-host/composed-apps/umami/.env
 ```
 Expected: prints the path (it is ignored).
 
@@ -134,7 +134,7 @@ volumes:
 
 Run:
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/umami
+cd /docker/homelab-config/data-host/composed-apps/umami
 sudo docker compose up -d
 sudo docker compose ps
 ```
@@ -151,7 +151,7 @@ Expected: a small JSON/OK heartbeat (Umami is up). If it errors, check `docker l
 - [ ] **Step 7: Commit (compose + .env.example only; .env is gitignored)**
 
 ```bash
-git -C /docker/homelab-config add nemesis/composed-apps/umami/docker-compose.yml nemesis/composed-apps/umami/.env.example .gitignore
+git -C /docker/homelab-config add data-host/composed-apps/umami/docker-compose.yml data-host/composed-apps/umami/.env.example .gitignore
 git -C /docker/homelab-config commit -m "feat(umami): add cookieless analytics app (umami + postgres) behind Traefik"
 ```
 
@@ -201,7 +201,7 @@ Expected: `.4` also returns `192.168.1.214`.
 ## Task 3: Create the Umami website + add the tracking tag to the about-site
 
 **Files:**
-- Modify: `nemesis/composed-apps/about-site/src/layouts/BaseLayout.astro`
+- Modify: `data-host/composed-apps/about-site/src/layouts/BaseLayout.astro`
 
 - [ ] **Step 1: Create the about.rt-541.io website in Umami (get WEBSITE_ID)**
 
@@ -209,7 +209,7 @@ From a LAN browser, open `https://analytics.rt-541.io`, log in (first run: defau
 
 - [ ] **Step 2: Add the tag to BaseLayout.astro `<head>`**
 
-In `nemesis/composed-apps/about-site/src/layouts/BaseLayout.astro`, immediately before `</head>` (the head opens at line 18, `<title>` is at line 36), add (replace `WEBSITE_ID` with the UUID from Step 1):
+In `data-host/composed-apps/about-site/src/layouts/BaseLayout.astro`, immediately before `</head>` (the head opens at line 18, `<title>` is at line 36), add (replace `WEBSITE_ID` with the UUID from Step 1):
 
 ```html
     <!-- Umami cookieless analytics (self-hosted) -->
@@ -220,7 +220,7 @@ In `nemesis/composed-apps/about-site/src/layouts/BaseLayout.astro`, immediately 
 
 Run (warm i18n cache → fast; `prebuild` runs regen-i18n automatically):
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/about-site
+cd /docker/homelab-config/data-host/composed-apps/about-site
 npm run build 2>&1 | tail -15
 ```
 Expected: build completes, `dist/` regenerated. The new `<script>` appears in the built HTML — verify:
@@ -233,7 +233,7 @@ Expected: a match in the built pages.
 
 Run:
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/about-site
+cd /docker/homelab-config/data-host/composed-apps/about-site
 sudo docker compose up -d
 curl -sS -o /dev/null -w "%{http_code}\n" --resolve about.rt-541.io:443:192.168.1.214 https://about.rt-541.io/
 ```
@@ -246,7 +246,7 @@ Visit `https://about.rt-541.io` from a browser. In Umami → the `about` website
 - [ ] **Step 6: Commit**
 
 ```bash
-git -C /docker/homelab-config add nemesis/composed-apps/about-site/src/layouts/BaseLayout.astro nemesis/composed-apps/about-site/dist
+git -C /docker/homelab-config add data-host/composed-apps/about-site/src/layouts/BaseLayout.astro data-host/composed-apps/about-site/dist
 git -C /docker/homelab-config commit -m "feat(about-site): add cookieless Umami tracking tag"
 ```
 
@@ -255,8 +255,8 @@ git -C /docker/homelab-config commit -m "feat(about-site): add cookieless Umami 
 ## Task 4: Enable Traefik JSON access logging
 
 **Files:**
-- Modify: `nemesis/composed-apps/traefik/traefik.yml`
-- Modify: `nemesis/composed-apps/traefik/docker-compose.yml`
+- Modify: `data-host/composed-apps/traefik/traefik.yml`
+- Modify: `data-host/composed-apps/traefik/docker-compose.yml`
 
 - [ ] **Step 1: Create the host log dir**
 
@@ -267,7 +267,7 @@ sudo mkdir -p /docker/traefik/logs
 
 - [ ] **Step 2: Add `accessLog` to traefik.yml**
 
-In `nemesis/composed-apps/traefik/traefik.yml`, after the `log:` block (which sets `level: DEBUG`), add:
+In `data-host/composed-apps/traefik/traefik.yml`, after the `log:` block (which sets `level: DEBUG`), add:
 
 ```yaml
 accessLog:
@@ -278,7 +278,7 @@ accessLog:
 
 - [ ] **Step 3: Mount the log volume in the traefik compose**
 
-In `nemesis/composed-apps/traefik/docker-compose.yml`, under the traefik service `volumes:` list, add:
+In `data-host/composed-apps/traefik/docker-compose.yml`, under the traefik service `volumes:` list, add:
 
 ```yaml
       - /docker/traefik/logs:/logs
@@ -288,7 +288,7 @@ In `nemesis/composed-apps/traefik/docker-compose.yml`, under the traefik service
 
 Run:
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/traefik
+cd /docker/homelab-config/data-host/composed-apps/traefik
 sudo docker compose down
 sudo docker compose up -d
 sleep 3
@@ -326,7 +326,7 @@ Expected: dry-run shows the rotation plan, no errors. (`copytruncate` avoids nee
 - [ ] **Step 7: Commit**
 
 ```bash
-git -C /docker/homelab-config add nemesis/composed-apps/traefik/traefik.yml nemesis/composed-apps/traefik/docker-compose.yml
+git -C /docker/homelab-config add data-host/composed-apps/traefik/traefik.yml data-host/composed-apps/traefik/docker-compose.yml
 git -C /docker/homelab-config commit -m "feat(traefik): enable JSON access logging for analytics + add log rotation"
 ```
 
@@ -335,9 +335,9 @@ git -C /docker/homelab-config commit -m "feat(traefik): enable JSON access loggi
 ## Task 5: GoAccess all-traffic region report (LAN-only)
 
 **Files:**
-- Create: `nemesis/composed-apps/goaccess/goaccess.conf`
-- Create: `nemesis/composed-apps/goaccess/nginx.conf`
-- Create: `nemesis/composed-apps/goaccess/docker-compose.yml`
+- Create: `data-host/composed-apps/goaccess/goaccess.conf`
+- Create: `data-host/composed-apps/goaccess/nginx.conf`
+- Create: `data-host/composed-apps/goaccess/docker-compose.yml`
 
 - [ ] **Step 1: Download the DB-IP Lite country GeoIP mmdb (no account needed)**
 
@@ -444,7 +444,7 @@ services:
 
 Run:
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/goaccess
+cd /docker/homelab-config/data-host/composed-apps/goaccess
 sudo docker compose up -d
 sleep 5
 sudo docker logs goaccess --tail 20
@@ -464,7 +464,7 @@ From a LAN browser open `https://logs.rt-541.io` → the GoAccess dashboard load
 - [ ] **Step 7: Commit**
 
 ```bash
-git -C /docker/homelab-config add nemesis/composed-apps/goaccess/docker-compose.yml nemesis/composed-apps/goaccess/goaccess.conf nemesis/composed-apps/goaccess/nginx.conf
+git -C /docker/homelab-config add data-host/composed-apps/goaccess/docker-compose.yml data-host/composed-apps/goaccess/goaccess.conf data-host/composed-apps/goaccess/nginx.conf
 git -C /docker/homelab-config commit -m "feat(goaccess): all-traffic by-region report from Traefik logs (LAN-only)"
 ```
 
@@ -473,7 +473,7 @@ git -C /docker/homelab-config commit -m "feat(goaccess): all-traffic by-region r
 ## Task 6: Final verification + docs
 
 **Files:**
-- Create: `nemesis/composed-apps/umami/README.md` (short ops note)
+- Create: `data-host/composed-apps/umami/README.md` (short ops note)
 
 - [ ] **Step 1: End-to-end check**
 
@@ -485,7 +485,7 @@ echo "collector public path:"; curl -sS -o /dev/null -w "%{http_code}\n" --resol
 ```
 Expected: containers up, DNS → .214, `/script.js` returns `200`.
 
-- [ ] **Step 2: Write `nemesis/composed-apps/umami/README.md`**
+- [ ] **Step 2: Write `data-host/composed-apps/umami/README.md`**
 
 ```markdown
 # Analytics for about.rt-541.io
@@ -503,7 +503,7 @@ Expected: containers up, DNS → .214, `/script.js` returns `200`.
 - [ ] **Step 3: Commit**
 
 ```bash
-git -C /docker/homelab-config add nemesis/composed-apps/umami/README.md
+git -C /docker/homelab-config add data-host/composed-apps/umami/README.md
 git -C /docker/homelab-config commit -m "docs(umami): analytics ops README"
 ```
 

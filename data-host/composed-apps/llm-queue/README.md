@@ -65,7 +65,7 @@ Other knobs: `RETENTION_DAYS`, `DB_PATH`, `WEBHOOK_URL`.
 ## Run
 
 ```sh
-cd /docker/homelab-config/nemesis/composed-apps/llm-queue
+cd /docker/homelab-config/data-host/composed-apps/llm-queue
 sudo docker compose down && sudo docker compose up -d   # restart = down+up
 ```
 

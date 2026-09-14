@@ -20,7 +20,7 @@ Before running any migration script:
 
 1. **Boot the fresh B42.16 server** and generate initial save files:
    ```bash
-   cd /docker/homelab-config/nemesis/composed-apps/zomboid
+   cd /docker/homelab-config/data-host/composed-apps/zomboid
    sudo docker compose up -d
    ```
 
@@ -97,7 +97,7 @@ This command will:
 Start the server:
 
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/zomboid
+cd /docker/homelab-config/data-host/composed-apps/zomboid
 sudo docker compose up -d
 ```
 
@@ -117,7 +117,7 @@ If migration fails or produces invalid results:
 
 1. **Stop the server**:
    ```bash
-   cd /docker/homelab-config/nemesis/composed-apps/zomboid
+   cd /docker/homelab-config/data-host/composed-apps/zomboid
    sudo docker compose down
    ```
 

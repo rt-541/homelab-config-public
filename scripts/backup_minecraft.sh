@@ -18,7 +18,7 @@ log "Minecraft container 'mcatm10' is running. Proceeding with backup."
 
 # Stop the Minecraft container
 log "Stopping Minecraft container 'mcatm10'."
-/usr/bin/docker-compose -f /docker/homelab-config/nemesis/composed-apps/minecraft/docker-compose.yml down >> "$log_file" 2>&1
+/usr/bin/docker-compose -f /docker/homelab-config/data-host/composed-apps/minecraft/docker-compose.yml down >> "$log_file" 2>&1
 if [ $? -ne 0 ]; then
     log "Failed to stop the Minecraft container. Exiting."
     exit 1
@@ -39,7 +39,7 @@ log "Backup created successfully."
 
 # Restart the Minecraft container
 log "Starting Minecraft container 'mcatm10'."
-/usr/bin/docker-compose -f /docker/homelab-config/nemesis/composed-apps/minecraft/docker-compose.yml up -d >> "$log_file" 2>&1
+/usr/bin/docker-compose -f /docker/homelab-config/data-host/composed-apps/minecraft/docker-compose.yml up -d >> "$log_file" 2>&1
 if [ $? -ne 0 ]; then
     log "Failed to start the Minecraft container after backup."
     exit 1

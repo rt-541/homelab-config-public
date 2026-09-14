@@ -42,12 +42,12 @@ Approval flow: user replies in-channel ("approve 1,3-5" / "all"); the agent then
 
 ## Prevention
 
-- **Recyclarr** composed-app in `nemesis/composed-apps/recyclarr/` syncing TRaSH-guides custom formats + scores into both arrs (block-listed release-group tiers, upscale/AV1-junk/wrong-language CFs). Config in-repo; secrets via `.env`.
+- **Recyclarr** composed-app in `data-host/composed-apps/recyclarr/` syncing TRaSH-guides custom formats + scores into both arrs (block-listed release-group tiers, upscale/AV1-junk/wrong-language CFs). Config in-repo; secrets via `.env`.
 - One-time profile hygiene pass (documented, applied via Recyclarr config): stop below-cutoff re-grabs (the 720p-over-1080p / 1080p-over-2160p queue waste).
 
 ## Deployment split
 
-- **nemesis (this repo, buildable now):** `scripts/plex-ops/` (runner + probes + actions + lib + tests), `systemd-unit-files/plex-ops-runner.service`, `nemesis/composed-apps/recyclarr/`, runbook README.
+- **nemesis (this repo, buildable now):** `scripts/plex-ops/` (runner + probes + actions + lib + tests), `systemd-unit-files/plex-ops-runner.service`, `data-host/composed-apps/recyclarr/`, runbook README.
 - **devastator (follow-up, manual):** create the NanoClaw group with `ncl` (Discord channel `#plex-ops`), mount NFS read-only into the group container, install the agent prompt/skills. Those artifacts are staged in-repo under `docs/plex-ops/group/` (AGENTS.md-style prompt, per-duty skill files with exact probe/action contracts, schedule definitions) with a deploy runbook. Scheduling mechanism: NanoClaw's native scheduler if present in v2.3, else systemd timers on devastator posting scheduled messages via `ncl` - the runbook covers both.
 - **Monitoring:** add runner `/probe/service-health` and Prowlarr /ping to Kuma (`status.rt-541.io`) - documented step, done from tarkin.
 

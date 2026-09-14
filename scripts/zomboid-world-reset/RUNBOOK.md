@@ -22,7 +22,7 @@ sudo cp -a /docker/game/zomboid/ZomboidConfig/Saves/Multiplayer/Flight_Group_Alp
 
 ### 2. Stop server
 ```
-cd /docker/homelab-config/nemesis/composed-apps/zomboid && sudo docker compose down
+cd /docker/homelab-config/data-host/composed-apps/zomboid && sudo docker compose down
 ```
 
 ### 3. Edit server.ini (SpawnPoint, Seed)
@@ -56,7 +56,7 @@ sudo rm -rf /docker/game/zomboid/ZomboidConfig/Saves/Multiplayer/Flight_Group_Al
 
 ### 6. First boot (fresh world)
 ```
-cd /docker/homelab-config/nemesis/composed-apps/zomboid && sudo docker compose up -d
+cd /docker/homelab-config/data-host/composed-apps/zomboid && sudo docker compose up -d
 ```
 
 Wait ~60 seconds. Confirm via:
@@ -67,7 +67,7 @@ ls /docker/game/zomboid/ZomboidConfig/Saves/Multiplayer/Flight_Group_Alpha_PZ_Se
 
 Capture new ResetID:
 ```
-grep '^ResetID=' /docker/homelab-config/nemesis/composed-apps/zomboid/server.ini
+grep '^ResetID=' /docker/homelab-config/data-host/composed-apps/zomboid/server.ini
 ```
 Update memory entry at `/home/aschneider/.claude/projects/-docker-nemesis-configs/memory/<file>.md`
 with the new value.
@@ -83,7 +83,7 @@ Capture the output. If `addtrait`/`removetrait` show FAIL (unknown command), the
 
 ### 7. Stop for blob transplant
 ```
-cd /docker/homelab-config/nemesis/composed-apps/zomboid && sudo docker compose down
+cd /docker/homelab-config/data-host/composed-apps/zomboid && sudo docker compose down
 ```
 
 ### 8. Strip inventory from each backup blob, then transplant into fresh players.db
@@ -123,7 +123,7 @@ Repeat for each of the five players.
 
 ### 9. Second boot
 ```
-cd /docker/homelab-config/nemesis/composed-apps/zomboid && sudo docker compose up -d
+cd /docker/homelab-config/data-host/composed-apps/zomboid && sudo docker compose up -d
 ```
 
 ### 10. Players log in (notify them)

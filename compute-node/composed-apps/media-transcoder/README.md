@@ -42,7 +42,7 @@ produces the queue.
 
 ```bash
 sudo mkdir -p /docker/transcode-scratch          # local scratch, >=250G free
-cd /docker/homelab-config/devastator/composed-apps/media-transcoder
+cd /docker/homelab-config/compute-node/composed-apps/media-transcoder
 cp .env.example .env && vi .env                  # optional PLEX_TOKEN/WEBHOOK_URL
 sudo docker compose up -d
 sudo docker compose logs -f                      # watch device pick + first job

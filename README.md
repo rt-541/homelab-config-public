@@ -8,17 +8,32 @@ This is the real configuration that runs the homelab, with all secrets removed (
 [Secrets](#secrets) below). It is shared to show how the pieces fit together, not as a
 turnkey product.
 
+## Hosts
+
+Two Docker hosts, named by role here (their real hostnames appear in configs and DNS
+names such as `nemesis.rt-541.io`; a name maps to a role, nothing more):
+
+| Folder | Role | Hostname | Runs |
+|---|---|---|---|
+| `data-host/` | storage + services | nemesis | the media arrays (`/docker/plex/media`), the arr stack (Sonarr/Radarr/Prowlarr/qBittorrent behind a VPN), Seerr, Recyclarr, the Traefik edge, game servers, backups, the plex-ops runner, Homepage, Umami, the about-site |
+| `compute-node/` | GPU + compute | devastator | Plex (hardware transcode), the Arc Pro B70 vLLM stack, the NanoClaw agent fleet, the media transcode worker, a Pi-hole secondary, Syncthing |
+
+The control plane (Proxmox nodes, the HA Pi-hole DNS/DHCP pair, Uptime Kuma, Grafana)
+lives in the sibling repo
+[kuat-drive-yards-public](https://github.com/rt-541/kuat-drive-yards-public).
+**New here? Start with [docs/SETUP.md](docs/SETUP.md).**
+
 ## Structure
 
-This is a per-host monorepo — one directory tree per physical host, plus shared tooling
+This is a per-host monorepo — one directory tree per host role, plus shared tooling
 at the root.
 
 ```
-nemesis/composed-apps/<app>/      # Docker Compose apps on host "nemesis"
+data-host/composed-apps/<app>/      # Docker Compose apps on host "nemesis"
                                   #   game servers (Zomboid, Valheim, Minecraft, Palworld,
                                   #   Core Keeper, Enshrouded, Abiotic Factor), the about-site,
                                   #   Ollama, Umami, Vikunja, Mealie, a Discord bot, etc.
-devastator/composed-apps/<app>/   # Docker Compose apps on host "devastator"
+compute-node/composed-apps/<app>/   # Docker Compose apps on host "devastator"
                                   #   Plex, Pi-hole, Traefik, and a vLLM compute stack
 ansible/                          # Playbooks + inventory for host/LXC provisioning
 scripts/                          # Operational scripts (e.g. Zomboid world-reset / RCON tooling)
@@ -26,7 +41,7 @@ scripts/plex-ops/                 # Plex help-desk + maintenance agent: an audit
                                   #   action runner (REST + MCP tools) that a NanoClaw/Claude
                                   #   agent drives from Discord; docs/plex-ops/ holds the agent
 scripts/media-reclaim/            # 4K-remux compression campaign tooling (scan, queue, GPU worker
-                                  #   in devastator/composed-apps/media-transcoder)
+                                  #   in compute-node/composed-apps/media-transcoder)
 systemd-unit-files/               # systemd units installed on the hosts
 firewall/                         # Firewall configuration
 docs/                             # Design docs, plans, and runbooks

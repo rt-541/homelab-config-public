@@ -1,7 +1,7 @@
 # Plex Media Space Reclaim - Campaign Plan
 
 Design: `docs/superpowers/specs/2026-09-01-plex-media-reclaim-design.md`
-Tooling: `scripts/media-reclaim/` (nemesis), `devastator/composed-apps/media-transcoder/`
+Tooling: `scripts/media-reclaim/` (nemesis), `compute-node/composed-apps/media-transcoder/`
 Reports/checkpoints: `/docker/plex/logs/media-reclaim/`
 
 Targets: media <=80% (stretch ~67%), media2 <=80% (stretch ~72%).
@@ -43,7 +43,7 @@ Task 4 removes it.
 
 - [ ] **Step 1** On devastator: `mkdir /docker/transcode-scratch`, optional
       `.env` (PLEX_TOKEN, WEBHOOK_URL), `sudo docker compose up -d` in
-      `devastator/composed-apps/media-transcoder/`. Verify log shows a working
+      `compute-node/composed-apps/media-transcoder/`. Verify log shows a working
       VA-API device and window state.
 - [ ] **Step 2** PILOT GATE: after 3 encodes the worker halts. Verify on a
       real client: playback, HDR10 present (ffprobe color_transfer=smpte2084),

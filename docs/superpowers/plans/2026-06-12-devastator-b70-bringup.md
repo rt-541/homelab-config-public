@@ -4,7 +4,7 @@
 
 **Goal:** Upgrade devastator in place to RHEL 10, bind the `xe` driver to the Intel Arc Pro B70 (`8086:e223`), and serve Qwen2.5-7B-Instruct via a Plex-safe, resource-capped vLLM composed-app.
 
-**Architecture:** Three Ansible playbooks in `kuat-drive-yards` (preflight / upgrade / gpu) executed from tarkin; a stopped vzdump of VM 103 from incomm is the rollback point; ELRepo `kernel-ml` is the fallback if RHEL 10's kernel lacks the `e223` ID; all GPU userspace lives in containers (`intel/llm-scaler-vllm`), composed at `devastator/composed-apps/plex-compute/` with Discord/autoheal/Dozzle sidecars and Prometheus queue metrics.
+**Architecture:** Three Ansible playbooks in `kuat-drive-yards` (preflight / upgrade / gpu) executed from tarkin; a stopped vzdump of VM 103 from incomm is the rollback point; ELRepo `kernel-ml` is the fallback if RHEL 10's kernel lacks the `e223` ID; all GPU userspace lives in containers (`intel/llm-scaler-vllm`), composed at `compute-node/composed-apps/plex-compute/` with Discord/autoheal/Dozzle sidecars and Prometheus queue metrics.
 
 **Tech Stack:** leapp, Ansible, Proxmox vzdump, ELRepo kernel-ml, Docker Compose, Intel llm-scaler vLLM (XPU), Prometheus/Grafana (existing obs pair).
 
@@ -302,7 +302,7 @@ Expected: the devastator play now passes every gate EXCEPT the final leapp-inhib
   become: true
   gather_facts: false
   vars:
-    compose_root: /docker/homelab-config/devastator/composed-apps
+    compose_root: /docker/homelab-config/compute-node/composed-apps
     stacks: [plex, pihole, traefik, node-exporter, docker-socket-proxy]
   tasks:
     - name: docker compose down each stack
@@ -491,7 +491,7 @@ Expected: the devastator play now passes every gate EXCEPT the final leapp-inhib
   become: true
   gather_facts: false
   vars:
-    compose_root: /docker/homelab-config/devastator/composed-apps
+    compose_root: /docker/homelab-config/compute-node/composed-apps
     stacks: [docker-socket-proxy, node-exporter, traefik, pihole, plex]
   tasks:
     - name: docker compose up -d each stack
@@ -707,9 +707,9 @@ Expected: ends with sycl-ls listing a `level_zero` GPU device. Note in the task 
 ### Task 6: plex-compute composed-app (vLLM + sidecars)
 
 **Files:**
-- Create: `/docker/homelab-config/devastator/composed-apps/plex-compute/docker-compose.yml`
-- Create: `/docker/homelab-config/devastator/composed-apps/plex-compute/notify.sh`
-- Create: `/docker/homelab-config/devastator/composed-apps/plex-compute/.env.example`
+- Create: `/docker/homelab-config/compute-node/composed-apps/plex-compute/docker-compose.yml`
+- Create: `/docker/homelab-config/compute-node/composed-apps/plex-compute/notify.sh`
+- Create: `/docker/homelab-config/compute-node/composed-apps/plex-compute/.env.example`
 
 - [ ] **Step 1: Check the image entrypoint**
 
@@ -877,7 +877,7 @@ done
 
 ```
 # Copy to .env (gitignored). Webhook: reuse the nemesis-bot one
-# (nemesis/composed-apps/nemesis-bot/.env on nemesis).
+# (data-host/composed-apps/nemesis-bot/.env on nemesis).
 WEBHOOK_URL=https://discord.com/api/webhooks/CHANGEME
 QUEUE_ALERT_THRESHOLD=5
 ```
@@ -886,7 +886,7 @@ QUEUE_ALERT_THRESHOLD=5
 
 ```bash
 cd /docker/homelab-config
-git add devastator/composed-apps/plex-compute/
+git add compute-node/composed-apps/plex-compute/
 git commit -m "feat(plex-compute): B70 vLLM composed-app with discord/autoheal/dozzle sidecars"
 git push
 ```
@@ -897,7 +897,7 @@ git push
 ssh aschneider@192.168.1.216
 cd /docker/homelab-config && git pull --ff-only
 sudo mkdir -p /docker/llm/models
-cd devastator/composed-apps/plex-compute
+cd compute-node/composed-apps/plex-compute
 cp .env.example .env   # then paste the real webhook URL into .env
 sudo docker compose up -d
 sudo docker logs -f plex-compute-vllm   # watch model download + load
@@ -980,7 +980,7 @@ Expected: `"health":"up"`. Then eyeball `vllm:num_requests_waiting` in the Grafa
 ### Task 8: Plex hardware transcode on the B70
 
 **Files:**
-- Modify: `/docker/homelab-config/devastator/composed-apps/plex/docker-compose.yml`
+- Modify: `/docker/homelab-config/compute-node/composed-apps/plex/docker-compose.yml`
 
 - [ ] **Step 1: Check Plex's Battlemage support status**
 
@@ -998,7 +998,7 @@ Search the Plex forums/changelog for current Battlemage (Arc B-series) HW transc
 ```bash
 ssh aschneider@192.168.1.216
 cd /docker/homelab-config && git pull --ff-only
-cd devastator/composed-apps/plex
+cd compute-node/composed-apps/plex
 sudo docker compose down && sudo docker compose up -d
 ```
 
@@ -1015,7 +1015,7 @@ In Plex dashboard the session should show "(hw)" in the transcode badge. If it t
 
 ```bash
 cd /docker/homelab-config
-git add devastator/composed-apps/plex/docker-compose.yml
+git add compute-node/composed-apps/plex/docker-compose.yml
 git commit -m "feat(plex): mount /dev/dri for B70 hardware transcode"
 git push
 ```

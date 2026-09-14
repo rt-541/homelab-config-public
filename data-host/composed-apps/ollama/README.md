@@ -28,7 +28,7 @@ curl -sS http://127.0.0.1:11434/api/tags | jq .
 ## Restart
 
 ```bash
-cd /docker/homelab-config/nemesis/composed-apps/ollama
+cd /docker/homelab-config/data-host/composed-apps/ollama
 sudo docker compose down
 sudo docker compose up -d
 ```

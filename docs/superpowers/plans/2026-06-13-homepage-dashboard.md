@@ -15,7 +15,7 @@
 ## Part A — Homepage (LAN dashboard)
 
 ### Task 1: Scaffold the composed-app + Traefik
-**Files:** create `nemesis/composed-apps/homepage/{docker-compose.yml,.env.example}` and `config/{settings,services,bookmarks,widgets,docker}.yaml`
+**Files:** create `data-host/composed-apps/homepage/{docker-compose.yml,.env.example}` and `config/{settings,services,bookmarks,widgets,docker}.yaml`
 
 - [ ] **Step 1: docker-compose.yml**
 ```yaml
@@ -104,7 +104,7 @@ devastator:
 ## Part B — About-site Services page (public)
 
 ### Task 5: `services.astro` + nav + i18n
-**Files:** create `nemesis/composed-apps/about-site/src/pages/services.astro`; modify the nav component + `src/i18n/ui.ts` (`t.en`)
+**Files:** create `data-host/composed-apps/about-site/src/pages/services.astro`; modify the nav component + `src/i18n/ui.ts` (`t.en`)
 - [ ] Read an existing page (e.g. `gaming.astro`) + the nav component + `ui.ts` to match patterns.
 - [ ] Add `t.en` keys: `services.title`, `services.tagline`, and tile labels (Plex/Overseerr/Status/Chat/About) + descriptions. (Let `prebuild`/`regen-i18n` translate; do not hand-edit translated values.)
 - [ ] `services.astro`: reuse the site's card/grid component; **curated friend-safe tiles only** — Plex `https://plex.rt-541.io`, Overseerr `https://overseerr.rt-541.io`, Status `https://status.rt-541.io`, Revolt `https://revolt.rt-541.io`, About `/`. No admin tools.
@@ -112,7 +112,7 @@ devastator:
 - [ ] Commit.
 
 ### Task 6: Build + deploy about-site
-- [ ] `cd nemesis/composed-apps/about-site && npm run build` (runs `prebuild`→`regen-i18n`; warm cache = fast, new keys hit Ollama). Confirm `/services` renders in the preview and translations generated.
+- [ ] `cd data-host/composed-apps/about-site && npm run build` (runs `prebuild`→`regen-i18n`; warm cache = fast, new keys hit Ollama). Confirm `/services` renders in the preview and translations generated.
 - [ ] Deploy per the about-site's normal flow (`docker compose down && up -d`), verify `https://about.rt-541.io/services` publicly. Commit the updated `.translations-cache.json`.
 
 ---

@@ -285,7 +285,7 @@ and the newest scan report under `/docker/plex/logs/media-reclaim/`.
 ```
 
 `saved_gb` sums `saved:N` from ledger `transcode-replace` rows. Windows are
-parsed from `devastator/composed-apps/media-transcoder/transcode-policy.conf`
+parsed from `compute-node/composed-apps/media-transcoder/transcode-policy.conf`
 (`WINDOWS=`), mirroring the worker.
 
 ### 3.7 `GET /probe/reclaim-plan?window=<tonight|workday|next>[&hours=H][&limit=N][&refresh=true]`
@@ -662,7 +662,7 @@ QUEUE_MAX_PAGES = 40
 QBIT_URL = "http://localhost:8080"
 QBIT_PATH_PREFIX = "/data/downloads"
 PLEX_STACK = "plex-stack"
-STACKS = {"plex-stack": "/docker/homelab-config/nemesis/composed-apps/plex-stack"}
+STACKS = {"plex-stack": "/docker/homelab-config/data-host/composed-apps/plex-stack"}
 MALWARE_EXT = (".exe", ".scr", ".rar", ".lnk", ".zipx")
 VIDEO_EXT = (".mkv", ".mp4", ".avi", ".m2ts", ".ts", ".webm", ".m4v")
 SPARSE_RATIO = 0.95
