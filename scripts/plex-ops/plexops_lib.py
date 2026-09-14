@@ -826,3 +826,475 @@ def df_mounts():
 
 def is_video(name):
     return name.lower().endswith(VIDEO_EXT)
+
+
+# ---------------------------------------------------------------------------
+# Media-reclaim campaign (compression waves). State is the NFS-shared
+# /docker/plex/media/.reclaim/ tree written by scripts/media-reclaim/ on
+# nemesis and the media-transcoder worker (devastator or wherever the GPU
+# is); reports are the stamped dirs under /docker/plex/logs/media-reclaim/.
+# CONTRACT.md sections 3.6, 3.7, 5.9-5.12.
+
+RECLAIM_STATE = os.path.join(MEDIA, ".reclaim")
+RECLAIM_QUEUE = os.path.join(RECLAIM_STATE, "queue", "queue.tsv")
+RECLAIM_DONE = os.path.join(RECLAIM_STATE, "done.list")
+RECLAIM_FAILED = os.path.join(RECLAIM_STATE, "failed.list")
+RECLAIM_LEDGER = os.path.join(RECLAIM_STATE, "ledger.tsv")
+RECLAIM_STATUS_MD = os.path.join(RECLAIM_STATE, "status.md")
+RECLAIM_PAUSE = os.path.join(RECLAIM_STATE, "PAUSE")
+RECLAIM_PILOT_ACK = os.path.join(RECLAIM_STATE, "PILOT_ACK")
+RECLAIM_LOG = "/docker/plex/logs/media-reclaim"
+RECLAIM_DF_LOG = os.path.join(RECLAIM_LOG, "df-checkpoints.log")
+RECLAIM_SCRIPTS = os.path.join(os.path.dirname(SCRIPT_DIR), "media-reclaim")
+RECLAIM_KEEP_LIST = os.path.join(RECLAIM_SCRIPTS, "keep-list.conf")
+TRANSCODE_POLICY = os.path.join(os.path.dirname(os.path.dirname(SCRIPT_DIR)),
+                                "devastator", "composed-apps", "media-transcoder",
+                                "transcode-policy.conf")
+PLEX_ROOT = "/docker/plex"                      # queue rel_paths are relative to this
+# Encode throughput used for the plan (source GiB per hour). ~1 movie/hour
+# per the campaign design; override with RECLAIM_GB_PER_HOUR in the env.
+RECLAIM_GB_PER_HOUR_DEFAULT = 60.0
+# Source-size bands the plan reports (GiB): large >= 60, medium >= 40, else small.
+RECLAIM_BANDS = (("large", 60.0), ("medium", 40.0))
+RECLAIM_PILOT_LIMIT_DEFAULT = 3
+
+
+def reclaim_gb_per_hour():
+    try:
+        v = float(os.environ.get("RECLAIM_GB_PER_HOUR") or RECLAIM_GB_PER_HOUR_DEFAULT)
+    except ValueError:
+        v = RECLAIM_GB_PER_HOUR_DEFAULT
+    return v if v > 0 else RECLAIM_GB_PER_HOUR_DEFAULT
+
+
+def size_band(size_gb):
+    for name, floor in RECLAIM_BANDS:
+        if size_gb >= floor:
+            return name
+    return "small"
+
+
+def read_text(path):
+    """File text, `sudo -n cat` fallback for unreadable files; None if missing."""
+    try:
+        with open(path) as fh:
+            return fh.read()
+    except FileNotFoundError:
+        return None
+    except PermissionError:
+        try:
+            return sudo(["cat", path])
+        except Exception:
+            return None
+
+
+def read_lines(path):
+    text = read_text(path)
+    return [ln for ln in text.splitlines() if ln.strip()] if text else []
+
+
+def read_tsv_dicts(path):
+    """Tab-separated file with a header row -> list of dicts ([] if missing)."""
+    lines = read_lines(path)
+    if not lines:
+        return []
+    header = lines[0].split("\t")
+    out = []
+    for ln in lines[1:]:
+        cells = ln.split("\t")
+        cells += [""] * (len(header) - len(cells))
+        out.append(dict(zip(header, cells)))
+    return out
+
+
+def reclaim_keep_patterns():
+    return [ln.strip().lower() for ln in read_lines(RECLAIM_KEEP_LIST)
+            if not ln.strip().startswith("#")]
+
+
+def reclaim_keep_match(title):
+    t = (title or "").lower()
+    return any(p and p in t for p in reclaim_keep_patterns())
+
+
+def reclaim_flags():
+    return {"paused": os.path.exists(RECLAIM_PAUSE),
+            "pilot_ack": os.path.exists(RECLAIM_PILOT_ACK),
+            "pilot_notified": os.path.exists(os.path.join(RECLAIM_STATE, ".pilot-notified")),
+            "complete_notified": os.path.exists(os.path.join(RECLAIM_STATE, ".complete-notified"))}
+
+
+def reclaim_policy():
+    """KEY=value pairs from the transcoder policy (WINDOWS, PILOT_LIMIT, ...)."""
+    pol = {}
+    for ln in read_lines(TRANSCODE_POLICY):
+        ln = ln.strip()
+        if ln.startswith("#") or "=" not in ln:
+            continue
+        k, v = ln.split("=", 1)
+        pol[k.strip()] = v.strip().strip('"').strip("'")
+    return pol
+
+
+def reclaim_windows(policy=None):
+    """Parse WINDOWS="daily 22:30-06:30; Mon-Fri 08:30-16:30" ->
+    [{"days", "start_min", "end_min", "label", "overnight"}]. Mirrors the
+    worker's in_window(); overnight spans (end <= start) wrap past midnight."""
+    pol = policy if policy is not None else reclaim_policy()
+    spec = pol.get("WINDOWS") or "daily 22:30-06:30"
+    out = []
+    for w in spec.split(";"):
+        w = w.strip()
+        if not w or " " not in w:
+            continue
+        days, times = w.split(None, 1)
+        try:
+            s, e = times.strip().split("-")
+            sh, sm = (int(x) for x in s.split(":"))
+            eh, em = (int(x) for x in e.split(":"))
+        except ValueError:
+            continue
+        start_min, end_min = sh * 60 + sm, eh * 60 + em
+        out.append({"days": days, "start_min": start_min, "end_min": end_min,
+                    "label": w, "overnight": end_min <= start_min})
+    return out
+
+
+_DAYS = ("mon", "tue", "wed", "thu", "fri", "sat", "sun")
+
+
+def _day_ok(days, weekday):
+    d = days.lower()
+    if d == "daily":
+        return True
+    if "-" in d:
+        a, b = d.split("-", 1)
+        if a[:3] in _DAYS and b[:3] in _DAYS:
+            ia, ib = _DAYS.index(a[:3]), _DAYS.index(b[:3])
+            return ia <= weekday <= ib if ia <= ib else (weekday >= ia or weekday <= ib)
+    return d[:3] in _DAYS and _DAYS.index(d[:3]) == weekday
+
+
+def reclaim_window_occurrences(now=None, windows=None, days=(-1, 0, 1)):
+    """Concrete window occurrences around `now` (naive local datetimes):
+    [{"label", "days", "start", "end", "hours", "overnight"}] sorted by start."""
+    from datetime import timedelta
+    now = now or datetime.now()
+    wins = windows if windows is not None else reclaim_windows()
+    occ = []
+    for off in days:
+        day = (now + timedelta(days=off)).replace(hour=0, minute=0, second=0, microsecond=0)
+        for w in wins:
+            if not _day_ok(w["days"], day.weekday()):
+                continue
+            start = day + timedelta(minutes=w["start_min"])
+            span = w["end_min"] - w["start_min"]
+            if span <= 0:
+                span += 1440
+            end = start + timedelta(minutes=span)
+            occ.append({"label": w["label"], "days": w["days"], "start": start, "end": end,
+                        "hours": round(span / 60.0, 2), "overnight": w["overnight"]})
+    occ.sort(key=lambda o: o["start"])
+    return occ
+
+
+def reclaim_window_state(now=None, windows=None):
+    """{"in_window", "current": {...,"remaining_hours"}|None, "next": {...}|None}"""
+    now = now or datetime.now()
+    occ = reclaim_window_occurrences(now, windows)
+    current = next((o for o in occ if o["start"] <= now < o["end"]), None)
+    upcoming = next((o for o in occ if o["start"] > now), None)
+
+    def view(o, remaining=False):
+        if not o:
+            return None
+        v = {"label": o["label"], "start": o["start"].isoformat(timespec="minutes"),
+             "end": o["end"].isoformat(timespec="minutes"), "hours": o["hours"],
+             "overnight": o["overnight"]}
+        if remaining:
+            v["remaining_hours"] = round((o["end"] - now).total_seconds() / 3600.0, 2)
+        return v
+    return {"in_window": current is not None, "current": view(current, True),
+            "next": view(upcoming)}
+
+
+def reclaim_pick_window(kind, now=None, windows=None):
+    """The occurrence a plan targets: "tonight" = the current or next
+    overnight window; "workday" = the next daytime window; "next" = the
+    current window else the soonest. Returns (occurrence|None, budget_hours)."""
+    now = now or datetime.now()
+    occ = reclaim_window_occurrences(now, windows)
+    live = [o for o in occ if o["end"] > now]
+    if kind == "tonight":
+        cands = [o for o in live if o["overnight"]]
+    elif kind == "workday":
+        cands = [o for o in live if not o["overnight"]]
+    else:
+        cands = live
+    if not cands:
+        return None, 0.0
+    o = cands[0]
+    budget = (o["end"] - max(now, o["start"])).total_seconds() / 3600.0
+    return o, round(budget, 2)
+
+
+def latest_reclaim_report():
+    """(report_dir, candidates_tsv, age_seconds) for the newest scan, or None."""
+    try:
+        dirs = sorted(d for d in os.listdir(RECLAIM_LOG)
+                      if re.match(r"^\d{4}-\d{2}-\d{2}_\d{6}$", d)
+                      and os.path.exists(os.path.join(RECLAIM_LOG, d, "candidates_movies.tsv")))
+    except FileNotFoundError:
+        return None
+    if not dirs:
+        return None
+    d = os.path.join(RECLAIM_LOG, dirs[-1])
+    tsv = os.path.join(d, "candidates_movies.tsv")
+    return d, tsv, max(0.0, time.time() - os.path.getmtime(tsv))
+
+
+def run_reclaim_scan():
+    """`scan_candidates.py` (read-only; writes a stamped report). -> report tuple."""
+    run(["python3", os.path.join(RECLAIM_SCRIPTS, "scan_candidates.py")],
+        cwd=RECLAIM_SCRIPTS)
+    rep = latest_reclaim_report()
+    if rep is None:
+        raise PlexOpsError("upstream-error", "scan produced no candidates report", 502)
+    return rep
+
+
+def reclaim_queue_rows():
+    """queue.tsv rows: [{"rel_path","size_bytes","est_target_gb","title"}]."""
+    return read_tsv_dicts(RECLAIM_QUEUE)
+
+
+def reclaim_done_set():
+    return set(read_lines(RECLAIM_DONE))
+
+
+def reclaim_failed_map():
+    out = {}
+    for ln in read_lines(RECLAIM_FAILED):
+        rel, _, reason = ln.partition("\t")
+        out[rel] = reason
+    return out
+
+
+def reclaim_saved_bytes():
+    """Sum of `saved:N` from ledger transcode-replace rows."""
+    total = 0
+    for r in read_tsv_dicts(RECLAIM_LEDGER):
+        if r.get("action") == "transcode-replace" and (r.get("status") or "").startswith("saved:"):
+            try:
+                total += int(r["status"][6:])
+            except ValueError:
+                pass
+    return total
+
+
+def reclaim_rel_path(primary_path):
+    return os.path.relpath(primary_path, PLEX_ROOT)
+
+
+def write_reclaim_queue(rows):
+    """Write queue.tsv (rows of (rel_path, size_bytes, est_target_gb, title)),
+    largest first, via a temp file + `sudo install` so the worker never sees a
+    half-written queue. The keep-list is re-checked here regardless of input."""
+    import tempfile
+    for r in rows:
+        if reclaim_keep_match(r[3]) or reclaim_keep_match(os.path.basename(os.path.dirname(r[0]))):
+            raise PlexOpsError("verify-failed", "keep-list title refused: %s" % r[3], 409,
+                               {"title": r[3]})
+    rows = sorted(rows, key=lambda r: -int(r[1]))
+    fd, tmp = tempfile.mkstemp(prefix="queue.", suffix=".tsv")
+    with os.fdopen(fd, "w") as fh:
+        fh.write("rel_path\tsize_bytes\test_target_gb\ttitle\n")
+        for rel, size, tgt, title in rows:
+            fh.write("%s\t%d\t%s\t%s\n" % (rel, int(size), tgt, title))
+    try:
+        sudo(["install", "-d", "-m", "0775", os.path.dirname(RECLAIM_QUEUE)])
+        sudo(["install", "-m", "0664", tmp, RECLAIM_QUEUE])
+    finally:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+
+
+# ---------------------------------------------------------------------------
+# Plex (watch history) and Seerr (requests) - read-only, for the title-stats
+# probe (CONTRACT.md 3.8). Plex runs on devastator; the admin token comes
+# from PLEX_TOKEN in the runner env file. Seerr runs in plex-stack on this
+# host; its api key is read from its settings file (or SEERR_API_KEY).
+
+PLEX_URL_DEFAULT = "http://devastator.rt-541.io:32400"
+SEERR_URL_DEFAULT = "http://localhost:5055"
+SEERR_SETTINGS = "/docker/seerr/settings.json"
+PLEX_HISTORY_PAGE = 1000
+PLEX_CACHE_TTL_S = 600
+_plex_cache = {}
+
+
+def plex_config():
+    env = read_env()
+    url = (os.environ.get("PLEX_URL") or env.get("PLEX_URL") or PLEX_URL_DEFAULT).rstrip("/")
+    token = os.environ.get("PLEX_TOKEN") or env.get("PLEX_TOKEN") or ""
+    return url, token
+
+
+def plex_get(path, params=None, timeout=30):
+    """GET a Plex endpoint as JSON -> the MediaContainer dict."""
+    url, token = plex_config()
+    if not token:
+        raise PlexOpsError("upstream-error", "PLEX_TOKEN is not configured in the runner env", 502)
+    q = dict(params or {})
+    full = url + path + (("&" if "?" in path else "?") + urllib.parse.urlencode(q) if q else "")
+    status, parsed = http_json(full, headers={"X-Plex-Token": token, "Accept": "application/json"},
+                               timeout=timeout)
+    if status != 200 or not isinstance(parsed, dict):
+        raise PlexOpsError("upstream-error", "plex GET %s -> HTTP %d" % (path, status), 502)
+    return parsed.get("MediaContainer") or {}
+
+
+def _cached(key, ttl, fn):
+    hit = _plex_cache.get(key)
+    if hit and time.time() - hit[0] < ttl:
+        return hit[1]
+    val = fn()
+    _plex_cache[key] = (time.time(), val)
+    return val
+
+
+def plex_sections():
+    """[{"key", "type", "title"}]"""
+    return _cached("sections", PLEX_CACHE_TTL_S, lambda: [
+        {"key": str(d.get("key")), "type": d.get("type"), "title": d.get("title")}
+        for d in plex_get("/library/sections").get("Directory", [])])
+
+
+def plex_accounts():
+    """accountID -> display name (Plex home/friends as the server knows them)."""
+    def _load():
+        out = {}
+        for a in plex_get("/accounts").get("Account", []):
+            out[int(a.get("id"))] = a.get("name") or ("account %s" % a.get("id"))
+        return out
+    return _cached("accounts", PLEX_CACHE_TTL_S, _load)
+
+
+def plex_find_item(section_type, title, year=None, ids=None):
+    """Locate a library item by external id (tmdb/tvdb/imdb, most reliable)
+    with a title+year fallback. -> {"rating_key","title","year","added_at",
+    "guids"} or None."""
+    ids = {k: str(v) for k, v in (ids or {}).items() if v}
+    hits = []
+    for sec in plex_sections():
+        if sec["type"] != section_type:
+            continue
+        # a broad title search first (Plex matches substrings), then exact ids
+        for m in plex_get("/library/sections/%s/all" % sec["key"],
+                          {"includeGuids": 1, "title": title,
+                           "X-Plex-Container-Size": 50}).get("Metadata", []):
+            guids = [g.get("id") for g in m.get("Guid", []) if g.get("id")]
+            hits.append({"rating_key": str(m.get("ratingKey")), "title": m.get("title"),
+                         "year": m.get("year"), "added_at": m.get("addedAt"), "guids": guids})
+    for h in hits:
+        for provider, val in ids.items():
+            if "%s://%s" % (provider, val) in h["guids"]:
+                return h
+    low = (title or "").lower()
+    exact = [h for h in hits if (h["title"] or "").lower() == low
+             and (year is None or h["year"] == year)]
+    return exact[0] if exact else None
+
+
+def plex_history(section_id):
+    """Every history row of a library section (cached 10 min)."""
+    def _load():
+        rows, start = [], 0
+        while True:
+            mc = plex_get("/status/sessions/history/all",
+                          {"librarySectionID": section_id, "sort": "viewedAt:desc",
+                           "X-Plex-Container-Start": start,
+                           "X-Plex-Container-Size": PLEX_HISTORY_PAGE})
+            page = mc.get("Metadata", [])
+            rows.extend(page)
+            start += len(page)
+            if not page or start >= int(mc.get("totalSize") or 0):
+                break
+        return rows
+    return _cached("history:%s" % section_id, PLEX_CACHE_TTL_S, _load)
+
+
+def plex_watch_stats(section_type, rating_key):
+    """Watch stats for a movie (its own rating key) or a show (its episodes'
+    grandparentKey): distinct watchers, plays, per-user detail, first/last."""
+    section = next((s for s in plex_sections() if s["type"] == section_type), None)
+    if section is None:
+        return None
+    rows = plex_history(section["key"])
+    want_key = "/library/metadata/%s" % rating_key
+    if section_type == "show":
+        mine = [r for r in rows if r.get("grandparentKey") == want_key]
+    else:
+        mine = [r for r in rows if str(r.get("ratingKey")) == str(rating_key)]
+    names = plex_accounts()
+    per = {}
+    for r in mine:
+        acct = r.get("accountID")
+        p = per.setdefault(acct, {"account_id": acct, "name": names.get(acct, "account %s" % acct),
+                                  "plays": 0, "items": set(), "last": 0})
+        p["plays"] += 1
+        p["items"].add(str(r.get("ratingKey")))
+        p["last"] = max(p["last"], int(r.get("viewedAt") or 0))
+    users = sorted(({"account_id": p["account_id"], "name": p["name"], "plays": p["plays"],
+                     "distinct_items": len(p["items"]), "last_watched": _ts(p["last"])}
+                    for p in per.values()), key=lambda u: -u["plays"])
+    times = [int(r.get("viewedAt") or 0) for r in mine if r.get("viewedAt")]
+    return {"watchers": len(per), "plays": len(mine), "users": users,
+            "first_watched": _ts(min(times)) if times else None,
+            "last_watched": _ts(max(times)) if times else None}
+
+
+def _ts(epoch):
+    if not epoch:
+        return None
+    return datetime.fromtimestamp(int(epoch)).astimezone().isoformat(timespec="minutes")
+
+
+def seerr_config():
+    env = read_env()
+    url = (os.environ.get("SEERR_URL") or env.get("SEERR_URL") or SEERR_URL_DEFAULT).rstrip("/")
+    key = os.environ.get("SEERR_API_KEY") or env.get("SEERR_API_KEY")
+    if not key:
+        try:
+            key = (json.loads(read_text(SEERR_SETTINGS) or "{}").get("main") or {}).get("apiKey")
+        except ValueError:
+            key = None
+    return url, key or ""
+
+
+def seerr_requests_for(kind, tmdb_id):
+    """Requests Seerr holds for a movie/tv tmdb id -> [{"by","email","date",
+    "status","is4k"}]; [] when Seerr knows the title but nobody requested it;
+    None when Seerr has no record of the title at all (or is unreachable)."""
+    if not tmdb_id:
+        return None
+    url, key = seerr_config()
+    if not key:
+        return None
+    status, parsed = http_json("%s/api/v1/%s/%d" % (url, "tv" if kind == "show" else "movie", int(tmdb_id)),
+                               headers={"X-Api-Key": key}, timeout=30)
+    if status == 404 or not isinstance(parsed, dict):
+        return None
+    if status != 200:
+        raise PlexOpsError("upstream-error", "seerr -> HTTP %d" % status, 502)
+    info = parsed.get("mediaInfo") or {}
+    out = []
+    for r in info.get("requests") or []:
+        by = r.get("requestedBy") or {}
+        out.append({"by": by.get("displayName") or by.get("plexUsername") or by.get("email"),
+                    "email": by.get("email"), "date": (r.get("createdAt") or "")[:10],
+                    "status": {1: "pending", 2: "approved", 3: "declined"}.get(r.get("status"), r.get("status")),
+                    "is4k": bool(r.get("is4k"))})
+    return sorted(out, key=lambda x: x["date"])

@@ -22,6 +22,11 @@ devastator/composed-apps/<app>/   # Docker Compose apps on host "devastator"
                                   #   Plex, Pi-hole, Traefik, and a vLLM compute stack
 ansible/                          # Playbooks + inventory for host/LXC provisioning
 scripts/                          # Operational scripts (e.g. Zomboid world-reset / RCON tooling)
+scripts/plex-ops/                 # Plex help-desk + maintenance agent: an audited, re-verifying
+                                  #   action runner (REST + MCP tools) that a NanoClaw/Claude
+                                  #   agent drives from Discord; docs/plex-ops/ holds the agent
+scripts/media-reclaim/            # 4K-remux compression campaign tooling (scan, queue, GPU worker
+                                  #   in devastator/composed-apps/media-transcoder)
 systemd-unit-files/               # systemd units installed on the hosts
 firewall/                         # Firewall configuration
 docs/                             # Design docs, plans, and runbooks

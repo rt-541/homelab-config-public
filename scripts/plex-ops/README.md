@@ -5,8 +5,18 @@ The "hands" half of the plex-ops maintenance suite (design:
 `CONTRACT.md` in this directory). A python 3.9 stdlib-only HTTP service on
 nemesis, port 8377, that serves read-only probes, a GET-only arr passthrough,
 and a whitelist of re-verifying actions to the NanoClaw `plex-ops` agent on
-devastator. Every authed call is JSON-audit-logged to
+devastator, both as REST and as MCP tools (`POST /mcp`, the agent's native
+tool transport). Every authed call is JSON-audit-logged to
 `/docker/plex/logs/plex-ops/audit.jsonl`.
+
+The agent serves three jobs: a help desk (users in one Discord channel report
+a missing or bad episode/movie; `lookup` resolves it, `fill-missing` or
+`replace-file` fixes it), the scheduled maintenance duties (queue triage,
+watchdog, library audit, digest), and the compression waves of the media
+reclaim campaign (`reclaim-plan` answers "what can we compress tonight",
+`reclaim-schedule` queues that wave for the `media-transcoder` worker;
+`reclaim-status`, pause/resume, pilot ack). Campaign tooling and state:
+`scripts/media-reclaim/`, `/docker/plex/media/.reclaim/`.
 
 Files:
 
@@ -15,9 +25,27 @@ Files:
 | `runner.py` | HTTP service: routing, bearer auth, error envelope, audit |
 | `plexops_lib.py` | shared plumbing (arr/qbit/docker/fs helpers) |
 | `probes.py` | read-only probes (`queue-health`, `service-health`, `disk`, `library-audit`) |
-| `actions.py` | whitelisted actions (all support `dry_run`) |
+| `actions.py` | whitelisted actions (all support `dry_run`), incl. the help-desk `replace-file` / `fill-missing` |
+| `mcp.py` | the same probes/actions/passthrough as MCP tools over JSON-RPC (`POST /mcp`) |
 | `plex-ops-runner.env.example` | template for `/etc/plex-ops/runner.env` |
+| `deploy-nemesis.sh` | scripted, idempotent install of everything below plus the NFS export and Recyclarr |
+| `kuma-monitors.py` | adds the runner/prowlarr monitors to Uptime Kuma (run from tarkin) |
 | `../../systemd-unit-files/plex-ops-runner.service` | systemd unit |
+
+## Scripted install (preferred)
+
+```bash
+cd /docker/homelab-config/scripts/plex-ops
+sudo bash deploy-nemesis.sh runner            # token, BIND=192.168.1.214, unit, log dir, smoke tests
+sudo bash deploy-nemesis.sh nfs               # ro export of /docker/plex/media to devastator .216
+sudo bash deploy-nemesis.sh recyclarr         # preview only; add --apply to sync + start the cron container
+bash      deploy-nemesis.sh push-token devastator.rt-541.io   # token -> ~/.config/plex-ops/runner.env there
+sudo bash deploy-nemesis.sh smoke             # re-run the smoke tests any time
+```
+
+While the branch is unmerged, add `--worktree <path>` to `runner` to run the
+service from a git worktree (a systemd drop-in); re-run `runner` without it
+after the merge. The manual steps the script performs are the following.
 
 ## Install (on nemesis)
 
@@ -151,6 +179,26 @@ curl -s -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/
          "expect": "malware-ext", "dry_run": true}' \
     http://localhost:8377/action/queue-remove
 
+# help desk: resolve a title, then plan a fix (dry_run)
+curl -s -H "Authorization: Bearer $TOKEN" \
+    "http://localhost:8377/probe/lookup?app=sonarr&q=the+office&season=2&episode=1"
+curl -s -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+    -d '{"app": "sonarr", "episode_id": 12345, "dry_run": true}' \
+    http://localhost:8377/action/replace-file
+
+# compression waves: tonight's plan (read-only), then queue it (dry_run first)
+curl -s -H "Authorization: Bearer $TOKEN" \
+    "http://localhost:8377/probe/reclaim-plan?window=tonight"
+curl -s -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+    -d '{"window": "tonight", "dry_run": true}' http://localhost:8377/action/reclaim-schedule
+
+# MCP: initialize + list tools (what the agent's harness does on connect)
+curl -s -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+    -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}' \
+    http://localhost:8377/mcp
+curl -s -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+    -d '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' http://localhost:8377/mcp | head -c 400
+
 # every call above (except /healthz) appended one line here:
 tail -n 5 /docker/plex/logs/plex-ops/audit.jsonl
 ```
@@ -161,7 +209,7 @@ From the LAN (e.g. devastator): same commands with
 ## Shadow mode
 
 Per the approved design, the agent's auto tier is DISABLED for the first
-week: the agent runs probes and posts to the chat channel what it *would* do, but
+week: the agent runs probes and posts to `#plex-ops` what it *would* do, but
 issues no non-dry-run actions. The runner needs no configuration for this -
 shadow mode is enforced on the agent side (its skills call actions with
 `"dry_run": true` only). The current 96-item Sonarr backlog is the acceptance

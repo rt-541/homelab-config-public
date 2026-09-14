@@ -636,7 +636,8 @@ class TestProbesRegistry(unittest.TestCase):
 
     def test_contract_probe_names(self):
         self.assertEqual(set(probes.PROBES), {
-            "queue-health", "service-health", "disk", "library-audit",
+            "queue-health", "service-health", "disk", "library-audit", "lookup",
+            "reclaim-status", "reclaim-plan", "title-stats",
         })
         for fn in probes.PROBES.values():
             self.assertTrue(callable(fn))

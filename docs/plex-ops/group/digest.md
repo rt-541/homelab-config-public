@@ -1,7 +1,7 @@
 # Skill: digest
 
 Runs weekly (Sunday morning, after the audit rollup). One post to
-the chat channel: what got fixed, what is still waiting, and where the disks are
+`#plex-ops`: what got fixed, what is still waiting, and where the disks are
 heading. The digest has no approval tier and takes no actions - it is the
 week's ledger. All calls go to `$RUNNER_URL` with
 `Authorization: Bearer $RUNNER_TOKEN`; every non-2xx response is the

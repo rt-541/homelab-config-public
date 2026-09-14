@@ -18,12 +18,12 @@ response is the envelope
     `/docker/plex/media/downloads` -> propose `delete-download`. Findings
     outside the downloads root cannot be deleted by the runner (the action
     only accepts paths under `/docker/plex/media/downloads`); report them
-    for the operator to handle by hand, with the exact path.
+    for Arthur to handle by hand, with the exact path.
   - `missing-file` / `sparse-file` -> propose a `search` re-grab for the
     affected title (plus, for a hollow file in downloads, a
     `delete-download` of the husk).
   - `missing-monitored` / `cutoff-unmet` gaps -> propose targeted `search`
-    only when the operator asks or in the weekly rollup, batched, never
+    only when Arthur asks or in the weekly rollup, batched, never
     per-chunk (a blanket search storm is exactly the queue silt the triage
     duty cleans up).
 
@@ -38,7 +38,7 @@ response is the envelope
 3. Append the counts and findings to `memory/audit-week.md` (one section per
    night, ts + app + counts + finding lines). File paths in findings are
    nemesis paths; when the path is under `/docker/plex/media`, you may
-   inspect it read-only at the `/data/...` translation to add evidence
+   inspect it read-only at the `/workspace/extra/data/...` translation to add evidence
    (e.g. confirm a directory's contents before calling something a dupe).
 4. Post nothing on a clean chunk. Post a one-line note only for something
    urgent (e.g. a sparse-file count suddenly jumping), not routine findings
@@ -48,7 +48,7 @@ response is the envelope
 
 1. Aggregate `memory/audit-week.md`: totals per finding type per app, plus
    the latest library-wide `missing-monitored` / `cutoff-unmet` counts.
-2. Post the rollup summary to the chat channel, then one numbered approval list
+2. Post the rollup summary to `#plex-ops`, then one numbered approval list
    (id `la-<date>-<n>`) covering the proposed fixes, each with type, title,
    path, and one line of evidence (`apparent_bytes`/`allocated_bytes` for
    sparse files). Persist number -> action body in `memory/pending.md`.

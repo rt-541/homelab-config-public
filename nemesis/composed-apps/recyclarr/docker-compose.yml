@@ -17,7 +17,10 @@ networks:
 
 services:
   recyclarr:
-    image: ghcr.io/recyclarr/recyclarr:latest
+    # Pinned major: the registry publishes no `latest` tag (manifest unknown,
+    # 2026-09-13), and a pinned tag never goes stale the way :latest did for
+    # gluetun/byparr.
+    image: ghcr.io/recyclarr/recyclarr:8
     container_name: recyclarr
     restart: unless-stopped
     # Match the arr stack's PUID/PGID so /docker/recyclarr stays consistently owned.

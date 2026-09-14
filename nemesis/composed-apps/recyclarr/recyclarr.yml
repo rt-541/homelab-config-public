@@ -26,7 +26,6 @@ sonarr:
     # Both arrs had zero pre-existing custom formats (verified 2026-09-10),
     # so recyclarr owns the CF namespace outright.
     delete_old_custom_formats: true
-    replace_existing_custom_formats: true
 
     # Profile hygiene: the live profile upgraded "until HDTV-2160p", which is
     # what kept re-grabbing toward 2160p (the 1080p-over-2160p queue waste).
@@ -81,7 +80,6 @@ radarr:
     api_key: !env_var RADARR_API_KEY
 
     delete_old_custom_formats: true
-    replace_existing_custom_formats: true
 
     # Profile hygiene: upgrades are already OFF on the live profile (a movie
     # with any file is complete - no 720p-over-1080p re-grab churn). Pin that

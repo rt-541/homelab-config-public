@@ -8,7 +8,7 @@
 
 Split brain/hands across the two hosts:
 
-- **Brain: NanoClaw group `plex-ops`** (a dedicated chat channel) on devastator, following the existing vault-group pattern (local vLLM backend via cch proxy, `cli_scope` disabled, `CLAUDE_CODE_MAX_OUTPUT_TOKENS` cap in `container.json`). Scheduled runs plus on-demand chat. Capabilities: a read-only NFS mount of the media export (file inspection; `downloads/` is inside it) and ONE bearer token to the nemesis action-runner. No arr keys, no docker access in the agent.
+- **Brain: NanoClaw group `plex-ops`** (Discord channel `#plex-ops`) on devastator, following the existing vault-group pattern (local vLLM backend via cch proxy, `cli_scope` disabled, `CLAUDE_CODE_MAX_OUTPUT_TOKENS` cap in `container.json`). Scheduled runs plus on-demand chat. Capabilities: a read-only NFS mount of the media export (file inspection; `downloads/` is inside it) and ONE bearer token to the nemesis action-runner. No arr keys, no docker access in the agent.
 - **Hands: action-runner on nemesis** - host-level systemd service (python3 stdlib, port 8377, LAN-bound), because its job is `docker compose` and sudo file ops. All calls bearer-authed; every call JSON-audit-logged to `/docker/plex/logs/plex-ops/`.
 
 ### Runner surfaces
@@ -31,7 +31,7 @@ Shared plumbing (arr key readers, qbit session, sparse detection, TSV/audit help
 
 ## Duties and schedules
 
-| Duty | Cadence | Auto tier (act + one-line receipt) | Approval tier (numbered list in the chat channel) |
+| Duty | Cadence | Auto tier (act + one-line receipt) | Approval tier (numbered list in #plex-ops) |
 |---|---|---|---|
 | Queue triage | every 2h | malware-ext: remove+blocklist+delete data+re-search; not-upgrade: remove+blocklist | mapping-mismatch, sample-stall, unknown |
 | Service watchdog | every 30 min | restart-prowlarr, pull-recreate, resurrect-stragglers per known signatures | anything unrecognized -> report with evidence |
@@ -48,7 +48,7 @@ Approval flow: user replies in-channel ("approve 1,3-5" / "all"); the agent then
 ## Deployment split
 
 - **nemesis (this repo, buildable now):** `scripts/plex-ops/` (runner + probes + actions + lib + tests), `systemd-unit-files/plex-ops-runner.service`, `nemesis/composed-apps/recyclarr/`, runbook README.
-- **devastator (follow-up, manual):** create the NanoClaw group with `ncl` (bound to a dedicated chat channel), mount NFS read-only into the group container, install the agent prompt/skills. Those artifacts are staged in-repo under `docs/plex-ops/group/` (AGENTS.md-style prompt, per-duty skill files with exact probe/action contracts, schedule definitions) with a deploy runbook. Scheduling mechanism: NanoClaw's native scheduler if present in v2.3, else systemd timers on devastator posting scheduled messages via `ncl` - the runbook covers both.
+- **devastator (follow-up, manual):** create the NanoClaw group with `ncl` (Discord channel `#plex-ops`), mount NFS read-only into the group container, install the agent prompt/skills. Those artifacts are staged in-repo under `docs/plex-ops/group/` (AGENTS.md-style prompt, per-duty skill files with exact probe/action contracts, schedule definitions) with a deploy runbook. Scheduling mechanism: NanoClaw's native scheduler if present in v2.3, else systemd timers on devastator posting scheduled messages via `ncl` - the runbook covers both.
 - **Monitoring:** add runner `/probe/service-health` and Prowlarr /ping to Kuma (`status.rt-541.io`) - documented step, done from tarkin.
 
 ## Error handling

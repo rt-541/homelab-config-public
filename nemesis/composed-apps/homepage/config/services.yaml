@@ -90,6 +90,11 @@
         icon: uptime-kuma.png
         description: Status page
         siteMonitor: http://192.168.1.14:3001
+    - plex-ops runner:
+        href: http://nemesis.rt-541.io:8377/healthz
+        icon: mdi-robot-outline
+        description: Plex-stack maintenance agent API (LAN-only, agent posts in #plex-ops)
+        siteMonitor: http://192.168.1.214:8377/healthz
     - Proxmox (sienar):
         href: https://192.168.1.5:8006
         icon: proxmox.png

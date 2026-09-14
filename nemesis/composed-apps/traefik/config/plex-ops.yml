@@ -1,0 +1,17 @@
+http:
+  services:
+    plex-ops:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.214:8377"
+  routers:
+    # plex-ops action-runner (scripts/plex-ops). LAN-only; bearer auth is on
+    # the runner itself. Gives the NanoClaw plex-ops agent an HTTPS MCP URL
+    # (its stored config refuses plain http off-host):
+    #   https://plex-ops.rt-541.io/mcp
+    plex-ops:
+      rule: "Host(`plex-ops.rt-541.io`)"
+      entryPoints: [secure]
+      service: plex-ops
+      middlewares: [lan-only@docker]
+      tls: {certResolver: default}
