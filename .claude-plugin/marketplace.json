@@ -1,0 +1,18 @@
+{
+  "name": "workshop-skills",
+  "description": "Claude Code skills for designing physical builds and delivering shop drawing sets, PDFs and headless CAD models.",
+  "owner": {
+    "name": "rt-541"
+  },
+  "plugins": [
+    {
+      "name": "workshop",
+      "description": "Physical build plans: the design dialogue, engineering checks, shop-drawing sets with SVG generated from dimensions, priced shopping lists, PDF, and a headless CadQuery model with an interactive viewer, STEP and a Fusion 360 script (skills: build-plan, shopcad-model).",
+      "version": "1.1.0",
+      "source": "./plugins/workshop",
+      "author": {
+        "name": "rt-541"
+      }
+    }
+  ]
+}

@@ -34,3 +34,4 @@ data-host/composed-apps/homepage/config/logs/
 # Local Claude Code agent config
 .claude/
 **/.claude/
+plugins/workshop/skills/build-plan/examples/rock-screen/out/
