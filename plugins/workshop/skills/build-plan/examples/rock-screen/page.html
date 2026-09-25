@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Shop drawing set for a tilt-tray rock screen: shovel river rock onto a 1/2 in hardware-cloth tray at counter height, shake, pick and rinse it, then lift a handle and the rock slides down a plywood funnel into a 50 lb burlap sack standing on a hand truck.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Rock Screen</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F2F4F6; --paper:#FFFFFF; --ink:#1B2430; --muted:#5B6B7A; --rule:#C9D2DA; --rule-soft:#E4E9EE;
+  --tray:#2F6F9F; --tray-soft:#E3EEF6; --tray-ink:#1E4C6E;
+  --stand:#C8541B; --stand-soft:#F9E6DB; --stand-ink:#8E3A10;
+  --warn-bg:#FFF4E5; --warn-ink:#7A4A00;
+  --code-bg:#EAEEF2; --wood:#EFE3CF; --wood-far:#F7F1E6; --rock:#B8B2A6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181E; --paper:#1A2129; --ink:#E6ECF1; --muted:#9AA8B5; --rule:#33404C; --rule-soft:#242E38;
+    --tray:#6FB0E0; --tray-soft:#1C2F3F; --tray-ink:#A9D2F0;
+    --stand:#F08A4B; --stand-soft:#3A2418; --stand-ink:#F7B58C;
+    --warn-bg:#3A2A10; --warn-ink:#F3D9A8;
+    --code-bg:#232D37; --wood:#3B3225; --wood-far:#2C2720; --rock:#6E6A62;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181E; --paper:#1A2129; --ink:#E6ECF1; --muted:#9AA8B5; --rule:#33404C; --rule-soft:#242E38;
+  --tray:#6FB0E0; --tray-soft:#1C2F3F; --tray-ink:#A9D2F0;
+  --stand:#F08A4B; --stand-soft:#3A2418; --stand-ink:#F7B58C;
+  --warn-bg:#3A2A10; --warn-ink:#F3D9A8;
+  --code-bg:#232D37; --wood:#3B3225; --wood-far:#2C2720; --rock:#6E6A62;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:900px;margin:0 auto;display:grid;gap:28px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;line-height:1.05;margin:0;text-wrap:balance}
+h1{font-size:2.6rem;font-weight:700;letter-spacing:.005em}
+h2{font-size:1.7rem;font-weight:600}
+h3{font-size:1.15rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+p{margin:0;max-width:66ch}
+ul,ol{margin:0;padding-left:1.3em;max-width:70ch}
+li{margin-block:.25em}
+li::marker{color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:.9em}
+a{color:var(--tray)}
+strong{font-weight:600}
+.eyebrow{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;color:var(--muted)}
+
+/* title block */
+.titleblock{background:var(--paper);border:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:0}
+.titleblock .main{padding:22px 24px;display:grid;gap:10px;border-right:1px solid var(--rule)}
+.titleblock .meta{display:grid;grid-template-columns:1fr 1fr;align-content:start}
+.titleblock .meta div{padding:10px 14px;border-bottom:1px solid var(--rule);border-left:1px solid var(--rule);min-width:0}
+.titleblock .meta div:nth-child(odd){border-left:none}
+.titleblock .meta div:nth-last-child(-n+2){border-bottom:none}
+.titleblock .meta .k{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600}
+.titleblock .meta .v{font-family:"IBM Plex Mono",monospace;font-size:.9rem;overflow-wrap:anywhere}
+@media (max-width:900px){.titleblock{grid-template-columns:1fr}.titleblock .main{border-right:none;border-bottom:1px solid var(--rule)}}
+
+/* sheet index */
+.index{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.index a{display:flex;gap:10px;align-items:baseline;padding:10px 12px;background:var(--paper);border:1px solid var(--rule);text-decoration:none;color:var(--ink)}
+.index a .n{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:.85rem}
+.index a:hover,.index a:focus-visible{border-color:var(--tray);outline:none}
+
+/* sheets */
+.sheet{background:var(--paper);border:1px solid var(--rule);padding:24px;display:grid;gap:20px}
+.sheet header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-bottom:10px}
+.sheet header .num{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:.85rem}
+.sheet.tray header{border-bottom:2px solid var(--tray)}
+.sheet.stand header{border-bottom:2px solid var(--stand)}
+.tag{display:inline-block;font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;padding:2px 8px;border-radius:2px}
+.tag.tray{background:var(--tray-soft);color:var(--tray-ink)}
+.tag.stand{background:var(--stand-soft);color:var(--stand-ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+.block{display:grid;gap:10px;align-content:start}
+.fig{display:grid;gap:8px}
+.fig svg{width:100%;height:auto;display:block}
+.fig figcaption{font-size:.85rem;color:var(--muted);max-width:70ch}
+figure{margin:0}
+
+/* svg drawing tokens */
+svg text{font-family:"IBM Plex Mono",monospace;font-size:7px;fill:var(--ink)}
+svg text.lbl{font-family:"Barlow Condensed",Arial,sans-serif;font-size:9px;letter-spacing:.04em;text-transform:uppercase;fill:var(--muted)}
+svg .ply{fill:var(--rule-soft);stroke:var(--ink);stroke-width:.7}
+svg .lumber{fill:var(--wood);stroke:var(--ink);stroke-width:.7}
+svg .lumber-far{fill:var(--wood-far);stroke:var(--muted);stroke-width:.6}
+svg .lumber-glass{fill:var(--wood);fill-opacity:.45;stroke:var(--ink);stroke-width:.7}
+svg .tray{fill:var(--tray-soft);stroke:var(--tray);stroke-width:.9}
+svg .meshfill{fill:var(--paper);stroke:var(--tray);stroke-width:.5;stroke-dasharray:1 1}
+svg .mesh{stroke:var(--tray);stroke-width:1;stroke-dasharray:1.2 1;fill:none}
+svg .batten{fill:var(--wood);stroke:var(--tray);stroke-width:.5}
+svg .hidden{fill:none;stroke:var(--muted);stroke-width:.5;stroke-dasharray:2 1.5}
+svg .funnel-face{fill:var(--stand-soft);stroke:var(--stand);stroke-width:.8}
+svg .puck{fill:var(--ink);stroke:none}
+svg .wheel{fill:var(--rule-soft);stroke:var(--ink);stroke-width:.8}
+svg .dowel{fill:var(--wood);stroke:var(--ink);stroke-width:.6}
+svg .bolt{fill:var(--ink);stroke:none}
+svg .rock{fill:var(--rock);stroke:var(--ink);stroke-width:.4}
+svg .sack{fill:var(--wood-far);stroke:var(--stand-ink);stroke-width:.7}
+svg .sack-cuff{fill:var(--wood);stroke:var(--stand-ink);stroke-width:.7}
+svg .fill{stroke:var(--stand);stroke-width:.8;stroke-dasharray:2 1}
+svg .ground{stroke:var(--muted);stroke-width:.8}
+svg .arrow{stroke:var(--stand);stroke-width:1.2;fill:none}
+svg .metal-solid{fill:var(--rule);stroke:var(--ink);stroke-width:.5}
+svg .dim{stroke:var(--muted);stroke-width:.5;fill:none}
+svg .dim-t{fill:var(--muted);font-size:6.5px}
+svg .thin{stroke:var(--ink);stroke-width:.5;fill:none}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+th{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.78rem;color:var(--muted);border-bottom:1px solid var(--rule)}
+td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.m{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:860px){td.m{white-space:normal}}
+tr.sum td{border-top:1px solid var(--rule);font-weight:600}
+tfoot td{color:var(--muted);font-size:.85rem;border-bottom:none}
+
+.callout{padding:14px 16px;border-left:3px solid var(--tray);background:var(--tray-soft);display:grid;gap:6px}
+.callout.stand{border-color:var(--stand);background:var(--stand-soft)}
+.callout.warn{border-color:var(--warn-ink);background:var(--warn-bg);color:var(--warn-ink)}
+.callout .t{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat div{padding:10px 12px;border:1px solid var(--rule)}
+.stat .k{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600}
+.stat .v{font-family:"IBM Plex Mono",monospace;font-size:1.05rem}
+code{font-family:"IBM Plex Mono",monospace;font-size:.9em;background:var(--code-bg);padding:1px 5px;border-radius:2px}
+.steps li{margin-block:.45em}
+.foot{color:var(--muted);font-size:.85rem;max-width:70ch}
+@media (prefers-reduced-motion:no-preference){.index a{transition:border-color .15s}}
+.sitebar{max-width:900px;margin:0 auto 20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.sitebar a{color:var(--ink);text-decoration:none}
+.sitebar a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="sitebar"><span>Rock screen</span><span><a href="rock-screen.pdf">PDF</a></span></div>
+<div class="wrap">
+
+<section class="titleblock">
+  <div class="main">
+    <span class="eyebrow">Shop drawing set</span>
+    <h1>Rock Screen</h1>
+    <p>A tilt-tray screen for cleaning a pool's worth of river rock that came up full of plant matter and dirt. Rock is shoveled onto a 1/2 in hardware-cloth tray at counter height, bounced to drop the dirt, picked over by hand, rinsed with a hose, and then a handle lifts the back of the tray so the rock slides down a plywood funnel into a 50 lb burlap sack standing on a hand truck. The stand rolls along the pile on two wheels; the full sack rolls away on the truck.</p>
+  </div>
+  <div class="meta">
+    <div><span class="k">Location</span><span class="v">Outside, by the pile</span></div>
+    <div><span class="k">Revision</span><span class="v">A, 2026-09-19</span></div>
+    <div><span class="k">Stand</span><span class="v">40 L x 30.5 W x 37.5 H</span></div>
+    <div><span class="k">Screen</span><span class="v">21 x 36 at 35 in, 1/2 in mesh</span></div>
+    <div><span class="k">Keeps</span><span class="v">3/4 to 4 in rock, 45 lb a sack</span></div>
+    <div><span class="k">Rough cost</span><span class="v">$190 plus sacks</span></div>
+  </div>
+</section>
+
+<nav class="index" aria-label="Sheets">
+  <a href="#s1"><span class="n">01</span>Design basis</a>
+  <a href="#s2"><span class="n">02</span>General arrangement</a>
+  <a href="#s3"><span class="n">03</span>Tray</a>
+  <a href="#s4"><span class="n">04</span>Stand</a>
+  <a href="#s5"><span class="n">05</span>Funnel and sack station</a>
+  <a href="#s6"><span class="n">06</span>Cut list</a>
+  <a href="#s7"><span class="n">07</span>Shopping list</a>
+  <a href="#s8"><span class="n">08</span>Build sequence</a>
+  <a href="#s9"><span class="n">09</span>Operating guide</a>
+</nav>
+
+<!-- SHEET 01 -->
+<section class="sheet" id="s1">
+  <header><h2>Design basis</h2><span class="num">Sheet 01 of 09</span></header>
+
+  <div class="two">
+    <div class="block">
+      <h3>What was decided</h3>
+      <ul>
+        <li><strong>One screen, one motion.</strong> The tray is the sifter, the picking table, the rinse deck and the chute. It hangs on two bolts at the front of a 2x4 stand and rests on two hockey pucks at the back; lift the handle and it becomes a 35 degree slide into the funnel. Nothing is unlatched or moved between stages.</li>
+        <li><strong>1/2 in hardware cloth</strong> keeps everything from 3/4 in up. Sand, silt, root hair and leaf fragments go through with the rinse water. Flat pebbles thinner than 1/2 in also go through; if you want them, use 3/8 in cloth.</li>
+        <li><strong>Pivot 9 in behind the discharge end,</strong> not at the end. The tray's own weight in front of the pivot offsets some of the load behind it, so the handle takes about 23 lb with three shovels of rock on the screen, and the lip swings down into the funnel mouth instead of past it.</li>
+        <li><strong>Sacks fill on a hand truck.</strong> The spout sits 13.5 in above the ground, the 50 lb sack is cuffed up onto it with a bungee, and its bottom sits on the truck's nose plate. A filled sack is wheeled away and tipped off onto the pile; it is never lifted off the ground.</li>
+        <li><strong>Counter height.</strong> The screen surface is at 35 in, the rails at 39. You shovel onto it from the long side and stand at that side to pick; the hose runs from the same side.</li>
+        <li><strong>Two 8 in wheels</strong> on the front legs. Lift the back of the stand like a wheelbarrow to move it along the pile or away from the mud puddle that forms under it.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Assumptions</h3>
+      <ul>
+        <li>Rock is river rock from 3/4 to 4 in, mixed, all of it kept. Bulk density about 100 lb per cubic foot.</li>
+        <li>Several cubic yards, worked over days, with the jig standing by the pile outdoors on grass or gravel that can take the rinse runoff.</li>
+        <li>Sacks are 50 lb burlap, the 20 x 32 in size, 40 in around. A hand truck and a garden hose with a spray nozzle are on hand.</li>
+        <li>Tools: miter or circular saw, drill, staple gun with 9/16 in staples, tin snips, socket for 1/2 in nuts. No table saw needed; the plywood cuts are straight and can be made with a circular saw.</li>
+        <li>Construction lumber is SPF 2x4 and 2x6 at actual 1.5 x 3.5 and 1.5 x 5.5; 2x2 at 1.5 x 1.5; 1x2 at 0.75 x 1.5.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout stand">
+    <span class="t">The numbers that set the sack rule</span>
+    <p>River rock runs about 100 lb per cubic foot. A 50 lb burlap sack is rated for 50 lb of grain, which is about 1.2 cubic feet; filled to the top with rock it would weigh 120 lb and the seams would not hold. The working rule is <strong>45 lb per sack</strong>: three square-point shovelfuls of rock, about 8 in of rock in the bottom of the sack, just under the sack's rating. Sacks that heavy stack on a pallet without splitting, and the hand truck rolls them. A cubic yard of rock is 2,700 lb, so budget 60 sacks per yard.</p>
+  </div>
+  <div class="stat">
+    <div><span class="k">Lift at handle, loaded</span><span class="v">23 lb</span></div>
+    <div><span class="k">Lift at handle, empty</span><span class="v">12 lb</span></div>
+    <div><span class="k">Tray weight</span><span class="v">about 30 lb</span></div>
+    <div><span class="k">Handle rise at full tilt</span><span class="v">22 in</span></div>
+    <div><span class="k">Sack fill</span><span class="v">45 lb, 3 shovels</span></div>
+    <div><span class="k">Sacks per yard</span><span class="v">60</span></div>
+  </div>
+</section>
+
+<!-- SHEET 02 -->
+<section class="sheet" id="s2">
+  <header><h2>General arrangement</h2><span class="num">Sheet 02 of 09</span></header>
+  <p>Side elevations of the whole rig with the hand truck in place. The tray's discharge end and the funnel are on the left. Dimensions in inches; the stand is drawn with the near legs and stringer in front, the puck rail and the tray's slats dashed where they are hidden.</p>
+  <figure class="fig">
+    <div class="two">
+    {{ga_rest}}
+    {{ga_tilt}}
+    </div>
+    <figcaption>At rest the tray hangs between the stringers on two 1/2 in carriage bolts 4 in behind the front of the stand and sits on the hockey pucks at the back, level, with the screen at 35 in. Lifting the handle 22 in tilts it 35 degrees; the flashing lip swings down to about 28 in, clear of the funnel's back wall, and the rock slides through the funnel into the sack.</figcaption>
+  </figure>
+
+  <div class="two">
+    <div class="block">
+      <h3>Workflow, one sack</h3>
+      <ol class="steps">
+        <li>Three shovels of rock onto the screen, from the long side.</li>
+        <li>Bounce: lift the handle an inch or two and drop it on the pucks a few times. Dirt and sand fall through.</li>
+        <li>Pick: pull out sticks, roots, leaves and anything that is not rock. Toss it in a bucket beside the stand.</li>
+        <li>Rinse: hose the load. Mud, silt and small plant bits wash through the mesh onto the ground under the stand.</li>
+        <li>Lift the handle to the stop. The rock slides off the lip into the funnel and down the spout into the sack.</li>
+        <li>Unhook the bungee, roll the cuff down, tie the sack, wheel the truck away and tip the sack off onto the pallet. Next sack on the spout.</li>
+      </ol>
+    </div>
+    <div class="block">
+      <h3>Clearances that matter</h3>
+      <ul>
+        <li>Funnel back wall top is at 27.5 in; the tray's front bottom corner sweeps to 28.8 in at full tilt. Do not raise the funnel or lower the pivot without checking this.</li>
+        <li>The lip lands at about 28 in, 5 in past the funnel's back wall and 4 in short of its front wall, so rock leaving at a walk drops into the hopper and not over the front.</li>
+        <li>Spout bottom at 13.5 in leaves room under it for the nose plate and 13 in of standing sack. 45 lb of rock stands about 8 in in a 20 in wide sack; the rest of the 32 in sack is rolled down in the cuff.</li>
+        <li>Tray clears the stringers by 1/4 in a side. Keep the side rails straight; a bowed 2x6 will bind.</li>
+        <li>A 30 in chain from the back stringer to the tray's back rail stops the tilt at about 40 degrees so the tray cannot be swung past vertical.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 03 -->
+<section class="sheet tray" id="s3">
+  <header><h2>Tray <span class="tag tray">moving part</span></h2><span class="num">Sheet 03 of 09</span></header>
+  <p>A 24 x 48 in frame of 2x6 on edge. The front 36 in is the screen, the back 12 in is the handle bay. The mesh lies on top of four 2x2 slats that sit flush with the bottom of the frame, turns up the side and back rails 1.5 in, and is clamped there by 1x2 battens so no cut wire is exposed. The discharge end has no rail; a strip of galvanized flashing covers the mesh's front edge and reaches 3 in past the frame as the lip.</p>
+  <figure class="fig">
+    {{tray_plan}}
+    <figcaption>Plan from above. Side rails 2x6 x 48, back rail 2x6 x 21 between them at 36 in, front strip and three slats 2x2 x 21 under the mesh at 9 in spacing, screwed through the side rails. Pivot holes 9/16 in at 9 in from the front and 2.5 in up from the bottom, both rails, drilled together. Handle is a 1-1/4 in dowel through both rails 1.5 in from the back end, pinned with a screw each side.</figcaption>
+  </figure>
+  <div class="two">
+    <figure class="fig">
+      {{tray_section}}
+      <figcaption>Section looking at the discharge end. The mesh rides on the slats 1.5 in above the frame bottom, leaving a 4 in rail above the screen to keep the load on during the bounce. Battens are 1x2 flat, screwed through the mesh into the rails with 1-1/4 in screws every 6 in.</figcaption>
+    </figure>
+    <div class="block">
+      <h3>Notes</h3>
+      <ul>
+        <li>Hardware cloth: 1/2 in mesh, 19 gauge, galvanized. Cut 24 x 37.5 from the 24 in roll so the width turns up both rails exactly; the extra 1.5 in turns up the back rail.</li>
+        <li>Staple the mesh to the slats and the front strip first, 9/16 in staples every 3 in, then up the rails, then the battens over it.</li>
+        <li>The lip is 6 in flashing, 24 in long: 3 in screwed flat over the front strip on top of the mesh with 1 in screws, 3 in hanging past the frame, bent down about 10 degrees so it does not catch the funnel wall.</li>
+        <li>The slats take the shovel hits. If a 2x2 splits, it is replaced with two screws.</li>
+        <li>Chamfer or round the top edges of the side rails where you lean; splinters and wet hands are a bad mix.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 04 -->
+<section class="sheet stand" id="s4">
+  <header><h2>Stand <span class="tag stand">fixed part</span></h2><span class="num">Sheet 04 of 09</span></header>
+  <p>Two 2x4 stringers 40 in long carry the tray between them; the four legs are screwed to the outside faces of the stringers at the corners, so the space between the stringers stays open for the tray. A 2x4 puck rail between the stringers near the back holds two hockey pucks the tray rests on. Low rails between the legs stiffen it, and the funnel's back wall across the front legs braces the front.</p>
+  <div class="two">
+    <figure class="fig">
+      {{stand_back}}
+      <figcaption>Looking at the back. Overall 30.5 in wide, 37.5 in tall. Legs 2x4 x 37.5 outside the stringers; puck rail 2x4 x 24.5 between the stringers with its top at 32.5 in, pucks screwed to it under the tray's side rails; low rail 2x4 x 27.5 between the back legs at 8 in.</figcaption>
+    </figure>
+    <figure class="fig">
+      {{stand_plan}}
+      <figcaption>Top frame from above. Pivot bolts through the stringers 4 in behind the front face of the legs, 1.5 in below the stringer top. The puck rail is 2 in from the back. Low side stretchers 2x4 x 33 run between the front and back legs on each side, inside the legs.</figcaption>
+    </figure>
+  </div>
+  <div class="two">
+    <div class="block">
+      <h3>Joints and fasteners</h3>
+      <ul>
+        <li>Legs to stringers: four 3 in construction screws per leg through the leg into the stringer, leg top flush with stringer top.</li>
+        <li>Puck rail: two 3 in screws through each stringer into the rail ends, its top 5 in below the stringer top.</li>
+        <li>Low rails: 3 in screws through the legs into the rail ends. Add a 3/8 plywood gusset at each back leg if the stand racks when you bounce the tray.</li>
+        <li>Pivots: 1/2 in x 4 in carriage bolts from the outside of the stringer, through a 9/16 hole in the tray rail, flat washer and nylock inside. Leave the nut a quarter turn loose so the tray swings.</li>
+        <li>Wheels: 8 in lawn-mower wheels on 1/2 in x 4 in hex bolts through the front legs at 4.5 in above the ground, wheel outside the leg, washer each side, nylock. The wheels sit 1/2 in off the ground until you lift the back.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Why this layout</h3>
+      <ul>
+        <li>The tray hanging inside the top frame rather than on top of it keeps the pivot bolts inside the stringers, with no ears or brackets, and puts the screen at 35 in on 37.5 in legs.</li>
+        <li>Legs outside the stringers give the tray its full 24.5 in of clearance and put the wheels and the funnel outboard where they do not meet the tray.</li>
+        <li>The pucks are the only wear point. They are rubber, cheap and screwed down; when they cut, turn them over.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 05 -->
+<section class="sheet stand" id="s5">
+  <header><h2>Funnel and sack station <span class="tag stand">fixed part</span></h2><span class="num">Sheet 05 of 09</span></header>
+  <p>A four-sided 3/8 in plywood hopper hung on the front of the stand. The back wall is one 30.5 x 14 in panel screwed to the front faces of the front legs, so it is the funnel's back and the stand's front brace at once. Front and back walls are vertical, 9 in apart; only the two side walls slant, 26 in at the mouth to 9 in at the spout over 10 in of drop, then 4 in of straight 9 x 9 spout that the 50 lb sack cuffs onto.</p>
+  <div class="two">
+    <figure class="fig">
+      {{funnel_front}}
+      <figcaption>Looking at the front. The mouth is 26 in wide to catch the 24 in tray with an inch a side; the sides fall at 50 degrees from horizontal, steep enough for wet rock on plywood. Spout perimeter is 36 in, inside a 50 lb sack's 40 in mouth with room for the cuff.</figcaption>
+    </figure>
+    <figure class="fig">
+      {{funnel_side}}
+      <figcaption>Side section. 9 in deep between the vertical walls. 1x2 cleats in the four vertical corners take the screws; the slanted side walls are glued and screwed to the front and back walls through their edges. The tray lip is drawn where it sits at full tilt, 5 in past the back wall.</figcaption>
+    </figure>
+  </div>
+  <div class="two">
+    <div class="block">
+      <h3>Sack station</h3>
+      <ul>
+        <li>The hand truck backs up to the stand with its nose plate under the spout. The sack stands on the plate, mouth rolled down into a cuff and pulled up over the spout, a 24 in bungee around the cuff.</li>
+        <li>Three shovels per sack. Rock stops about 8 in up the sack; you feel the truck take the weight and you see the cuff go tight.</li>
+        <li>Unhook, unroll the cuff, twist and tie with twine. Tip the truck back and wheel it to the pallet, then tip the sack off. Nothing is lifted from the ground.</li>
+        <li>If the truck's nose plate is taller than 1/2 in, drop the funnel by the difference before you screw the back wall on. The spout bottom needs 13 in clear to the plate.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Funnel parts, 3/8 plywood</h3>
+      <ul>
+        <li>Back wall 30.5 x 14, mounted on the legs. The hopper occupies the middle 26 in of it.</li>
+        <li>Front wall: 26 in wide at the top, 9 in wide from 10 in down, 14 in tall overall. Cut as a rectangle 26 x 14 and trim the two lower corners off at the slant.</li>
+        <li>Two side walls 9 x 13.125 (the slanted length of an 8.5 in run over 10 in of rise), set at 50 degrees.</li>
+        <li>Two spout sides 9 x 4, vertical under the side walls.</li>
+        <li>Cleats: four 1x2 x 14 in the vertical corners; two 1x2 x 9 across the bottom of the spout, outside, as the bungee's stop.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 06 -->
+<section class="sheet" id="s6">
+  <header><h2>Cut list</h2><span class="num">Sheet 06 of 09</span></header>
+  <p>All construction lumber, 8 ft lengths. Dimensions in inches. Everything comes off a miter saw except the plywood.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Stock</th><th class="n">Boards</th><th>Part</th><th class="n">Qty</th><th class="n">Cut to</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td class="m">2x6 x 8 ft</td><td class="n">2</td><td>Tray side rails</td><td class="n">2</td><td class="n">48</td><td>One per board. Pick the two straightest 2x6 in the pile.</td></tr>
+        <tr><td class="m">2x6</td><td class="n"></td><td>Tray back rail</td><td class="n">1</td><td class="n">21</td><td>From the offcut of the first board.</td></tr>
+        <tr><td class="m">2x2 x 8 ft</td><td class="n">1</td><td>Front strip and slats</td><td class="n">4</td><td class="n">21</td><td>Under the mesh, flush with the frame bottom.</td></tr>
+        <tr><td class="m">2x4 x 8 ft</td><td class="n">2</td><td>Legs</td><td class="n">4</td><td class="n">37.5</td><td>Two per board.</td></tr>
+        <tr><td class="m">2x4 x 8 ft</td><td class="n">1</td><td>Stringers</td><td class="n">2</td><td class="n">40</td><td>Two per board.</td></tr>
+        <tr><td class="m">2x4 x 8 ft</td><td class="n">1</td><td>Low side stretchers</td><td class="n">2</td><td class="n">33</td><td>Between front and back legs, inside.</td></tr>
+        <tr><td class="m">2x4 x 8 ft</td><td class="n">1</td><td>Puck rail, low back and front rails</td><td class="n">3</td><td class="n">24.5, 27.5, 27.5</td><td>79.5 in from one board.</td></tr>
+        <tr><td class="m">1x2 x 8 ft</td><td class="n">2</td><td>Mesh battens</td><td class="n">3</td><td class="n">36, 36, 21</td><td>Flat, over the mesh edge inside the rails.</td></tr>
+        <tr><td class="m">1x2</td><td class="n"></td><td>Funnel cleats</td><td class="n">6</td><td class="n">14, 14, 14, 14, 9, 9</td><td>From the second board with the 21 in batten.</td></tr>
+        <tr><td class="m">1-1/4 in dowel</td><td class="n">1</td><td>Handle</td><td class="n">1</td><td class="n">27</td><td>Through both rails, 1.5 in proud each side.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Sheet goods and metal</th><th>Part</th><th class="n">Qty</th><th class="n">Size</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td class="m">3/8 plywood, 4 x 4 ft</td><td>Funnel back wall</td><td class="n">1</td><td class="n">30.5 x 14</td><td>Grain along the 30.5.</td></tr>
+        <tr><td class="m"></td><td>Funnel front wall</td><td class="n">1</td><td class="n">26 x 14</td><td>Lower corners trimmed to 9 in wide below 10 in.</td></tr>
+        <tr><td class="m"></td><td>Side walls</td><td class="n">2</td><td class="n">9 x 13.125</td><td>Long edges beveled 40 degrees if you have a table saw; square works with a caulk bead.</td></tr>
+        <tr><td class="m"></td><td>Spout sides</td><td class="n">2</td><td class="n">9 x 4</td><td></td></tr>
+        <tr><td class="m"></td><td>Gussets, spare</td><td class="n">2</td><td class="n">8 x 8</td><td>Triangles for the back legs if needed.</td></tr>
+        <tr><td class="m">1/2 in hardware cloth, 24 in roll</td><td>Screen</td><td class="n">1</td><td class="n">24 x 37.5</td><td>19 gauge galvanized. Cut with tin snips, gloves on.</td></tr>
+        <tr><td class="m">Galvanized flashing, 6 in roll</td><td>Lip</td><td class="n">1</td><td class="n">24 x 6</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SHEET 07 -->
+<section class="sheet" id="s7">
+  <header><h2>Shopping list</h2><span class="num">Sheet 07 of 09</span></header>
+  <p>Prices are typical US big-box shelf prices, rounded; check the day you go. Sacks are a running cost, not part of the build.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Item</th><th class="n">Qty</th><th class="n">Each</th><th class="n">Line</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>2x4 x 8 ft SPF stud</td><td class="n">5</td><td class="n">$4.25</td><td class="n">$21</td><td>Legs, stringers, rails.</td></tr>
+        <tr><td>2x6 x 8 ft SPF</td><td class="n">2</td><td class="n">$7.50</td><td class="n">$15</td><td>Tray rails. Straight ones.</td></tr>
+        <tr><td>2x2 x 8 ft furring</td><td class="n">1</td><td class="n">$3.50</td><td class="n">$4</td><td>Slats.</td></tr>
+        <tr><td>1x2 x 8 ft furring</td><td class="n">2</td><td class="n">$2.50</td><td class="n">$5</td><td>Battens and cleats.</td></tr>
+        <tr><td>3/8 in sanded plywood, 4 x 4 ft</td><td class="n">1</td><td class="n">$28</td><td class="n">$28</td><td>Funnel. Exterior glue (BC or RTD sheathing).</td></tr>
+        <tr><td>1/2 in hardware cloth, 19 ga, 24 in x 5 ft</td><td class="n">1</td><td class="n">$22</td><td class="n">$22</td><td>One screen plus a spare.</td></tr>
+        <tr><td>1-1/4 in hardwood dowel, 48 in</td><td class="n">1</td><td class="n">$9</td><td class="n">$9</td><td>Handle.</td></tr>
+        <tr><td>Galvanized flashing, 6 in x 10 ft</td><td class="n">1</td><td class="n">$11</td><td class="n">$11</td><td>Lip.</td></tr>
+        <tr><td>8 in lawn-mower wheel, 1/2 in bore</td><td class="n">2</td><td class="n">$10</td><td class="n">$20</td><td>Front legs.</td></tr>
+        <tr><td>1/2 in x 4 in carriage bolt, washer, nylock</td><td class="n">2</td><td class="n">$3</td><td class="n">$6</td><td>Pivots.</td></tr>
+        <tr><td>1/2 in x 4 in hex bolt, 2 washers, nylock</td><td class="n">2</td><td class="n">$3</td><td class="n">$6</td><td>Axles.</td></tr>
+        <tr><td>Hockey pucks</td><td class="n">2</td><td class="n">$2.50</td><td class="n">$5</td><td>Sporting goods aisle or online.</td></tr>
+        <tr><td>3 in exterior construction screws, 1 lb</td><td class="n">1</td><td class="n">$12</td><td class="n">$12</td><td>Frame.</td></tr>
+        <tr><td>1-1/4 in exterior screws, 1 lb</td><td class="n">1</td><td class="n">$10</td><td class="n">$10</td><td>Battens, plywood, cleats.</td></tr>
+        <tr><td>9/16 in T50 staples</td><td class="n">1</td><td class="n">$5</td><td class="n">$5</td><td>Mesh.</td></tr>
+        <tr><td>24 in bungee cord</td><td class="n">2</td><td class="n">$2</td><td class="n">$4</td><td>Sack cuff, one spare.</td></tr>
+        <tr><td>Exterior wood glue or construction adhesive</td><td class="n">1</td><td class="n">$6</td><td class="n">$6</td><td>Funnel seams.</td></tr>
+        <tr><td>Jute twine, 200 ft</td><td class="n">1</td><td class="n">$5</td><td class="n">$5</td><td>Tying sacks.</td></tr>
+        <tr class="sum"><td>Build total</td><td class="n"></td><td class="n"></td><td class="n">$189</td><td>About $165 if the stand does not need wheels.</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="5">50 lb burlap sacks (20 x 32 in) run $1 to $1.50 each in packs of 25 to 100 online; about $75 per cubic yard of rock at 60 sacks a yard. Woven polypropylene sandbags at the same size are cheaper and do not rot when the rock goes in wet.</td></tr></tfoot>
+    </table>
+  </div>
+</section>
+
+<!-- SHEET 08 -->
+<section class="sheet" id="s8">
+  <header><h2>Build sequence</h2><span class="num">Sheet 08 of 09</span></header>
+  <p>An afternoon. Cut everything first from sheet 06, then build the tray, then the stand, then hang the tray and fit the funnel to it.</p>
+  <ol class="steps">
+    <li><strong>Tray frame.</strong> Screw the back rail between the side rails at 36 in from the front, bottom edges flush, two 3 in screws each end. Screw the front strip and the three slats between the rails at the marks on sheet 03, flush with the bottom, two 3 in screws each end. Check the diagonals; it must be square or it will bind in the stand.</li>
+    <li><strong>Pivot holes.</strong> Clamp the tray to a flat surface, mark 9 in from the front and 2.5 in up on both rails, drill 9/16 in through. Drill the 1-1/4 in handle holes 1.5 in from the back end, centered on the rail height.</li>
+    <li><strong>Mesh.</strong> Lay the 24 x 37.5 hardware cloth on the slats, tight to the front strip. Staple to the front strip and each slat every 3 in, working from the front so the mesh stays flat. Fold the sides and back up the rails, staple, then screw the three battens over the folded edges. Screw the flashing lip over the front edge and bend the overhang down.</li>
+    <li><strong>Handle.</strong> Push the dowel through, 1.5 in proud each side, and pin it with a 1-1/4 in screw through each rail into the dowel.</li>
+    <li><strong>Stand top frame.</strong> On the floor, screw a leg to each end of a stringer, leg outside, tops flush, four 3 in screws. Repeat for the second stringer. Stand the two assemblies up and join them with the puck rail (top 5 in below the stringer tops, 2 in from the back) and the two low rails at 8 in, then the side stretchers between the legs.</li>
+    <li><strong>Pivot bolts and pucks.</strong> Set the tray between the stringers on blocks so its bottom is 33.5 in up and its front is 5 in past the stand's front face; drill 9/16 through the stringers using the tray holes as the guide. Fit the carriage bolts from outside, washer and nylock inside, a quarter turn loose. Screw the pucks to the puck rail under the side rails; the tray should sit level on them. Shim under a puck with a washer if it rocks.</li>
+    <li><strong>Wheels.</strong> Drill 1/2 in through the front legs at 4.5 in, bolt the wheels on outside. Lift the back of the stand and roll it to check.</li>
+    <li><strong>Funnel.</strong> Glue and screw the cleats to the back wall, then the side walls at 50 degrees, then the spout sides and the front wall 9 in from the back. Let it set. Screw the back wall to the front faces of the front legs with its top at 27.5 in. Tilt the tray fully and confirm the front corner clears the wall and the lip lands inside the mouth.</li>
+    <li><strong>Tilt stop.</strong> Screw a 30 in length of light chain from the inside of a back leg to the tray's back rail so the tilt stops at about 40 degrees.</li>
+    <li><strong>Test.</strong> Three shovels of the dirtiest rock. Bounce, pick, hose, tilt. If rock hangs up at the lip, bend the lip down another few degrees; if it piles at the funnel's front wall, that is normal and it drains as the sack fills.</li>
+  </ol>
+</section>
+
+<!-- SHEET 09 -->
+<section class="sheet" id="s9">
+  <header><h2>Operating guide</h2><span class="num">Sheet 09 of 09</span></header>
+  <div class="two">
+    <div class="block">
+      <h3>Setting up</h3>
+      <ul>
+        <li>Park the stand with the long side to the pile, the funnel end toward where the sacks will go. Ground under the stand turns to mud; grass or gravel, not the patio.</li>
+        <li>Hose on the pile side, a bucket for the junk you pick, a pallet for the full sacks within one truck trip.</li>
+        <li>Cuff the first sack on the spout before you start shoveling.</li>
+      </ul>
+      <h3>Per sack</h3>
+      <ul>
+        <li>Three shovels. More than that and the load is two deep, picking gets slow and the sack goes over its 50 lb rating.</li>
+        <li>Bounce three or four times. Pick. Rinse until the water running out the bottom is clear-ish.</li>
+        <li>Lift to the chain, hold two seconds, lower. Tie, roll, tip, next sack.</li>
+        <li>Rhythm at pace is about two minutes a sack; a cubic yard is a couple of hours of work.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Sacks and storage</h3>
+      <ul>
+        <li>Wet rock in a burlap sack rots the burlap in a few weeks. Leave the tied sacks open-topped on the pallet in the sun for a day before you close them up, or switch to woven poly bags.</li>
+        <li>Stack no more than three high on the pallet. At 45 lb a sack the stack stays stable and any one sack is a two-hand carry if it ever has to move without the truck.</li>
+      </ul>
+      <h3>Maintenance</h3>
+      <ul>
+        <li>Hose the tray and funnel off at the end of the day; dried mud on the mesh halves the open area.</li>
+        <li>Flip the pucks when they cut. Check the pivot nylocks every yard.</li>
+        <li>A dented mesh section is a 2x2 slat that took a rock; add a slat between the existing ones rather than replacing the mesh.</li>
+        <li>Store the tray off the stand, standing on its handle end against a wall, and the stand on its wheels under cover.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn">
+    <span class="t">Cut wire and wet gloves</span>
+    <p>Every cut edge of hardware cloth is a row of needles. The battens and the flashing lip cover all of them; if a batten is left off, the rail edge will draw blood the first time you lean on it. Rubber-palm gloves for picking, leather for cutting the mesh.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

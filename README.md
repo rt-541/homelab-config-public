@@ -45,6 +45,8 @@ scripts/media-reclaim/            # 4K-remux compression campaign tooling (scan,
 systemd-unit-files/               # systemd units installed on the hosts
 firewall/                         # Firewall configuration
 docs/                             # Design docs, plans, and runbooks
+.claude-plugin/ + plugins/workshop/  # Claude Code plugin marketplace: build-plan and shopcad-model
+                                  #   skills for shop drawing sets, PDFs and headless CAD models
 ```
 
 Each app directory is a self-contained Docker Compose stack. Many use sidecars for
