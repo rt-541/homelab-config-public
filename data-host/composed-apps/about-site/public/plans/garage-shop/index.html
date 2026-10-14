@@ -1,0 +1,1233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Shop drawing set for a one-car garage woodshop: locking wall cabinet, a flip bench with the table saw, miter saw and planer, dust cart, potting station, bulk rack and a 100 A subpanel with branch circuits.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Garage Shop</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F2F4F6; --paper:#FFFFFF; --ink:#1B2430; --muted:#5B6B7A; --rule:#C9D2DA; --rule-soft:#E4E9EE;
+  --cab:#2F6F9F; --cab-soft:#E3EEF6; --cab-ink:#1E4C6E;
+  --dry:#C8541B; --dry-soft:#F9E6DB; --dry-ink:#8E3A10;
+  --warn-bg:#FFF4E5; --warn-ink:#7A4A00;
+  --code-bg:#EAEEF2;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181E; --paper:#1A2129; --ink:#E6ECF1; --muted:#9AA8B5; --rule:#33404C; --rule-soft:#242E38;
+    --cab:#6FB0E0; --cab-soft:#1C2F3F; --cab-ink:#A9D2F0;
+    --dry:#F08A4B; --dry-soft:#3A2418; --dry-ink:#F7B58C;
+    --warn-bg:#3A2A10; --warn-ink:#F3D9A8;
+    --code-bg:#232D37;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181E; --paper:#1A2129; --ink:#E6ECF1; --muted:#9AA8B5; --rule:#33404C; --rule-soft:#242E38;
+  --cab:#6FB0E0; --cab-soft:#1C2F3F; --cab-ink:#A9D2F0;
+  --dry:#F08A4B; --dry-soft:#3A2418; --dry-ink:#F7B58C;
+  --warn-bg:#3A2A10; --warn-ink:#F3D9A8;
+  --code-bg:#232D37;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:900px;margin:0 auto;display:grid;gap:28px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;line-height:1.05;margin:0;text-wrap:balance}
+h1{font-size:2.6rem;font-weight:700;letter-spacing:.005em}
+h2{font-size:1.7rem;font-weight:600}
+h3{font-size:1.15rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+p{margin:0;max-width:66ch}
+ul,ol{margin:0;padding-left:1.3em;max-width:70ch}
+li{margin-block:.25em}
+li::marker{color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:.9em}
+a{color:var(--cab)}
+strong{font-weight:600}
+.eyebrow{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;color:var(--muted)}
+.titleblock{background:var(--paper);border:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:0}
+.titleblock .main{padding:22px 24px;display:grid;gap:10px;border-right:1px solid var(--rule)}
+.titleblock .meta{display:grid;grid-template-columns:1fr 1fr;min-width:260px}
+.titleblock .meta div{padding:10px 14px;border-bottom:1px solid var(--rule);border-left:1px solid var(--rule)}
+.titleblock .meta div:nth-child(odd){border-left:none}
+.titleblock .meta div:nth-last-child(-n+2){border-bottom:none}
+.titleblock .meta .k{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600}
+.titleblock .meta .v{font-family:"IBM Plex Mono",monospace;font-size:.9rem}
+@media (max-width:900px){.titleblock{grid-template-columns:1fr}.titleblock .main{border-right:none;border-bottom:1px solid var(--rule)}.titleblock .meta{min-width:0;align-content:start}.titleblock .meta div:nth-child(odd){border-left:none}}
+.index{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.index a{display:flex;gap:10px;align-items:baseline;padding:10px 12px;background:var(--paper);border:1px solid var(--rule);text-decoration:none;color:var(--ink)}
+.index a .n{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:.85rem}
+.index a:hover,.index a:focus-visible{border-color:var(--cab);outline:none}
+.sheet{background:var(--paper);border:1px solid var(--rule);padding:24px;display:grid;gap:20px}
+.sheet header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-bottom:10px}
+.sheet header .num{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:.85rem}
+.sheet.cab header{border-bottom:2px solid var(--cab)}
+.sheet.dry header{border-bottom:2px solid var(--dry)}
+.tag{display:inline-block;font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;padding:2px 8px;border-radius:2px}
+.tag.cab{background:var(--cab-soft);color:var(--cab-ink)}
+.tag.dry{background:var(--dry-soft);color:var(--dry-ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+.block{display:grid;gap:10px;align-content:start}
+.fig{display:grid;gap:8px}
+.fig svg{width:100%;height:auto;display:block}
+.fig figcaption{font-size:.85rem;color:var(--muted);max-width:70ch}
+figure{margin:0}
+svg text{font-family:"IBM Plex Mono",monospace;font-size:8px;fill:var(--ink)}
+svg text.lbl{font-family:"Barlow Condensed",Arial,sans-serif;font-size:9px;letter-spacing:.04em;text-transform:uppercase;fill:var(--muted)}
+svg text.big{font-family:"Barlow Condensed",Arial,sans-serif;font-size:11px;letter-spacing:.04em;text-transform:uppercase;fill:var(--muted)}
+svg .ply{fill:var(--rule-soft);stroke:var(--ink);stroke-width:.8}
+svg .void{fill:var(--paper);stroke:none}
+svg .wall{fill:var(--ink);stroke:none}
+svg .blue{fill:var(--cab-soft);stroke:var(--cab);stroke-width:.9}
+svg .blue-d{fill:none;stroke:var(--cab);stroke-width:.8;stroke-dasharray:3 2}
+svg .orange{fill:var(--dry-soft);stroke:var(--dry);stroke-width:.9}
+svg .orange-d{fill:none;stroke:var(--dry);stroke-width:.8;stroke-dasharray:3 2}
+svg .grey-d{fill:none;stroke:var(--muted);stroke-width:.7;stroke-dasharray:3 2}
+svg .dim{stroke:var(--muted);stroke-width:.6;fill:none}
+svg .dim-t{fill:var(--muted);font-size:7.5px}
+svg .thin{stroke:var(--ink);stroke-width:.5;fill:none}
+svg .metal{fill:var(--rule);stroke:var(--ink);stroke-width:.6}
+svg .wire{stroke:var(--ink);stroke-width:1;fill:none}
+svg .wire-o{stroke:var(--dry);stroke-width:1.2;fill:none}
+svg .box{fill:var(--paper);stroke:var(--ink);stroke-width:.8}
+svg .tool{fill:var(--cab-soft);stroke:var(--cab-ink);stroke-width:.8}
+svg .rcpt{fill:var(--dry);stroke:none}
+svg .light{fill:none;stroke:var(--dry);stroke-width:1.2}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+th{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.78rem;color:var(--muted);border-bottom:1px solid var(--rule)}
+td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.m{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:860px){td.m{white-space:normal}}
+tr.sum td{border-top:1px solid var(--rule);font-weight:600}
+tfoot td{color:var(--muted);font-size:.85rem;border-bottom:none}
+.callout{padding:14px 16px;border-left:3px solid var(--cab);background:var(--cab-soft);display:grid;gap:6px}
+.callout.dry{border-color:var(--dry);background:var(--dry-soft)}
+.callout.warn{border-color:var(--warn-ink);background:var(--warn-bg);color:var(--warn-ink)}
+.callout .t{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat div{padding:10px 12px;border:1px solid var(--rule)}
+.stat .k{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600}
+.stat .v{font-family:"IBM Plex Mono",monospace;font-size:1.05rem}
+code{font-family:"IBM Plex Mono",monospace;font-size:.9em;background:var(--code-bg);padding:1px 5px;border-radius:2px}
+.steps li{margin-block:.45em}
+.foot{color:var(--muted);font-size:.85rem;max-width:70ch}
+.render img{width:100%;height:auto;display:block;border:1px solid var(--rule)}
+.viewer{width:100%;aspect-ratio:16/10;border:1px solid var(--rule);background:#ece8df}
+.viewer iframe{width:100%;height:100%;border:0;display:block}
+@media (prefers-reduced-motion:no-preference){.index a{transition:border-color .15s}}
+.sitebar{max-width:900px;margin:0 auto 20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.sitebar a{color:var(--ink);text-decoration:none}
+.sitebar a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="sitebar"><span><a href="/">about.rt-541.io</a> / <a href="/projects">projects</a> / <a href="/projects/garage-shop">garage shop</a></span><span><a href="/plans/garage-shop/model/">3D model</a> &middot; <a href="/plans/garage-shop/garage-shop.pdf?v=c6a247f0">PDF, 24 pages</a></span></div>
+<div class="wrap">
+
+<section class="titleblock">
+  <div class="main">
+    <span class="eyebrow">Shop drawing set</span>
+    <h1>Garage Shop</h1>
+    <p>A one-car woodshop in an 18 by 20 ft attached garage with a 12 ft ceiling and a 6 in concrete landing across the back. The truck keeps the center bay with its nose over the landing, the potting station and the machine bay take the west wall with the bulk rack on the landing behind them, and the shop takes the east wall: a locking wall-hung tool cabinet, a rolling flip bench with the table saw sunk flush at one end, the DCS785 miter saw on a flip section in the middle and the DW735 planer on a flip section at the other end, a mobile dust cart pairing the 16 gal Stealthsonic vac with a cyclone, the compressor beside it, and a 100 A subpanel fed from the basement with dedicated circuits for every stationary tool. Everything that cuts is on wheels and parks against the wall.</p>
+  </div>
+  <div class="meta">
+    <div><span class="k">Location</span><span class="v">Attached garage, MI</span></div>
+    <div><span class="k">Revision</span><span class="v">B, 2026-09-19</span></div>
+    <div><span class="k">Garage</span><span class="v">18 x 17 ft + 3 ft landing, 12 ft ceiling (measured)</span></div>
+    <div><span class="k">Cabinet</span><span class="v">48 W x 40 H x 17.5 D closed</span></div>
+    <div><span class="k">Subpanel</span><span class="v">100 A, 8 circuits + 2 spare</span></div>
+    <div><span class="k">Priced lines</span><span class="v">$2,467 (see sheet 09)</span></div>
+  </div>
+</section>
+
+<nav class="index" aria-label="Sheets">
+  <a href="#s1"><span class="n">01</span>Design basis</a>
+  <a href="#s2"><span class="n">02</span>Garage layout</a>
+  <a href="#s3"><span class="n">03</span>Tool cabinet</a>
+  <a href="#s4"><span class="n">04</span>Flip bench</a>
+  <a href="#s5"><span class="n">05</span>Dust cart</a>
+  <a href="#s6"><span class="n">06</span>Potting station and bulk rack</a>
+  <a href="#s7"><span class="n">07</span>Electrical</a>
+  <a href="#s8"><span class="n">08</span>Cut list</a>
+  <a href="#s9"><span class="n">09</span>Shopping list</a>
+  <a href="#s10"><span class="n">10</span>Build sequence</a>
+  <a href="#s11"><span class="n">11</span>Operating guide</a>
+</nav>
+
+<!-- SHEET 01 -->
+<section class="sheet" id="s1">
+  <header><h2>Design basis</h2><span class="num">Sheet 01 of 11</span></header>
+  <div class="two">
+    <div class="block">
+      <h3>What was decided</h3>
+      <ul>
+        <li><strong>Rolling shop, fixed walls.</strong> The flip bench and the dust cart roll out into the aisle or the empty bay to work and park against the east wall, the bench under the cabinet. The only fixed pieces are on the walls, so the bay stays a clear 7 by 17 ft rectangle for the Maverick or the Forester.</li>
+        <li><strong>Garden west, shop east, bulk storage at the back.</strong> The potting station takes the front-left corner, the machine bay and the hook rail the rest of the west wall; the bulk rack stands on the landing in the back-left corner with the bags under it, and the landing east of the truck's nose stays empty as the way out of the house door. The tool cabinet, the flip bench under it, the dust cart, the compressor and the subpanel take the east wall.</li>
+        <li><strong>The landing is the wheel stop.</strong> The truck parks with its front tires 6 in short of the curb and its nose 13 in over the landing (the bumper clears the 6 in step), 11 in short of the house door's step. Nothing lives on the landing in front of the truck, and nothing on it east of the nose.</li>
+        <li><strong>Table saw in the bench.</strong> The DWE7491 (to be bought) sits in the bench's end bay on a platform that puts its table flush with the bench top; the blade runs along the bench so the flat sections are its outfeed. Its 20 A receptacle is C3.</li>
+        <li><strong>Wall-hung locking cabinet.</strong> 48 W x 40 H x 12 D case with two 4 in deep door boxes on continuous hinges, bottom edge 48 in off the floor. Hardened hasps with discus padlocks, hinge screws hidden inside the boxes, and the French cleat pinned from inside so the case cannot be lifted off while locked.</li>
+        <li><strong>One flip bench for the three machines.</strong> 92 x 30 in on six casters: table saw at one end, the 56 lb DCS785 on a 4 in torsion-box flip section in the middle, the 92 lb DW735 on another at the far end. Each flip section carries its tool on one face and a 4.5 in riser bench top on the other, so with both tools down it is one flat bench at 37.75 in, with the miter up its table is at bench height with a wing either side, and with the planer up the bench is its infeed. Spring index plungers and draw latches lock each section at 0 and 180; concrete cast into the risers puts each section's centre of gravity on its shaft. Neither tool is ever lifted again.</li>
+        <li><strong>Dust cart.</strong> A 38 x 24 in plywood base on 3 in casters with the DeWalt 16 gal Stealthsonic drum braced in a 2x4 corral and, beside it, a 12 in pedestal carrying a Dust Deputy cyclone on its 5 gal bucket, with an 8 in spine for the strap and the handle. The two tippiest things in a shop become one 85 lb cart with a 32 degree tip angle, and the vac's head stays free to lift off.</li>
+        <li><strong>Printed where a print beats a purchase.</strong> A Prusa Core One is on hand, so hose cuffs, the planer reducer, clips, grommets, battery docks and bit holders are printed in PETG from the model's STEP files instead of bought; each sheet lists its printed parts and the shopping list leaves them out.</li>
+        <li><strong>Nothing heavy on the floor.</strong> Bags sit on the potting station's 6 in shelf or stacked on the landing under the bulk rack; totes start at 30 in above the floor; the pot well puts a pot's rim at counter height so filling is a scoop, not a lift; the EGO mower and snowblower roll in and out of a flat bay.</li>
+        <li><strong>100 A subpanel, permit-grade.</strong> Fed from the basement main through the house wall at the back-right corner to the east wall, with 20 A circuits for the table saw, the flip bench's drop, and the compressor and vac, four LED work lights (two over the work zone, two over the plant side), a 50 A EV circuit roughed in for a future charger, a 30 A heater circuit, GFCI general receptacles and a 15 A lighting circuit.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Measured and assumed</h3>
+      <ul>
+        <li><strong>Measured 2026-09-19:</strong> 18 ft across the overhead-door wall with a 16 ft door; 17 ft of flat floor to the landing; the concrete landing 6 in tall, 3 ft deep and 15 ft wide across the back wall from the back-left corner, with the house door in the middle of that wall standing on the landing behind a small step; the exterior side door on the east wall in the back-right corner, with the last 3 ft of the back wall at floor level in front of it; 12 ft ceiling. Wall to wall the garage is 18 x 20 ft.</li>
+        <li>Still assumed: a 7 ft door on standard track with the opener rail near 8 ft (a high-lift conversion is an option with this ceiling), drywalled walls and ceiling, framed attic above. Photograph the door track height, the basement panel and the attic framing from the hatch before ordering electrical.</li>
+        <li>Vehicles: Ford Maverick hybrid, 200 in long, 72 in body, 84 in over mirrors, front axle 33 in behind the bumper; Subaru Forester, 182 in long, 71 in body. One parks inside, nose over the landing, front tires 6 in short of the curb; the bay is sized for the Maverick.</li>
+        <li>Tools: DW735 planer (24 x 22 x 20 in, 92 lb, 15 A), DCS785 12 in sliding miter (31 x 24.5 x 18.5 in, 56 lb), DWE7491 10 in table saw to be bought (22.7 x 29.2 in, table 13 in up, 55 lb without its stand), eleven 20 V cordless tools, two FlexVolt 9 Ah packs plus kit batteries, DCV581H vac, the LBT steel drill rack with its power strip. EGO 56 V mower and snowblower, DeWalt 60 V trimmer and edger. No jointer.</li>
+        <li>Dust cart sized for the DeWalt DXV16P-QTA 16 gal Stealthsonic vac (Costco item 1992617: 19.5 in drum, 20 in tall without its caster base plus a 6 in head, about 28 lb, 2-1/2 in x 7 ft hose, under 65 dBA) and the Oneida Dust Deputy 2.5 Deluxe on its 5 gal bucket (11.9 in bottom diameter). The corral's inside width and the cradle hole are the two numbers to change, on sheet 05.</li>
+        <li>Printer: Prusa Core One, 250 x 220 x 270 mm build volume, so every printed part on these sheets fits flat on the bed; PETG for anything that sees a garage summer or a hose cuff's squeeze, PLA only for indoor holders.</li>
+        <li>Hand tools: a basic set (tape, squares, chisels, hammer, screwdrivers, sockets, utility knife, small clamps). All of it fits on the door boxes.</li>
+        <li>Totes: standard 27 gal, 31 x 20 x 15 in.</li>
+        <li>Build tools on hand: circular saw, miter saw, planer, drill, brad nailer, router, jigsaw. A pocket-hole jig and a straightedge or track for the circular saw are assumed; the table saw arrives with the bench, so the bench's own plywood is cut with the track.</li>
+        <li>Basement main panel: brand, main size and spare slots to be photographed. The feeder breaker on sheet 07 must match that brand.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout">
+    <span class="t">Why one flip bench and not three stands</span>
+    <p>Three stands take three footprints and give the miter saw and the table saw no outfeed. One bench mounts all three permanently in 92 x 30 in, and the two flip sections turn its flat top into the miter station's wings and the table saw's outfeed the moment a tool goes down. Each flip is ten seconds: pull the plunger, turn, it snaps home, close the latch. The price is two 1 in shafts, four $9 bearings, two plungers, two latches, 210 lb of concrete and a careful hour aligning the bushings.</p>
+  </div>
+  <div class="callout dry">
+    <span class="t">Why a subpanel and not four circuits fished from the basement</span>
+    <p>Four new 20 A circuits plus a 50 A EV circuit plus a heater circuit is six runs through the house. One 100 A feeder is one run, and every future circuit starts in the garage. The feeder is also the only part of this job that is expensive to change later, so it is sized for everything on the list running at once, including the EV charger that is not bought yet, set to 32 A.</p>
+  </div>
+</section>
+
+<!-- SHEET 02 -->
+<section class="sheet cab" id="s2">
+  <header><h2>Garage layout</h2><span class="num">Sheet 02 of 11</span></header>
+  <p>Plan view, north (house) at the top, measured. Blue is built woodwork, orange is electrical, grey dashed is parked or rolling equipment, the shaded band across the back is the 6 in landing. Dimensions in inches; x from the west wall, y from the north wall as on the tables.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 484 480" role="img" aria-label="Plan view of the 18 by 20 foot garage with the landing across the back, the house door in the middle of the back wall, the side door in the back-right corner, the potting station and machine bay along the west wall, the bulk rack on the landing in the back-left corner, the truck in the center with its nose over the landing and the bikes hoisted either side of the opener rail, and the shop along the east wall">
+      <defs><marker id="ah" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--muted)"/></marker></defs>
+      <g transform="translate(70,40)">
+        <!-- scale 1.6 px per inch: 216 in = 345.6 px wide, 240 in = 384 px deep -->
+        <rect x="-6" y="-6" width="357.6" height="396" class="wall"/>
+        <rect x="0" y="0" width="345.6" height="384" class="void"/>
+        <!-- landing x 0-180, y 204-240 (top 36 in) -->
+        <rect x="0" y="0" width="288" height="57.6" fill="var(--rule-soft)" stroke="var(--ink)" stroke-width=".5"/>
+        <text x="236" y="46" text-anchor="middle" class="lbl">landing 6 up, 36 x 180</text>
+        <text x="236" y="33" text-anchor="middle" class="lbl">walkway</text>
+        <!-- side door landing x 180-216, y 204-240: flat floor, kept clear -->
+        <rect x="288" y="0" width="57.6" height="57.6" fill="none" stroke="var(--muted)" stroke-width=".5" stroke-dasharray="2 2"/>
+        <text x="316.8" y="48" text-anchor="middle" class="lbl">keep clear</text>
+        <!-- side door on the east wall y 204-236 -->
+        <rect x="345" y="6.4" width="9" height="51.2" class="void"/>
+        <line x1="345.6" y1="6.4" x2="345.6" y2="57.6" class="grey-d"/>
+        <path d="M345.6,6.4 A51.2,51.2 0 0 1 294.4,57.6" class="grey-d"/>
+        <text x="352" y="34" class="lbl">side</text><text x="352" y="45" class="lbl">door</text>
+        <!-- overhead door opening (south wall, x 12-204) -->
+        <rect x="19.2" y="381" width="307.2" height="8" class="void"/>
+        <line x1="19.2" y1="384" x2="326.4" y2="384" class="grey-d"/>
+        <text x="172.8" y="404" text-anchor="middle" class="lbl">16 ft overhead door</text>
+        <!-- house door north wall x 92-124, on the landing behind a 36 x 12 step -->
+        <rect x="147.2" y="-8" width="51.2" height="10" class="void"/>
+        <line x1="147.2" y1="0" x2="198.4" y2="0" class="grey-d"/>
+        <rect x="144" y="0" width="57.6" height="19.2" fill="var(--rule)" stroke="var(--ink)" stroke-width=".5"/>
+        <text x="172.8" y="13" text-anchor="middle" class="lbl">step</text>
+        <text x="172.8" y="-20" text-anchor="middle" class="lbl">house door (basement behind), opens in</text>
+        <!-- truck body x 50-122, y 17-217; mirrors 44-128 -->
+        <rect x="80" y="36.8" width="115.2" height="320" class="grey-d" rx="8"/>
+        <rect x="70.4" y="36.8" width="134.4" height="320" fill="none" stroke="var(--muted)" stroke-width=".4" stroke-dasharray="1 2" rx="8"/>
+        <rect x="78.4" y="67.2" width="12.8" height="44.8" rx="3" fill="var(--rule)" stroke="var(--muted)" stroke-width=".5"/>
+        <rect x="182.4" y="67.2" width="12.8" height="44.8" rx="3" fill="var(--rule)" stroke="var(--muted)" stroke-width=".5"/>
+        <text x="137.6" y="128" text-anchor="middle" class="lbl">tires 6 short of the curb</text>
+        <text x="137.6" y="254" text-anchor="middle" class="big">truck bay</text>
+        <text x="137.6" y="267" text-anchor="middle" class="lbl">Maverick 72 x 200 body</text>
+        <text x="137.6" y="278" text-anchor="middle" class="lbl">84 over mirrors</text>
+        <!-- opener rail x 116 from the door to y 130, motor at its end; bikes either side x 84-108, 124-148, y 60-128 -->
+        <rect x="182.4" y="176" width="6.4" height="208" fill="var(--rule)" stroke="var(--ink)" stroke-width=".5"/>
+        <rect x="169.6" y="176" width="32" height="32" fill="var(--rule)" stroke="var(--ink)" stroke-width=".5"/>
+        <text x="185.6" y="170" text-anchor="middle" class="lbl">opener motor</text>
+        <rect x="134.4" y="179.2" width="38.4" height="108.8" class="grey-d"/>
+        <rect x="198.4" y="179.2" width="38.4" height="108.8" class="grey-d"/>
+        <text x="153.6" y="300" text-anchor="middle" class="lbl">bike</text>
+        <text x="217.6" y="300" text-anchor="middle" class="lbl">bike</text>
+        <text x="185.6" y="346" text-anchor="middle" class="lbl">hoists at 96, either side of the rail</text>
+        <!-- bulk rack on the landing x 0-42, y 216-240; bags under and beside it -->
+        <rect x="0" y="0" width="67.2" height="38.4" class="blue"/>
+        <text x="4" y="14" class="lbl">bulk rack</text>
+        <text x="4" y="25" class="lbl">bags + totes</text>
+        <!-- potting station x 0-24, y 2-50 -->
+        <rect x="0" y="304" width="38.4" height="76.8" class="blue"/>
+        <circle cx="16" cy="358.4" r="11.2" class="void" stroke="var(--ink)" stroke-width=".5"/>
+        <rect x="8" y="312" width="19.2" height="25.6" fill="none" stroke="var(--ink)" stroke-width=".5"/>
+        <text x="19.2" y="342" text-anchor="middle" transform="rotate(-90 19.2 342)" class="lbl">potting 48 x 24</text>
+        <!-- machine bay x 0-42, y 52-78, nose to the wall -->
+        <rect x="0" y="259.2" width="67.2" height="41.6" class="grey-d"/>
+        <text x="4" y="271" class="lbl">machine bay</text>
+        <text x="4" y="281" class="lbl">42 x 26</text>
+        <text x="4" y="291" class="lbl">nose to the wall</text>
+        <!-- west wall hook rail y 84-140 -->
+        <line x1="1.5" y1="160" x2="1.5" y2="249.6" stroke="var(--cab)" stroke-width="3"/>
+        <text x="6" y="176" class="lbl">hook rail 72:</text>
+        <text x="6" y="187" class="lbl">trimmer, edger,</text>
+        <text x="6" y="198" class="lbl">4 long tools</text>
+        <!-- subpanel east wall y 181.75-196.25, working space x 180-216 y 174-204 -->
+        <rect x="339.2" y="70" width="6.4" height="23.2" class="orange"/>
+        <rect x="288" y="57.6" width="57.6" height="48" class="orange-d"/>
+        <text x="314" y="76" text-anchor="middle" class="lbl">subpanel</text>
+        <text x="314" y="86" text-anchor="middle" class="lbl">30 x 36</text>
+        <text x="314" y="96" text-anchor="middle" class="lbl">+ walkway</text>
+        <!-- EVSE box east wall y 150 -->
+        <rect x="339.2" y="140" width="6.4" height="8" class="orange"/>
+        <text x="278" y="143" text-anchor="end" class="lbl" fill="var(--dry)">future EVSE box, 66 AFF</text>
+        <!-- flip bench parked y 56-148 under the cabinet, x 183-213 -->
+        <rect x="292.8" y="147.2" width="48" height="147.2" class="grey-d"/>
+        <text x="316" y="202" text-anchor="middle" class="lbl">bench</text>
+        <text x="316" y="213" text-anchor="middle" class="lbl">92 x 30</text>
+        <text x="316" y="224" text-anchor="middle" class="lbl">under cab.</text>
+        <!-- dust cart end-on y 6-30, x 177-215 -->
+        <rect x="283.2" y="336" width="60.8" height="38.4" class="grey-d"/>
+        <text x="313.6" y="349" text-anchor="middle" class="lbl">dust cart</text>
+        <text x="313.6" y="359" text-anchor="middle" class="lbl">24 x 38</text>
+        <text x="313.6" y="369" text-anchor="middle" class="lbl">end-on</text>
+        <!-- cabinet y 56-104, 17.5 deep -->
+        <rect x="317.6" y="217.6" width="28" height="76.8" class="blue"/>
+        <text x="331" y="256" text-anchor="middle" transform="rotate(-90 331 256)" class="lbl">cabinet 48 W</text>
+        <!-- compressor SE x 197-216, y 32-51; dust cart end-on y 6-30, x 177-215 -->
+        <rect x="315.2" y="302.4" width="30.4" height="30.4" class="grey-d"/>
+        <text x="312" y="314" text-anchor="end" class="lbl">compressor</text>
+        <!-- heater NE corner high -->
+        <text x="352" y="8" class="lbl" fill="var(--dry)">heater at 100</text>
+        <text x="352" y="19" class="lbl" fill="var(--dry)">aims SW</text>
+        <path d="M346,4 l-22,22" stroke="var(--dry)" stroke-width="1.2" marker-end="url(#ah)"/>
+        <!-- work zone x 128-186, y 40-168 -->
+        <rect x="204.8" y="115.2" width="92.8" height="204.8" class="blue-d"/>
+        <text x="240" y="205" text-anchor="middle" class="big">roll-out</text>
+        <text x="240" y="219" text-anchor="middle" class="big">work zone</text>
+        <text x="251" y="238" text-anchor="middle" class="lbl">49 wide with the truck in</text>
+        <!-- lights: two over the plant side (x 30; y 10-58, 180-228) and two over the work zone (x 172; y 60-108, 116-164) -->
+        <g class="light">
+          <rect x="44.8" y="291.2" width="6.4" height="76.8"/><rect x="44.8" y="19.2" width="6.4" height="76.8"/>
+          <rect x="272" y="211.2" width="6.4" height="76.8"/><rect x="272" y="121.6" width="6.4" height="76.8"/>
+        </g>
+        <!-- receptacles -->
+        <g class="rcpt">
+          <circle cx="342" cy="212.8" r="3"/><circle cx="342" cy="176" r="3"/><circle cx="342" cy="256" r="3"/><circle cx="342" cy="336" r="3"/>
+          <circle cx="3" cy="192" r="3"/><circle cx="3" cy="342.4" r="3"/>
+          <circle cx="256" cy="176" r="4"/>
+        </g>
+        <text x="262" y="168" class="lbl" fill="var(--dry)">ceiling drop (C4)</text>
+        <text x="336" y="238" text-anchor="end" class="lbl" fill="var(--dry)">C3 saw</text>
+        <text x="290" y="152" text-anchor="end" class="lbl" fill="var(--dry)">C6</text>
+        <text x="312" y="259" text-anchor="end" class="lbl" fill="var(--dry)">C7 in cabinet</text>
+        <text x="336" y="331" text-anchor="end" class="lbl" fill="var(--dry)">C5</text>
+        <text x="10" y="168" class="lbl" fill="var(--dry)">C6</text>
+        <text x="8" y="300" class="lbl" fill="var(--dry)">C7</text>
+        <!-- switches -->
+        <rect x="138" y="-2" width="5" height="8" class="orange"/><text x="134" y="-6" text-anchor="middle" class="lbl" fill="var(--dry)">S3</text><rect x="206" y="-2" width="6" height="8" class="orange"/><text x="222" y="-6" text-anchor="middle" class="lbl" fill="var(--dry)">opener</text>
+        <rect x="332" y="378" width="5" height="8" class="orange"/><text x="346" y="376" text-anchor="middle" class="lbl" fill="var(--dry)">S3</text>
+        <!-- dims -->
+        <line x1="0" y1="-30" x2="345.6" y2="-30" class="dim"/><line x1="0" y1="-34" x2="0" y2="-26" class="dim"/><line x1="345.6" y1="-34" x2="345.6" y2="-26" class="dim"/>
+        <text x="60" y="-33" text-anchor="middle" class="dim-t">216 (18 ft)</text>
+        <line x1="-40" y1="0" x2="-40" y2="384" class="dim"/><line x1="-44" y1="0" x2="-36" y2="0" class="dim"/><line x1="-44" y1="57.6" x2="-36" y2="57.6" class="dim"/><line x1="-44" y1="384" x2="-36" y2="384" class="dim"/>
+        <text x="-46" y="220" text-anchor="middle" transform="rotate(-90 -46 220)" class="dim-t">204 flat (17 ft)</text>
+        <text x="-46" y="29" text-anchor="middle" transform="rotate(-90 -46 29)" class="dim-t">36</text>
+        <!-- aisle dim -->
+        <line x1="204.8" y1="330" x2="297.6" y2="330" class="dim"/><text x="251" y="327" text-anchor="middle" class="dim-t">49 aisle (from mirror)</text>
+        <line x1="38.4" y1="330" x2="70.4" y2="330" class="dim"/><text x="54" y="327" text-anchor="middle" class="dim-t">20</text>
+        <line x1="200" y1="356.8" x2="200" y2="384" class="dim"/><text x="204" y="374" class="dim-t">17</text>
+        <line x1="200" y1="36.8" x2="200" y2="57.6" class="dim"/><text x="203" y="66" class="dim-t">13 over</text>
+        <text x="-2" y="-12" text-anchor="start" class="lbl">N (house)</text>
+      </g>
+    </svg>
+    <figcaption>Maverick body 72 x 200 in parked at x 50 to 122, front tires 6 in short of the landing curb, nose 13 in over the landing, 23 in from the wall and 11 in short of the house door's step, tail 17 in inside the door; the Forester (182 in) parks the same way with 38 in at the door. Out of the house door you walk east along the landing past the nose and step down into the aisle, so that stretch of landing stays empty. The flip bench under the cabinet, the dust cart and compressor in the front corner and the subpanel by the side door on the east wall; the potting station in the front-left corner, the machine bay nose-to-wall behind it and the hook rail behind that on the west wall; the bulk rack on the landing in the back-left corner; the bikes hoisted either side of the opener rail above the truck's cab; two lights over the plant side and two over the work zone. C-numbers are the circuits on sheet 07.</figcaption>
+  </figure>
+  <div class="block">
+    <h3>3D model</h3>
+    <p>The same numbers build a CadQuery model of the whole garage. Orbit it, switch states (closed up, working, Maverick parked, Forester parked) and toggle components in the <a href="/plans/garage-shop/model/">interactive viewer</a>; the renders on these sheets hide the vehicle so the landing and the walls read clearly. The geometry checks the model runs are listed on sheet 10.</p>
+    <div class="viewer"><iframe src="/plans/garage-shop/model/?v=607caa1f&amp;v=607caa1f&amp;view=iso&hide=Truck,Wall%20South,Wall%20East,Ceiling%20Lights" loading="lazy" title="Garage shop 3D model"></iframe></div>
+    <div class="two">
+      <figure class="fig render"><img src="model/render-iso.png?v=b197b418" alt="Isometric render from the southeast, cabinet locked, vehicle hidden"><figcaption>From the southeast, closed up, vehicle hidden: the 6 in landing across the back with the step at the house door and the bulk rack on its west end, potting station and machine bay along the west wall, the bench under the cabinet on the right, bikes hoisted either side of the opener. Pick a parked state in the viewer to see the vehicle.</figcaption></figure>
+      <figure class="fig render"><img src="model/render-iso-nw.png?v=febd9dd7" alt="Isometric render from the northwest showing the shop wall"><figcaption>From the northwest: the flip bench under the cabinet, the dust cart and compressor in the front corner, subpanel beside the side door; the bulk rack on the landing in the foreground with the bags under it.</figcaption></figure>
+    </div>
+    <figure class="fig render"><img src="model/render-landing.png?v=9e07c0b0" alt="Render of the 6 in landing across the back wall with the step at the house door"><figcaption>The landing on its own: 6 in tall, 3 ft deep, 15 ft long from the west corner along the back wall, the small step on it in front of the house door, the bulk rack's uprights standing on its west end, and the 3 ft of flat floor at its east end in front of the side door (east wall hidden). Renders on these sheets hide the vehicle; the viewer's "Maverick parked" and "Forester parked" states put it back, nose over this slab.</figcaption></figure>
+  </div>
+  <div class="block">
+      <h3>Placement, inches (x from the west wall, y from the north wall)</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Item</th><th>Wall</th><th>Position</th><th>Size</th></tr></thead>
+        <tbody>
+          <tr><td>Landing (existing)</td><td>North</td><td class="m">x 0 to 180, y 0 to 36</td><td class="m">6 tall</td></tr>
+          <tr><td>House door (existing)</td><td>North, middle</td><td class="m">x 92 to 124 on the landing, 36 x 12 step in front; opens into the house</td><td class="m">32 W</td></tr>
+          <tr><td>Side door (existing)</td><td>East, back corner</td><td class="m">y 4 to 36; the 36 x 36 of flat floor in front kept clear</td><td class="m">32 W</td></tr>
+          <tr><td>Subpanel</td><td>East</td><td class="m">y 44 to 58, center 60 AFF; working space x 180 to 216, y 36 to 66</td><td class="m">14.5 W</td></tr>
+          <tr><td>Future EVSE box</td><td>East</td><td class="m">y 88 to 92, 66 AFF, above the parked dust cart</td><td class="m">capped 4-11/16 box</td></tr>
+          <tr><td>Flip bench, parked in bench mode</td><td>East, under the cabinet</td><td class="m">y 92 to 184, 33 out from the wall</td><td class="m">92 x 30 x 37.75</td></tr>
+          <tr><td>Dust cart, parked end-on</td><td>East, front corner</td><td class="m">y 210 to 234, 39 out from the wall</td><td class="m">24 x 38 x 45</td></tr>
+          <tr><td>Tool cabinet</td><td>East</td><td class="m">y 136 to 184, 48 to 88 AFF</td><td class="m">48 W x 17.5 D</td></tr>
+          <tr><td>Compressor</td><td>East, front corner</td><td class="m">y 189 to 208, beside the dust cart</td><td class="m">19 x 19 x 20</td></tr>
+          <tr><td>Heater</td><td>NE corner</td><td class="m">bottom 100 AFF above the side door, aimed SW</td><td class="m">unit heater</td></tr>
+          <tr><td>Potting station</td><td>West, front corner</td><td class="m">y 190 to 238; pot well at its front end, soil bin at its back end</td><td class="m">48 x 24 x 36</td></tr>
+          <tr><td>Upper shelf</td><td>West</td><td class="m">y 190 to 238, 56 AFF</td><td class="m">48 x 12</td></tr>
+          <tr><td>Machine bay</td><td>West</td><td class="m">x 0 to 42, y 162 to 188, nose to the wall</td><td class="m">42 x 26</td></tr>
+          <tr><td>Hook rail: trimmer, edger, long-handle tools</td><td>West</td><td class="m">y 100 to 156, 72 AFF</td><td class="m">2x4, 6 hooks</td></tr>
+          <tr><td>Bulk rack, bags under it</td><td>North, on the landing</td><td class="m">x 0 to 42, y 0 to 24</td><td class="m">42 x 24 x 84</td></tr>
+          <tr><td>Garage door opener (existing)</td><td>Ceiling</td><td class="m">rail at x 116 from the door to y 110, motor y 110 to 130, 94 AFF; wall button beside the house door</td><td class="m">existing</td></tr>
+          <tr><td>Bike hoists</td><td>Ceiling</td><td class="m">x 84 to 108 and 124 to 148, y 112 to 180, parked at 96 to 136 AFF</td><td class="m">1 bike each side of the rail</td></tr>
+        </tbody>
+      </table></div>
+  </div>
+  <div class="two">
+    <div class="block">
+      <h3>Clearances checked</h3>
+      <ul>
+        <li>Parking: front tires stop 6 in short of the curb, the nose overhangs the landing by 13 in with the bumper 12 in up over a 6 in step, the tail is 17 in inside the door line. The Forester, with a 36 in front overhang, parks the same axle line and ends 38 in inside the door.</li>
+        <li>Driver's door: the front door hinge is at y 82 from the north wall; at 90 degrees the door lies along that line and the counter starts 12 in further back, so it swings over open floor. The truck body sits 50 in off the west wall, 26 in from the counter's edge.</li>
+        <li>Aisle between the mirror line (x 128) and the east wall parking (39 in at the end-on dust cart, 33 at the bench, 31 at the tote overhang): 49 in. The bench and the dust cart roll into the aisle without moving the truck; ripping 8 ft stock needs the truck out.</li>
+        <li>Landing: the house door opens onto it with the truck's nose 11 in short of the step; from the door you walk east along the 52 in of landing between the mirror line and its end and step down into the aisle, so nothing is stored there. The bulk rack ends at x 42, 2 in west of the mirror line, and its front is 12 in back from the curb.</li>
+        <li>Subpanel: 30 in wide by 36 in deep working space on the flat floor at y 36 to 66, ending at the side door's clear strip, just north of the parked dust cart; it doubles as the walkway from the side door and nothing is stored in it (NEC 110.26).</li>
+        <li>Side door: the 36 x 36 in of flat floor in front of it stays clear; the landing ends at x 180 and the walkway north of the bench is 26 in wide.</li>
+        <li>The bench parks in bench mode under the cabinet with 10 in between its top and the cabinet's bottom edge, 5 in from the compressor; both cabinet doors swing open above it. Dust cart and compressor share the front corner, 2 in apart and 4 in inside the door track.</li>
+        <li>Bikes hoist to 96 to 136 in either side of the opener rail (6 in from it), above the truck's cab roof by 28 in and above an open 7 ft door; nothing hangs in the rail's path.</li>
+        <li>Machine bay: nose to the wall, 42 in out by 26 in along it, ending at y 78 where the truck's rear door starts its swing; the mower rolls out through the 26 in lane between the potting station and the truck's bed, or freely with the truck out. The potting station's driver-side edge is 26 in from the truck body.</li>
+      </ul>
+      <div class="callout warn">
+        <span class="t">Still to confirm</span>
+        <p>Door height and opener rail height (for the hoists and the C4 drop), the basement panel photo (feeder breaker brand), and the attic framing from the hatch. None of them move a build on this sheet.</p>
+      </div>
+      <div class="callout">
+        <span class="t">Overhead storage option, not yet designed</span>
+        <p>The 12 ft ceiling leaves 3 ft above an open door, enough for a 4 x 8 ft winch platform parked at 100 in over the truck's bed, lowered to waist height with the truck out, to hold the ten totes that no longer fit on the rack. It hangs from the ceiling framing, so it waits on the attic photo: trusses versus joists, spacing and span (garage trusses are usually rated 10 psf on the bottom chord), the garage-to-house fire separation, and the opener rail position. A high-lift door conversion would free the whole ceiling.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 03 -->
+<section class="sheet cab" id="s3">
+  <header><h2>Tool cabinet <span class="tag cab">wall-hung, locking</span></h2><span class="num">Sheet 03 of 11</span></header>
+  <p>3/4 in birch plywood case, 48 W x 40 H x 12 D, on a French cleat with the bottom edge 48 in above the floor. Two 24 x 40 x 4 in door boxes on 40 in continuous hinges. Closed depth 17.5 in from the wall, counting the 1.5 in cleat stack behind the back.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 400 165" role="img" aria-label="Front elevation of the cabinet with both door boxes swung open">
+      <g transform="translate(52,14)">
+        <!-- 3 px per inch -->
+        <!-- left door box -->
+        <rect x="0" y="0" width="72" height="120" class="ply"/>
+        <rect x="2.25" y="2.25" width="67.5" height="115.5" class="void" stroke="var(--rule)" stroke-width=".5"/>
+        <g stroke="var(--cab)" stroke-width="2"><line x1="8" y1="22" x2="64" y2="22"/><line x1="8" y1="46" x2="64" y2="46"/><line x1="8" y1="70" x2="64" y2="70"/><line x1="8" y1="94" x2="64" y2="94"/></g>
+        <text x="36" y="132" text-anchor="middle" class="lbl">door box 24 x 40 x 4</text>
+        <text x="36" y="141" text-anchor="middle" class="lbl">cleat strips, hand tools</text>
+        <!-- hinges -->
+        <rect x="72" y="0" width="2" height="120" class="metal"/>
+        <rect x="218" y="0" width="2" height="120" class="metal"/>
+        <!-- case -->
+        <rect x="74" y="0" width="144" height="120" class="ply"/>
+        <rect x="76.25" y="2.25" width="139.5" height="115.5" class="void" stroke="var(--rule)" stroke-width=".5"/>
+        <rect x="76.25" y="84" width="139.5" height="2.25" class="ply"/>
+        <rect x="76.25" y="48" width="139.5" height="2.25" class="ply"/>
+        <!-- bottom row -->
+        <g class="tool">
+          <rect x="80" y="93.75" width="27" height="24"/><rect x="110" y="93.75" width="21" height="24"/><rect x="134" y="90.75" width="24" height="27"/>
+          <rect x="162" y="105.75" width="21" height="12"/><rect x="186" y="105.75" width="21" height="12"/>
+        </g>
+        <text x="93.5" y="108" text-anchor="middle" class="lbl">circ</text><text x="120.5" y="108" text-anchor="middle" class="lbl">rtr</text><text x="146" y="106" text-anchor="middle" class="lbl">nail</text>
+        <text x="172.5" y="114" text-anchor="middle" class="lbl">chg</text><text x="196.5" y="114" text-anchor="middle" class="lbl">chg</text>
+        <!-- second row -->
+        <g class="tool">
+          <rect x="80" y="60" width="27" height="24"/><rect x="110" y="63" width="21" height="21"/><rect x="134" y="66" width="18" height="18"/><rect x="155" y="66" width="18" height="18"/>
+          <rect x="176" y="69" width="9" height="15"/><rect x="188" y="69" width="9" height="15"/><rect x="200" y="69" width="9" height="15"/>
+        </g>
+        <text x="93.5" y="75" text-anchor="middle" class="lbl">jig</text><text x="120.5" y="76" text-anchor="middle" class="lbl">sand</text><text x="143" y="77" text-anchor="middle" class="lbl">osc</text><text x="164" y="77" text-anchor="middle" class="lbl">lt</text>
+        <text x="192" y="65" text-anchor="middle" class="lbl">batt</text>
+        <!-- top zone: LBT rack -->
+        <rect x="107" y="5" width="78" height="41" class="tool"/>
+        <text x="146" y="22" text-anchor="middle" class="lbl">LBT drill rack</text>
+        <text x="146" y="33" text-anchor="middle" class="lbl">+ power strip</text>
+        <g stroke="var(--cab)" stroke-width="2"><line x1="80" y1="14" x2="103" y2="14"/><line x1="80" y1="26" x2="103" y2="26"/><line x1="80" y1="38" x2="103" y2="38"/><line x1="189" y1="14" x2="212" y2="14"/><line x1="189" y1="26" x2="212" y2="26"/><line x1="189" y1="38" x2="212" y2="38"/></g>
+        <!-- right door box with lip -->
+        <rect x="220" y="0" width="72" height="120" class="ply"/>
+        <rect x="222.25" y="2.25" width="67.5" height="115.5" class="void" stroke="var(--rule)" stroke-width=".5"/>
+        <g stroke="var(--cab)" stroke-width="2"><line x1="228" y1="22" x2="284" y2="22"/><line x1="228" y1="46" x2="284" y2="46"/><line x1="228" y1="70" x2="284" y2="70"/><line x1="228" y1="94" x2="284" y2="94"/></g>
+        <rect x="220" y="0" width="2.25" height="120" fill="var(--cab)" stroke="none"/>
+        <text x="256" y="132" text-anchor="middle" class="lbl">door box 24 x 40 x 4</text>
+        <text x="256" y="141" text-anchor="middle" class="lbl">3/4 lip on meeting edge</text>
+        <!-- dims -->
+        <line x1="74" y1="-7" x2="218" y2="-7" class="dim"/><line x1="74" y1="-10" x2="74" y2="-4" class="dim"/><line x1="218" y1="-10" x2="218" y2="-4" class="dim"/><text x="146" y="-9" text-anchor="middle" class="dim-t">48</text>
+        <line x1="-10" y1="0" x2="-10" y2="120" class="dim"/><line x1="-13" y1="0" x2="-7" y2="0" class="dim"/><line x1="-13" y1="120" x2="-7" y2="120" class="dim"/><text x="-14" y="62" text-anchor="end" class="dim-t">40</text>
+        <line x1="300" y1="86.25" x2="300" y2="117.75" class="dim"/><text x="304" y="104" class="dim-t">11.25</text>
+        <line x1="300" y1="50.25" x2="300" y2="84" class="dim"/><text x="304" y="69" class="dim-t">11.25</text>
+        <line x1="300" y1="2.25" x2="300" y2="48" class="dim"/><text x="304" y="27" class="dim-t">14.5</text>
+      </g>
+    </svg>
+    <figcaption>Front elevation, doors open. Bottom shelf: circular saw, router, brad nailer and two chargers. Second shelf: jigsaw, sander, oscillating tool, light and the batteries. Top zone: the LBT rack hangs the three drills with its power strip as the charger feed, with a cleat strip each side. The right door's face is 3/4 in wider than its box and laps over the left door; the two hasps sit across that joint 6 in from the top and bottom. Printed on the Core One: 20 V battery docks and FlexVolt docks on the second shelf, driver-bit and blade holders and a hex-key rack on the door cleat strips, all in PETG with a cleat hook on the back so they move like the tools do.</figcaption>
+  </figure>
+  <figure class="fig">
+    <svg viewBox="0 0 400 190" role="img" aria-label="Side section through the closed cabinet at the French cleat">
+      <g transform="translate(70,20)">
+        <text x="80" y="-13" class="big">side section, closed, at a stud</text>
+        <!-- wall, drywall -->
+        <rect x="-8" y="0" width="6" height="150" class="wall"/>
+        <rect x="-2" y="0" width="2" height="150" fill="var(--rule)" stroke="none"/>
+        <!-- wall cleat 4 tall x 3/4, bevel down/out -->
+        <path d="M0,9 L2.25,9 L2.25,21 L0,21 z" class="ply"/>
+        <path d="M2.25,9 L4.5,9 L4.5,15 L2.25,21 z" class="ply"/>
+        <!-- case cleat, bevel up -->
+        <path d="M4.5,3 L6.75,3 L6.75,21 L4.5,15 z" class="ply"/>
+        <!-- spacer at bottom -->
+        <rect x="0" y="108" width="6.75" height="12" class="ply"/>
+        <!-- case back 3/4 x 40 -->
+        <rect x="6.75" y="0" width="2.25" height="120" class="ply"/>
+        <!-- top, bottom, shelves 12 deep -->
+        <rect x="9" y="0" width="36" height="2.25" class="ply"/>
+        <rect x="9" y="117.75" width="36" height="2.25" class="ply"/>
+        <rect x="9" y="84" width="33.75" height="2.25" class="ply"/>
+        <rect x="9" y="48" width="33.75" height="2.25" class="ply"/>
+        <!-- door box 4 deep: rails at top/bottom, face -->
+        <rect x="45" y="0" width="9.75" height="2.25" class="ply"/>
+        <rect x="45" y="117.75" width="9.75" height="2.25" class="ply"/>
+        <rect x="54.75" y="0" width="2.25" height="120" class="ply"/>
+        <g stroke="var(--cab)" stroke-width="2"><line x1="54.75" y1="22" x2="49" y2="22"/><line x1="54.75" y1="46" x2="49" y2="46"/><line x1="54.75" y1="70" x2="49" y2="70"/><line x1="54.75" y1="94" x2="49" y2="94"/></g>
+        <!-- anti-lift screw -->
+        <line x1="14" y1="11" x2="-6" y2="14" stroke="var(--dry)" stroke-width="1.6"/>
+        <text x="66" y="14" class="lbl" fill="var(--dry)">anti-lift: GRK 3-1/8 from inside into stud</text>
+        <text x="66" y="25" class="lbl">wall cleat: 2 GRK per stud, 3 studs</text>
+        <!-- grommet and cord -->
+        <circle cx="26" cy="119" r="2" fill="var(--dry)"/>
+        <path d="M26,121 Q26,140 2,140" stroke="var(--dry)" stroke-width="1" fill="none"/>
+        <rect x="-2" y="136" width="3" height="8" class="orange"/>
+        <text x="66" y="126" class="lbl" fill="var(--dry)">cord via grommet to C7 behind case</text>
+        <!-- floor break and floor -->
+        <path d="M-8,150 l0,6 l6,3 l-6,3 l0,4" class="thin"/>
+        <line x1="-20" y1="168" x2="120" y2="168" class="thin"/>
+        <text x="50" y="164" class="lbl">floor</text>
+        <!-- dims -->
+        <line x1="0" y1="-3" x2="57" y2="-3" class="dim"/><text x="28" y="-5" text-anchor="middle" class="dim-t">17.5 from wall</text>
+        <line x1="9" y1="128" x2="45" y2="128" class="dim"/><text x="27" y="135" text-anchor="middle" class="dim-t">12</text>
+        <line x1="45" y1="128" x2="57" y2="128" class="dim"/><text x="51" y="135" text-anchor="middle" class="dim-t">4</text>
+        <line x1="100" y1="120" x2="100" y2="168" class="dim" stroke-dasharray="2 2"/><text x="104" y="152" class="dim-t">48 AFF (broken)</text>
+        <line x1="-14" y1="0" x2="-14" y2="120" class="dim"/><text x="-18" y="62" text-anchor="end" class="dim-t">40</text>
+      </g>
+    </svg>
+    <figcaption>Section at the cleat. The case cleat hooks over the wall cleat; the spacer at the bottom keeps the back plumb. Two GRK screws driven from inside the locked case pass through the back and both cleats into studs, so the case cannot be lifted off its cleat while the doors are locked.</figcaption>
+  </figure>
+  <figure class="fig render"><img src="model/render-cabinet.png?v=3604a3c2" alt="Render of the tool cabinet with both door boxes open"><figcaption>Model, doors open at 90 degrees: two shelves of cordless tools, the LBT rack in the top zone, cleat strips inside the door boxes, hasps across the meeting joint.</figcaption></figure>
+  <div class="two">
+    <div class="block">
+      <h3>Case</h3>
+      <ul>
+        <li>Sides 12 x 40, top and bottom 12 x 46.5 between the sides, pocket-screwed from the outside faces of top and bottom into the sides (plugs hidden by the doors).</li>
+        <li>Back 3/4 in, 48 x 40, overlaid on the case and screwed every 6 in. The back is structural: it carries the cleat load and the anti-lift screws.</li>
+        <li>Two fixed shelves 11.25 x 46.5 at 12 and 24 in above the case bottom, pocket-screwed. Shelf 2 sits 3/4 in back from the front edge to clear the door-box contents.</li>
+        <li>Top zone: the LBT rack screws to the back panel; a 2.5 in cleat strip on each side of it takes whatever does not fit the doors.</li>
+        <li>Case cleat 4 x 46.5, wall cleat 4 x 44, both 3/4 in ripped at 45 degrees. A 4 x 46.5 spacer at the bottom of the back keeps the case plumb.</li>
+        <li>Finish: two coats of water-based poly inside and out before assembly; the doors get it on both faces so they do not cup.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Doors and lock</h3>
+      <ul>
+        <li>Each door is a box: 3/4 face 24 x 40, 3/4 rails 3.25 in wide glued and brad-nailed around the face, so the box is 4 in deep outside. 1/2 in cleat strips inside for the hand tools; nothing over 5 lb per door.</li>
+        <li>Hinges: Everbilt 1-1/2 x 48 in continuous hinge cut to 40 in, one per door, screwed to the case side and the door rail with #6 x 5/8 screws. The screw heads are inside the closed box, unreachable when locked.</li>
+        <li>Meeting edge: the right door's face is 3/4 in wider than its box and overlaps the left door, so there is no gap for a pry bar. Close left, then right.</li>
+        <li>Locks: two Master Lock 730DPF hardened hasps across the meeting joint, 6 in from the top and bottom, with 40DPF discus padlocks (shrouded shackle, no bolt-cutter bite). The hasp's hinged leaf covers its own screws when closed.</li>
+        <li>Anti-lift: after hanging, drive two GRK #10 x 3-1/8 screws from inside the case through the back and both cleats at the stud positions. The case then cannot be lifted off the cleat without opening the doors.</li>
+        <li>Wall cleat: three studs, two GRK #10 x 3-1/8 per stud. Loaded cabinet about 250 lb; six structural screws in shear carry many times that.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 04 -->
+<section class="sheet cab" id="s4">
+  <header><h2>Flip bench <span class="tag cab">DWE7491 / DCS785 / DW735</span></h2><span class="num">Sheet 04 of 11</span></header>
+  <p>One rolling bench, 92 x 30 in, three bays between four 1.5 in panels: the table saw sits in the end bay with its table sunk flush to the bench top, the miter saw is on a flip section in the middle, the planer on a flip section at the other end. Each flip section is a 4 in torsion box on its own 1 in shaft with the tool on one face and a 4.5 in riser bench top on the other, so with both tools down the whole bench is flat at 37.75 in; with the miter up its table is at that same height and the saw section and the planer section are its wings; with the planer up the bench is its infeed. The blade runs along the bench, so the flat sections are 60 in of outfeed for the table saw. Detail page: <a href="/projects/garage-shop/flip-bench">/projects/garage-shop/flip-bench</a>.</p>
+  <figure class="fig">
+    <div class="two">
+    <svg viewBox="0 0 300 240" role="img" aria-label="End elevation through the miter section with the saw up">
+      <g transform="translate(52,14)">
+        <text x="60" y="-2" text-anchor="middle" class="big">through the miter section, saw up</text>
+        <line x1="-10" y1="200" x2="150" y2="200" class="thin"/>
+        <circle cx="30" cy="196" r="4.5" class="steel"/><circle cx="90" cy="196" r="4.5" class="steel"/>
+        <rect x="15" y="183.5" width="10.5" height="4.5" class="ply"/><rect x="94.5" y="183.5" width="10.5" height="4.5" class="ply"/>
+        <rect x="15" y="96.5" width="90" height="87.0" fill="none" stroke="var(--ink)" stroke-width=".8"/>
+        <rect x="102" y="159.5" width="3" height="24.0" class="ply"/>
+        <circle cx="60" cy="108.5" r="78.9" fill="none" stroke="var(--muted)" stroke-width=".6" stroke-dasharray="3 2"/>
+        <rect x="15" y="102.5" width="90" height="12.0" class="ply"/>
+        <rect x="15" y="100.2" width="90" height="2.2" class="ply" opacity=".7"/>
+        <rect x="13.5" y="44.8" width="93" height="55.5" rx="2" class="tool"/>
+        <line x1="-4" y1="86.8" x2="124" y2="86.8" stroke="var(--dry)" stroke-width="1" stroke-dasharray="4 2"/>
+        <rect x="15" y="114.5" width="90" height="2.2" class="ply" opacity=".7"/>
+        <rect x="15" y="116.8" width="90" height="13.5" fill="none" stroke="var(--ink)" stroke-width=".8"/>
+        <rect x="17.25" y="119.0" width="85.5" height="3.0" fill="var(--rule)" stroke="var(--ink)" stroke-width=".4"/>
+        <rect x="53.25" y="101.8" width="13.5" height="13.5" class="steel"/>
+        <circle cx="60" cy="108.5" r="1.5" fill="var(--ink)"/>
+        <rect x="88" y="107.4" width="14" height="2.2" class="steel"/><circle cx="104" cy="108.5" r="3" class="orange"/>
+        <rect x="25.5" y="105.5" width="9" height="6.0" class="steel"/>
+        <text x="106" y="102.5" class="lbl" fill="var(--dry)">index plunger</text>
+        <text x="106" y="113.5" class="lbl" fill="var(--dry)">through panel A</text>
+        <text x="60" y="73.2" text-anchor="middle" class="lbl">DCS785 up, table at bench height</text>
+        <text x="60" y="140.5" text-anchor="middle" class="lbl">riser hanging, 1 in concrete</text>
+        <text x="126" y="89.8" class="lbl" fill="var(--dry)">bench top 37.75</text>
+        <line x1="120" y1="108.5" x2="120" y2="200" class="dim"/><text x="123" y="158.0" class="dim-t">30.5</text>
+        <line x1="15" y1="36.8" x2="105" y2="36.8" class="dim"/><text x="60" y="33.8" text-anchor="middle" class="dim-t">30 deep</text>
+        <text x="60" y="211" text-anchor="middle" class="dim-t">corner clears the side rails by 1.3</text>
+      </g>
+    </svg>
+    <svg viewBox="260 82 300 158" role="img" aria-label="Side elevation of the whole bench in bench mode">
+      <g transform="translate(300,14)">
+        <text x="101" y="84" text-anchor="middle" class="big">side elevation, bench mode, from the room</text>
+        <line x1="-10" y1="200" x2="216" y2="200" class="thin"/>
+        <rect x="0" y="187.9" width="202.4" height="3.3" class="ply"/>
+        <rect x="0.0" y="124.1" width="3.3" height="63.8" class="ply"/>
+        <rect x="56.1" y="124.1" width="3.3" height="63.8" class="ply"/>
+        <rect x="129.8" y="124.1" width="3.3" height="63.8" class="ply"/>
+        <rect x="199.1" y="124.1" width="3.3" height="63.8" class="ply"/>
+        <circle cx="6.6" cy="197" r="3.3" class="steel"/>
+        <circle cx="101.2" cy="197" r="3.3" class="steel"/>
+        <circle cx="195.8" cy="197" r="3.3" class="steel"/>
+        <rect x="3.3" y="116.9" width="52.8" height="1.7" class="ply"/>
+        <rect x="4.7" y="116.9" width="49.9" height="2.2" class="steel"/>
+        <rect x="4.7" y="119.1" width="49.9" height="26.4" rx="2" class="tool"/>
+        <rect x="20.9" y="110.3" width="1.1" height="6.6" class="steel"/>
+        <rect x="3.3" y="165.3" width="52.8" height="1.7" class="ply"/><rect x="3.3" y="185.2" width="52.8" height="1.7" class="ply"/>
+        <text x="29.7" y="133" text-anchor="middle" class="lbl">DWE7491</text>
+        <text x="29.7" y="141" text-anchor="middle" class="lbl">sunk flush</text>
+        <rect x="64.9" y="128.5" width="59.4" height="8.8" class="ply"/>
+        <rect x="64.9" y="116.9" width="59.4" height="9.9" fill="none" stroke="var(--ink)" stroke-width=".7"/>
+        <rect x="66.6" y="118.6" width="56.1" height="2.2" fill="var(--rule)" stroke="var(--ink)" stroke-width=".4"/>
+        <rect x="67.7" y="138.9" width="53.9" height="40.7" rx="2" class="tool" opacity=".85"/>
+        <line x1="59.4" y1="132.9" x2="129.8" y2="132.9" stroke="var(--ink)" stroke-width="2.5"/>
+        <text x="94.6" y="156.6" text-anchor="middle" class="lbl">DCS785</text><text x="94.6" y="166.6" text-anchor="middle" class="lbl">hanging</text>
+        <text x="94.6" y="102.4" text-anchor="middle" class="lbl">miter</text><text x="94.6" y="111.4" text-anchor="middle" class="lbl">1 in concrete</text>
+        <rect x="138.6" y="128.5" width="55.0" height="8.8" class="ply"/>
+        <rect x="138.6" y="116.9" width="55.0" height="9.9" fill="none" stroke="var(--ink)" stroke-width=".7"/>
+        <rect x="140.3" y="118.6" width="51.7" height="5.5" fill="var(--rule)" stroke="var(--ink)" stroke-width=".4"/>
+        <rect x="141.9" y="138.9" width="48.4" height="44.0" rx="2" class="tool" opacity=".85"/>
+        <line x1="133.1" y1="132.9" x2="199.1" y2="132.9" stroke="var(--ink)" stroke-width="2.5"/>
+        <text x="166.1" y="156.6" text-anchor="middle" class="lbl">DW735</text><text x="166.1" y="166.6" text-anchor="middle" class="lbl">hanging</text>
+        <text x="166.1" y="102.4" text-anchor="middle" class="lbl">planer</text><text x="166.1" y="111.4" text-anchor="middle" class="lbl">2.5 in concrete</text>
+        <line x1="0" y1="214" x2="202.4" y2="214" class="dim"/><text x="101.2" y="223" text-anchor="middle" class="dim-t">92 (24 saw + 32 miter + 30 planer + four 1.5 panels)</text>
+        <text x="1.7" y="121.1" text-anchor="middle" class="dim-t">S</text><text x="57.8" y="121.1" text-anchor="middle" class="dim-t">A</text><text x="131.5" y="121.1" text-anchor="middle" class="dim-t">B</text><text x="131.5" y="211" text-anchor="middle" class="lbl" fill="var(--dry)">draw latches on panel B</text><text x="200.8" y="121.1" text-anchor="middle" class="dim-t">C</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>Left: through the miter section, saw up. The box is centred on the 30.5 in shaft, the tool base 2.75 in off the axis, the riser hanging below with its cast concrete; the miter's corner sweeps 26.3 in and passes the side rails with 1.3 in to spare. The index plunger enters through panel A on the right, the draw latch is on panel B on the left. Right: the whole bench in bench mode. Table saw sunk in the end bay with two shelves under it, the two flip sections with their tools hanging and their risers up, all three tops at 37.75 in.</figcaption>
+  </figure>
+  <div class="two">
+    <figure class="fig render"><img src="model/render-flip-bench-sw.png?v=fdc2721a" alt="Render of the flip bench flat with the table saw at the end"><figcaption>Bench mode: table saw flush at the near end, both flip sections riser-up, tools hanging inside the frame.</figcaption></figure>
+    <figure class="fig render"><img src="model/render-flip-miter-sw.png?v=a18bd976" alt="Render of the flip bench with the miter saw up"><figcaption>Miter station: the middle section flipped, its table level with the saw section and the planer section either side.</figcaption></figure>
+  </div>
+  <div class="two">
+    <div class="block">
+      <h3>Sections</h3>
+      <ul>
+        <li>Bays, from the front: 24 in saw, 32 in miter, 30 in planer, between panels S, A, B and C of 1.5 in laminated plywood, 30 x 29, standing on a 2x4 base frame (two 92 in side rails on flat, a cross rail under every panel), six 3 in total-lock casters, a 3/4 x 8 in apron along the back. About 720 lb loaded.</li>
+        <li>Saw bay: the DWE7491 (55 lb, table 13 in above its feet, 22.7 x 29.2 footprint) stands on a platform at 24 in so its table is flush with the 3/4 top around it; the blade runs along the bench and the rip fence rails run across it, extending out the front for wide rips. Two shelves below the platform for blades, push sticks and the miter clamps.</li>
+        <li>Flip sections: a 27 in (miter) and a 25 in (planer) torsion box, 30 wide, 4 deep, 3/4 skins, end plates and two ribs, open along both long sides, carried on a 1 in shaft by a clamp-on flanged collar at each end plate; UCFL205-16 flange bearings on the panel faces inside each bay, 2.5 in of bay each end for the bearing and hub. The tool is bolted to a 3/4 plate that fastens to one skin with six 1/4-20 bolts into T-nuts; the other skin carries the riser.</li>
+        <li>Risers: a 4.5 in tall plywood box (3/4 top, 3/4 sides) on the free face of each flip section. In bench mode it is the bench top; with the tool up it hangs underneath. Its height is the DCS785's table height, which is what makes the wings flush with the miter table.</li>
+        <li>Heights: bench, miter table and saw table 37.75 in, planer bed 39.25 in. The shaft cannot go lower than 30.5 with 3 in casters because the hanging miter's corner has to clear the side rails; 2 in casters bring everything down 1 in.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Lock, balance, use</h3>
+      <ul>
+        <li>Lock per section: a 1/2 in spring index plunger with a pull knob through a steel bushing in the outer panel (A for the miter, C for the planer), 10 in off the shaft line toward the room, into one of two bushings in the box end plate so it indexes at 0 and 180; an adjustable draw latch on panel B pulls the box tight to it. Plunger home and latch closed before a tool runs.</li>
+        <li>Ballast is concrete cast into the riser: 1 in under the miter riser's top (63 lb) balances the 56 lb saw to 4 lb at the bench edge; 2.5 in under the planer riser's top (146 lb) brings the 92 lb planer to 14 lb, on the tool side of neutral so a section never runs away. Pour with the riser as its own form, top skin on after a week. Steel plate does the same job at four times the price.</li>
+        <li>Miter station: miter up, planer down, table saw as is: 24 in of wing on one side, 30 on the other, both at table height; the fence and stop go on the wings. Planing: planer up, miter down, boards feed along the bench over the flat miter section and out past the end. Ripping: both flip sections down, feed along the bench, 60 in of flush outfeed.</li>
+        <li>Parks along the east wall under the tool cabinet in bench mode, top at 37.75 in against the cabinet's 48 in bottom, between the compressor and the walkway. Roll it out before flipping a tool up.</li>
+        <li>Printed on the Core One: plunger keepers, a holster for the latch keepers, T-nut alignment jigs, a 2-1/2 in dust hood adapter for the DCS785 and a zero-clearance insert blank for the DWE7491.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 05 -->
+<section class="sheet cab" id="s5">
+  <header><h2>Dust cart <span class="tag cab">DXV16P + Dust Deputy</span></h2><span class="num">Sheet 05 of 11</span></header>
+  <p>Two bays side by side on one doubled plywood base: the DeWalt 16 gal Stealthsonic drum stands inside a 2x4 corral with its own caster base removed, and beside it a 12 in pedestal carries the Dust Deputy bucket in a U cradle with the cyclone on its lid. An 8 in spine on the outer end takes the bucket strap and the handle. Long and low, nothing stacked over the vac: its head lifts off in place for the filter, and the cyclone drains forward without unhooking a hose. Detail page with more renders: <a href="/projects/garage-shop/dust-cart">/projects/garage-shop/dust-cart</a>.</p>
+  <figure class="fig">
+    <div class="two">
+    <svg viewBox="0 0 300 275" role="img" aria-label="Long-side elevation of the two-bay dust cart with the 16 gallon drum and the cyclone bucket">
+      <g transform="translate(24,20)">
+        <text x="72" y="-6" text-anchor="middle" class="big">long side, spine end at left</text>
+        <!-- scale 4 px/in; floor y=200; cart x 0-152 (38 in) -->
+        <line x1="-10" y1="200" x2="178" y2="200" class="thin"/>
+        <circle cx="12" cy="194" r="6" class="steel"/><circle cx="140" cy="194" r="6" class="steel"/>
+        <rect x="0" y="178.0" width="152" height="6" class="ply"/>
+        <rect x="0" y="130.0" width="56" height="48.0" fill="none" stroke="var(--ink)" stroke-width=".7"/>
+        <rect x="53" y="130.0" width="3" height="48.0" class="ply"/>
+        <rect x="0" y="127.0" width="56" height="3" class="ply"/>
+        <rect x="12" y="18.0" width="32" height="160.0" class="ply" opacity=".55"/>
+        <rect x="18" y="32.0" width="20" height="6" class="void"/>
+        <rect x="4.2" y="69.0" width="47.6" height="58.0" class="grey-d"/>
+        <rect x="2" y="65.0" width="52" height="4" class="tool"/>
+        <rect x="11" y="25.0" width="34" height="40.0" rx="4" class="tool"/>
+        <rect x="23" y="13.0" width="10" height="12" class="orange"/>
+        <rect x="4.2" y="98.0" width="47.6" height="4" fill="var(--dry)" opacity=".8"/>
+        <rect x="65" y="98.0" width="78" height="80.0" rx="4" class="tool"/>
+        <rect x="63" y="74.0" width="82" height="24.0" rx="4" class="grey-d"/>
+        <rect x="56" y="82.0" width="6" height="96" class="ply"/><rect x="146" y="82.0" width="6" height="96" class="ply"/>
+        <rect x="62" y="114.0" width="84" height="14" class="ply" opacity=".85"/>
+        <rect x="62" y="172.0" width="84" height="6" class="ply" opacity=".85"/>
+        <rect x="54" y="105.0" width="10" height="10" class="orange"/>
+        <path d="M28,13.0 C28,-3.0 58,-1.0 58,43.0 S 54,96.0 57,110.0" fill="none" stroke="var(--dry)" stroke-width="2" stroke-dasharray="4 2"/>
+        <text x="28" y="48.0" text-anchor="middle" class="lbl">cyclone</text>
+        <text x="28" y="111.0" text-anchor="middle" class="lbl">5 gal</text>
+        <text x="104" y="142.0" text-anchor="middle" class="lbl">DXV16P drum</text>
+        <text x="104" y="154.0" text-anchor="middle" class="lbl">19.5 dia x 20</text>
+        <text x="104" y="126.0" text-anchor="middle" class="lbl">2x4 rail at 16</text>
+        <text x="104" y="88.0" text-anchor="middle" class="lbl">head lifts off</text>
+        <text x="84" y="46.0" class="lbl" fill="var(--dry)">hose falls to the inlet</text>
+        <text x="46" y="26.0" class="lbl">handle</text>
+        <line x1="164" y1="13.0" x2="164" y2="200" class="dim"/><text x="167" y="112.0" class="dim-t">45</text>
+        <line x1="0" y1="214" x2="152" y2="214" class="dim"/><text x="76" y="223" text-anchor="middle" class="dim-t">38 (14 pedestal + 24 corral)</text>
+        <line x1="-8" y1="130.0" x2="-8" y2="178.0" class="dim"/><text x="-11" y="158.0" text-anchor="end" class="dim-t">12</text>
+      </g>
+    </svg>
+    <svg viewBox="300 0 300 275" role="img" aria-label="Plan of the dust cart">
+      <g transform="translate(340,48)">
+        <text x="72" y="-30" text-anchor="middle" class="big">plan</text>
+        <!-- 38 x 24 at 4 px/in = 152 x 96 -->
+        <rect x="0" y="0" width="152" height="96" class="ply"/>
+        <rect x="56" y="0" width="96" height="96" fill="none" stroke="var(--ink)" stroke-width=".8"/>
+        <g class="ply" stroke="var(--ink)" stroke-width=".5"><rect x="56" y="0" width="6" height="14"/><rect x="146" y="0" width="6" height="14"/><rect x="56" y="82" width="6" height="14"/><rect x="146" y="82" width="6" height="14"/><rect x="62" y="0" width="84" height="6"/><rect x="62" y="90" width="84" height="6"/><rect x="56" y="14" width="6" height="68"/><rect x="146" y="14" width="6" height="68"/></g>
+        <rect x="0" y="32" width="3" height="32" class="ply" stroke="var(--ink)" stroke-width=".6"/>
+        <circle cx="28" cy="48" r="23.8" class="grey-d"/>
+        <path d="M28,24.2 L56,24.2 L56,71.8 L28,71.8" fill="none" stroke="var(--muted)" stroke-width=".5" stroke-dasharray="2 2"/>
+        <circle cx="28" cy="48" r="16.8" class="tool"/>
+        <circle cx="104" cy="48" r="39" class="tool"/>
+        <circle cx="104" cy="48" r="41" fill="none" stroke="var(--ink)" stroke-width=".5" stroke-dasharray="2 2"/>
+        <rect x="56" y="43" width="9" height="10" class="orange"/>
+        <g class="steel"><circle cx="8" cy="8" r="4"/><circle cx="144" cy="8" r="4"/><circle cx="8" cy="88" r="4"/><circle cx="144" cy="88" r="4"/></g>
+        <text x="28" y="51" text-anchor="middle" class="lbl">cyclone</text>
+        <text x="104" y="51" text-anchor="middle" class="lbl">drum</text>
+        <text x="-4" y="51" text-anchor="end" class="lbl">spine</text>
+        <text x="76" y="112" text-anchor="middle" class="lbl">inlet faces the pedestal; 2x4 posts at the corners</text>
+        <text x="76" y="123" text-anchor="middle" class="lbl">U cradle opens toward the drum</text>
+        <line x1="0" y1="-10" x2="152" y2="-10" class="dim"/><text x="76" y="-13" text-anchor="middle" class="dim-t">38</text>
+        <line x1="162" y1="0" x2="162" y2="96" class="dim"/><text x="165" y="51" class="dim-t">24</text>
+        <line x1="0" y1="138" x2="56" y2="138" class="dim"/><text x="28" y="147" text-anchor="middle" class="dim-t">14</text>
+        <line x1="56" y1="138" x2="152" y2="138" class="dim"/><text x="104" y="147" text-anchor="middle" class="dim-t">24 corral</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>Left: the 38 in long side. Doubled 1.5 in base on four 3 in casters at the corners; the pedestal at the spine end is 14 x 24 x 12 in with the cradle on top, the bucket strapped at half height through slots in the spine, the cyclone on the lid with its outlet at 45 in; the drum stands in the 24 x 24 corral, four 2x4 posts with a ring on flat at the base and a ring on edge whose top is at 16 in, above the drum's centre of gravity, with its head free. The kit's hose runs from the cyclone outlet down to the drum inlet, which faces the pedestal. Right: plan; the U in the cradle opens toward the drum so the bucket slides out sideways after the strap is released and the cyclone lifted an inch.</figcaption>
+  </figure>
+  <div class="two">
+    <figure class="fig render"><img src="model/render-dust-sw.png?v=c79a16ff" alt="Render of the dust cart from the front corner"><figcaption>From the front corner: spine and handle at the outer end, bucket and cyclone on the pedestal, the 16 gal drum braced in its 2x4 corral.</figcaption></figure>
+    <div class="block">
+      <h3>Numbers that set everything</h3>
+      <div class="stat">
+        <div><span class="k">Vac</span><span class="v">DXV16P-QTA, 19.5 dia</span></div>
+        <div><span class="k">Corral</span><span class="v">24 sq, rails at 16</span></div>
+        <div><span class="k">Cradle hole</span><span class="v">bucket + 1/8 = 12</span></div>
+        <div><span class="k">Footprint</span><span class="v">38 x 24, 45 tall</span></div>
+        <div><span class="k">Loaded</span><span class="v">~85 lb, CG 16 up</span></div>
+        <div><span class="k">Tips at</span><span class="v">32 deg / 19 lb shove</span></div>
+      </div>
+      <p class="foot">Measure the drum with its caster base off (the base is a separate molded dolly the drum sits in) and the bucket's bottom before cutting; the corral's inside width and the cradle hole are the two numbers, the model re-runs the fit, rail-height, hose-fall and tip checks from them.</p>
+    </div>
+  </div>
+  <div class="two">
+    <div class="block">
+      <h3>Build</h3>
+      <ul>
+        <li>Base: two 38 x 24 pieces glued and screwed into one 1.5 in slab. Casters at the outside corners, plates flush with the edges, two braked; 85 lb loaded, so four casters rated 75 lb or more each.</li>
+        <li>Pedestal: two 14 x 12 sides, a 22.5 x 12 wall between the pedestal and the corral, and the 14 x 24 cradle on top with a 12 in hole cut open to the bay side as a U. The spine is a 14 x 40 piece on the outer end, full width for the bottom 12 in and 8 in wide above, with the handle slot 3.5 in from the top and two strap slots at the bucket's half height.</li>
+        <li>Corral: four 2x4 posts 24 in tall screwed down through the base at the bay's corners, a 2x4 ring on flat between them at the base and a second ring on edge with its top at 16 in, 3 in construction screws through the posts. Inside the rails the drum has 3/4 in each side; the rail sits 6 in above the drum's centre of gravity, so the drum cannot tip and no strap is needed. The rings are the handholds when the cart is lifted over a threshold.</li>
+        <li>Cradle open to the bay: release the bucket strap, unclip the lid, lift cyclone and lid an inch and slide the bucket sideways out of the U. The drum never moves to empty the cyclone; the head lifts off in place to clean the filter.</li>
+        <li>Glue plus 1-5/8 to 2 in screws throughout; predrill every screw that goes into a plywood edge.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Hoses, power, stability</h3>
+      <ul>
+        <li>Everything is 2-1/2 in: the DXV16P ships with a 7 ft x 2-1/2 hose and the Dust Deputy 2.5 takes 2-1/2 cuffs, so no bought reducer. The kit's short hose goes cyclone outlet to drum inlet, the vac's 7 ft hose goes cyclone inlet to the tool. The DW735 uses the printed 4 to 2-1/2 reducer and fills the 5 gal bucket in a few boards; plane into the chip bag for batches and use the cart for the miter saw, sander, router and cleanup.</li>
+        <li>The vac's switch stays on its head, in reach. A remote-control outlet or an auto-start tool switch on C5 turns it on with the tool. 20 ft cord reaches C5 from the parking spot and the C4 drop from the work zone.</li>
+        <li>Stability: 85 lb with the center of gravity 16 in up on a 20 in track across the narrow way tips at 32 degrees, or 19 lb of sideways shove at the handle; the long way is far stiffer. Push from the handle slot, never the cyclone.</li>
+        <li>Parks end-on in the east wall's front corner beside the compressor, 24 in along the wall and 39 in out, 4 in inside the door track; the aisle stays 49 in with the truck in.</li>
+        <li><strong>Printed on the Core One (PETG):</strong> two 2-1/2 in hose cuffs with a 1/4 turn lock so the cyclone hoses come off without a clamp, the 4 to 2-1/2 in reducer for the DW735's port, a snap hose clip and a cord clip on the pedestal wall, grommets for the strap and handle slots so the strap does not saw the plywood, and a cap for the cyclone inlet when the cart is parked. The STEP of the cart is the reference for fitting them.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 06 -->
+<section class="sheet cab" id="s6">
+  <header><h2>Potting station and bulk rack</h2><span class="num">Sheet 06 of 11</span></header>
+  <figure class="fig">
+    <div class="two">
+    <svg viewBox="0 0 340 278" role="img" aria-label="Front elevation of the potting station with the pot well and sunken soil bin">
+      <g transform="translate(66,18)">
+        <text x="72" y="-6" text-anchor="middle" class="big">potting station, from the truck side</text>
+        <!-- scale 3 px/in: 48 wide -> 144; floor y=216; counter top 36 -->
+        <line x1="-10" y1="216" x2="160" y2="216" class="thin"/>
+        <rect x="0" y="108.0" width="144" height="2.2" class="ply"/>
+        <rect x="0" y="110.2" width="144" height="10.5" class="ply"/>
+        <rect x="0" y="110.2" width="4.5" height="105.8" class="ply"/><rect x="69.75" y="110.2" width="4.5" height="105.8" class="ply"/><rect x="139.5" y="110.2" width="4.5" height="105.8" class="ply"/>
+        <!-- pot well at the front end: 14 in hole (42 px) centred 12 in (36 px) from the front -->
+        <rect x="15" y="108.0" width="42" height="2.2" class="void"/>
+        <g class="ply">
+          <rect x="12" y="147.8" width="3" height="2.25"/><rect x="57" y="147.8" width="3" height="2.25"/>
+          <rect x="12" y="135.8" width="3" height="2.25"/><rect x="57" y="135.8" width="3" height="2.25"/>
+          <rect x="12" y="123.8" width="3" height="2.25"/><rect x="57" y="123.8" width="3" height="2.25"/>
+        </g>
+        <rect x="14" y="135.8" width="44" height="2.25" class="ply"/>
+        <rect x="21" y="108.0" width="30" height="30.0" rx="3" fill="#b0603c" opacity=".85"/>
+        <text x="-9" y="117.0" text-anchor="end" class="lbl">pot well 14</text>
+        <text x="-9" y="127.5" text-anchor="end" class="lbl">rim flush</text>
+        <text x="-9" y="141.0" text-anchor="end" class="lbl">platform</text>
+        <text x="-9" y="151.5" text-anchor="end" class="lbl">at 22/26/30</text>
+        <!-- soil bin sunk at the back end: 16 wide (48 px) x 12 deep (36 px), lip on the top -->
+        <rect x="84" y="108.0" width="48" height="36.0" class="grey-d"/>
+        <rect x="81.75" y="106.5" width="52.5" height="1.5" class="steel"/>
+        <text x="150" y="123.0" class="lbl">27 qt bin, sunk,</text>
+        <text x="150" y="132.0" class="lbl">steel lip</text>
+        <!-- splash back 6 in with trowel strip -->
+        <rect x="0" y="90.0" width="144" height="18.0" class="ply" opacity=".5"/>
+        <rect x="8" y="95.2" width="128" height="4.5" class="ply"/>
+        <text x="150" y="99.0" class="lbl">splash back 6,</text>
+        <text x="150" y="106.5" class="lbl">trowel strip</text>
+        <!-- bag shelf at 6 with bags -->
+        <rect x="4.5" y="198.0" width="135" height="2.2" class="ply"/>
+        <rect x="9" y="174.0" width="60" height="24.0" rx="6" class="tool"/><rect x="75" y="174.0" width="60" height="24.0" rx="6" class="tool"/>
+        <text x="39" y="187.5" text-anchor="middle" class="lbl">potting mix</text><text x="105" y="187.5" text-anchor="middle" class="lbl">open bag</text>
+        <!-- upper shelf at 56 -->
+        <rect x="0" y="45.8" width="144" height="2.2" class="ply"/>
+        <path d="M6,48.0 l0,15 l15,-15 z" class="ply"/><path d="M64,48.0 l0,15 l15,-15 z" class="ply"/><path d="M123,48.0 l0,15 l15,-15 z" class="ply"/>
+        <rect x="6" y="33.8" width="21" height="12" class="tool"/><rect x="30" y="33.8" width="24" height="12" class="tool"/>
+        <rect x="72" y="36.8" width="60" height="9" class="grey-d"/>
+        <text x="30" y="28.5" text-anchor="middle" class="lbl">chargers</text><text x="102" y="28.5" text-anchor="middle" class="lbl">trays, pots</text>
+        <text x="150" y="48.0" class="lbl">shelf 12 x 48 at 56</text>
+        <rect x="146" y="59.2" width="5" height="9" class="orange"/><text x="154" y="67.5" class="lbl" fill="var(--dry)">C7, 50 AFF</text>
+        <line x1="0" y1="228" x2="144" y2="228" class="dim"/><text x="72" y="237" text-anchor="middle" class="dim-t">48</text>
+        <line x1="-8" y1="108.0" x2="-8" y2="216" class="dim"/><text x="-11" y="168.0" text-anchor="end" class="dim-t">36</text>
+        <line x1="150" y1="198.0" x2="150" y2="216" class="dim"/><text x="153" y="210.0" class="dim-t">6</text>
+      </g>
+    </svg>
+    <svg viewBox="340 0 340 278" role="img" aria-label="Front elevation of the bulk rack on the landing with bags under it">
+      <g transform="translate(380,40)">
+        <text x="42" y="-6" text-anchor="middle" class="big">bulk rack, on the landing</text>
+        <!-- scale 2 px/in: 42 wide = 84 px; floor y=190; landing 12 px; uprights 84 -> 168 -->
+        <line x1="-10" y1="190" x2="130" y2="190" class="thin"/>
+        <rect x="-10" y="178" width="140" height="12" fill="var(--rule-soft)" stroke="var(--ink)" stroke-width=".5"/>
+        <rect x="0" y="10" width="3" height="168" class="ply"/><rect x="81" y="10" width="3" height="168" class="ply"/>
+        <g class="ply"><rect x="3" y="130" width="78" height="3"/><rect x="3" y="94" width="78" height="3"/><rect x="3" y="58" width="78" height="3"/><rect x="3" y="22" width="78" height="3"/></g>
+        <g class="tool"><rect x="5" y="162" width="36" height="16"/><rect x="43" y="162" width="36" height="16"/><rect x="5" y="146" width="36" height="16"/><rect x="43" y="146" width="36" height="16"/></g>
+                <g class="tool"><rect x="5" y="100" width="36" height="30"/><rect x="43" y="100" width="36" height="30"/><rect x="5" y="64" width="36" height="30"/><rect x="43" y="64" width="36" height="30"/><rect x="5" y="28" width="36" height="30"/><rect x="43" y="28" width="36" height="30"/></g>
+        <rect x="8" y="12" width="68" height="10" class="grey-d"/><text x="42" y="20" text-anchor="middle" class="lbl">light bins</text>
+        <g fill="var(--dry)"><rect x="20" y="19" width="6" height="3"/><rect x="58" y="19" width="6" height="3"/></g>
+        <text x="42" y="200" text-anchor="middle" class="lbl">two totes per level, long side in;</text>
+        <text x="42" y="209" text-anchor="middle" class="lbl">bags two high on the landing under them</text>
+        <line x1="0" y1="215" x2="84" y2="215" class="dim"/><text x="42" y="223" text-anchor="middle" class="dim-t">42 (one bay)</text>
+        <line x1="96" y1="10" x2="96" y2="178" class="dim"/><text x="99" y="96" class="dim-t">84</text>
+        <text x="-28" y="133" class="dim-t">24</text><text x="-28" y="97" class="dim-t">42</text><text x="-28" y="61" class="dim-t">60</text><text x="-28" y="25" class="dim-t">78</text>
+        <text x="-30" y="186" class="lbl">+6</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>Left: the potting station, 48 x 24 x 36 in on 2x4 legs against the west wall at the front. A 14 in pot well is cut in the counter at the front end with a slide-in platform on cleat pairs at 22, 26 and 30 in, so a 14, 10 or 6 in tall pot sits with its rim at the counter and is filled with a scoop; a 27 qt soil bin is sunk into the back end with a steel lip, the bag empties into it; bag shelf at 6 in; a 6 in splash back with a trowel strip; the 12 x 48 upper shelf at 56 in for the chargers, seed trays and small pots, C7 under it. Right: the bulk rack on the landing in the back-left corner, 42 x 24 x 84, one bay: bags stacked two high on the landing under the first shelf at 24, two 27 gal totes per level at 24, 42 and 60 in above the landing, light bins on top. Orange: L-brackets into studs.</figcaption>
+  </figure>
+  <div class="two">
+    <figure class="fig render"><img src="model/render-station.png?v=0c15354b" alt="Render of the potting station with a pot in the well and the soil bin sunk into the counter"><figcaption>Potting station from the truck side: the pot sitting rim-flush in its well, the sunken bin, the splash back and trowel strip, bags on the 6 in shelf, chargers on the upper shelf; the machine bay behind it.</figcaption></figure>
+    <figure class="fig render"><img src="model/render-rack.png?v=b52ba727" alt="Render of the bulk rack on the landing with bags under it and totes above"><figcaption>Bulk rack on the landing: bags two high underneath, six totes on three levels, light bins on top, west of the truck's nose.</figcaption></figure>
+  </div>
+  <div class="two">
+    <div class="block">
+      <h3>Potting station</h3>
+      <ul>
+        <li>Counter: six 2x4 legs at 34.5 in, top frame of 2x4 on edge (two 48 in rails, three 21 in stretchers), 3/4 plywood top 48 x 24, back rail lagged to studs at 32 in. Same frame as a workbench, because it is one.</li>
+        <li>Pot well: a 14 in hole at the front end, its centre 10 in from the wall and 12 in from the front edge. Below it, three pairs of 3/4 x 3/4 cleats on the legs' inner faces at 22, 26 and 30 in carry a 14.5 x 16 plywood platform: a 14 in pot on the low cleats, a 10 in pot on the middle, a 6 in pot on the top, each with its rim at counter height. Filling is a scoop from the bin, never a lift; the platform lifts out to drop a bucket through for a hanging basket.</li>
+        <li>Soil bin: a 27 qt bin sunk through the top at the back end on a cleat frame, a 3/4 in steel lip screwed over its rim so the plywood edge stays dry. Empty a bag into it, keep the lid on it between sessions.</li>
+        <li>Splash back: 6 in of 3/4 plywood along the wall edge with a 2x2 strip for trowels, hand fork and scoop on nails. Oil the top and the well's edge with boiled linseed oil, twice.</li>
+        <li>Bag shelf: 2x4 ledgers between the legs with their top at 6 in, 3/4 plywood 21 x 45. Two 2 cu ft bags side by side, the open one nearest the bin.</li>
+        <li>Upper shelf: 12 x 48 plywood on three brackets at 56 in. FlexVolt and EGO chargers at the front end on the C7 receptacle (50 AFF, under the shelf), seed trays and small pots behind. Batteries stay on the machines.</li>
+        <li>Machine bay: 42 in out from the wall by 26 in along it behind the station, nose to the wall so it ends before the truck's rear door swings, 2x4 wheel stop at the wall, tape on the floor. Mower in summer, snowblower in winter, the other in the basement; hook rail with the trimmer, edger and long tools behind it at 72 in.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Bulk rack</h3>
+      <ul>
+        <li>Frame: four 2x4 uprights at 84 in (two pairs, 24 in apart front to back), 2x4 ledgers on edge front and back at each level, standing on the landing in the back-left corner with its back to the north wall and its west end at the west wall. One 39 in bay, so it stops 2 in short of the truck's mirror line. Screwed with 2-1/2 in pocket screws or 3 in construction screws, two per joint.</li>
+        <li>Shelves: 7/16 OSB, 24 x 42, dropped onto the ledgers; four pieces from one sheet.</li>
+        <li>Shelf tops at 24, 42, 60 and 78 in above the landing (30 to 84 above the floor). Under the first shelf, 20 in clear: bags of soil, mulch and ice melt stacked two high on the landing, four across, and more along the landing beside the rack. Two 27 gal totes per level on the three tote levels, six in all; light bins on top.</li>
+        <li>Loading: stand on the landing, which is why the rack faces the truck's nose and sits 12 in back from the curb. Nothing above 60 in heavier than a light bin.</li>
+        <li>Anchoring: two 3 in L-brackets from the top rear ledger into studs.</li>
+        <li>The other totes wait for the overhead platform on sheet 02; the compressor now lives in the shop's front corner beside the dust cart.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 07 -->
+<section class="sheet dry" id="s7">
+  <header><h2>Electrical <span class="tag dry">100 A subpanel</span></h2><span class="num">Sheet 07 of 11</span></header>
+  <p>A 100 A feeder from the basement main panel through the house wall at the back-right corner, beside the side door, to a 100 A main-breaker subpanel on the east wall, then eight branch circuits. Michigan Electrical Code (2023 NEC base). Permit and two inspections; a homeowner may pull the permit for their own residence.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 700 300" role="img" aria-label="One-line diagram from the basement main panel through the feeder to the garage subpanel and its eight branch circuits">
+      <g transform="translate(20,20)">
+        <!-- main panel -->
+        <rect x="0" y="20" width="90" height="60" class="box"/>
+        <text x="45" y="38" text-anchor="middle" class="lbl">basement main</text>
+        <text x="45" y="50" text-anchor="middle" class="lbl">(brand per photo)</text>
+        <rect x="30" y="58" width="30" height="14" class="orange"/><text x="45" y="68" text-anchor="middle">100 A 2P</text>
+        <!-- feeder -->
+        <line x1="90" y1="65" x2="170" y2="65" class="wire-o"/>
+        <text x="130" y="58" text-anchor="middle" class="lbl">feeder</text>
+        <text x="130" y="92" text-anchor="middle">1/0 AL SER, 4-wire</text>
+        <text x="130" y="102" text-anchor="middle">about 50 ft</text>
+        <!-- subpanel -->
+        <rect x="170" y="0" width="150" height="250" class="box"/>
+        <text x="245" y="14" text-anchor="middle" class="lbl">garage subpanel</text>
+        <text x="245" y="24" text-anchor="middle" class="lbl">HOM2040M100 100 A MB</text>
+        <text x="245" y="36" text-anchor="middle" class="lbl">neutral isolated, ground bar</text>
+        <rect x="222" y="42" width="46" height="12" class="orange"/><text x="245" y="51" text-anchor="middle">100 A MB</text>
+        <!-- circuits -->
+        <g>
+          <g transform="translate(0,64)">
+            <rect x="180" y="0" width="48" height="12" class="orange"/><text x="204" y="9" text-anchor="middle">C1 50 A 2P</text>
+            <line x1="228" y1="6" x2="330" y2="6" class="wire-o"/><text x="336" y="9">6/3 NM to a capped box, east wall 66 AFF; breaker off</text>
+          </g>
+          <g transform="translate(0,86)">
+            <rect x="180" y="0" width="48" height="12" class="orange"/><text x="204" y="9" text-anchor="middle">C2 30 A 2P</text>
+            <line x1="228" y1="6" x2="330" y2="6" class="wire-o"/><text x="336" y="9">10/2 NM, 5 kW unit heater, NE corner at 100 AFF</text>
+          </g>
+          <g transform="translate(0,108)">
+            <rect x="180" y="0" width="48" height="12" class="orange"/><text x="204" y="9" text-anchor="middle">C3 20 A</text>
+            <line x1="228" y1="6" x2="330" y2="6" class="wire"/><text x="336" y="9">12/2, table saw receptacle, east wall y 92, behind the bench</text>
+          </g>
+          <g transform="translate(0,130)">
+            <rect x="180" y="0" width="48" height="12" class="orange"/><text x="204" y="9" text-anchor="middle">C4 20 A</text>
+            <line x1="228" y1="6" x2="330" y2="6" class="wire"/><text x="336" y="9">12/2, ceiling drop over work zone (flip bench)</text>
+          </g>
+          <g transform="translate(0,152)">
+            <rect x="180" y="0" width="48" height="12" class="orange"/><text x="204" y="9" text-anchor="middle">C5 20 A</text>
+            <line x1="228" y1="6" x2="330" y2="6" class="wire"/><text x="336" y="9">12/2, compressor and the dust cart's vac in the SE corner</text>
+          </g>
+          <g transform="translate(0,174)">
+            <rect x="180" y="0" width="48" height="12" class="orange"/><text x="204" y="9" text-anchor="middle">C6 20 A</text>
+            <line x1="228" y1="6" x2="330" y2="6" class="wire"/><text x="336" y="9">12/2, general GFCI receptacles, 2 boxes</text>
+          </g>
+          <g transform="translate(0,196)">
+            <rect x="180" y="0" width="48" height="12" class="orange"/><text x="204" y="9" text-anchor="middle">C7 20 A</text>
+            <line x1="228" y1="6" x2="330" y2="6" class="wire"/><text x="336" y="9">12/2, cabinet + garden chargers, 2 boxes</text>
+          </g>
+          <g transform="translate(0,218)">
+            <rect x="180" y="0" width="48" height="12" class="orange"/><text x="204" y="9" text-anchor="middle">C8 15 A</text>
+            <line x1="228" y1="6" x2="330" y2="6" class="wire"/><text x="336" y="9">14/2, 4 LED shop lights, 3-way at both doors</text>
+          </g>
+          <g transform="translate(0,240)">
+            <text x="245" y="9" text-anchor="middle" class="lbl">C9, C10 spare</text>
+          </g>
+        </g>
+        <!-- ground -->
+        <line x1="245" y1="250" x2="245" y2="268" class="wire"/>
+        <g class="wire"><line x1="235" y1="268" x2="255" y2="268"/><line x1="238" y1="272" x2="252" y2="272"/><line x1="241" y1="276" x2="249" y2="276"/></g>
+        <text x="263" y="272" class="lbl">EGC back to main; no rod needed, same building</text>
+      </g>
+    </svg>
+    <figcaption>Feeder and subpanel in orange, 120 V branches in black. The garage door opener keeps its existing ceiling receptacle and is not on the sub. The feeder breaker lives in the basement main and must match that panel's brand; the subpanel is Square D Homeline with its own 100 A main so the garage can be killed at one switch.</figcaption>
+  </figure>
+  <div class="two">
+    <div class="block">
+      <h3>Load check (NEC 220 style)</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Load</th><th class="n">VA</th><th class="n">Factor</th><th class="n">Demand VA</th></tr></thead>
+        <tbody>
+          <tr><td>Future EVSE at 32 A, 240 V (continuous)</td><td class="n">7,680</td><td class="n">1.25</td><td class="n">9,600</td></tr>
+          <tr><td>Unit heater 5 kW</td><td class="n">5,000</td><td class="n">1.25</td><td class="n">6,250</td></tr>
+          <tr><td>Table saw DWE7491 15 A (C3)</td><td class="n">1,800</td><td class="n">1.00</td><td class="n">1,800</td></tr>
+          <tr><td>Planer 15 A (largest motor +25%)</td><td class="n">1,800</td><td class="n">1.25</td><td class="n">2,250</td></tr>
+          <tr><td>Shop vac on the dust cart 12 A</td><td class="n">1,440</td><td class="n">1.00</td><td class="n">1,440</td></tr>
+          <tr><td>General receptacles, 2 circuits</td><td class="n">3,000</td><td class="n">1.00</td><td class="n">3,000</td></tr>
+          <tr><td>Lighting, 4 x 55 W</td><td class="n">220</td><td class="n">1.25</td><td class="n">275</td></tr>
+          <tr class="sum"><td>Total, everything on at once</td><td class="n"></td><td class="n"></td><td class="n">24,615</td></tr>
+          <tr class="sum"><td>Amps at 240 V</td><td class="n"></td><td class="n"></td><td class="n">103 A</td></tr>
+        </tbody>
+        <tfoot><tr><td colspan="4">Everything simultaneously is the worst case and lands at the feeder rating. In practice a future EV charges at night and the saws run by day; with the EVSE set to 32 A or scheduled after 9 pm the feeder never sees more than about 75 A. The 100 A feeder is sized so the answer is never "unplug the car to plane a board." Check the basement main has 100 A of headroom on its own load calculation before ordering; a 200 A service normally does.</td></tr></tfoot>
+      </table></div>
+    </div>
+    <div class="block">
+      <h3>Wire and device schedule</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Run</th><th>Cable</th><th>Breaker</th><th>Devices</th></tr></thead>
+        <tbody>
+          <tr><td>Feeder</td><td class="m">1/0 AL SER</td><td class="m">100 A 2P</td><td>4-wire; neutral bar isolated at sub</td></tr>
+          <tr><td>C1 EV (future)</td><td class="m">6/3 NM</td><td class="m">50 A 2P</td><td>Cable capped in a covered box at 66 AFF on the east wall above the parked dust cart, breaker installed and off, labelled. Hardwire the EVSE later; a 25 ft cable reaches the driver's side of a car in the bay. No receptacle, so no GFCI breaker</td></tr>
+          <tr><td>C2 heater</td><td class="m">10/2 NM</td><td class="m">30 A 2P</td><td>Fahrenheat FUH54 or similar 5 kW, built-in thermostat</td></tr>
+          <tr><td>C3 to C5</td><td class="m">12/2 NM</td><td class="m">20 A 1P</td><td>One GFCI receptacle each, 48 AFF, 5-20R; C4 on a ceiling drop, C5 in the front corner for the compressor and the vac</td></tr>
+          <tr><td>C6 general</td><td class="m">12/2 NM</td><td class="m">20 A 1P</td><td>GFCI first, one 20 A duplex downstream, 48 AFF</td></tr>
+          <tr><td>C7 chargers</td><td class="m">12/2 NM</td><td class="m">20 A 1P</td><td>GFCI behind cabinet, duplex at the potting station 50 AFF</td></tr>
+          <tr><td>C8 lights</td><td class="m">14/2 + 14/3</td><td class="m">15 A 1P</td><td>Two 3-way switches, four linkable 4 ft LED, 5000 lm each</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li>Every 120 V receptacle in the garage is GFCI protected (210.8(A)(2)). C3 to C5 are single dedicated receptacles, still GFCI.</li>
+        <li>Inside drywalled walls, NM is fished. Any exposed run below 8 ft goes in 1/2 in EMT with proper fittings; the ceiling drop for C4 is 3/4 in EMT from the 12 ft ceiling to a 4 in box at 84 in over the work zone, with a 5-20R and a strain-relief hook for the cord.</li>
+        <li>Subpanel: 4-wire feeder, remove the bonding screw, separate ground bar kit, 30 x 36 in working space on the flat floor in front of it (y 42 to 72, 6 in short of the curb), which is also the walkway from the house door; center of the top breaker no higher than 79 in.</li>
+        <li>Lighting: four 4 ft fixtures replacing the single bulb: two over the plant side at 2.5 ft from the west wall (over the potting station and over the bulk rack) and two over the work zone at 14.3 ft from the west wall (over the bench's flip sections and over the aisle), chained, about 55 lumens per sq ft at the floor. On the 12 ft ceiling hang them on 3 ft chains so the lamps sit near 9 ft, below the opener rail and easier to reach; the work-zone pair hangs east of the rail, the plant pair west of it. Switch at the house door and at the overhead door. The opener stays on its existing ceiling receptacle.</li>
+        <li>Permit: Michigan Bureau of Construction Codes electrical permit (or the local jurisdiction's), rough inspection with the feeder and cables run and boxes open, final with devices in. The feeder enters through the house wall behind the side door's frame in the back-right corner and runs 3 ft along the east wall to the panel; photograph the path before drywall patches.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 08 -->
+<section class="sheet" id="s8">
+  <header><h2>Cut list</h2><span class="num">Sheet 08 of 11</span></header>
+  <p>Nine sheets of 3/4 in plywood (three birch for the cabinet, six BC pine for the bench, the dust cart and the potting station), one sheet of 7/16 OSB, and 25 studs. Width x length in inches, grain along the length. Rip with the circular saw on a straightedge or track, crosscut on the miter saw.</p>
+  <div class="two">
+    <div class="block">
+      <h3>Cabinet, 3 sheets birch 3/4</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Sheet</th><th>Part</th><th class="n">Qty</th><th>Size</th></tr></thead>
+        <tbody>
+          <tr><td>B1</td><td>Back</td><td class="n">1</td><td class="m">48 x 40</td></tr>
+          <tr><td>B1</td><td>Sides</td><td class="n">2</td><td class="m">12 x 40</td></tr>
+          <tr><td>B1</td><td>Door rails, vertical</td><td class="n">4</td><td class="m">3.25 x 40</td></tr>
+          <tr><td>B2</td><td>Door faces</td><td class="n">2</td><td class="m">24 x 40 (one 24.75 x 40 for the lip)</td></tr>
+          <tr><td>B2</td><td>Top, bottom</td><td class="n">2</td><td class="m">12 x 46.5</td></tr>
+          <tr><td>B2</td><td>Door rails, horizontal</td><td class="n">4</td><td class="m">3.25 x 22.5</td></tr>
+          <tr><td>B3</td><td>Shelves</td><td class="n">2</td><td class="m">11.25 x 46.5</td></tr>
+          <tr><td>B3</td><td>Case cleat, wall cleat, spacer</td><td class="n">3</td><td class="m">4 x 46.5, 4 x 44, 4 x 46.5 (two ripped at 45)</td></tr>
+          <tr><td>B3</td><td>Cleat strips, case top zone</td><td class="n">2</td><td class="m">2.5 x 10 (45 bevel)</td></tr>
+          <tr><td>B3</td><td>Door cleat strips (1/2 in from offcut or 3/4)</td><td class="n">8</td><td class="m">2.5 x 22.5 (45 bevel)</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Flip bench, 4 sheets BC pine 3/4</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Sheet</th><th>Part</th><th class="n">Qty</th><th>Size</th></tr></thead>
+        <tbody>
+          <tr><td>P1, P2</td><td>Panel layers (S, A, B, C)</td><td class="n">8</td><td class="m">30 x 29</td></tr>
+          <tr><td>P2</td><td>Miter box skins</td><td class="n">2</td><td class="m">30 x 25.5</td></tr>
+          <tr><td>P3</td><td>Planer box skins</td><td class="n">2</td><td class="m">30 x 23.5</td></tr>
+          <tr><td>P3</td><td>Tool plates and riser plates (miter 27, planer 25)</td><td class="n">2 + 2</td><td class="m">30 x 27, 30 x 25</td></tr>
+          <tr><td>P4</td><td>Riser tops and sides</td><td class="n">2 + 8</td><td class="m">30 x 27 / 30 x 25 tops; 4.5 x 27, 4.5 x 25, 4.5 x 28.5 sides</td></tr>
+          <tr><td>P4</td><td>Box end plates and ribs</td><td class="n">4 + 4</td><td class="m">30 x 4; 25.5 x 2.5, 23.5 x 2.5</td></tr>
+          <tr><td>P4</td><td>Saw section top, well platform, two shelves</td><td class="n">4</td><td class="m">30 x 24 (top cut out 23.2 x 29.7), 28.5 x 24 x 3</td></tr>
+          <tr><td>P4</td><td>Apron</td><td class="n">1</td><td class="m">89 x 8 (two pieces)</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="block">
+      <h3>Dust cart, 1 sheet BC pine 3/4 + 3 studs</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Sheet</th><th>Part</th><th class="n">Qty</th><th>Size</th></tr></thead>
+        <tbody>
+          <tr><td>P3</td><td>Base layers</td><td class="n">2</td><td class="m">38 x 24</td></tr>
+          <tr><td>P3</td><td>Pedestal sides</td><td class="n">2</td><td class="m">14 x 12</td></tr>
+          <tr><td>P3</td><td>Pedestal wall (corral side)</td><td class="n">1</td><td class="m">22.5 x 12</td></tr>
+          <tr><td>P3</td><td>Cradle top</td><td class="n">1</td><td class="m">14 x 24, 12 in hole opened to a U toward the corral</td></tr>
+          <tr><td>P3</td><td>Spine</td><td class="n">1</td><td class="m">14 x 40, 8 wide above 12; handle and strap slots</td></tr>
+          <tr><td>2x4</td><td>Corral posts</td><td class="n">4</td><td class="m">24</td></tr>
+          <tr><td>2x4</td><td>Corral rails, bottom ring on flat and top ring on edge</td><td class="n">8</td><td class="m">21</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Potting station, 1 sheet BC pine 3/4 + 8 studs</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Stock</th><th>Part</th><th class="n">Qty</th><th>Size</th></tr></thead>
+        <tbody>
+          <tr><td>P6</td><td>Counter top (14 in hole, 16 x 12 bin cut-out)</td><td class="n">1</td><td class="m">24 x 48</td></tr>
+          <tr><td>P6</td><td>Bag shelf</td><td class="n">1</td><td class="m">21 x 45</td></tr>
+          <tr><td>P6</td><td>Upper shelf, splash back, well platform</td><td class="n">3</td><td class="m">12 x 48, 6 x 48, 14.5 x 16</td></tr>
+          <tr><td>P6</td><td>Well cleats (3/4 x 3/4) and bin cleat frame</td><td class="n">6 + 4</td><td class="m">16; 12 and 16</td></tr>
+          <tr><td>2x4</td><td>Legs</td><td class="n">6</td><td class="m">34.5</td></tr>
+          <tr><td>2x4</td><td>Top rails</td><td class="n">2</td><td class="m">48</td></tr>
+          <tr><td>2x4</td><td>Top stretchers, shelf cross ledgers</td><td class="n">5</td><td class="m">21</td></tr>
+          <tr><td>2x4</td><td>Bag shelf ledgers</td><td class="n">2</td><td class="m">45</td></tr>
+          <tr><td>2x4</td><td>Back rail, hook rail (west wall), machine wheel stop</td><td class="n">3</td><td class="m">48, 56, 22</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Bulk rack, 1 sheet OSB 7/16 + 9 studs</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Stock</th><th>Part</th><th class="n">Qty</th><th>Size</th></tr></thead>
+        <tbody>
+          <tr><td>2x4</td><td>Uprights</td><td class="n">4</td><td class="m">84</td></tr>
+          <tr><td>2x4</td><td>Front and back ledgers</td><td class="n">8</td><td class="m">42</td></tr>
+          <tr><td>2x4</td><td>Cross ledgers</td><td class="n">8</td><td class="m">21</td></tr>
+          <tr><td>OSB</td><td>Shelves</td><td class="n">4</td><td class="m">24 x 42</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Cart base, 3 studs</h3>
+      <div class="tbl"><table>
+        <tbody>
+          <tr><td>2x4</td><td>Side rails (two 8 ft studs scarfed, or a 92 in from a 10 ft)</td><td class="n">2</td><td class="m">92</td></tr>
+          <tr><td>2x4</td><td>Cross rails under the panels</td><td class="n">4</td><td class="m">23</td></tr>
+          <tr><td>concrete</td><td>Cast in the risers: miter 1 in, planer 2.5 in</td><td class="n">210 lb</td><td class="m">three 80 lb bags of sand mix</td></tr>
+        </tbody>
+      </table></div>
+      <p class="foot">Stud count: 8 potting + 9 rack + 4 bench + 3 dust cart corral = 25 (one spare). Rack ledgers two per stick (42 in), cross ledgers four per stick; uprights one per stick.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 09 -->
+<section class="sheet" id="s9">
+  <header><h2>Shopping list</h2><span class="num">Sheet 09 of 11</span></header>
+  <p>Every priced line is a posted listing read on 2026-09-18 with the store named (quantities updated for revision B on 2026-09-19); store-specific prices vary. Lines marked "not read" were found at the named store but the price did not render; verify at checkout and they are excluded from the totals. The future EVSE, the heater, the compressor, and the vac and cyclone for the dust cart (if not on hand) are owner's choice and not in the totals.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Item</th><th>Store</th><th class="n">Qty</th><th class="n">Unit</th><th class="n">Line</th></tr></thead>
+    <tbody>
+      <tr><td colspan="5"><strong>Woodwork and hardware</strong></td></tr>
+      <tr><td>Columbia PureBond birch plywood 3/4 x 4 x 8 (cabinet)</td><td>Home Depot</td><td class="n">3</td><td class="n">74.98</td><td class="n">224.94</td></tr>
+      <tr><td>Plytanium BC sanded pine 23/32 x 4 x 8 (bench, dust cart, garden)</td><td>Home Depot</td><td class="n">6</td><td class="n">50.80</td><td class="n">304.80</td></tr>
+      <tr><td>OSB 7/16 x 4 x 8 (rack shelves)</td><td>Home Depot</td><td class="n">1</td><td class="n">11.68</td><td class="n">11.68</td></tr>
+      <tr><td>2x4x96 #2 KD studs</td><td>Home Depot</td><td class="n">25</td><td class="n">not read</td><td class="n">--</td></tr>
+      <tr><td>Kreg #8 x 1-1/4 coarse pocket screws, 100</td><td>Home Depot</td><td class="n">1</td><td class="n">9.97</td><td class="n">9.97</td></tr>
+      <tr><td>Kreg #8 x 2-1/2 coarse pocket screws, 125</td><td>Home Depot</td><td class="n">1</td><td class="n">26.97</td><td class="n">26.97</td></tr>
+      <tr><td>GRK RSS #10 x 3-1/8 structural screws, 50</td><td>Home Depot</td><td class="n">1</td><td class="n">16.48</td><td class="n">16.48</td></tr>
+      <tr><td>Everbilt 1-1/2 x 48 continuous hinge, bright nickel</td><td>Home Depot</td><td class="n">2</td><td class="n">16.77</td><td class="n">33.54</td></tr>
+      <tr><td>Master Lock 730DPF hardened hasp</td><td>Walmart</td><td class="n">2</td><td class="n">7.91</td><td class="n">15.82</td></tr>
+      <tr><td>Master Lock 40DPF discus padlock, keyed alike</td><td>Master Lock store</td><td class="n">2</td><td class="n">16.99</td><td class="n">33.98</td></tr>
+      <tr><td>UCFL205-16 2-bolt flange bearing, 1 in bore</td><td>theBigBearingStore</td><td class="n">4</td><td class="n">9.10</td><td class="n">36.40</td></tr>
+      <tr><td>1018 cold-rolled steel round bar, 1 x 36 in (one per flip section)</td><td>Industrial Metal Supply / Amazon</td><td class="n">2</td><td class="n">not read</td><td class="n">--</td></tr>
+      <tr><td>Climax C-100 set-screw shaft collar, 1 in</td><td>Home Depot</td><td class="n">4</td><td class="n">not read</td><td class="n">--</td></tr>
+      <tr><td>1/2 in spring index plunger with pull knob, threaded body (McMaster or Carr Lane)</td><td>online</td><td class="n">2</td><td class="n">not read</td><td class="n">--</td></tr>
+      <tr><td>1/2 in ID press-fit drill bushings for the panels and end plates</td><td>online</td><td class="n">6</td><td class="n">not read</td><td class="n">--</td></tr>
+      <tr><td>Adjustable draw latch, steel, 100 lb class</td><td>Home Depot</td><td class="n">2</td><td class="n">not read</td><td class="n">--</td></tr>
+      <tr><td>Clamp-on flanged shaft collar, 1 in bore, 2.5 in flange</td><td>online</td><td class="n">4</td><td class="n">not read</td><td class="n">--</td></tr>
+      <tr><td>1/4-20 T-nuts (24) and 1/4-20 x 1-1/4 bolts (12)</td><td>Home Depot</td><td class="n">1</td><td class="n">allowance</td><td class="n">--</td></tr>
+      <tr><td>Sand mix concrete, 80 lb bags (riser ballast)</td><td>Home Depot</td><td class="n">3</td><td class="n">not read</td><td class="n">--</td></tr>
+      <tr><td>DeWalt DWE7491 10 in table saw (the RS stand is not needed on the bench)</td><td>Home Depot</td><td class="n">1</td><td class="n">not read</td><td class="n">--</td></tr>
+      <tr><td>POWERTEC 17208 3 in dual-lock PU casters, 4-pack (six for the bench, four for the dust cart)</td><td>Home Depot</td><td class="n">3</td><td class="n">40.83</td><td class="n">122.49</td></tr>
+      <tr><td>DeWalt 16 gal 6.5 PHP Stealthsonic wet/dry vac, DXV16P-QTA (Costco item 1992617)</td><td>Costco</td><td class="n">1</td><td class="n">not read</td><td class="n">--</td></tr>
+      <tr><td>Oneida Dust Deputy 2.5 Deluxe cyclone kit, AXD250004 (if not on hand)</td><td>Menards</td><td class="n">1</td><td class="n">not read</td><td class="n">--</td></tr>
+      <tr><td>Cam strap 1 x 6 ft, remote-control outlet</td><td>Home Depot</td><td class="n">1</td><td class="n">allowance</td><td class="n">--</td></tr>
+      <tr><td>PETG filament for the printed parts (cuffs, reducer, clips, grommets, docks, holders), about 1 spool</td><td>on hand</td><td class="n">1</td><td class="n">--</td><td class="n">--</td></tr>
+      <tr><td>Milwaukee 18 x 30 furniture dolly, 1000 lb</td><td>Walmart</td><td class="n">1</td><td class="n">39.87</td><td class="n">39.87</td></tr>
+      <tr><td>RAD Cycle 1-bike ceiling hoist HWD630542 (one each side of the opener rail)</td><td>Home Depot</td><td class="n">2</td><td class="n">39.95</td><td class="n">79.90</td></tr>
+      <tr><td>27 qt soil bin with lid, 14 in cleat-frame plywood offcut, 3/4 x 1/8 steel strip for the bin lip, BLO</td><td>Home Depot</td><td class="n">1</td><td class="n">allowance</td><td class="n">--</td></tr>
+      <tr><td>Carriage bolts 5/16 x 2-1/2 (12), 3/8 x 2-1/2 (4), conduit straps 1 in (4), hooks, L-brackets, wood glue, poly</td><td>Home Depot</td><td class="n">1</td><td class="n">allowance</td><td class="n">--</td></tr>
+      <tr class="sum"><td>Woodwork, priced lines</td><td></td><td class="n"></td><td class="n"></td><td class="n">956.84</td></tr>
+      <tr><td colspan="5"><strong>Electrical</strong></td></tr>
+      <tr><td>Square D Homeline HOM2040M100PC1AVP 100 A 20-space main-breaker value pack</td><td>Home Depot</td><td class="n">1</td><td class="n">169.00</td><td class="n">169.00</td></tr>
+      <tr><td>100 A 2-pole feeder breaker, basement panel brand</td><td>per panel photo</td><td class="n">1</td><td class="n">not read</td><td class="n">--</td></tr>
+      <tr><td>Southwire 1/0-1/0-1/0-2 AL SER, by the foot</td><td>Home Depot</td><td class="n">50 ft</td><td class="n">5.44</td><td class="n">272.00</td></tr>
+      <tr><td>Southwire 6/3 NM-B, 25 ft</td><td>Home Depot</td><td class="n">1</td><td class="n">179.00</td><td class="n">179.00</td></tr>
+      <tr><td>Southwire 10/2 NM-B, 50 ft</td><td>Home Depot</td><td class="n">1</td><td class="n">148.50</td><td class="n">148.50</td></tr>
+      <tr><td>Southwire 12/2 NM-B, 250 ft</td><td>Home Depot</td><td class="n">1</td><td class="n">182.18</td><td class="n">182.18</td></tr>
+      <tr><td>Southwire 14/2 NM-B, 250 ft</td><td>Home Depot</td><td class="n">1</td><td class="n">124.00</td><td class="n">124.00</td></tr>
+      <tr><td>HOM250CP 50 A 2P</td><td>Home Depot</td><td class="n">1</td><td class="n">15.78</td><td class="n">15.78</td></tr>
+      <tr><td>HOM230CP 30 A 2P</td><td>Home Depot</td><td class="n">1</td><td class="n">15.78</td><td class="n">15.78</td></tr>
+      <tr><td>HOM120CP 20 A 1P</td><td>Home Depot</td><td class="n">5</td><td class="n">6.98</td><td class="n">34.90</td></tr>
+      <tr><td>HOM115CP 15 A 1P</td><td>Sutherlands</td><td class="n">1</td><td class="n">6.99</td><td class="n">6.99</td></tr>
+      <tr><td>Leviton GFNT2-4W 20 A GFCI, 4-pack</td><td>Home Depot</td><td class="n">2</td><td class="n">58.92</td><td class="n">117.84</td></tr>
+      <tr><td>Leviton CBR20-WMP 20 A duplex, 10-pack</td><td>Home Depot</td><td class="n">1</td><td class="n">29.83</td><td class="n">29.83</td></tr>
+      <tr><td>Leviton 5603-2WS 15 A 3-way switch</td><td>Home Depot</td><td class="n">1 (of 2)</td><td class="n">4.68</td><td class="n">4.68</td></tr>
+      <tr><td>GT-Lite 5000 lm linkable 4 ft LED shop light</td><td>Home Depot</td><td class="n">4</td><td class="n">52.37</td><td class="n">209.48</td></tr>
+      <tr><td>Boxes, covers, EMT and fittings, staples, ground bar kit, 14/3 for the 3-way, wire nuts</td><td>Home Depot</td><td class="n">1</td><td class="n">allowance</td><td class="n">--</td></tr>
+      <tr class="sum"><td>Electrical, priced lines</td><td></td><td class="n"></td><td class="n"></td><td class="n">1,509.96</td></tr>
+      <tr class="sum"><td>All priced lines</td><td></td><td class="n"></td><td class="n"></td><td class="n">2,466.80</td></tr>
+    </tbody>
+    <tfoot><tr><td colspan="5">Not in the totals: 25 studs, the filament for the printed parts, the two shafts, collars, plungers, bushings, latches, flanged collars and the concrete (about $150 together at 2026 prices, unread), the table saw, the feeder breaker, hardware allowances, the future EVSE, the heater (Fahrenheat FUH54 listed at Lowe's, price not read), the compressor, the DeWalt vac and the cyclone kit, and permit fees. The 10/2 price read high against past listings; check it in the aisle, a 50 ft coil has usually been under $100. If the basement panel is Homeline, the feeder breaker is a HOM2100CP.</td></tr></tfoot>
+  </table></div>
+</section>
+
+<!-- SHEET 10 -->
+<section class="sheet" id="s10">
+  <header><h2>Build sequence</h2><span class="num">Sheet 10 of 11</span></header>
+  <div class="two">
+    <div class="block">
+      <h3>Weekend 1: clear and sort, electrical rough-in</h3>
+      <ol class="steps">
+        <li>Empty the existing shelves into labelled totes on the driveway: keep, donate, trash. Label heavy totes for the 24 to 60 in shelves.</li>
+        <li>Tear out the old shelving and the bench. Patch and paint the wall behind the potting station, the bulk rack and the cabinet while it is bare; take the old bulb down and the four fixtures go up on the C8 rough-in.</li>
+        <li>Photograph the basement panel; buy the feeder breaker to match. Pull the electrical permit.</li>
+        <li>Mount the subpanel on the east wall 3 ft from the back corner, just past the side door's frame, top breaker center at 72 in, its working space on the flat floor in front. Run the SER from the main through the house wall behind that frame to the sub, 4-wire, with the neutral bar isolated and the ground bar kit installed. Leave it dead.</li>
+        <li>Run all branch cables to open boxes: C1 to the future EVSE box at 66 in above the dust cart's parking (cap the conductors, cover plate on), C2 to the NE corner at 100 in, C3 to C7 receptacle boxes at 48 in (50 in at the potting station), the C4 drop from the ceiling to 84 in over the work zone, C8 to the four fixture locations and both switch boxes. EMT for anything exposed below 8 ft.</li>
+        <li>Rough inspection.</li>
+      </ol>
+      <h3>Weekend 2: electrical finish, bulk rack, potting station</h3>
+      <ol class="steps" start="7">
+        <li>Devices, fixtures and heater in; C1 stays capped with its breaker off. Land the feeder breaker last, energize, test every GFCI. Final inspection.</li>
+        <li>Bulk rack: build the two upright pairs flat on the floor with their cross ledgers, stand them on the landing in the back-left corner, add the front and back ledgers level by level, drop in the OSB, L-brackets into studs. Bags onto the landing under it, two high; six totes on the three levels; the rest wait for the overhead platform. Compressor into the shop's front corner on C5 beside the dust cart's spot.</li>
+        <li>Potting station: legs and top frame pocket-screwed, bag shelf ledgers, plywood shelf, back rail lagged to studs in the front-left corner. Cut the 14 in well and the bin opening in the top before it goes on (jigsaw, then a router with a bearing bit on a circle template); well cleats on the legs at 22, 26 and 30 in; bin cleat frame; top on, splash back and trowel strip, steel lip over the bin, two coats of oil. Upper shelf at 56 in; hook rail at 72 in behind the machine bay. Machines into the bay nose to the wall, wheel stop at the wall; bikes hoisted either side of the opener rail.</li>
+      </ol>
+    </div>
+    <div class="block">
+      <h3>Weekend 3: cabinet</h3>
+      <ol class="steps" start="10">
+        <li>Cut all birch parts; sand and finish every face flat before assembly.</li>
+        <li>Case: pocket-screw top and bottom to one side, add shelves, then the second side. Square it, screw the back on every 6 in.</li>
+        <li>Rip the cleats at 45 degrees. Screw the case cleat to the back with its bevel down, top edge 1 in below the case top; the spacer at the bottom.</li>
+        <li>Door boxes: glue and nail rails around each face; the right face is 24.75 in wide with the lip toward the center. Cleat strips inside.</li>
+        <li>Hinges: cut two 40 in lengths, pre-drill, hang each door on the case with the box lip clear. Check the right door closes over the left.</li>
+        <li>Wall cleat: find three studs, level at 87 in to the bevel's top edge, two GRK per stud. Hang the case; drive the two anti-lift screws from inside at the studs.</li>
+        <li>Hasps 6 in from top and bottom across the meeting joint, padlocks on. Mount the LBT rack in the top zone, cord out the grommet to the C7 receptacle behind the case.</li>
+      </ol>
+      <h3>Weekend 4: flip bench</h3>
+      <ol class="steps" start="17">
+        <li>Base frame: two 92 in side rails and four cross rails on flat, six casters. The four panels laminated and bored together: 1-1/16 shaft holes on the bearing line in A, B and C (B gets a bearing on each face, so its hole is a blind pocket from each side), 1/2 in plunger bushing holes in A and C 10 in toward the room. Panels screwed to the frame on their cross rails, apron along the back. Saw bay: platform at 24 in, two shelves, the 3/4 top with its cut-out.</li>
+        <li>Boxes (two): end plates bored 1-1/16 on centre and 1/2 in bushings 10 in each side, ribs, then the skins with their T-nuts pressed in from inside. Flanged collar on each end plate, shaft through, collars tightened on filed flats. Risers: 4.5 in boxes with the top left off; pour the concrete (1 in miter, 2.5 in planer), screed level, a week to cure, then the top skin on.</li>
+        <li>Each box into its bay from above with the bearings loose, bearings bolted to the panel faces, set-screw collars outboard. Spin: free, no wobble. Plungers through A and C, latches on B; check each plunger snaps into both bushings and each latch closes with the box tight.</li>
+        <li>Tool plates: miter saw and planer bolted to their plates with recessed heads, plates bolted to the boxes' tool faces, risers bolted to the free faces. Check both swings against the side rails; nothing lives under them. Drop the table saw onto its platform and shim it flush with the top.</li>
+        <li>Balance each section: plunger out, latch open, turn to 90 degrees and let go. It should hold or drift slowly toward the tool. Then plungers in, latches closed, and run all three tools; the flat sections take the miter fence stop and the outfeed roller.</li>
+      </ol>
+      <h3>Weekend 4, afternoon: dust cart</h3>
+      <ol class="steps" start="22">
+        <li>Lift the drum out of its caster base and measure it and the bucket's bottom; set the corral width and the cradle hole on sheet 05. Laminate the 38 x 24 base, casters on at the corners.</li>
+        <li>Pedestal sides and wall onto the base, cradle with its U on top, spine on the outer end with the handle slot 3.5 in from the top and strap slots at the bucket's half height. Corral: the four posts screwed down through the base, the bottom ring on flat, then the drum in, then the top ring on edge at 16 in around it. Predrill every edge screw. Print the cuffs, reducer, clips and grommets while the glue cures.</li>
+        <li>Bucket into the cradle and strapped to the spine, printed cuffs on both hoses, short hose from the cyclone outlet to the drum inlet, 7 ft hose on the cyclone inlet. Check the tip: lean it 20 degrees at the handle across the narrow way and it should come back.</li>
+      </ol>
+      <div class="callout">
+        <span class="t">Checks the model runs on every build</span>
+        <p>Flip bench swing clearance for each hanging tool over the floor and past the side rails (planer radius 25.7 in, 2.0 in over the rails; miter 26.3 in, 1.3 in; riser 16.7 in); flange bearings backed by 1.25 in of panel; plungers inside the panel width; each section balanced to 4 lb (miter) and 14 lb (planer) at the bench edge with its concrete; the saw sunk flush with 24 in under it; the bench 10 in under the cabinet; the bench between the rack and the dust cart; Maverick tail 17 in inside the door line; front tires 6 in short of the curb; nose 13 in over the 6 in landing under a 12 in bumper; the landing walkway east of the nose 52 in long and empty; nose 11 in short of the house door's step; the counter 20 in west of the mirror line; driver's door at 90 degrees 12 in clear of the counter; 57 in aisle from the mirror; subpanel working space on the flat floor and clear of the parked dust cart; the side door's 36 x 36 in kept clear; tote rack 4 in clear of the cabinet doors; the compressor with 22 in in the rack's bottom bay; north cabinet door at 90 degrees clears the parked dust cart by 6 in; cabinet bottom above a 44 in car door; dust cart tips at 32 degrees, the drum fits its corral with 1.5 in to spare and the rail 6 in above its centre of gravity, the cyclone outlet 19 in above the drum inlet, 45 in overall; top tote level at 68 in; bike hoists above an open 7 ft door. Any number that changes re-runs all of them.</p>
+      </div>
+      <div class="callout">
+        <span class="t">Order of operations that matters</span>
+        <p>Electrical before anything is fixed to a wall; the cabinet's receptacle is behind the case. The tote rack before the cabinet so there is somewhere to put things; the dust cart after the bench so its casters and straps are bought in the same trip; the concrete a week before the risers close. Shaft holes and bushing holes drilled with the panels (and the box end plates) clamped together, never one at a time by measurement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 11 -->
+<section class="sheet" id="s11">
+  <header><h2>Operating guide</h2><span class="num">Sheet 11 of 11</span></header>
+  <div class="two">
+    <div class="block">
+      <h3>Daily</h3>
+      <ul>
+        <li>Roll the bench and the dust cart into the work zone, lock all casters, plug the bench into the C4 drop (table saw on C3) and the vac into C5 or C6, never the same circuit as the planer. Nothing goes under the flip sections' swing; the frame is open there on purpose. The bench only flips a tool up once it is out from under the cabinet.</li>
+        <li>Flip sections: plunger home and latch closed before starting a tool. Miter head locked down and slide locked before every flip; open the latch, pull the plunger, turn, listen for the plunger to snap, close the latch. Miter station is miter up, planer down; planing is planer up, miter down; ripping is both down.</li>
+        <li>Planer chips: the DW735 blows into its chip bag; the dust cart takes the miter saw, sander, router and cleanup. Empty the bucket at two-thirds, sideways out of the U, without lifting the cyclone off; the 16 gal drum only sees what the cyclone misses.</li>
+        <li>End of session: tools back on their shelves, doors closed left then right, both padlocks on, both carts parked against the east wall spine and shaft to the wall, casters locked, the truck's front tires to the curb.</li>
+      </ul>
+      <h3>Seasonal</h3>
+      <ul>
+        <li>April: snowblower out of the bay onto the dolly, mower in. October: reverse. Batteries stored at 40 to 60 percent indoors in winter.</li>
+        <li>Ice-melt bags onto the landing under the bulk rack in November; potting mix onto the potting station's shelf in March, the open bag nearest the bin.</li>
+        <li>Heater: thermostat at 45 F when idle, 60 F to work. A 5 kW unit heater lifts this 18 x 20 ft, 12 ft tall garage (4,300 cu ft, half again the volume of an 8 ft room) about 20 F above outdoor temperature at steady state; on a 10 F day expect 30 to 35 F unless the door seals are good, and the warm air pools under the 12 ft ceiling, so a ceiling fan on low pays for itself. Never store anything within 3 ft of its face.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Electrical</h3>
+      <ul>
+        <li>Test every GFCI monthly with its button. A tripped C6 kills the west and east wall general receptacles only; the bench, the table saw and the compressor are on their own circuits.</li>
+        <li>When the EV arrives: hardwire the EVSE to the C1 box, set it to 32 A (or 40 A if the charger allows) and schedule it after 9 pm. Charging and planing at the same time is fine; charging, planing, dust collecting and heating at once is the one case the feeder is sized for but not designed to live at.</li>
+        <li>The subpanel main is the garage kill switch. Label every breaker with the C-number from sheet 07.</li>
+      </ul>
+      <h3>Maintenance</h3>
+      <ul>
+        <li>Bearings: a shot of grease in each of the four zerks twice a year; check the set screws, the flanged collars' bolts and the latch tension when you do. Re-check each section's balance whenever a tool or a plate changes.</li>
+        <li>Padlocks: a drop of dry lube in the keyway each fall; discus locks freeze if water sits in them.</li>
+        <li>Cleat screws: once a year, open the cabinet and check the two anti-lift screws are snug.</li>
+        <li>Bulk rack: nothing above 60 in heavier than a light bin; load it standing on the landing. Potting station: empty the well platform's tray and wipe the bin lip after wet work; re-oil the top each spring.</li>
+        <li>Dust cart: strap snug and the casters' brakes on when parked; check the hose cuffs seat every few sessions, a leak at the cyclone inlet drops its separation to nothing.</li>
+      </ul>
+      <div class="stat">
+        <div><span class="k">Cabinet loaded</span><span class="v">~250 lb</span></div>
+        <div><span class="k">Flip bench on casters</span><span class="v">~720 lb</span></div>
+        <div><span class="k">Dust cart</span><span class="v">~85 lb</span></div>
+        <div><span class="k">Feeder worst case</span><span class="v">103 A</span></div>
+        <div><span class="k">Feeder typical</span><span class="v">&lt; 75 A</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

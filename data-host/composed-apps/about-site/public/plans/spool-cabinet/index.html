@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Shop drawing set for a sealed BILLY-width plywood filament cabinet with two IKEA OXBERG glass doors, 56 spools on desiccant.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Basement Spool Cabinet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F2F4F6; --paper:#FFFFFF; --ink:#1B2430; --muted:#5B6B7A; --rule:#C9D2DA; --rule-soft:#E4E9EE;
+  --cab:#2F6F9F; --cab-soft:#E3EEF6; --cab-ink:#1E4C6E;
+  --dry:#C8541B; --dry-soft:#F9E6DB; --dry-ink:#8E3A10;
+  --warn-bg:#FFF4E5; --warn-ink:#7A4A00;
+  --code-bg:#EAEEF2;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181E; --paper:#1A2129; --ink:#E6ECF1; --muted:#9AA8B5; --rule:#33404C; --rule-soft:#242E38;
+    --cab:#6FB0E0; --cab-soft:#1C2F3F; --cab-ink:#A9D2F0;
+    --dry:#F08A4B; --dry-soft:#3A2418; --dry-ink:#F7B58C;
+    --warn-bg:#3A2A10; --warn-ink:#F3D9A8;
+    --code-bg:#232D37;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181E; --paper:#1A2129; --ink:#E6ECF1; --muted:#9AA8B5; --rule:#33404C; --rule-soft:#242E38;
+  --cab:#6FB0E0; --cab-soft:#1C2F3F; --cab-ink:#A9D2F0;
+  --dry:#F08A4B; --dry-soft:#3A2418; --dry-ink:#F7B58C;
+  --warn-bg:#3A2A10; --warn-ink:#F3D9A8;
+  --code-bg:#232D37;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:900px;margin:0 auto;display:grid;gap:28px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;line-height:1.05;margin:0;text-wrap:balance}
+h1{font-size:2.6rem;font-weight:700;letter-spacing:.005em}
+h2{font-size:1.7rem;font-weight:600}
+h3{font-size:1.15rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+p{margin:0;max-width:66ch}
+ul,ol{margin:0;padding-left:1.3em;max-width:70ch}
+li{margin-block:.25em}
+li::marker{color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:.9em}
+a{color:var(--cab)}
+strong{font-weight:600}
+.eyebrow{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;color:var(--muted)}
+
+/* title block */
+.titleblock{background:var(--paper);border:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:0}
+.titleblock .main{padding:22px 24px;display:grid;gap:10px;border-right:1px solid var(--rule)}
+.titleblock .meta{display:grid;grid-template-columns:1fr 1fr;min-width:260px}
+.titleblock .meta div{padding:10px 14px;border-bottom:1px solid var(--rule);border-left:1px solid var(--rule)}
+.titleblock .meta div:nth-child(odd){border-left:none}
+.titleblock .meta div:nth-last-child(-n+2){border-bottom:none}
+.titleblock .meta .k{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600}
+.titleblock .meta .v{font-family:"IBM Plex Mono",monospace;font-size:.9rem}
+@media (max-width:900px){.titleblock{grid-template-columns:1fr}.titleblock .main{border-right:none;border-bottom:1px solid var(--rule)}.titleblock .meta{min-width:0;align-content:start}.titleblock .meta div:nth-child(odd){border-left:none}}
+
+/* sheet index */
+.index{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.index a{display:flex;gap:10px;align-items:baseline;padding:10px 12px;background:var(--paper);border:1px solid var(--rule);text-decoration:none;color:var(--ink)}
+.index a .n{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:.85rem}
+.index a:hover,.index a:focus-visible{border-color:var(--cab);outline:none}
+
+/* sheets */
+.sheet{background:var(--paper);border:1px solid var(--rule);padding:24px;display:grid;gap:20px}
+.sheet header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-bottom:10px}
+.sheet header .num{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:.85rem}
+.sheet.cab header{border-bottom:2px solid var(--cab)}
+.sheet.dry header{border-bottom:2px solid var(--dry)}
+.tag{display:inline-block;font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;padding:2px 8px;border-radius:2px}
+.tag.cab{background:var(--cab-soft);color:var(--cab-ink)}
+.tag.dry{background:var(--dry-soft);color:var(--dry-ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+.block{display:grid;gap:10px;align-content:start}
+.fig{display:grid;gap:8px}
+.fig svg{width:100%;height:auto;display:block}
+.fig figcaption{font-size:.85rem;color:var(--muted);max-width:70ch}
+figure{margin:0}
+
+/* svg drawing tokens */
+svg text{font-family:"IBM Plex Mono",monospace;font-size:8px;fill:var(--ink)}
+svg text.lbl{font-family:"Barlow Condensed",Arial,sans-serif;font-size:9px;letter-spacing:.04em;text-transform:uppercase;fill:var(--muted)}
+svg .ply{fill:var(--rule-soft);stroke:var(--ink);stroke-width:.8}
+svg .foam{fill:var(--dry-soft);stroke:var(--dry);stroke-width:.6}
+svg .void{fill:var(--paper);stroke:none}
+svg .spool{fill:var(--cab-soft);stroke:var(--cab);stroke-width:1}
+svg .spool-back{fill:var(--paper);stroke:var(--cab);stroke-width:.8;stroke-dasharray:2 1.5}
+svg .spool-hot{fill:var(--dry-soft);stroke:var(--dry);stroke-width:1}
+svg .dim{stroke:var(--muted);stroke-width:.6;fill:none}
+svg .dim-t{fill:var(--muted);font-size:7.5px}
+svg .thin{stroke:var(--ink);stroke-width:.5;fill:none}
+svg .hot{fill:var(--dry);stroke:none}
+svg .metal{fill:none;stroke:var(--muted);stroke-width:.8;stroke-dasharray:1.5 1}
+svg .glass{fill:var(--cab-soft);stroke:var(--cab);stroke-width:.8;opacity:.9}
+svg .wire{stroke:var(--ink);stroke-width:1;fill:none}
+svg .wire-n{stroke:var(--muted);stroke-width:1;fill:none}
+svg .box{fill:var(--paper);stroke:var(--ink);stroke-width:.8}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+th{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.78rem;color:var(--muted);border-bottom:1px solid var(--rule)}
+td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.m{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.sum td{border-top:1px solid var(--rule);font-weight:600}
+tfoot td{color:var(--muted);font-size:.85rem;border-bottom:none}
+
+.callout{padding:14px 16px;border-left:3px solid var(--cab);background:var(--cab-soft);display:grid;gap:6px}
+.callout.dry{border-color:var(--dry);background:var(--dry-soft)}
+.callout.warn{border-color:var(--warn-ink);background:var(--warn-bg);color:var(--warn-ink)}
+.callout .t{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat div{padding:10px 12px;border:1px solid var(--rule)}
+.stat .k{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600}
+.stat .v{font-family:"IBM Plex Mono",monospace;font-size:1.05rem}
+code{font-family:"IBM Plex Mono",monospace;font-size:.9em;background:var(--code-bg);padding:1px 5px;border-radius:2px}
+.steps li{margin-block:.45em}
+.foot{color:var(--muted);font-size:.85rem;max-width:70ch}
+.render img{width:100%;height:auto;display:block;border:1px solid var(--rule)}
+.viewer{width:100%;aspect-ratio:16/10;border:1px solid var(--rule);background:#ece8df}
+.viewer iframe{width:100%;height:100%;border:0;display:block}
+@media (prefers-reduced-motion:no-preference){.index a{transition:border-color .15s}}
+svg .spool-fl{fill:var(--cab-soft);stroke:var(--cab);stroke-width:.7}
+svg .spool-wd{fill:var(--paper);stroke:none}
+svg .spool-ln{stroke:var(--cab);stroke-width:.5;opacity:.6}
+svg .riser{fill:var(--rule-soft);stroke:var(--rule);stroke-width:.5}
+svg .rail{fill:var(--rule);stroke:none}
+</style>
+<style>
+.sitebar{max-width:900px;margin:0 auto 20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.sitebar a{color:var(--ink);text-decoration:none}
+.sitebar a:hover{text-decoration:underline}
+</style>
+</head>
+<div class="sitebar"><span><a href="/">about.rt-541.io</a> / <a href="/projects">projects</a> / <a href="/projects/spool-cabinet">spool cabinet</a></span><span><a href="/plans/spool-cabinet/model/">3D model</a> &middot; <a href="/plans/spool-cabinet/basement-spool-cabinet.pdf">PDF</a></span></div>
+<div class="wrap">
+
+<section class="titleblock">
+  <div class="main">
+    <span class="eyebrow">Shop drawing set</span>
+    <h1>Basement Spool Cabinet</h1>
+    <p>A sealed plywood cabinet one IKEA BILLY wide, with two OXBERG tempered-glass doors, that rests at 10 to 20 percent humidity on desiccant alone. 56 spools on edge in cradle rails, seven per row at 4 in pitch, two rows deep, plus cubby overflow. Pocket-screwed from three sheets of 3/4 plywood; drying is done in a bought box dehydrator, not in the cabinet.</p>
+  </div>
+  <div class="meta">
+    <div><span class="k">Location</span><span class="v">Basement, MI</span></div>
+    <div><span class="k">Revision</span><span class="v">D.1, 2026-09-13</span></div>
+    <div><span class="k">Cabinet</span><span class="v">31.5 W x 76 H x 18.75 D</span></div>
+    <div><span class="k">Doors</span><span class="v">2 OXBERG glass, 15.5 x 75.75</span></div>
+    <div><span class="k">Capacity</span><span class="v">56 on rails + 18 flat</span></div>
+    <div><span class="k">Rough cost</span><span class="v">$450 pine, $550 birch</span></div>
+  </div>
+</section>
+
+<nav class="index" aria-label="Sheets">
+  <a href="#s1"><span class="n">01</span>Design basis</a>
+  <a href="#s2"><span class="n">02</span>Cabinet drawings</a>
+  <a href="#s3"><span class="n">03</span>Cut list</a>
+  <a href="#s4"><span class="n">04</span>Shopping list</a>
+  <a href="#s5"><span class="n">05</span>Build sequence</a>
+  <a href="#s6"><span class="n">06</span>Operating guide</a>
+</nav>
+
+<!-- SHEET 01 -->
+<section class="sheet" id="s1">
+  <header><h2>Design basis</h2><span class="num">Sheet 01 of 06</span></header>
+
+  <div class="two">
+    <div class="block">
+      <h3>What was decided</h3>
+      <ul>
+        <li><strong>Two jobs, two boxes.</strong> The cabinet is airtight and passive and you build it. Drying happens in a box food dehydrator you buy used: it reaches 70 C with fan airflow and a timer, which is everything the heater box on the earlier revisions did, for $25 to $100.</li>
+        <li><strong>One plywood case, one bay.</strong> 31.5 in wide, 76 in tall on a 3.5 in plinth, 18.75 in deep: the width of an IKEA BILLY, so it takes a pair of OXBERG glass doors with their own hinges. A fixed 1x3 center stile at the front carries the seal where the doors meet.</li>
+        <li><strong>Spools stand on edge in cradle rails,</strong> two rows deep, seven per row at a 4 in pitch, back row on a 2.5 in riser so its rim stands 1.75 in above the front row and you lift it out by the rim. 56 on rails; the cubby at the top takes up to 18 more laid flat.</li>
+        <li><strong>Shelves are fixed and pocket-screwed</strong> into the sides. No adjustable standards. At a 30 in span the 3/4 in shelf with its 2x3 risers needs no apron.</li>
+        <li><strong>Seal:</strong> EPDM bulb weatherstrip on the case edges and the center stile, with two magnetic catches per door. A made-to-size magnetic refrigerator gasket is the upgrade if the flashlight test or the hygrometer says the bulb seal leaks.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Assumptions</h3>
+      <ul>
+        <li>1 kg spool: 200 mm (8 in) diameter, up to 75 mm (3 in) wide. That width sets the 4 in pitch.</li>
+        <li>2 kg spool: 200 mm diameter, up to 140 mm (5.5 in) wide. One takes two slots on the rails; the dehydrator takes one at a time.</li>
+        <li>Basement air: about 65 F. Summer 60 to 70 percent humidity, winter 30 to 40 percent.</li>
+        <li>Tools on hand: miter saw, circular saw, drill, brad nailer, pocket hole jig. No router or table saw assumed.</li>
+        <li>Shelf is PLA and PETG with some TPU. Nothing that needs more than 70 C to dry.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="t">Why the storage cabinet needs no heater</span>
+    <p>Heat does not remove water, it only changes the humidity reading. Summer basement air carries about 10 g of water per cubic meter. Warmed to 35 C it reads 25 percent, at 40 C it reads 20 percent, at 45 C it reads 15 percent, and you pay 150 to 250 W around the clock for that. A sealed cabinet with 10 lb of silica gel sits at 10 to 15 percent at basement temperature for free. Every door opening lets in roughly 3 g of water, so the gel needs an oven recharge every few weeks in summer and every month or two in winter.</p>
+  </div>
+  <div class="callout dry">
+    <span class="t">Why a dehydrator and not a heater box</span>
+    <p>The heater box on revisions A to C cost about $270 in parts and a day of wiring to reach 65 C with a fan and a thermostat. A box food dehydrator is that same thing with a warranty: 35 to 74 C in 1 degree steps, rear fan, 48 hour timer, and it exhausts the moist air instead of trapping it. With the trays out a six-tray unit holds three 1 kg spools on edge or one 2 kg; a ten-tray unit holds four or two. Used ones run $25 to $100. So the dryer is a purchase, and this drawing set is only the cabinet.</p>
+  </div>
+
+  <div class="stat">
+    <div><span class="k">Interior</span><span class="v">30 x 74.5 x 18</span></div>
+    <div><span class="k">Rows at 14 in pitch</span><span class="v">4 rows, 14 per shelf, 56</span></div>
+    <div><span class="k">Shelves</span><span class="v">4 fixed + 1 cubby, all 3/4</span></div>
+    <div><span class="k">Doors</span><span class="v">2 OXBERG glass, 15.5 x 75.75</span></div>
+    <div><span class="k">Seal</span><span class="v">EPDM bulb + magnetic catches</span></div>
+    <div><span class="k">Loaded weight</span><span class="v">about 250 lb full</span></div>
+  </div>
+</section>
+
+<!-- SHEET 02 -->
+<section class="sheet cab" id="s2">
+  <header><h2>Cabinet drawings <span class="tag cab">Passive, sealed</span></h2><span class="num">Sheet 02 of 06</span></header>
+
+  <div class="two">
+    <figure class="fig">
+      <svg viewBox="0 -8 272 364" role="img" aria-label="Front elevation of the one-bay cabinet with doors open: four fixed shelf rows with seven spools per row seen edge-on and the back row standing higher behind them, a top cubby, a desiccant pan and fan on the floor, and the center stile the two doors close against">
+        <line class="dim" x1="50" y1="8" x2="176" y2="8"/><line class="dim" x1="50" y1="5" x2="50" y2="11"/><line class="dim" x1="176" y1="5" x2="176" y2="11"/>
+        <text class="dim-t" x="113" y="4" text-anchor="middle">31.5 in</text>
+        <line class="dim" x1="40" y1="16" x2="40" y2="320"/><line class="dim" x1="37" y1="16" x2="43" y2="16"/><line class="dim" x1="37" y1="320" x2="43" y2="320"/>
+        <text class="dim-t" x="34" y="168" text-anchor="middle" transform="rotate(-90 34 168)">76 in</text>
+        <rect class="ply" x="50" y="16" width="126" height="304"/>
+        <rect class="void" x="53" y="19" width="120" height="298"/>
+        <rect x="108" y="19" width="10" height="298" fill="var(--rule-soft)" stroke="var(--rule)" stroke-width=".5"/>
+        <rect class="ply" x="53" y="290" width="120" height="3"/>
+        <rect class="ply" x="53" y="234" width="120" height="3"/>
+        <rect class="ply" x="53" y="178" width="120" height="3"/>
+        <rect class="ply" x="53" y="122" width="120" height="3"/>
+        <rect class="ply" x="53" y="66" width="120" height="3"/>
+        <rect class="riser" x="53" y="283.0" width="120" height="10"/>
+        <rect class="spool-back" x="59" y="254.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="75" y="254.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="91" y="254.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="107" y="254.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="123" y="254.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="139" y="254.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="155" y="254.5" width="12" height="32" rx="1.2"/>
+        <rect class="rail" x="53" y="290.0" width="120" height="3"/>
+        <rect class="spool-fl" x="59" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="68" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="62" y="263.5" width="6" height="28"/><line class="spool-ln" x1="62" y1="272.5" x2="68" y2="272.5"/><line class="spool-ln" x1="62" y1="282.5" x2="68" y2="282.5"/>
+        <rect class="spool-fl" x="75" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="84" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="78" y="263.5" width="6" height="28"/><line class="spool-ln" x1="78" y1="272.5" x2="84" y2="272.5"/><line class="spool-ln" x1="78" y1="282.5" x2="84" y2="282.5"/>
+        <rect class="spool-fl" x="91" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="100" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="94" y="263.5" width="6" height="28"/><line class="spool-ln" x1="94" y1="272.5" x2="100" y2="272.5"/><line class="spool-ln" x1="94" y1="282.5" x2="100" y2="282.5"/>
+        <rect class="spool-fl" x="107" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="116" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="110" y="263.5" width="6" height="28"/><line class="spool-ln" x1="110" y1="272.5" x2="116" y2="272.5"/><line class="spool-ln" x1="110" y1="282.5" x2="116" y2="282.5"/>
+        <rect class="spool-fl" x="123" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="132" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="126" y="263.5" width="6" height="28"/><line class="spool-ln" x1="126" y1="272.5" x2="132" y2="272.5"/><line class="spool-ln" x1="126" y1="282.5" x2="132" y2="282.5"/>
+        <rect class="spool-fl" x="139" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="148" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="142" y="263.5" width="6" height="28"/><line class="spool-ln" x1="142" y1="272.5" x2="148" y2="272.5"/><line class="spool-ln" x1="142" y1="282.5" x2="148" y2="282.5"/>
+        <rect class="spool-fl" x="155" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="164" y="261.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="158" y="263.5" width="6" height="28"/><line class="spool-ln" x1="158" y1="272.5" x2="164" y2="272.5"/><line class="spool-ln" x1="158" y1="282.5" x2="164" y2="282.5"/>
+        <rect class="riser" x="53" y="227.0" width="120" height="10"/>
+        <rect class="spool-back" x="59" y="198.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="75" y="198.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="91" y="198.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="107" y="198.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="123" y="198.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="139" y="198.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="155" y="198.5" width="12" height="32" rx="1.2"/>
+        <rect class="rail" x="53" y="234.0" width="120" height="3"/>
+        <rect class="spool-fl" x="59" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="68" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="62" y="207.5" width="6" height="28"/><line class="spool-ln" x1="62" y1="216.5" x2="68" y2="216.5"/><line class="spool-ln" x1="62" y1="226.5" x2="68" y2="226.5"/>
+        <rect class="spool-fl" x="75" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="84" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="78" y="207.5" width="6" height="28"/><line class="spool-ln" x1="78" y1="216.5" x2="84" y2="216.5"/><line class="spool-ln" x1="78" y1="226.5" x2="84" y2="226.5"/>
+        <rect class="spool-fl" x="91" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="100" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="94" y="207.5" width="6" height="28"/><line class="spool-ln" x1="94" y1="216.5" x2="100" y2="216.5"/><line class="spool-ln" x1="94" y1="226.5" x2="100" y2="226.5"/>
+        <rect class="spool-fl" x="107" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="116" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="110" y="207.5" width="6" height="28"/><line class="spool-ln" x1="110" y1="216.5" x2="116" y2="216.5"/><line class="spool-ln" x1="110" y1="226.5" x2="116" y2="226.5"/>
+        <rect class="spool-fl" x="123" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="132" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="126" y="207.5" width="6" height="28"/><line class="spool-ln" x1="126" y1="216.5" x2="132" y2="216.5"/><line class="spool-ln" x1="126" y1="226.5" x2="132" y2="226.5"/>
+        <rect class="spool-fl" x="139" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="148" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="142" y="207.5" width="6" height="28"/><line class="spool-ln" x1="142" y1="216.5" x2="148" y2="216.5"/><line class="spool-ln" x1="142" y1="226.5" x2="148" y2="226.5"/>
+        <rect class="spool-fl" x="155" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="164" y="205.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="158" y="207.5" width="6" height="28"/><line class="spool-ln" x1="158" y1="216.5" x2="164" y2="216.5"/><line class="spool-ln" x1="158" y1="226.5" x2="164" y2="226.5"/>
+        <rect class="riser" x="53" y="171.0" width="120" height="10"/>
+        <rect class="spool-back" x="59" y="142.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="75" y="142.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="91" y="142.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="107" y="142.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="123" y="142.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="139" y="142.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="155" y="142.5" width="12" height="32" rx="1.2"/>
+        <rect class="rail" x="53" y="178.0" width="120" height="3"/>
+        <rect class="spool-fl" x="59" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="68" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="62" y="151.5" width="6" height="28"/><line class="spool-ln" x1="62" y1="160.5" x2="68" y2="160.5"/><line class="spool-ln" x1="62" y1="170.5" x2="68" y2="170.5"/>
+        <rect class="spool-fl" x="75" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="84" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="78" y="151.5" width="6" height="28"/><line class="spool-ln" x1="78" y1="160.5" x2="84" y2="160.5"/><line class="spool-ln" x1="78" y1="170.5" x2="84" y2="170.5"/>
+        <rect class="spool-fl" x="91" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="100" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="94" y="151.5" width="6" height="28"/><line class="spool-ln" x1="94" y1="160.5" x2="100" y2="160.5"/><line class="spool-ln" x1="94" y1="170.5" x2="100" y2="170.5"/>
+        <rect class="spool-fl" x="107" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="116" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="110" y="151.5" width="6" height="28"/><line class="spool-ln" x1="110" y1="160.5" x2="116" y2="160.5"/><line class="spool-ln" x1="110" y1="170.5" x2="116" y2="170.5"/>
+        <rect class="spool-fl" x="123" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="132" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="126" y="151.5" width="6" height="28"/><line class="spool-ln" x1="126" y1="160.5" x2="132" y2="160.5"/><line class="spool-ln" x1="126" y1="170.5" x2="132" y2="170.5"/>
+        <rect class="spool-fl" x="139" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="148" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="142" y="151.5" width="6" height="28"/><line class="spool-ln" x1="142" y1="160.5" x2="148" y2="160.5"/><line class="spool-ln" x1="142" y1="170.5" x2="148" y2="170.5"/>
+        <rect class="spool-fl" x="155" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="164" y="149.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="158" y="151.5" width="6" height="28"/><line class="spool-ln" x1="158" y1="160.5" x2="164" y2="160.5"/><line class="spool-ln" x1="158" y1="170.5" x2="164" y2="170.5"/>
+        <rect class="riser" x="53" y="115.0" width="120" height="10"/>
+        <rect class="spool-back" x="59" y="86.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="75" y="86.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="91" y="86.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="107" y="86.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="123" y="86.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="139" y="86.5" width="12" height="32" rx="1.2"/>
+        <rect class="spool-back" x="155" y="86.5" width="12" height="32" rx="1.2"/>
+        <rect class="rail" x="53" y="122.0" width="120" height="3"/>
+        <rect class="spool-fl" x="59" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="68" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="62" y="95.5" width="6" height="28"/><line class="spool-ln" x1="62" y1="104.5" x2="68" y2="104.5"/><line class="spool-ln" x1="62" y1="114.5" x2="68" y2="114.5"/>
+        <rect class="spool-fl" x="75" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="84" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="78" y="95.5" width="6" height="28"/><line class="spool-ln" x1="78" y1="104.5" x2="84" y2="104.5"/><line class="spool-ln" x1="78" y1="114.5" x2="84" y2="114.5"/>
+        <rect class="spool-fl" x="91" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="100" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="94" y="95.5" width="6" height="28"/><line class="spool-ln" x1="94" y1="104.5" x2="100" y2="104.5"/><line class="spool-ln" x1="94" y1="114.5" x2="100" y2="114.5"/>
+        <rect class="spool-fl" x="107" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="116" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="110" y="95.5" width="6" height="28"/><line class="spool-ln" x1="110" y1="104.5" x2="116" y2="104.5"/><line class="spool-ln" x1="110" y1="114.5" x2="116" y2="114.5"/>
+        <rect class="spool-fl" x="123" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="132" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="126" y="95.5" width="6" height="28"/><line class="spool-ln" x1="126" y1="104.5" x2="132" y2="104.5"/><line class="spool-ln" x1="126" y1="114.5" x2="132" y2="114.5"/>
+        <rect class="spool-fl" x="139" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="148" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="142" y="95.5" width="6" height="28"/><line class="spool-ln" x1="142" y1="104.5" x2="148" y2="104.5"/><line class="spool-ln" x1="142" y1="114.5" x2="148" y2="114.5"/>
+        <rect class="spool-fl" x="155" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-fl" x="164" y="93.5" width="3" height="32" rx="0.8"/><rect class="spool-wd" x="158" y="95.5" width="6" height="28"/><line class="spool-ln" x1="158" y1="104.5" x2="164" y2="104.5"/><line class="spool-ln" x1="158" y1="114.5" x2="164" y2="114.5"/>
+        <text class="lbl" x="113" y="42" text-anchor="middle">cubby 11.75 in</text>
+        <rect class="metal" x="57" y="304" width="72" height="10"/><text class="lbl" x="93" y="312" text-anchor="middle">gel pan 5 lb</text>
+        <circle class="thin" cx="153" cy="309" r="6"/><text class="lbl" x="153" y="300" text-anchor="middle">fan</text>
+        <line class="dim" x1="186" y1="237" x2="186" y2="293"/><line class="dim" x1="183" y1="237" x2="189" y2="237"/><line class="dim" x1="183" y1="293" x2="189" y2="293"/><text class="dim-t" x="192" y="268">14 in</text>
+        <line class="dim" x1="186" y1="293" x2="186" y2="317"/><line class="dim" x1="183" y1="317" x2="189" y2="317"/><text class="dim-t" x="192" y="308">6 in</text>
+        <line class="dim" x1="186" y1="19" x2="186" y2="66"/><line class="dim" x1="183" y1="19" x2="189" y2="19"/><line class="dim" x1="183" y1="66" x2="189" y2="66"/><text class="dim-t" x="192" y="45">11.75</text>
+        <line class="dim" x1="53" y1="330" x2="173" y2="330"/><line class="dim" x1="53" y1="327" x2="53" y2="333"/><line class="dim" x1="173" y1="327" x2="173" y2="333"/><text class="dim-t" x="113" y="341" text-anchor="middle">30 in inside</text>
+        <text class="lbl" x="192" y="170">1x3 stile,</text><text class="lbl" x="192" y="180">doors meet</text>
+        <rect class="ply" x="58" y="320" width="110" height="14"/>
+        <text class="lbl" x="50" y="354">Front elevation, doors open. Dashed = back row.</text>
+        </svg>
+      <figcaption>Front elevation. One 30 in bay, four rows of fourteen spools each on fixed shelves pocket-screwed into the sides. Spools sit with their axis along the rails, so from the front you see each one edge-on, 3 in wide by 8 in tall, at a 4 in pitch; the dashed outlines are the back row standing 1.75 in taller behind the front row, which is the edge you grab. The bottom 6 in holds the silica gel pan and the fan; the top 11.75 in is a cubby for overflow spools laid flat. The two doors close against the fixed center stile.</figcaption>
+    </figure>
+    <figure class="fig">
+      <svg viewBox="0 0 300 340" role="img" aria-label="Side section of the storage cabinet showing shelf depth, cradle rails, risers, the OXBERG glass door and the bulb seal">
+        <line class="dim" x1="76" y1="12" x2="155" y2="12"/><line class="dim" x1="76" y1="9" x2="76" y2="15"/><line class="dim" x1="155" y1="9" x2="155" y2="15"/>
+        <text class="dim-t" x="115" y="8" text-anchor="middle">19.5 in with door</text>
+        <!-- carcass: interior x 80..152, back 152..155, top/bottom -->
+        <rect class="ply" x="80" y="20" width="75" height="288"/>
+        <rect class="void" x="80" y="23" width="72" height="282"/>
+        <!-- door: acrylic 76..77, frame 77..80 -->
+        <rect class="ply" x="77" y="20" width="3" height="288"/>
+        <rect class="glass" x="76" y="20" width="1.2" height="288"/>
+        <!-- gasket strip -->
+        <rect x="80" y="20" width="1.5" height="288" fill="var(--dry)" opacity=".7"/>
+        <!-- shelves with rails/risers at tops 278,222,166,110,54 -->
+        <g id="shelfrow">
+          <rect class="ply" x="80" y="278" width="68" height="3"/>
+          <rect class="ply" x="86" y="275" width="6" height="3"/><rect class="ply" x="106" y="275" width="6" height="3"/>
+          <rect class="ply" x="120" y="268" width="6" height="10"/><rect class="ply" x="140" y="268" width="6" height="10"/>
+          <circle class="spool" cx="99" cy="263" r="16"/><circle class="spool" cx="133" cy="256" r="16"/>
+        </g>
+        <g>
+          <rect class="ply" x="80" y="222" width="68" height="3"/>
+          <rect class="ply" x="86" y="219" width="6" height="3"/><rect class="ply" x="106" y="219" width="6" height="3"/>
+          <rect class="ply" x="120" y="212" width="6" height="10"/><rect class="ply" x="140" y="212" width="6" height="10"/>
+          <circle class="spool" cx="99" cy="207" r="16"/><circle class="spool" cx="133" cy="200" r="16"/>
+        </g>
+        <g>
+          <rect class="ply" x="80" y="166" width="68" height="3"/>
+          <rect class="ply" x="86" y="163" width="6" height="3"/><rect class="ply" x="106" y="163" width="6" height="3"/>
+          <rect class="ply" x="120" y="156" width="6" height="10"/><rect class="ply" x="140" y="156" width="6" height="10"/>
+          <circle class="spool" cx="99" cy="151" r="16"/><circle class="spool" cx="133" cy="144" r="16"/>
+        </g>
+        <g>
+          <rect class="ply" x="80" y="110" width="68" height="3"/>
+          <rect class="ply" x="86" y="107" width="6" height="3"/><rect class="ply" x="106" y="107" width="6" height="3"/>
+          <rect class="ply" x="120" y="100" width="6" height="10"/><rect class="ply" x="140" y="100" width="6" height="10"/>
+          <circle class="spool" cx="99" cy="95" r="16"/><circle class="spool" cx="133" cy="88" r="16"/>
+        </g>
+        <rect class="ply" x="80" y="54" width="68" height="3"/>
+                <!-- gel tray + fan -->
+        <rect class="metal" x="90" y="296" width="52" height="6"/><text class="lbl" x="116" y="292" text-anchor="middle">gel tray, fan</text>
+        <!-- dims -->
+        <line class="dim" x1="164" y1="278" x2="164" y2="222"/><line class="dim" x1="161" y1="278" x2="167" y2="278"/><line class="dim" x1="161" y1="222" x2="167" y2="222"/>
+        <text class="dim-t" x="170" y="253">14 in</text>
+        <line class="dim" x1="80" y1="318" x2="148" y2="318"/><line class="dim" x1="80" y1="315" x2="80" y2="321"/><line class="dim" x1="148" y1="315" x2="148" y2="321"/>
+        <text class="dim-t" x="114" y="330" text-anchor="middle">shelf 17 in, 1 in gap at back</text>
+        <text class="lbl" x="170" y="40">shelves pocket-screwed</text><text class="lbl" x="170" y="50">into the sides</text>
+        <text class="lbl" x="170" y="300">gasket on case edge</text>
+        <line class="dim" x1="168" y1="298" x2="82" y2="298"/>
+        <text class="lbl" x="20" y="166" transform="rotate(-90 20 166)" text-anchor="middle">OXBERG glass door, 3/4 in frame</text>
+      </svg>
+      <figcaption>Side section, door on the left. Each shelf has two flat 1x2 rails for the front spool and two 2x3 risers on edge for the back spool. Shelves are fixed with three pocket screws per end into the sides. The door is an OXBERG glass door overlaying the case front; the EPDM bulb seal sits on the case edge.</figcaption>
+    </figure>
+  </div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 360 132" role="img" aria-label="Shelf detail at larger scale showing rail and riser positions and the two spool rows">
+      <!-- shelf: x 20..156 (17 in at 8px), top y=98 -->
+      <rect class="ply" x="20" y="98" width="136" height="6"/>
+            <rect class="ply" x="32" y="92" width="12" height="6"/><rect class="ply" x="72" y="92" width="12" height="6"/>
+      <rect class="ply" x="100" y="78" width="12" height="20"/><rect class="ply" x="140" y="78" width="12" height="20"/>
+      <circle class="spool" cx="58" cy="63" r="32"/>
+      <circle class="spool" cx="126" cy="49" r="32"/>
+      <!-- dims along bottom -->
+      <line class="dim" x1="20" y1="114" x2="32" y2="114"/><text class="dim-t" x="36" y="117">1.5</text>
+      <line class="dim" x1="20" y1="120" x2="72" y2="120"/><text class="dim-t" x="46" y="130" text-anchor="middle">6.5</text>
+      <line class="dim" x1="20" y1="108" x2="100" y2="108"/><text class="dim-t" x="104" y="111">10</text>
+      <line class="dim" x1="112" y1="108" x2="140" y2="108"/><text class="dim-t" x="144" y="111">15</text>
+      <line class="dim" x1="8" y1="104" x2="8" y2="78"/><line class="dim" x1="5" y1="78" x2="11" y2="78"/><text class="dim-t" x="0" y="72">2.5</text>
+      <!-- labels right -->
+      <text class="lbl" x="180" y="30">Front row: two 1x2 flat rails,</text>
+      <text class="lbl" x="180" y="41">glued and brad nailed.</text>
+      <text class="lbl" x="180" y="58">Back row: two 2x3 on edge,</text>
+      <text class="lbl" x="180" y="69">glued, 2 in screws from below.</text>
+      <text class="lbl" x="180" y="86">Spool sinks 0.9 in between rails,</text>
+      <text class="lbl" x="180" y="97">so it cannot roll. Pitch 4 in across,</text>
+      <text class="lbl" x="180" y="108">7 per row.</text>
+      <text class="dim-t" x="20" y="14">Shelf detail, inches from front edge</text>
+    </svg>
+    <figcaption>Shelf detail. Rail positions are measured from the front edge of the shelf. The back spool's top edge stands 1.75 in above the front spool's, which is what you grab. At a 30 in span the 3/4 in shelf with two 2x3 risers glued on edge needs no apron.</figcaption>
+  </figure>
+
+  <div class="block">
+    <h3>3D model</h3>
+    <p>The drawing-set numbers also build a CadQuery model. Orbit it, open the doors, strip it to the shell and toggle components in the <a href="/plans/spool-cabinet/model/">interactive viewer</a>. Its checks (spool pitch against the bay, back-row rim height, spool clearance under the next shelf, the OXBERG pair against the case width, height under the basement ceiling) run on every rebuild.</p>
+    <div class="viewer"><iframe src="/plans/spool-cabinet/model/?view=iso" loading="lazy" title="Spool cabinet 3D model"></iframe></div>
+    <div class="two">
+      <figure class="fig render"><img src="model/render-open.png" alt="Render of the cabinet with both glass doors open"><figcaption>Doors open: four shelves of fourteen spools on cradle rails, back row on risers, gel pan and fan on the floor, overflow flat in the cubby.</figcaption></figure>
+      <figure class="fig render"><img src="model/render-front.png" alt="Orthographic front render with the doors removed, spools seen edge-on"><figcaption>Straight-on with the doors removed. Spools read edge-on from the front, the back row standing 1.75 in taller than the front row.</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="two">
+    <div class="block">
+      <h3>Carcass</h3>
+      <ul>
+        <li>3/4 in plywood throughout: sides 18 x 76, top and bottom 30 x 18 between the sides, four shelves and one cubby shelf 30 x 17, back 31.5 x 76 overlaying sides, top and bottom, glued and screwed every 6 in.</li>
+        <li>Pocket screws throughout: Kreg jig at the 3/4 in setting, 1-1/4 in coarse screws, glue in every joint. Top and bottom into the sides with pockets on their hidden faces; each shelf into the sides with three pockets per end on its underside. Run a bead of clear silicone along every interior seam after assembly and over any pocket that faces inward.</li>
+        <li>Fixed shelves, bottoms at 6, 20, 34 and 48 in above the case floor; the cubby shelf at 62 in. Fixed shelves tie the sides together, so the case is rigid before the back goes on.</li>
+        <li>Two coats of dewaxed shellac on every interior face, applied flat before assembly since fixed shelves make the inside corners hard to reach. Bare plywood soaks up and releases water for weeks; sealed plywood does not. Cure 3 days with doors open before loading gel.</li>
+        <li>Center stile: 1x3 poplar, 74.5 long, glued and pocket-screwed between top and bottom at the front, flush with the case edges. It gives the two doors 1.25 in each to close against and carries their seal.</li>
+        <li>Plinth: 2x4 frame 27.5 x 15, pocket-screwed with 2-1/2 in coarse screws, set back 2 in at the front. Two L-brackets from the top rear into studs. Loaded weight is about 250 lb with 56 spools and it is 6 ft 8 in tall.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Doors and seal</h3>
+      <ul>
+        <li>Two OXBERG glass doors, 15.5 x 75.75 in, 4 mm tempered glass in a 3/4 in fiberboard frame, concealed hinges and knobs included, $50 each. Glass is as good a vapor barrier as acrylic and it does not creep, craze or need screws through it.</li>
+        <li>Overlay: the doors hinge on the sides and meet over the center stile with a 1/8 in gap, covering the 31.5 in case the way they cover a BILLY. Door height 75.75 against the 76 in case leaves 1/8 in top and bottom.</li>
+        <li>Hinges: the 35 mm cups are already bored in the doors. Hang each mounting plate on its hinge, hold the door closed in position with the reveals set, mark the two plate screw holes on the side, drill 5 mm, drive the included Euro screws. Adjust the hinge in and out until the door just kisses the seal all the way round.</li>
+        <li>Seal, default: Frost King V25BK 5/16 x 1/4 in EPDM D-section on the case front edges and both faces of the center stile, not on the door. The hollow bulb seals with almost no closing force. Two magnetic catches per door, 11 to 20 lb, at 12 in from the top and bottom on the stile side, plates on the back of the door. The OXBERG hinges are self-closing and the magnets hold the door onto the bulb.</li>
+        <li>Seal, upgrade: a made-to-size magnetic refrigerator gasket on each door's back perimeter ($45 a door) pulling onto 3/4 in perforated galvanized hanger strap glued along the case edges and the stile. That is a fridge door. Fit it only if the flashlight test shows light or the cabinet will not hold under 20 percent.</li>
+        <li>One 3/8 in hole at the bottom back corner for the fan's USB cable, filled with silicone after.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Desiccant and monitoring</h3>
+    <ul>
+      <li>One half-sheet aluminum pan, 13 x 18, holding 5 lb of orange indicating silica gel spread 1 in deep. Surface area matters more than depth. A second 5 lb bag on the cubby shelf halves the recharge interval if you open the doors a lot.</li>
+      <li>A 120 mm USB fan on the floor blowing across the pan, running always. Moving air makes the gel work several times faster than still air. Draw is under 2 W.</li>
+      <li>One hygrometer at mid height, readable through the glass. A Bluetooth one with phone alerts warns you when it climbs past 20 percent.</li>
+      <li>Recharge the gel when the beads turn green or the reading passes 20 percent: spread on the pan, 250 F in the oven for 2 to 3 hours until orange again. Expect every 3 to 5 weeks in summer, 2 months in winter.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SHEET 03 -->
+<section class="sheet" id="s3">
+  <header><h2>Cut list</h2><span class="num">Sheet 03 of 06</span></header>
+  <p>Three sheets of 3/4 in plywood. Dimensions are width by height in inches; grain runs along the second number where it matters. Have the store rip the 18 in strips if you do not have a track saw; a Home Depot panel saw gets within 1/8 in, which is fine for sides and the back.</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Sheet</th><th>Part</th><th class="n">Qty</th><th class="n">Size</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td class="m">A</td><td>Sides</td><td class="n">2</td><td class="n">18 x 76</td><td>Drill shelf, top and bottom pocket holes before assembly.</td></tr>
+        <tr><td class="m">A</td><td>Shelf</td><td class="n">1</td><td class="n">30 x 17</td><td>From the 36 x 20 end.</td></tr>
+        <tr><td class="m">B</td><td>Top, bottom</td><td class="n">2</td><td class="n">30 x 18</td><td>From the 18 in wide column.</td></tr>
+        <tr><td class="m">B</td><td>Shelves</td><td class="n">4</td><td class="n">30 x 17</td><td>Three spool shelves and the cubby shelf, from the 30 in wide column. One spare fits too.</td></tr>
+        <tr><td class="m">C</td><td>Back</td><td class="n">1</td><td class="n">31.5 x 76</td><td>Overlays sides, top and bottom.</td></tr>
+        <tr><td class="m">A, C</td><td>Offcut strips</td><td class="n">2</td><td class="n">12 x 96, 16.5 x 96</td><td>Spare. Corner blocks, a jig fence, future cleats.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Solid stock</th><th class="n">Qty</th><th class="n">Cut to</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td>1x3 poplar, 8 ft</td><td class="n">1</td><td class="n">74.5</td><td>Center stile</td></tr>
+        <tr><td>1x2 furring, 8 ft</td><td class="n">8</td><td class="n">30</td><td>Front cradle rails, 2 per shelf (3 per board, 3 boards). Pick straight ones.</td></tr>
+        <tr><td>2x3 SPF, 8 ft</td><td class="n">8</td><td class="n">30</td><td>Back risers, 2 per shelf (3 per board, 3 boards)</td></tr>
+        <tr><td>2x4, 8 ft</td><td class="n">1</td><td class="n">27.5, 27.5, 12, 12, 12</td><td>Plinth frame 27.5 x 15 (two rails, three crosspieces)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SHEET 04 -->
+<section class="sheet" id="s4">
+  <header><h2>Shopping list</h2><span class="num">Sheet 04 of 06</span></header>
+  <p>Prices checked 2026-09-13 against the retailers' listed prices. Home Depot, Lowe's and Menards show store pricing only once a store is selected in a browser, so treat the lumber and plywood figures as the posted price and expect the Utica and Shelby Township stores to be within a few dollars. Amazon and direct-site prices were read live. IKEA is Canton, about 50 miles, or ship to home.</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Item</th><th class="n">Qty</th><th class="n">Each</th><th class="n">Total</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr><td>3/4 in x 4 x 8 BC sanded pine plywood (Plytanium)</td><td class="n">3</td><td class="n">$50</td><td class="n">$150</td><td>Home Depot. PureBond birch is $83 a sheet if you want it flatter and prettier: +$99.</td></tr>
+        <tr><td>OXBERG glass door, 15.5 x 75.75, hinges and knob included</td><td class="n">2</td><td class="n">$50</td><td class="n">$100</td><td>IKEA. Panel door $45 or HÖGBO aluminum-frame glass $65 are the same size.</td></tr>
+        <tr><td>1x3 x 8 ft poplar</td><td class="n">1</td><td class="n">$15.25</td><td class="n">$15.25</td><td>Home Depot</td></tr>
+        <tr><td>1x2 x 8 ft furring strip</td><td class="n">3</td><td class="n">$1.38</td><td class="n">$4.14</td><td>Lowe's. Select pine is $6.98 a board if you want knot-free rails.</td></tr>
+        <tr><td>2x3 x 8 ft stud</td><td class="n">3</td><td class="n">$2.98</td><td class="n">$8.94</td><td>Lowe's</td></tr>
+        <tr><td>2x4 x 8 ft stud</td><td class="n">1</td><td class="n">$4.25</td><td class="n">$4.25</td><td>Home Depot</td></tr>
+        <tr><td>Kreg 1-1/4 in coarse pocket screws, 250</td><td class="n">1</td><td class="n">$24.47</td><td class="n">$24.47</td><td>Home Depot. About 100 are used.</td></tr>
+        <tr><td>Kreg 2-1/2 in coarse pocket screws, 50</td><td class="n">1</td><td class="n">$6.99</td><td class="n">$6.99</td><td>Home Depot</td></tr>
+        <tr><td>Titebond II, 16 oz</td><td class="n">1</td><td class="n">$8.49</td><td class="n">$8.49</td><td>Home Depot</td></tr>
+        <tr><td>DAP Silicone Max clear, 10.1 oz</td><td class="n">1</td><td class="n">$13.59</td><td class="n">$13.59</td><td>Home Depot</td></tr>
+        <tr><td>Zinsser SealCoat dewaxed shellac, quart</td><td class="n">1</td><td class="n">$21.99</td><td class="n">$21.99</td><td>Amazon. Home Depot only sells it by the case online; Ace has it at $24.99.</td></tr>
+        <tr><td>Frost King V25BK EPDM D-section 5/16 x 1/4 in, 17 ft</td><td class="n">2</td><td class="n">$7.94</td><td class="n">$15.88</td><td>Home Depot. Case edges plus both faces of the stile need about 30 ft.</td></tr>
+        <tr><td>Everbilt 11 lb magnetic catch with plate</td><td class="n">4</td><td class="n">$2.38</td><td class="n">$9.52</td><td>Home Depot. Or a 20 lb neodymium 6-pack at $13.99 on Amazon.</td></tr>
+        <tr><td>Orange indicating silica gel, 5 lb</td><td class="n">1</td><td class="n">$21.99</td><td class="n">$21.99</td><td>Dry and Dry direct; $27.99 on Amazon. A second bag is optional.</td></tr>
+        <tr><td>Nordic Ware half-sheet pan 13 x 18</td><td class="n">1</td><td class="n">$17.74</td><td class="n">$17.74</td><td>Amazon; the 2-pack is $29.70</td></tr>
+        <tr><td>120 mm 5 V USB fan (ELUTENG or AC Infinity S3)</td><td class="n">1</td><td class="n">$9.99</td><td class="n">$9.99</td><td>Amazon. Runs off any phone charger.</td></tr>
+        <tr><td>Govee H5075 Bluetooth hygrometer</td><td class="n">1</td><td class="n">$12.99</td><td class="n">$12.99</td><td>Amazon. ThermoPro TP49 2-pack is $15.99 without Bluetooth.</td></tr>
+        <tr><td>L-brackets or anti-tip straps</td><td class="n">2</td><td class="n">$3</td><td class="n">$6</td><td>Home Depot, not price-checked</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="5">Cabinet total about $450 in pine. About $550 in birch. Fridge-gasket seal upgrade adds $92 for two made-to-size gaskets plus about $10 of hanger strap. The dehydrator is a separate used purchase, $25 to $100.</td></tr></tfoot>
+    </table>
+  </div>
+</section>
+
+<!-- SHEET 05 -->
+<section class="sheet" id="s5">
+  <header><h2>Build sequence</h2><span class="num">Sheet 05 of 06</span></header>
+  <div class="two">
+    <div class="block">
+      <h3><span class="tag cab">Case</span></h3>
+      <ol class="steps">
+        <li>Break down sheets A to C to the cut list. Label every part and mark which face is inside.</li>
+        <li>Everything flat on the bench. Drill the pocket holes: three per end on the underside of each shelf, along the hidden faces of top and bottom, and two at each end of the center stile. Glue and brad the 1x2 rails and glue and screw the 2x3 risers from below on all four spool shelves. Mark the shelf lines on both sides at 6, 20, 34, 48 and 62 in above the bottom panel.</li>
+        <li>Two coats of shellac on every interior face while it is still flat: sides, top, bottom, back and the shelf assemblies. Let it dry overnight.</li>
+        <li>Lay one side flat. Glue and pocket-screw the bottom and top to it, then the five shelves, square to the marks. Bring the second side down onto the assembly and pocket-screw it the same way. Check diagonals.</li>
+        <li>Glue and pocket-screw the center stile in at the front, flush with the case edges. Glue and screw the back on, screws every 6 in. The back squares the box.</li>
+        <li>Silicone every interior seam, including the shelf ends and the back, and any pocket that faces inward. Leave the box open to cure for 3 days.</li>
+        <li>Build the plinth, set the case on it, screw down through the bottom. Stand it in place and anchor the top rear to a stud.</li>
+      </ol>
+    </div>
+    <div class="block">
+      <h3><span class="tag cab">Doors and seal</span></h3>
+      <ol class="steps">
+        <li>Apply the EPDM D-section to the case front edges and both faces of the center stile. Butt the corners; do not stretch it.</li>
+        <li>Unbox the OXBERG doors and clip the hinge arms into their cups. Hang a mounting plate on each hinge.</li>
+        <li>Hold the left door closed in position: 1/8 in reveal at top and bottom, its outer edge flush with the case side. Mark the plate holes through the plates, swing the door away, drill 5 mm, drive the Euro screws. Repeat for the right door.</li>
+        <li>Adjust each hinge in and out until the door just compresses the bulb all the way round with no gap at the corners. Fit two magnetic catches per door on the stile side, plates on the door back.</li>
+        <li>Flashlight test: close the doors, kill the lights, and shine a flashlight around the door edges from inside. Any light is a leak; adjust the hinge or add a second layer of D-section there.</li>
+        <li>Gel pan and fan in, cable through the 3/8 in hole, silicone the hole, hygrometer at mid height. Close it. It should read under 20 percent within 48 hours and under 15 within a week as the plywood finishes giving up water. If it stalls above 20, that is when you order the fridge gaskets.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 06 -->
+<section class="sheet" id="s6">
+  <header><h2>Operating guide</h2><span class="num">Sheet 06 of 06</span></header>
+
+  <div class="two">
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Material, in the dehydrator</th><th class="n">Set C</th><th class="n">Hours</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>PLA</td><td class="n">50</td><td class="n">6</td><td>Never higher; spools fuse near 55</td></tr>
+          <tr><td>TPU</td><td class="n">55</td><td class="n">6 to 8</td><td>Soft TPU 50</td></tr>
+          <tr><td>PETG</td><td class="n">65</td><td class="n">6 to 8</td><td></td></tr>
+          <tr><td>ABS, ASA</td><td class="n">70</td><td class="n">4 to 6</td><td>Top of a dehydrator dial</td></tr>
+          <tr><td>PA6, PA12, PC blends</td><td class="n">70</td><td class="n">10 to 12</td><td>Marginal; 80 would be ideal and no dehydrator reaches it</td></tr>
+          <tr><td>Wet 2 kg spool, any</td><td class="n">as above</td><td class="n">+50%</td><td>Twice the mass, same surface</td></tr>
+        </tbody>
+        <tfoot><tr><td colspan="4">Dehydrator: trays out except the bottom one, spools on edge, a hygrometer inside on the first run to check the dial. Set the timer for the hours above; the spool is done when the hygrometer next to it reads under 10 percent.</td></tr></tfoot>
+      </table>
+    </div>
+    <div class="block">
+      <h3>Routine</h3>
+      <ul>
+        <li><strong>New filament:</strong> a dehydrator cycle first, then into the cabinet. Never put a fresh spool from a shipping bag into the cabinet; its water goes straight into your gel.</li>
+        <li><strong>Printing:</strong> pull from the cabinet and print. PLA and PETG that sit under 20 percent stay printable for months. Nylon needs the dehydrator on its top setting and a long cycle.</li>
+        <li><strong>Cabinet reads over 20 percent:</strong> recharge the gel. If it climbs within a week of a recharge, check the bulb seal with a flashlight from inside and re-silicone the fan cable hole.</li>
+        <li><strong>Dehydrator dial:</strong> a kitchen dial can read 5 C off. Trust the hygrometer inside it and the marks you made on the first run, not the printed numbers.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Running numbers</th><th class="n">Value</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>Cabinet electricity</td><td class="n">2 W</td><td>One USB fan</td></tr>
+        <tr><td>Cabinet air volume</td><td class="n">23 cu ft</td><td>30 x 74.5 x 18 in</td></tr>
+        <tr><td>Water per door opening, summer</td><td class="n">~2 g</td><td>Third of the volume exchanged at 10 g per cubic meter</td></tr>
+        <tr><td>Usable gel capacity at 20 percent</td><td class="n">~225 g</td><td>5 lb silica gel at 10 percent by weight; about 100 door openings</td></tr>
+        <tr><td>Dehydrator energy per 8 h cycle</td><td class="n">~2 kWh</td><td>600 W element at about 40 percent duty; about 35 cents</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="foot">Revision D.1 (2026-09-13): trimmed to one BILLY-width bay after the spool pitch correction showed that seven spools per row at 4 in pitch, two rows deep, gives 56 on rails in a single 30 in bay, more than the 40 the design started from. Revision D: OXBERG glass doors, heater box dropped for a bought dehydrator, price-checked shopping list. Revision C: fixed pocket-screwed shelves. Revision B: dryer lowered to 65 C. Revision A: 4x6 acrylic-door cabinet plus 75 C heater box.</p>
+</div>
+</body>
+</html>

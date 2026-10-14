@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { versioned } from '../../../lib/versioned';
+
+// Detail page for the dust cart (garage shop sheet 05). English-only, no data-i18n keys.
+const planHref = '/plans/garage-shop/#s5';
+const parentHref = '/projects/garage-shop';
+const modelHref = '/plans/garage-shop/model/?focus=Dust%20Cart&dir=sw&state=open&hide=Truck,Wall%20South,Wall%20East,Ceiling%20Lights,Tool%20Cabinet,Door%20North,Door%20South,Flip%20Bench,Subpanel';
+const stepHref = '/plans/garage-shop/model/garage-shop-dust-cart.step';
+const m = '/plans/garage-shop/model/';
+
+const renders = [
+  { src: 'render-dust-sw.png', alt: 'Dust cart from the front corner', cap: 'From the front corner: the spine and handle on the outer end, the Dust Deputy on its bucket on the 12 in pedestal, the 16 gal drum inside the 2x4 corral with its head free.' },
+  { src: 'render-dust-ne.png', alt: 'Dust cart from the drum end', cap: 'From the drum end: the corral posts with the rail on edge at 16 in bracing the drum above its centre of gravity, the bucket strap through the spine, the cyclone inlet pointing out for the tool hose.' },
+  { src: 'render-dust-side.png', alt: 'Side view of the dust cart', cap: 'Long side: 38 in on 3 in casters, pedestal 12 in, corral rail at 16 in, cyclone outlet at 45 in, drum top at 31.5 in with nothing above it.' },
+  { src: 'render-dust-end.png', alt: 'End view of the dust cart at the spine', cap: 'Spine end: 24 in wide, the 8 in spine with its handle slot 3.5 in from the top, bucket behind it.' },
+  { src: 'render-dust-top.png', alt: 'Dust cart from above', cap: 'From above: the 14 x 24 pedestal and the 24 x 24 corral with its posts at the corners; the cradle\'s U opens toward the drum so the bucket slides out sideways.' },
+];
+---
+<BaseLayout title="dust cart &middot; garage shop &middot; rt-541.io" description="Dust cart for the garage shop: the DeWalt 16 gal Stealthsonic vac and an Oneida Dust Deputy 2.5 cyclone side by side on one plywood base. Renders, numbers, STEP.">
+  <section class="max-w-3xl mx-auto px-6 pt-16 pb-8">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20">
+      <a href="/projects" class="no-underline hover:underline">projects</a> / <a href={parentHref} class="no-underline hover:underline">garage shop</a> / dust cart
+    </p>
+    <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-3">Dust cart</h1>
+    <p class="text-[15px] text-ice leading-[1.65] max-w-[58ch]">
+      A DeWalt 16 gal Stealthsonic wet/dry vac and an Oneida Dust Deputy 2.5 cyclone, side by side on one 38 x 24 in
+      plywood base on casters. The drum stands inside a 2x4 corral with its own caster base removed; the cyclone's bucket
+      sits in a U cradle on a 12 in pedestal beside it, strapped to an 8 in spine that carries the handle. Everything
+      is 2-1/2 in, so no reducers, and nothing is stacked over the vac: the head lifts off in place and the bucket
+      slides out sideways to empty.
+    </p>
+    <ul class="flex flex-wrap gap-4 mt-5 list-none p-0 font-mono text-[11px] tracking-meta uppercase">
+      <li><a href={planHref} class="text-chrome no-underline hover:underline">sheet 05 in the drawing set &rarr;</a></li>
+      <li><a href={modelHref} class="text-chrome no-underline hover:underline">open in the 3d viewer &rarr;</a></li>
+      <li><a href={stepHref} class="text-chrome no-underline hover:underline">step file &rarr;</a></li>
+    </ul>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-6">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// renders</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {renders.map(r => (
+        <figure class="m-0">
+          <img src={versioned(m + r.src)} alt={r.alt} loading="lazy" class="w-full h-auto rounded border border-chrome/20" />
+          <figcaption class="font-mono text-[11px] tracking-meta text-subtle mt-2">{r.cap}</figcaption>
+        </figure>
+      ))}
+    </div>
+    <p class="font-mono text-[11px] tracking-meta text-subtle mt-4">The vac and cyclone are drawn from their published dimensions; the drum is measured with its caster base off before the bay is cut.</p>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// by the numbers</p>
+    <dl class="grid grid-cols-2 sm:grid-cols-4 gap-4 m-0">
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">vac</dt><dd class="m-0 text-[18px] font-serif text-chrome">DXV16P-QTA, 16 gal</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">cyclone</dt><dd class="m-0 text-[18px] font-serif text-chrome">Dust Deputy 2.5 Deluxe</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">footprint</dt><dd class="m-0 text-[18px] font-serif text-chrome">38 x 24 x 45 in</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">loaded</dt><dd class="m-0 text-[18px] font-serif text-chrome">~85 lb, CG 16 in</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">tips at</dt><dd class="m-0 text-[18px] font-serif text-chrome">32 deg</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">hose</dt><dd class="m-0 text-[18px] font-serif text-chrome">2-1/2 in throughout</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">noise</dt><dd class="m-0 text-[18px] font-serif text-chrome">under 65 dBA</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">plywood</dt><dd class="m-0 text-[18px] font-serif text-chrome">1 sheet + 3 studs</dd></div>
+    </dl>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12 pb-20">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-2">// what makes it work</p>
+    <div class="prose-content text-[14px]">
+      <p>
+        The starting point was a friend's cart that stacks a 6 gal vac under a shelf carrying the cyclone: the smallest
+        possible footprint, and right for a vac you can slide out with one hand. A 16 gal drum is 20 in tall, 19.5 in
+        across and 28 lb, and its head comes off to clean the filter, so it cannot live under a shelf. Laying the two
+        side by side costs 14 in of length and buys a lower center of gravity, a cyclone that empties without moving
+        the drum, and a vac that still works exactly as it did on its own base. The drum is braced by a 2x4 corral
+        rather than strapped: four posts with a ring on flat at the base and a ring on edge whose top is at 16 in,
+        six inches above the drum's centre of gravity, so the drum cannot tip inside the cart and the rings double as
+        handholds.
+      </p>
+      <p>
+        The pedestal height sets the hose run: with the cradle at 12 in the cyclone's outlet sits at 45 in and the
+        drum's inlet at 25.5 in, so the kit's short hose falls to the vac without a loop. The vac's own 7 ft hose goes
+        on the cyclone inlet and reaches the tool. The DW735 wants a 4 to 2-1/2 reducer and fills the 5 gal bucket in a
+        few boards, so planing goes into the chip bag; the cart takes the miter saw, sander, router and cleanup.
+      </p>
+      <p>
+        Stability: 85 lb with the center of gravity 16 in up on a 20 in caster track across the narrow way tips at
+        32 degrees, about 19 lb of sideways shove at the handle when a caster catches a cord; the long way is far
+        stiffer. The bucket is strapped to the spine, casters at the corners with two brakes, and the push
+        comes from the handle slot, never the cyclone. It parks end-on in the east wall's front corner beside the compressor, 24 in along the wall, and
+        leaves a 49 in aisle with the truck in.
+      </p>
+      <p>
+        Printed on the Core One, in PETG: two 2-1/2 in hose cuffs with a quarter-turn lock so the cyclone hoses
+        come off without a clamp, the 4 to 2-1/2 in reducer for the planer, a snap hose clip and a cord clip on the
+        pedestal wall, grommets for the strap and handle slots, and a cap for the cyclone inlet when the cart is
+        parked. The cart's STEP file is the reference for fitting them.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

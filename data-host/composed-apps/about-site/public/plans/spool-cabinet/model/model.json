@@ -1,0 +1,151 @@
+{
+ "slug": "spool-cabinet",
+ "name": "Basement Spool Cabinet",
+ "states": {
+  "closed": {
+   "file": "spool-cabinet-closed.glb",
+   "label": "Closed",
+   "description": "Both OXBERG doors shut"
+  },
+  "open": {
+   "file": "spool-cabinet-open.glb",
+   "label": "Doors open",
+   "description": "Doors swung 105 degrees"
+  },
+  "shell": {
+   "file": "spool-cabinet-shell.glb",
+   "label": "Shell only",
+   "description": "Doors and spools removed, structure only"
+  }
+ },
+ "components": [
+  "Plinth",
+  "Case",
+  "Shelves",
+  "Desiccant",
+  "Spools",
+  "Door Left",
+  "Door Right"
+ ],
+ "checks": [
+  {
+   "name": "spools fit the bay width",
+   "ok": true,
+   "detail": "7 x 4 in pitch = 28 in, bay 30 in"
+  },
+  {
+   "name": "back row rim stands proud of the front row",
+   "ok": true,
+   "detail": "1.75 in higher"
+  },
+  {
+   "name": "spool top clears the shelf above",
+   "ok": true,
+   "detail": "row pitch 14, back spool top at 9.62 above the shelf, 3.63 in clear"
+  },
+  {
+   "name": "back spool inside the shelf depth",
+   "ok": true,
+   "detail": "back spool reaches 16.5 in from the front, shelf 17 in"
+  },
+  {
+   "name": "cubby shelf clears the top row",
+   "ok": true,
+   "detail": "cubby at 66.25, top spool at 62.62"
+  },
+  {
+   "name": "cubby takes a spool on edge",
+   "ok": true,
+   "detail": "11.75 in clear"
+  },
+  {
+   "name": "two OXBERG doors span the case",
+   "ok": true,
+   "detail": "doors 31 in, case 31.5 in"
+  },
+  {
+   "name": "door height inside the case height",
+   "ok": true,
+   "detail": "door 75.75 in, case 76 in, reveal 0.125 in each end"
+  },
+  {
+   "name": "stands under the basement ceiling",
+   "ok": true,
+   "detail": "79.5 in tall, ceiling 84 in"
+  },
+  {
+   "name": "capacity (information)",
+   "ok": true,
+   "detail": "56 spools on rails"
+  }
+ ],
+ "params": {
+  "bays": 1,
+  "bay_w": 30.0,
+  "cab_h": 76.0,
+  "cab_d": 18.0,
+  "ply": 0.75,
+  "back_t": 0.75,
+  "plinth_h": 3.5,
+  "plinth_setback": 2.0,
+  "bay_h": 6.0,
+  "row_pitch": 14.0,
+  "rows": 4,
+  "cubby_z": 62.0,
+  "shelf_d": 17.0,
+  "rail1": 1.5,
+  "rail2": 6.5,
+  "riser1": 10.0,
+  "riser2": 15.0,
+  "spool_dia": 8.0,
+  "spool_w": 3.0,
+  "spool_pitch": 4.0,
+  "spools_per_row": 7,
+  "face_strip_w": 2.5,
+  "door_w": 15.5,
+  "door_h": 75.75,
+  "door_t": 0.75,
+  "door_frame_w": 2.0,
+  "glass_t": 0.16,
+  "door_open": 105.0,
+  "ceiling": 84.0
+ },
+ "generated": "2026-09-18 21:57",
+ "meta": {
+  "state": {
+   "label": "Closed",
+   "description": "Both OXBERG doors shut",
+   "doors_open": false
+  }
+ },
+ "default_state": "closed",
+ "views": {
+  "closed": {
+   "state": "closed",
+   "view": "iso",
+   "w": 1200,
+   "h": 1200
+  },
+  "open": {
+   "state": "open",
+   "view": "iso-sw",
+   "w": 1400,
+   "h": 1200
+  },
+  "front": {
+   "state": "open",
+   "view": "north",
+   "hide": "Door Left,Door Right",
+   "w": 1000,
+   "h": 1250
+  },
+  "shelf": {
+   "state": "open",
+   "focus": "Shelves,Spools",
+   "dir": "se",
+   "hide": "Door Left,Door Right,Case",
+   "w": 1400,
+   "h": 1000
+  }
+ }
+}

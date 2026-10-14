@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Garage Shop model</title>
+<style>
+:root{--bg:#ece8df;--ink:#1B2430;--muted:#5B6B7A;--paper:#fff;--rule:#C9D2DA;--acc:#2F6F9F}
+html,body{margin:0;height:100%;background:var(--bg);font-family:"IBM Plex Sans",system-ui,sans-serif;color:var(--ink);overflow:hidden}
+canvas{display:block}
+#ui{position:fixed;top:10px;left:10px;display:grid;gap:8px;max-width:min(320px,calc(100vw - 20px));font-size:13px}
+.card{background:rgba(255,255,255,.92);border:1px solid var(--rule);padding:8px 10px;display:grid;gap:6px}
+.card>summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px;font-weight:600;cursor:pointer;user-select:none}
+.card>summary::-webkit-details-marker{display:none}
+.card>summary::after{content:"hide";font-size:11px;font-weight:400;color:var(--muted)}
+/* folded: no title, just a small square toggle in the corner */
+.card:not([open]){padding:0;width:30px;height:30px;justify-items:center;align-content:center}
+.card:not([open])>summary{justify-content:center;width:100%;height:100%}
+.card:not([open])>summary>span{display:none}
+.card:not([open])>summary::after{content:"\2261";font-size:20px;line-height:1;color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:6px}
+button{font:inherit;font-size:12px;padding:4px 8px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+label{display:flex;gap:6px;align-items:center;font-size:12px;cursor:pointer}
+details summary{cursor:pointer;font-size:12px;color:var(--muted)}
+#status{font-size:11px;color:var(--muted)}
+.shot #ui{display:none}
+</style>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+"three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+</head><body>
+<div id="ui">
+  <details class="card" id="panel" open>
+    <summary><span>Garage Shop</span></summary>
+    <div class="row" id="states"></div>
+    <div class="row" id="views"></div>
+    <details><summary>components</summary><div id="comps" style="display:grid;gap:3px;margin-top:6px"></div></details>
+    <div id="status">loading</div>
+  </details>
+</div>
+<script id="manifest" type="application/json">{"slug": "garage-shop", "name": "Garage Shop", "states": {"closed": {"file": "garage-shop-closed.glb", "label": "Closed up", "description": "Cabinet locked, bench flat (tools down), no vehicle"}, "open": {"file": "garage-shop-open.glb", "label": "Working", "description": "Cabinet open, miter saw and planer up, no vehicle"}, "miter": {"file": "garage-shop-miter.glb", "label": "Miter station", "description": "Miter saw up, planer down as its outfeed wing"}, "planer": {"file": "garage-shop-planer.glb", "label": "Planing", "description": "Planer up, miter down as its infeed"}, "maverick": {"file": "garage-shop-maverick.glb", "label": "Maverick parked", "description": "Truck in, nose over the landing, bench flat"}, "forester": {"file": "garage-shop-forester.glb", "label": "Forester parked", "description": "Forester in, bench flat"}}, "components": ["Slab", "Landing", "Wall North", "Wall West", "Wall East", "Wall South", "Garage Opener", "Bike Hoists", "Tool Cabinet", "Door South", "Door North", "Flip Bench", "Dust Cart", "Bulk Rack", "Compressor", "Potting Station", "Machine Bay", "Wall Hooks", "Subpanel", "Heater", "Ceiling Lights"], "checks": [{"name": "flip bench swing (planer hanging)", "ok": true, "detail": "radius 25.7 in, shaft 30.5: 4.8 in over the floor, 1.99 in over the side rails where the corner passes them"}, {"name": "flip bench swing (miter hanging)", "ok": true, "detail": "radius 26.3 in, shaft 30.5: 4.2 in over the floor, 1.34 in over the side rails where the corner passes them"}, {"name": "flip bench swing (riser hanging)", "ok": true, "detail": "radius 16.7 in, 13.8 in over the floor"}, {"name": "flange bearings backed by the end panels", "ok": true, "detail": "panel top 34.50 in, bearing top 32.75 in"}, {"name": "index plungers inside the panel width", "ok": true, "detail": "plunger 10 in off the shaft, panel half-width 15"}, {"name": "miter section balanced about its shaft", "ok": true, "detail": "tool 546 lb-in vs riser 110 + 63 lb of concrete (1.0 in) 379; residual 57 lb-in = 4 lb at the bench edge; box 27 long for a 24 in tool"}, {"name": "planer section balanced about its shaft", "ok": true, "detail": "tool 1081 lb-in vs riser 110 + 146 lb of concrete (2.5 in) 765; residual 206 lb-in = 14 lb at the bench edge; box 25 long for a 22 in tool"}, {"name": "table saw sunk flush: well platform above the bottom shelf", "ok": true, "detail": "bench top 37.75, saw table 13.0 tall, platform at 24.00 in"}, {"name": "bench parks under the cabinet in bench mode", "ok": true, "detail": "bench top 37.75 in, cabinet bottom 48; tools up only with the bench rolled out"}, {"name": "tool heights (information)", "ok": true, "detail": "bench, miter table and saw table 37.75 in; planer bed 39.25 in"}, {"name": "Maverick inside the door line", "ok": true, "detail": "tail 17 in inside the overhead door"}, {"name": "front tires stop short of the landing curb", "ok": true, "detail": "tire face at y 198, curb at 204: 6 in short"}, {"name": "nose overhangs the landing above the curb", "ok": true, "detail": "13 in over a 6 in curb; bumper bottom 12 in"}, {"name": "landing walkway from the house door, east of the nose, kept clear", "ok": true, "detail": "52 in from the mirror line x 128 to the landing's end at 180"}, {"name": "house door on the landing behind its step, nose short of the step", "ok": true, "detail": "nose at y 217, step face at 228"}, {"name": "bulk rack west of the truck's mirror line", "ok": true, "detail": "rack to x 42, mirror line 44"}, {"name": "machine bay ends before the truck's rear door swing", "ok": true, "detail": "bay y 52 to 78, 42 in out; rear door sweeps y 82 to 122 over x 10 to 50"}, {"name": "mower lane past the potting station with the truck in", "ok": true, "detail": "26 in between the counter's edge and the truck body"}, {"name": "potting station clear of the truck's bed side", "ok": true, "detail": "counter to x 24, mirror line 44"}, {"name": "pot well level 1 takes a pot rim-flush", "ok": true, "detail": "platform at 22 in: a 14 in tall pot sits with its rim at the counter"}, {"name": "pot well level 2 takes a pot rim-flush", "ok": true, "detail": "platform at 26 in: a 10 in tall pot sits with its rim at the counter"}, {"name": "pot well level 3 takes a pot rim-flush", "ok": true, "detail": "platform at 30 in: a 6 in tall pot sits with its rim at the counter"}, {"name": "bulk rack top tote level within reach", "ok": true, "detail": "top tote shelf 66 in above the floor, light bins at 84"}, {"name": "bags stack two high under the bulk rack's first shelf", "ok": true, "detail": "20.06 in clear over the landing"}, {"name": "bike 1 clears the opener rail", "ok": true, "detail": "6 in from the rail, 28 in above the cab roof"}, {"name": "bike 2 clears the opener rail", "ok": true, "detail": "6 in from the rail, 28 in above the cab roof"}, {"name": "aisle from mirror to east-wall parking", "ok": true, "detail": "49 in (east wall depth 39)"}, {"name": "subpanel working space on the flat floor, clear of the parked dust cart", "ok": true, "detail": "working space y 174 to 204, curb 204, dust cart ends 30"}, {"name": "bench parked between the compressor and the walkway", "ok": true, "detail": "bench y 56 to 148 (92.0 in long), compressor ends 51, working space starts 174"}, {"name": "dust cart and compressor share the front corner clear of the door track", "ok": true, "detail": "dust cart y 6 to 30, compressor y 32 to 51"}, {"name": "side door keeps its 3 ft of flat floor (landing stops short, working space south of it)", "ok": true, "detail": "landing ends x 180, working space ends y 204, side door starts y 204"}, {"name": "cabinet bottom clears a car door top (44 in)", "ok": true, "detail": "bottom at 48 in"}, {"name": "dust cart tip angle (across the narrow way)", "ok": true, "detail": "20 in track, CG 16 in up: tips at 32 deg, about 19 lb of shove at the handle"}, {"name": "16 gal drum fits inside the 2x4 corral", "ok": true, "detail": "1.50 in total clearance around a 19.5 in drum inside the rails"}, {"name": "corral rail braces the drum above its centre of gravity", "ok": true, "detail": "rail top 16 in, drum 26 tall, CG near 10"}, {"name": "cyclone outlet above the drum inlet (hose falls to the vac)", "ok": true, "detail": "outlet 44.8 in, inlet 25.5 in"}, {"name": "vac head lifts off in place", "ok": true, "detail": "drum top at 31.5 in with nothing above it"}, {"name": "dust cart overall height (information)", "ok": true, "detail": "44.8 in to the cyclone outlet, spine handle at 45.5, footprint 38 x 24"}, {"name": "bike hoists parked above the open overhead door", "ok": true, "detail": "bikes 96 to 136 in, door 84, ceiling 144"}], "params": {"room_w": 216.0, "room_d": 240.0, "floor_d": 204.0, "ceiling": 144.0, "wall_t": 4.5, "door_x": 12.0, "door_w": 192.0, "door_h": 84.0, "house_door_x": 92.0, "house_door_w": 32.0, "house_door_h": 80.0, "step_w": 36.0, "step_d": 12.0, "step_h": 4.0, "side_door_yn": 4.0, "side_door_w": 32.0, "side_door_h": 80.0, "landing_x": 0.0, "landing_w": 180.0, "landing_d": 36.0, "landing_h": 6.0, "truck_x": 50.0, "truck_nose": 23.0, "maverick_l": 200.0, "maverick_w": 72.0, "mirror_w": 84.0, "front_overhang": 33.0, "forester_l": 182.0, "forester_w": 71.0, "forester_nose": 20.0, "ply": 0.75, "osb": 0.44, "stud_t": 1.5, "stud_w": 3.5, "cab_yn": 136.0, "cab_w": 48.0, "cab_h": 40.0, "cab_d": 12.0, "cab_z": 48.0, "door_d": 4.0, "door_open": 90.0, "bench_yn": 92.0, "bench_d": 30.0, "bench_off": 3.0, "caster": 3.0, "shaft_h": 30.5, "bearing_h": 4.5, "sec_saw": 24.0, "sec_miter": 32.0, "sec_planer": 30.0, "panel_t": 1.5, "panel_h": 29.0, "apron_h": 8.0, "bay_gap": 2.5, "box_d": 4.0, "skin": 0.75, "plate_t": 0.75, "riser_h": 4.5, "concrete_miter": 1.0, "concrete_planer": 2.5, "plunger_off": 10.0, "hub_r": 1.25, "box_lb": 35.0, "riser_lb": 22.0, "planer_lb": 92.0, "planer_cg": 9.0, "miter_lb": 56.0, "miter_cg": 7.0, "ts_w": 29.2, "ts_l": 22.7, "ts_table_h": 13.0, "ts_lb": 55.0, "planer_w": 24.0, "planer_l": 22.0, "planer_h": 20.0, "miter_w": 31.0, "miter_l": 24.5, "miter_h": 18.5, "dust_yn": 210.0, "dc_w": 24.0, "dc_len": 38.0, "dc_off": 1.0, "dc_base_t": 1.5, "dc_bay": 24.0, "dc_post_h": 24.0, "dc_rail_top": 16.0, "dc_ped_h": 12.0, "dc_spine_h": 40.0, "dc_spine_w": 8.0, "dc_caster": 3.0, "vac_r": 9.75, "vac_h": 26.0, "vac_inlet_z": 20.0, "bucket_r": 5.95, "bucket_h": 14.5, "cyclone_h": 12.0, "cradle": 14.0, "dc_cg_h": 16.0, "dc_weight": 85.0, "bulk_w": 42.0, "bulk_d": 24.0, "bulk_h": 84.0, "bulk_levels": [24.0, 42.0, 60.0, 78.0], "tote_l": 31.0, "tote_w": 20.0, "tote_h": 15.0, "pot_y0": 2.0, "pot_w": 48.0, "pot_d": 24.0, "pot_h": 36.0, "bag_shelf": 6.0, "well_dia": 14.0, "well_x": 10.0, "well_from_y0": 12.0, "well_levels": [22.0, 26.0, 30.0], "well_level": 1, "pot_dia": 10.0, "pot_h_in": 10.0, "bin_w": 16.0, "bin_l": 12.0, "bin_h": 12.0, "splash_h": 6.0, "upper_shelf": 56.0, "upper_d": 12.0, "upper_w": 48.0, "bay_y0": 52.0, "bay_w": 42.0, "bay_l": 26.0, "machine_h": 40.0, "panel_yn": 43.75, "panel_w": 14.5, "panel_hh": 30.0, "panel_center": 60.0, "ws_w": 30.0, "ws_d": 36.0, "comp_w": 19.0, "comp_d": 19.0, "comp_h": 20.0, "comp_yn": 189.0, "rail_y0": 84.0, "rail_y1": 140.0, "rail_z": 72.0, "opener_x": 116.0, "opener_len": 130.0, "opener_z": 94.0, "motor_l": 20.0, "button_x": 130.0, "bike_x": [84.0, 124.0], "bike_y": 60.0, "evse_y": 150.0, "evse_z": 66.0, "lights": [[30.0, 10.0], [30.0, 180.0], [172.0, 60.0], [172.0, 116.0]], "light_l": 48.0, "hoist_z": 96.0}, "generated": "2026-09-20 01:34", "meta": {"state": {"label": "Closed up", "description": "Cabinet locked, bench flat (tools down), no vehicle", "doors_open": false, "miter_up": false, "planer_up": false, "truck": "none"}}, "default_state": "closed", "views": {"iso": {"state": "closed", "hide": "Truck,Wall South,Wall East,Ceiling Lights"}, "iso-open": {"state": "open", "view": "iso", "hide": "Truck,Wall South,Wall East,Ceiling Lights"}, "iso-nw": {"state": "closed", "view": "iso-nw", "hide": "Truck,Wall North,Wall West,Ceiling Lights"}, "plan": {"state": "closed", "view": "plan", "hide": "Truck,Ceiling Lights,Heater,Bike Hoists"}, "east": {"state": "open", "view": "east", "hide": "Truck,Wall West,Wall South,Ceiling Lights,Potting Station,Machine Bay"}, "west": {"state": "closed", "view": "west", "hide": "Truck,Wall East,Wall South,Ceiling Lights,Tool Cabinet,Door North,Door South,Flip Bench,Dust Cart,Compressor,Bulk Rack"}, "north": {"state": "open", "view": "north", "hide": "Truck,Wall South,Ceiling Lights"}, "shop": {"state": "open", "focus": "Tool Cabinet,Door North,Door South,Flip Bench,Dust Cart,Compressor,Subpanel", "dir": "sw", "elev": 0.5, "hide": "Truck,Wall South,Wall West,Ceiling Lights,Bike Hoists,Garage Opener,Potting Station,Machine Bay,Wall Hooks,Bulk Rack", "w": 1600, "h": 1000}, "cabinet": {"state": "open", "focus": "Tool Cabinet,Door North,Door South", "dir": "sw", "hide": "Truck,Wall South,Ceiling Lights,Flip Bench,Bike Hoists,Garage Opener", "w": 1400, "h": 1000}, "dust": {"state": "open", "focus": "Dust Cart", "dir": "sw", "hide": "Truck,Wall South,Ceiling Lights,Tool Cabinet,Door North,Door South", "w": 1400, "h": 1000}, "landing": {"state": "closed", "focus": "Landing", "dir": "s", "elev": 0.6, "zoom": 0.55, "hide": "Truck,Wall South,Wall East,Wall West,Ceiling Lights,Bike Hoists,Garage Opener,Wall Hooks,Machine Bay,Potting Station,Bulk Rack,Heater,Tool Cabinet,Door North,Door South,Dust Cart,Flip Bench,Compressor,Subpanel", "w": 1600, "h": 900}, "flip-bench-sw": {"state": "closed", "focus": "Flip Bench", "dir": "sw", "elev": 0.45, "hide": "Landing,Wall North,Wall West,Wall East,Wall South,Truck,Bike Hoists,Tool Cabinet,Door North,Door South,Dust Cart,Bulk Rack,Compressor,Potting Station,Machine Bay,Wall Hooks,Subpanel,Heater,Ceiling Lights,Garage Opener", "w": 1500, "h": 1000}, "flip-miter-sw": {"state": "miter", "focus": "Flip Bench", "dir": "sw", "elev": 0.45, "hide": "Landing,Wall North,Wall West,Wall East,Wall South,Truck,Bike Hoists,Tool Cabinet,Door North,Door South,Dust Cart,Bulk Rack,Compressor,Potting Station,Machine Bay,Wall Hooks,Subpanel,Heater,Ceiling Lights,Garage Opener", "w": 1500, "h": 1000}, "flip-planer-sw": {"state": "planer", "focus": "Flip Bench", "dir": "sw", "elev": 0.45, "hide": "Landing,Wall North,Wall West,Wall East,Wall South,Truck,Bike Hoists,Tool Cabinet,Door North,Door South,Dust Cart,Bulk Rack,Compressor,Potting Station,Machine Bay,Wall Hooks,Subpanel,Heater,Ceiling Lights,Garage Opener", "w": 1500, "h": 1000}, "flip-both-ne": {"state": "open", "focus": "Flip Bench", "dir": "ne", "elev": 0.45, "hide": "Landing,Wall North,Wall West,Wall East,Wall South,Truck,Bike Hoists,Tool Cabinet,Door North,Door South,Dust Cart,Bulk Rack,Compressor,Potting Station,Machine Bay,Wall Hooks,Subpanel,Heater,Ceiling Lights,Garage Opener", "w": 1500, "h": 1000}, "flip-end": {"state": "miter", "focus": "Flip Bench", "dir": "s", "elev": 0.2, "hide": "Landing,Wall North,Wall West,Wall East,Wall South,Truck,Bike Hoists,Tool Cabinet,Door North,Door South,Dust Cart,Bulk Rack,Compressor,Potting Station,Machine Bay,Wall Hooks,Subpanel,Heater,Ceiling Lights,Garage Opener", "w": 1500, "h": 1000}, "flip-side": {"state": "open", "focus": "Flip Bench", "dir": "w", "elev": 0.2, "hide": "Landing,Wall North,Wall West,Wall East,Wall South,Truck,Bike Hoists,Tool Cabinet,Door North,Door South,Dust Cart,Bulk Rack,Compressor,Potting Station,Machine Bay,Wall Hooks,Subpanel,Heater,Ceiling Lights,Garage Opener", "w": 1500, "h": 1000}, "flip-top": {"state": "open", "focus": "Flip Bench", "dir": "sw", "elev": 1.6, "hide": "Landing,Wall North,Wall West,Wall East,Wall South,Truck,Bike Hoists,Tool Cabinet,Door North,Door South,Dust Cart,Bulk Rack,Compressor,Potting Station,Machine Bay,Wall Hooks,Subpanel,Heater,Ceiling Lights,Garage Opener", "w": 1500, "h": 1000}, "dust-sw": {"state": "open", "focus": "Dust Cart", "dir": "sw", "elev": 0.45, "hide": "Landing,Wall North,Wall West,Wall East,Wall South,Truck,Bike Hoists,Tool Cabinet,Door North,Door South,Flip Bench,Bulk Rack,Compressor,Potting Station,Machine Bay,Wall Hooks,Subpanel,Heater,Ceiling Lights,Garage Opener", "w": 1400, "h": 1000}, "dust-ne": {"state": "open", "focus": "Dust Cart", "dir": "ne", "elev": 0.45, "hide": "Landing,Wall North,Wall West,Wall East,Wall South,Truck,Bike Hoists,Tool Cabinet,Door North,Door South,Flip Bench,Bulk Rack,Compressor,Potting Station,Machine Bay,Wall Hooks,Subpanel,Heater,Ceiling Lights,Garage Opener", "w": 1400, "h": 1000}, "dust-side": {"state": "open", "focus": "Dust Cart", "dir": "s", "elev": 0.2, "hide": "Landing,Wall North,Wall West,Wall East,Wall South,Truck,Bike Hoists,Tool Cabinet,Door North,Door South,Flip Bench,Bulk Rack,Compressor,Potting Station,Machine Bay,Wall Hooks,Subpanel,Heater,Ceiling Lights,Garage Opener", "w": 1400, "h": 1000}, "dust-end": {"state": "open", "focus": "Dust Cart", "dir": "w", "elev": 0.2, "hide": "Landing,Wall North,Wall West,Wall East,Wall South,Truck,Bike Hoists,Tool Cabinet,Door North,Door South,Flip Bench,Bulk Rack,Compressor,Potting Station,Machine Bay,Wall Hooks,Subpanel,Heater,Ceiling Lights,Garage Opener", "w": 1400, "h": 1000}, "dust-top": {"state": "open", "focus": "Dust Cart", "dir": "sw", "elev": 1.6, "hide": "Landing,Wall North,Wall West,Wall East,Wall South,Truck,Bike Hoists,Tool Cabinet,Door North,Door South,Flip Bench,Bulk Rack,Compressor,Potting Station,Machine Bay,Wall Hooks,Subpanel,Heater,Ceiling Lights,Garage Opener", "w": 1400, "h": 1000}, "station": {"state": "open", "focus": "Potting Station", "dir": "se", "hide": "Wall South,Ceiling Lights,Truck,Bike Hoists,Garage Opener", "w": 1400, "h": 1000}, "station-well": {"state": "open", "focus": "Potting Station", "dir": "e", "elev": 1.2, "hide": "Landing,Wall North,Wall West,Wall East,Wall South,Truck,Bike Hoists,Tool Cabinet,Door North,Door South,Flip Bench,Dust Cart,Bulk Rack,Compressor,Machine Bay,Wall Hooks,Subpanel,Heater,Ceiling Lights,Garage Opener", "w": 1400, "h": 1000}, "opener": {"state": "closed", "focus": "Garage Opener,Bike Hoists", "dir": "se", "elev": 0.35, "hide": "Wall South,Wall East,Wall West,Ceiling Lights,Truck,Potting Station,Machine Bay,Wall Hooks,Bulk Rack,Flip Bench,Dust Cart,Compressor,Tool Cabinet,Door North,Door South,Subpanel,Heater", "w": 1600, "h": 1000}, "rack": {"state": "open", "focus": "Bulk Rack", "dir": "se", "hide": "Wall South,Ceiling Lights,Truck,Bike Hoists,Garage Opener", "w": 1400, "h": 1000}}}</script>
+<script id="embed" type="application/json">{}</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const M = JSON.parse(document.getElementById('manifest').textContent);
+const EMBED = JSON.parse(document.getElementById('embed').textContent || '{}');
+const q = new URLSearchParams(location.search);
+const shot = q.get('shot') === '1';
+if (shot) document.body.classList.add('shot');
+const W = shot ? parseInt(q.get('w') || '1600') : innerWidth;
+const H = shot ? parseInt(q.get('h') || '1100') : innerHeight;
+const norm = s => String(s).replace(/\s/g, '_').replace(/[^\w-]/g, '');
+const compByNorm = {}; for (const c of M.components) compByNorm[norm(c)] = c;
+const hidden = new Set((q.get('hide') || '').split(',').filter(Boolean));
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H); renderer.setPixelRatio(shot ? 1 : Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.95;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xece8df);
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.55;
+scene.add(new THREE.HemisphereLight(0xffffff, 0xb9b1a4, 0.7));
+const sun = new THREE.DirectionalLight(0xfff4e6, 1.8);
+sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096); sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.05;
+scene.add(sun); scene.add(sun.target);
+
+let camera = new THREE.PerspectiveCamera(32, W / H, 1, 5000);
+let controls = null;
+let model = null, bbox = null;
+const loader = new GLTFLoader();
+const status = document.getElementById('status');
+const compState = {};
+
+function applyVisibility() {
+  if (!model) return;
+  model.traverse(o => { if (o.userData.comp) o.visible = !hidden.has(o.userData.comp) && compState[o.userData.comp] !== false; });
+}
+
+function frame(view) {
+  const focus = (q.get('focus') || '').split(',').filter(Boolean);
+  if (focus.length && model) {
+    // frame one or more components from a corner: dir = se|sw|ne|nw (default sw)
+    const fb = new THREE.Box3();
+    model.traverse(o => { if (o.isMesh && focus.includes(o.userData.comp)) fb.expandByObject(o); });
+    if (!fb.isEmpty()) {
+      const fc = fb.getCenter(new THREE.Vector3()), fs = fb.getSize(new THREE.Vector3());
+      const fd = Math.max(fs.x, fs.y, fs.z) * 1.7;
+      // dir: any of n, s, e, w or a diagonal (sw, ne, ...); a single letter is a straight-on view.
+      // elev: camera height as a fraction of the focus size (default 0.55; 0.15 is eye level, 1.6 is near plan).
+      const dir = q.get('dir') || 'sw';
+      let sx = dir.includes('e') ? 1 : (dir.includes('w') ? -1 : 0), sz = dir.includes('n') ? -1 : (dir.includes('s') ? 1 : 0);
+      if (!sx && !sz) { sx = -1; sz = 1; }
+      const elev = parseFloat(q.get('elev') || '0.55');
+      // zoom: scales the stand-off distance (default 1; 0.6 fills the frame with a long, flat object)
+      const zoom = parseFloat(q.get('zoom') || '1');
+      const horiz = ((sx && sz) ? 0.8 : 1.7) * zoom;   // a straight-on view sees the object's full width, so stand further back
+      camera = new THREE.PerspectiveCamera(30, W / H, 1, 5000);
+      camera.position.set(fc.x + sx * fd * horiz, fc.y + fd * elev, fc.z + sz * fd * horiz);
+      camera.up.set(0, 1, 0); camera.lookAt(fc); camera.updateProjectionMatrix();
+      if (controls) controls.dispose();
+      if (!shot) { controls = new OrbitControls(camera, renderer.domElement); controls.target.copy(fc); controls.update(); }
+      // light from the camera side, pushed sideways for straight-on views so the facing plane still shades
+      const sideOff = new THREE.Vector3(sz ? 280 : 60, 300, sx ? 220 : 0);
+      sun.position.copy(camera.position).sub(fc).normalize().multiplyScalar(600).add(fc).add(sideOff); sun.target.position.copy(fc);
+      const s2 = fd * 1.2;
+      sun.shadow.camera.left = -s2; sun.shadow.camera.right = s2; sun.shadow.camera.top = s2; sun.shadow.camera.bottom = -s2;
+      sun.shadow.camera.near = 20; sun.shadow.camera.far = 2500;
+      return;
+    }
+  }
+  const c = bbox.getCenter(new THREE.Vector3());
+  const size = bbox.getSize(new THREE.Vector3());
+  const d = Math.max(size.x, size.z, size.y * 0.9) * 1.05;
+  const ortho = (view === 'plan' || view === 'north' || view === 'east' || view === 'west' || view === 'south');
+  if (ortho) {
+    const across = view === 'plan' ? Math.max(size.x, size.z) : (view === 'north' || view === 'south' ? size.x : size.z);
+    const tall = view === 'plan' ? Math.max(size.x, size.z) : size.y;
+    const hw = Math.max(across * 0.55, tall * 0.55 * W / H);
+    const hh = hw * H / W;
+    camera = new THREE.OrthographicCamera(-hw, hw, hh, -hh, 1, 5000);
+  } else {
+    camera = new THREE.PerspectiveCamera(32, W / H, 1, 5000);
+  }
+  if (view === 'plan') { camera.position.set(c.x, c.y + 1500, c.z + 0.01); camera.up.set(0, 0, -1); }
+  else if (view === 'north') { camera.position.set(c.x, size.y / 2, c.z + 1500); }
+  else if (view === 'south') { camera.position.set(c.x, size.y / 2, c.z - 1500); }
+  else if (view === 'east') { camera.position.set(c.x - 1500, size.y / 2, c.z); }
+  else if (view === 'west') { camera.position.set(c.x + 1500, size.y / 2, c.z); }
+  else if (view === 'iso-nw') { camera.position.set(c.x - d * 1.3, c.y + d * 1.0, c.z - d * 1.3); }
+  else if (view === 'iso-ne') { camera.position.set(c.x + d * 1.3, c.y + d * 1.0, c.z - d * 1.3); }
+  else if (view === 'iso-sw') { camera.position.set(c.x - d * 1.3, c.y + d * 1.0, c.z + d * 1.3); }
+  else if (view === 'shop') { camera.position.set(c.x - d * 0.35, c.y + d * 0.55, c.z + d * 1.15); }
+  else if (view === 'garden') { camera.position.set(c.x + d * 0.45, c.y + d * 0.55, c.z + d * 1.15); }
+  else { camera.position.set(c.x + d * 1.25, c.y + d * 1.05, c.z + d * 1.35); }
+  if (view !== 'plan') camera.up.set(0, 1, 0);
+  let target = new THREE.Vector3(c.x, bbox.min.y + size.y * 0.42, c.z);
+  if (view === 'plan') target = new THREE.Vector3(c.x, 0, c.z);
+  if (view === 'shop') target = new THREE.Vector3(bbox.max.x - 40, 36, c.z + 10);
+  if (view === 'garden') target = new THREE.Vector3(bbox.min.x + 40, 36, c.z + 10);
+  camera.lookAt(target);
+  camera.updateProjectionMatrix();
+  if (controls) controls.dispose();
+  if (!shot) { controls = new OrbitControls(camera, renderer.domElement); controls.target.copy(target); controls.update(); }
+  // light from the camera's side so faces toward the viewer are lit
+  sun.position.copy(camera.position).sub(c).normalize().multiplyScalar(900).add(c).add(new THREE.Vector3(ortho ? -350 : 120, 500, 0)); sun.target.position.copy(c);
+  sun.intensity = ortho ? 1.5 : 1.8;
+  const s = Math.max(size.x, size.y, size.z) * 0.8;
+  sun.shadow.camera.left = -s; sun.shadow.camera.right = s; sun.shadow.camera.top = s; sun.shadow.camera.bottom = -s;
+  sun.shadow.camera.near = 50; sun.shadow.camera.far = 3000;
+}
+
+function load(stateName, view) {
+  const st = M.states[stateName];
+  status.textContent = 'loading ' + st.label;
+  loader.load(EMBED[st.file] || st.file, gltf => {
+    if (model) scene.remove(model);
+    model = gltf.scene;
+    model.traverse(o => {
+      if (o.isMesh) {
+        o.castShadow = o.material.transparent ? false : true; o.receiveShadow = true;
+        let p = o.parent, comp = null;
+        while (p) { const nm = compByNorm[norm(p.userData.name || p.name)]; if (nm) { comp = nm; break; } p = p.parent; }
+        o.userData.comp = comp || norm(o.userData.name || o.name).split('_')[0];
+        if (o.material.transparent) o.material.depthWrite = false;
+      }
+    });
+    scene.add(model);
+    bbox = new THREE.Box3().setFromObject(model);
+    applyVisibility();
+    frame(view);
+    for (const b of document.querySelectorAll('#states button')) b.classList.toggle('on', b.dataset.s === stateName);
+    status.textContent = st.label + (st.description ? ': ' + st.description : '');
+    renderer.render(scene, camera);
+    if (shot) document.title = 'rendered';
+  }, undefined, err => { status.textContent = 'error ' + err; if (shot) document.title = 'error'; });
+}
+
+const statesEl = document.getElementById('states');
+for (const [k, st] of Object.entries(M.states)) {
+  const b = document.createElement('button'); b.textContent = st.label; b.dataset.s = k;
+  b.onclick = () => load(k, currentView); statesEl.appendChild(b);
+}
+const viewsEl = document.getElementById('views');
+let currentView = q.get('view') || 'iso';
+for (const v of ['iso', 'iso-sw', 'iso-ne', 'iso-nw', 'plan', 'north', 'east', 'west']) {
+  const b = document.createElement('button'); b.textContent = v; b.onclick = () => { currentView = v; frame(v); }; viewsEl.appendChild(b);
+}
+const compsEl = document.getElementById('comps');
+for (const c of M.components) {
+  const l = document.createElement('label'); const i = document.createElement('input'); i.type = 'checkbox'; i.checked = !hidden.has(c);
+  i.onchange = () => { compState[c] = i.checked; applyVisibility(); };
+  l.appendChild(i); l.appendChild(document.createTextNode(c)); compsEl.appendChild(l);
+}
+
+// the whole panel folds to a corner button so nothing covers the model; it starts folded on a phone and
+// when the viewer is embedded in another page (the drawing set's iframe); ?panel=1|0 overrides both
+const embedded = window.self !== window.top;
+document.getElementById('panel').open = q.has('panel') ? q.get('panel') !== '0' : !(embedded || innerWidth < 600);
+
+load(q.get('state') || M.default_state, currentView);
+if (!shot) {
+  addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); });
+  renderer.setAnimationLoop(() => { if (controls) controls.update(); renderer.render(scene, camera); });
+}
+</script>
+</body></html>

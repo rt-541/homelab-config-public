@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Drawing set for a backyard: a freestanding 25 x 20 ft composite deck at the back slider, a 16 ft dry-laid buff flagstone patio with a round fire apron and stone fire ring, a stone raised herb bed, a sound-damping lattice screen around the AC, a stone walkway around the deck, five American Pillar arborvitae along the back fence and a French drain along the east fence.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Backyard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F2F4F6; --paper:#FFFFFF; --ink:#1B2430; --muted:#5B6B7A; --rule:#C9D2DA; --rule-soft:#E4E9EE;
+  --deck:#2F6F9F; --deck-soft:#E3EEF6; --deck-ink:#1E4C6E;
+  --site:#C8541B; --site-soft:#F9E6DB; --site-ink:#8E3A10;
+  --warn-bg:#FFF4E5; --warn-ink:#7A4A00;
+  --code-bg:#EAEEF2;
+  --grass:#E6EEDC; --earth:#E9DFCF; --earth-l:#F3EDE3; --house:#E8DCC4; --composite:#D9C9B0; --frame:#E6D3AE;
+  --flag:#EFE3C8; --flag-dark:#E0CFA8; --gravel:#E4E1DA; --block:#CFC6B8; --cedar:#D9A77E; --cedar-cap:#C98E5E; --soil:#6E5642;
+  --tree:#9CC39C; --tree-ink:#2E5C3A; --concrete:#D4D2CC; --stone:#D8D4CB;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181E; --paper:#1A2129; --ink:#E6ECF1; --muted:#9AA8B5; --rule:#33404C; --rule-soft:#242E38;
+    --deck:#6FB0E0; --deck-soft:#1C2F3F; --deck-ink:#A9D2F0;
+    --site:#F08A4B; --site-soft:#3A2418; --site-ink:#F7B58C;
+    --warn-bg:#3A2A10; --warn-ink:#F3D9A8;
+    --code-bg:#232D37;
+    --grass:#1F2A1E; --earth:#2E2820; --earth-l:#252119; --house:#3A3326; --composite:#4A4032; --frame:#453A28;
+    --flag:#4A4330; --flag-dark:#5A5038; --gravel:#33322E; --block:#4A443B; --cedar:#6E4C32; --cedar-cap:#80593A; --soil:#2C2219;
+    --tree:#2F5238; --tree-ink:#9CC39C; --concrete:#3C3B38; --stone:#3F3C36;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181E; --paper:#1A2129; --ink:#E6ECF1; --muted:#9AA8B5; --rule:#33404C; --rule-soft:#242E38;
+  --deck:#6FB0E0; --deck-soft:#1C2F3F; --deck-ink:#A9D2F0;
+  --site:#F08A4B; --site-soft:#3A2418; --site-ink:#F7B58C;
+  --warn-bg:#3A2A10; --warn-ink:#F3D9A8;
+  --code-bg:#232D37;
+  --grass:#1F2A1E; --earth:#2E2820; --earth-l:#252119; --house:#3A3326; --composite:#4A4032; --frame:#453A28;
+  --flag:#4A4330; --flag-dark:#5A5038; --gravel:#33322E; --block:#4A443B; --cedar:#6E4C32; --cedar-cap:#80593A; --soil:#2C2219;
+  --tree:#2F5238; --tree-ink:#9CC39C; --concrete:#3C3B38; --stone:#3F3C36;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:900px;margin:0 auto;display:grid;gap:28px}
+h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;line-height:1.05;margin:0;text-wrap:balance}
+h1{font-size:2.6rem;font-weight:700;letter-spacing:.005em}
+h2{font-size:1.7rem;font-weight:600}
+h3{font-size:1.15rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+p{margin:0;max-width:66ch}
+ul,ol{margin:0;padding-left:1.3em;max-width:70ch}
+li{margin-block:.25em}
+li::marker{color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:.9em}
+a{color:var(--deck)}
+strong{font-weight:600}
+.eyebrow{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;color:var(--muted)}
+
+.titleblock{background:var(--paper);border:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:0}
+.titleblock .main{padding:22px 24px;display:grid;gap:10px;border-right:1px solid var(--rule)}
+.titleblock .meta{display:grid;grid-template-columns:1fr 1fr;align-content:start}
+.titleblock .meta div{padding:10px 14px;border-bottom:1px solid var(--rule);border-left:1px solid var(--rule);min-width:0}
+.titleblock .meta div:nth-child(odd){border-left:none}
+.titleblock .meta div:nth-last-child(-n+2){border-bottom:none}
+.titleblock .meta .k{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600}
+.titleblock .meta .v{font-family:"IBM Plex Mono",monospace;font-size:.9rem;overflow-wrap:anywhere}
+@media (max-width:900px){.titleblock{grid-template-columns:1fr}.titleblock .main{border-right:none;border-bottom:1px solid var(--rule)}}
+
+.index{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.index a{display:flex;gap:10px;align-items:baseline;padding:10px 12px;background:var(--paper);border:1px solid var(--rule);text-decoration:none;color:var(--ink)}
+.index a .n{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:.85rem}
+.index a:hover,.index a:focus-visible{border-color:var(--deck);outline:none}
+
+.sheet{background:var(--paper);border:1px solid var(--rule);padding:24px;display:grid;gap:20px}
+.sheet header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-bottom:10px}
+.sheet header .num{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:.85rem}
+.sheet.deck header{border-bottom:2px solid var(--deck)}
+.sheet.site header{border-bottom:2px solid var(--site)}
+.tag{display:inline-block;font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;padding:2px 8px;border-radius:2px}
+.tag.deck{background:var(--deck-soft);color:var(--deck-ink)}
+.tag.site{background:var(--site-soft);color:var(--site-ink)}
+.tag.diy{background:var(--grass);color:var(--tree-ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+.block{display:grid;gap:10px;align-content:start}
+.fig{display:grid;gap:8px}
+.fig svg{width:100%;height:auto;display:block}
+.fig figcaption{font-size:.85rem;color:var(--muted);max-width:70ch}
+figure{margin:0}
+.render img{width:100%;height:auto;display:block;border:1px solid var(--rule)}
+.viewer{width:100%;aspect-ratio:16/10;border:1px solid var(--rule);background:#ece8df}
+.viewer iframe{width:100%;height:100%;border:0;display:block}
+
+svg text{font-family:"IBM Plex Mono",monospace;font-size:7px;fill:var(--ink)}
+svg text.lbl{font-family:"Barlow Condensed",Arial,sans-serif;font-size:9px;letter-spacing:.04em;text-transform:uppercase;fill:var(--muted)}
+svg text.big{font-family:"Barlow Condensed",Arial,sans-serif;font-size:14px;letter-spacing:.2em;fill:var(--muted)}
+svg text.zone-t{fill:var(--deck-ink)}
+svg text.warn-t{fill:var(--site-ink)}
+svg text.spot{fill:var(--muted);font-size:6.5px}
+svg text.on-dark{fill:#F3EDE3}
+svg .grass{fill:var(--grass);stroke:none}
+svg .house{fill:var(--house);stroke:var(--ink);stroke-width:.6}
+svg .skirt{fill:var(--composite);stroke:var(--deck-ink);stroke-width:.5}
+svg .sofa{fill:var(--ink);opacity:.7;stroke:none}
+svg .table{fill:var(--cedar);stroke:var(--ink);stroke-width:.4}
+svg .metal-dark{fill:var(--ink);opacity:.75;stroke:none}
+svg .metal{fill:var(--rule);stroke:var(--ink);stroke-width:.5}
+svg .deck{fill:var(--composite);stroke:var(--deck-ink);stroke-width:.8}
+svg .deck-light{fill:var(--deck-soft);stroke:var(--deck-ink);stroke-width:.8}
+svg .zone{fill:none;stroke:var(--deck);stroke-width:.6;stroke-dasharray:3 2}
+svg .flag{fill:var(--flag);stroke:var(--site-ink);stroke-width:.6}
+svg .flag-dark{fill:var(--flag-dark);stroke:var(--site-ink);stroke-width:.6}
+svg .joint{stroke:var(--site-ink);stroke-width:.4;opacity:.6}
+svg .pit{fill:var(--ink);stroke:none;opacity:.75}
+svg .pit-s{fill:var(--rule);stroke:var(--ink);stroke-width:.6}
+svg .clear{fill:none;stroke:var(--site);stroke-width:.8;stroke-dasharray:4 3}
+svg .chair{fill:none;stroke:var(--muted);stroke-width:.6}
+svg .gravel{fill:var(--gravel);stroke:var(--muted);stroke-width:.5}
+svg .block{fill:var(--block);stroke:var(--ink);stroke-width:.6}
+svg .block-cut{fill:var(--block);stroke:var(--ink);stroke-width:.6;opacity:.6}
+svg .block-hatch{fill:var(--frame);stroke:var(--ink);stroke-width:.6}
+svg .cedar{fill:var(--cedar);stroke:var(--ink);stroke-width:.6}
+svg .cedar-cap{fill:var(--cedar-cap);stroke:var(--ink);stroke-width:.6}
+svg .soil{fill:var(--soil);stroke:var(--ink);stroke-width:.4}
+svg .tree{fill:var(--tree);stroke:var(--tree-ink);stroke-width:.7;fill-opacity:.85}
+svg .trunk{fill:var(--tree-ink);stroke:none}
+svg .drain{stroke:var(--site);stroke-width:1.6;stroke-dasharray:6 3;fill:none}
+svg .fence{stroke:var(--muted);stroke-width:1.2;fill:none;stroke-dasharray:1 2}
+svg .cut{stroke:var(--site);stroke-width:.8;stroke-dasharray:10 3 2 3}
+svg .arrow-fill{fill:var(--ink)}
+svg .earth{fill:var(--earth);stroke:var(--muted);stroke-width:.6}
+svg .earth-l{fill:var(--earth-l);stroke:var(--muted);stroke-width:.6}
+svg .concrete{fill:var(--concrete);stroke:var(--ink);stroke-width:.5}
+svg .concrete-h{fill:none;stroke:var(--muted);stroke-width:.5;stroke-dasharray:2 1.5}
+svg .frame{fill:var(--frame);stroke:var(--ink);stroke-width:.5}
+svg .beam{fill:var(--frame);stroke:var(--deck-ink);stroke-width:.7}
+svg .beam-l{stroke:var(--ink);stroke-width:1.4;fill:none}
+svg .post{fill:var(--ink);stroke:none}
+svg .joist{stroke:var(--deck-ink);stroke-width:.6}
+svg .infill{fill:var(--deck-soft);stroke:var(--deck-ink);stroke-width:.4;opacity:.8}
+svg .base{fill:var(--stone);stroke:var(--muted);stroke-width:.5}
+svg .dust{fill:var(--gravel);stroke:var(--muted);stroke-width:.4}
+svg .fabric{stroke:var(--site);stroke-width:1;stroke-dasharray:3 1.5}
+svg .fabric-box{fill:none;stroke:var(--site);stroke-width:1;stroke-dasharray:3 1.5}
+svg .stone{fill:var(--stone);stroke:var(--muted);stroke-width:.5}
+svg .pipe{stroke:var(--deck-ink);stroke-width:1.6;fill:none}
+svg .pipe-c{fill:var(--paper);stroke:var(--deck-ink);stroke-width:1.2}
+svg .mesh{stroke:var(--deck);stroke-width:1;stroke-dasharray:1.2 1}
+svg .screw{fill:var(--ink)}
+svg .wall-l{stroke:var(--ink);stroke-width:2}
+svg .ground-l{stroke:var(--muted);stroke-width:.8}
+svg .hidden{fill:none;stroke:var(--muted);stroke-width:.5;stroke-dasharray:2 1.5}
+svg .stone-j{fill:none;stroke:var(--site-ink);stroke-width:.35;opacity:.55}
+svg .herb{fill:var(--tree);stroke:var(--tree-ink);stroke-width:.6}
+svg .ring{fill:var(--block);stroke:var(--ink);stroke-width:.6}
+svg .ash{fill:var(--soil);stroke:none}
+svg .liner{stroke:var(--ink);stroke-width:1.2}
+svg .baluster{stroke:var(--ink);stroke-width:.6}
+svg .breaker{stroke:var(--site);stroke-width:1.2;stroke-dasharray:4 2}
+svg .flag-nostroke{fill:var(--flag);stroke:none}
+svg .lattice{fill:none;stroke:var(--site-ink);stroke-width:2.2;stroke-dasharray:1.5 1}
+svg .mlv{fill:var(--ink);opacity:.8;stroke:none}
+svg .lat{stroke:var(--flag-dark);stroke-width:1.1}
+svg .post-l{fill:var(--paper);stroke:var(--ink);stroke-width:.6}
+svg .dim{stroke:var(--muted);stroke-width:.5;fill:none}
+svg .dim-t{fill:var(--muted);font-size:6.5px}
+svg .thin{stroke:var(--ink);stroke-width:.5;fill:none}
+
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+th{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.78rem;color:var(--muted);border-bottom:1px solid var(--rule)}
+td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.m{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:860px){td.m{white-space:normal}}
+tr.sum td{border-top:1px solid var(--rule);font-weight:600}
+tfoot td{color:var(--muted);font-size:.85rem;border-bottom:none}
+.callout{padding:14px 16px;border-left:3px solid var(--deck);background:var(--deck-soft);display:grid;gap:6px}
+.callout.site{border-color:var(--site);background:var(--site-soft)}
+.callout.warn{border-color:var(--warn-ink);background:var(--warn-bg);color:var(--warn-ink)}
+.callout .t{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat div{padding:10px 12px;border:1px solid var(--rule)}
+.stat .k{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600}
+.stat .v{font-family:"IBM Plex Mono",monospace;font-size:1.05rem}
+code{font-family:"IBM Plex Mono",monospace;font-size:.9em;background:var(--code-bg);padding:1px 5px;border-radius:2px}
+.steps li{margin-block:.45em}
+@media (prefers-reduced-motion:no-preference){.index a{transition:border-color .15s}}
+.sitebar{max-width:900px;margin:0 auto 20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.sitebar a{color:var(--ink);text-decoration:none}
+.sitebar a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="sitebar"><span><a href="/">about.rt-541.io</a> / <a href="/projects">projects</a> / <a href="/projects/backyard">backyard</a></span><span><a href="/plans/backyard/model/?v={{v_model}}">3D model</a> &nbsp; <a href="/plans/backyard/backyard.pdf?v={{v_pdf}}">PDF, 22 pages</a></span></div>
+<div class="wrap">
+
+<section class="titleblock">
+  <div class="main">
+    <span class="eyebrow">Drawing set, revision A5</span>
+    <h1>Backyard</h1>
+    <p>A new composite deck at the sliding door in the bay, running from the chimney to near the house's east corner, its outer corners cut at 45 degrees, with the Blackstone and the smoker along its east rail. One stair leads down its west side to a 16 ft square buff flagstone patio with a round stone apron and fire ring centred on its northwest corner, a stone seat wall around the ring's north half and along the patio's north edge, the outdoor sofa set, a stone raised herb bed between the patio and the house, and a lattice screen with a sound barrier around the AC. A stone walkway wraps the deck's north and east sides. Five American Pillar arborvitae stand in a row along the back fence on the slider's line, and a French drain runs along the wet east fence. Revision A is laid out from drone photos; every dimension marked "est." is replaced by a tape measurement before bids.</p>
+  </div>
+  <div class="meta">
+    <div><span class="k">Site</span><span class="v">Back yard, Michigan clay</span></div>
+    <div><span class="k">Revision</span><span class="v">A5, {{rev_date}}, est.</span></div>
+    <div><span class="k">Deck</span><span class="v">{{deck_w}} x {{deck_d}}, composite</span></div>
+    <div><span class="k">Patio</span><span class="v">16 x 16 ft buff flagstone</span></div>
+    <div><span class="k">Fire</span><span class="v">{{pit_d}} in stone ring</span></div>
+    <div><span class="k">Rough total</span><span class="v">{{all_total}}</span></div>
+  </div>
+</section>
+
+<nav class="index" aria-label="Sheets">
+  <a href="#s1"><span class="n">01</span>Design basis</a>
+  <a href="#s2"><span class="n">02</span>Site plan and section</a>
+  <a href="#s3"><span class="n">03</span>Deck</a>
+  <a href="#s4"><span class="n">04</span>Patio, fire ring, herbs and AC screen</a>
+  <a href="#s5"><span class="n">05</span>Evergreens and drain</a>
+  <a href="#s6"><span class="n">06</span>Quantities</a>
+  <a href="#s7"><span class="n">07</span>Shopping list and budget</a>
+  <a href="#s8"><span class="n">08</span>Schedule and permits</a>
+  <a href="#s9"><span class="n">09</span>Care guide</a>
+</nav>
+
+<!-- SHEET 01 -->
+<section class="sheet" id="s1">
+  <header><h2>Design basis</h2><span class="num">Sheet 01 of 09</span></header>
+  <div class="two">
+    <div class="block">
+      <h3>What was decided</h3>
+      <ul>
+        <li><strong>The deck sits at the slider.</strong> It runs {{deck_w}} from the west end of the chimney to 18 in short of the house's east corner, and {{deck_d}} out from the wall. The sliding door sits in an angled bay, and the deck is notched around the bay's three faces and the chimney. The two outer corners are cut at 45 degrees, {{chamfer}} ft each way, so there are no square corners to walk into. Dining by the slider; the deck's west end is left open. A vented composite skirt closes the underside. The slider is its only door.</li>
+        <li><strong>Cooking on the east side.</strong> The Blackstone griddle ({{bs_size}} in) and the smoker ({{sm_size}} in, a pellet smoker assumed) stand side by side with their backs to the east rail, each 3 ft from the rail and the house, with a 3 ft aisle to the table.</li>
+        <li><strong>Freestanding framing.</strong> The house is brick veneer, and a deck ledger may not be fastened to veneer, so the deck stands on two three-ply beams and {{posts}} posts each. The surface sits 1 in below the door thresholds.</li>
+        <li><strong>One stair.</strong> A 5 ft stair off the west side ({{ws_n}} risers) goes down onto the patio. The walkway around the deck is reached from the patio.</li>
+        <li><strong>A 16 x 16 ft stone patio off the deck's west side,</strong> dry-laid buff flagstone.</li>
+        <li><strong>The fire ring is centred on the patio's northwest corner.</strong> A 14 ft round stone apron shares that centre, so the patio reads as a square with a circle bulging out of its corner, and a {{pit_d}} in stone ring with a 36 in steel liner sits at the centre.</li>
+        <li><strong>A stone seat wall</strong> 18 in tall and 14 in deep, capped, curves around the north half of the fire ring and runs east along the patio's north edge, stopping 3 ft short of the deck so the walkway still meets the patio. It holds back the fill on the low side and seats the north half of the ring; three chairs take the south half.</li>
+        <li><strong>The outdoor sofa set moves to the patio,</strong> on its southwest part: sofa on the west edge facing east, coffee table, two chairs opposite, with a clear path from the stair to the fire.</li>
+        <li><strong>A stone raised herb bed</strong> 18 in tall between the patio and the house, from the AC screen to the chimney. It has its own back wall 4 in off the brick, so no soil sits against the veneer or its weep holes.</li>
+        <li><strong>A screen around the AC:</strong> vinyl privacy lattice over outdoor mass-loaded vinyl on the north side and an east gate, the sides facing the patio and the fire, 2 ft off the unit. The west side toward the fence and the top stay open so the condenser draws fresh air and its hot exhaust does not circle back in. No painting, no upkeep.</li>
+        <li><strong>A stone walkway</strong> of the same flagstone, 3 ft wide, around the deck's north and east sides, following the cut corners and joining the patio at the northwest.</li>
+        <li><strong>Shade by a cantilever umbrella</strong> over the table, bolted to a steel plate over blocking in the framing.</li>
+        <li><strong>Five American Pillar arborvitae</strong> in one row 4 ft off the north fence, centred on the slider. They grow 20 to 30 ft tall and stay 3 to 5 ft wide, and they take wet clay.</li>
+        <li><strong>A French drain along the east fence</strong> into the existing drain in the northeast corner.</li>
+        <li><strong>Contracted, not built by the owner.</strong> Demo, deck, patio, fire ring, drain and planting go to contractors. The owner plants the herb bed, hangs the AC screen, and buys the umbrella plate and the ring liner.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Assumptions, revision A</h3>
+      <ul>
+        <li>The back of the house faces north. The garage is at the east end of the front; the side walk runs down the east side to the back.</li>
+        <li>Lot about 70 ft wide; house about 52 ft wide; back wall to north fence about 50 ft. All read from drone photos and marked est.</li>
+        <li>Grade falls {{fall}} in from the house to the north fence and about 6 in from west to east, lowest at the existing drain in the northeast corner.</li>
+        <li>Door thresholds 25 in above the ground at the back wall. The deck stands {{dh_sw}} to {{dh_ne}} in above grade, so it gets guards on every open side.</li>
+        <li>Heavy clay soil that drains slowly, a 42 in frost depth for footings, growing zone 6.</li>
+        <li>The existing northeast drain can take the French drain; its pipe size and depth are not known yet.</li>
+      </ul>
+      <h3>Measure for revision B</h3>
+      <ul>
+        <li>Back wall to north fence, and each side of the house to its fence.</li>
+        <li>Threshold height at the slider.</li>
+        <li>Chimney, bay, slider and window positions along the back wall, and the AC's footprint.</li>
+        <li>Fall from the house to the north fence and to the drain (string line and level).</li>
+        <li>Pipe size and depth at the northeast drain.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout site">
+    <span class="t">Fire ring distances</span>
+    <p>The ring stands {{ring_house}} ft from the house wall, {{ring_to_deck}} ft from the deck's west edge and {{pc_deck}} ft from the foot of the west stair. The owner set its position. For reference, the fire code the township adopts lists 25 ft from structures for an open wood fire and 15 ft for a listed portable fire pit; the permit conversation starts from there. Keep a spark screen on the ring and a hose on the patio side.</p>
+  </div>
+</section>
+
+<!-- SHEET 02 -->
+<section class="sheet" id="s2">
+  <header><h2>Site plan and section</h2><span class="num">Sheet 02 of 09</span></header>
+  <p>Dimensions in inches unless marked. Spot numbers at the lot corners are the existing grade in inches relative to the back wall at the west fence. Everything on this sheet is an estimate until revision B.</p>
+  <figure class="fig">
+    {{site_plan}}
+    <figcaption>Plan. Deck at the bay slider with its cut corners, the dining and lounge zones dashed, the griddle and smoker on the east rail; the stone patio to its west with the fire apron and ring on its northwest corner, the raised herb bed along the house and the screened AC; the walkway around the deck's north and east sides; five American Pillar on the slider's line; the French drain along the east fence into the existing drain. Section A-A is on the line between the chimney and the bay.</figcaption>
+  </figure>
+  <figure class="fig">
+    {{section_a}}
+    <figcaption>Section A-A, true scale. The grade falls toward the fence; the deck stands on piers and stays level; the walkway follows the ground; the tree is drawn at about ten years.</figcaption>
+  </figure>
+  <h3>Photoreal views</h3>
+  <figure class="fig render"><img src="model/photo-north.png?v={{v_photo_north}}" alt="Photo-style view of the backyard from the north"><figcaption>From the north, over the tree line: the deck at the bay slider with its cut corners and skirt, the stone patio and fire ring with the seat wall, the raised herb bed and the screened AC along the house. Rendered in Blender Cycles by the homelab render tier from this plan's model, then turned into a photograph by FLUX.1 Kontext on the render host's GPU, which keeps the layout and replaces the surfaces. Anything past the fence is invented.</figcaption></figure>
+  <div class="two">
+    <figure class="fig render"><img src="model/photo-ne.png?v={{v_photo_ne}}" alt="Photo-style view from the northeast"><figcaption>From the northeast: the walkway following the cut corners, the Blackstone and the smoker on the east rail.</figcaption></figure>
+    <figure class="fig render"><img src="model/photo-west.png?v={{v_photo_west}}" alt="Photo-style view from the west"><figcaption>From the west: the fire apron and seat wall, the sofa set on the patio, the one stair down from the deck.</figcaption></figure>
+  </div>
+  <h3>3D model</h3>
+  <div class="viewer"><iframe src="/plans/backyard/model/?v={{v_model}}&amp;view=iso-nw" loading="lazy" title="Backyard 3D model"></iframe></div>
+  <figure class="fig render"><img src="model/render-hero.png?v={{v_hero}}" alt="Render of the deck, patio and fire ring from the northwest"><figcaption>From the northwest: the fire apron on the patio's corner, the patio and the one stair off the deck's west side, the raised herb bed and the AC screen along the house, the walkway following the deck's cut corners.</figcaption></figure>
+  <div class="two">
+    <figure class="fig render"><img src="model/render-iso-nw.png?v={{v_iso_nw}}" alt="Render of the whole backyard from the northwest"><figcaption>The whole lot from the northwest, the American Pillar row in front.</figcaption></figure>
+    <figure class="fig render"><img src="model/render-plan.png?v={{v_plan}}" alt="Plan render of the backyard"><figcaption>Straight down, umbrellas hidden.</figcaption></figure>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Check</th><th class="n">Result</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td>Fire ring to the house</td><td class="n">{{ring_house}} ft</td><td>Owner's layout; see sheet 01</td></tr>
+        <tr><td>Fire ring to the deck edge / the west stair</td><td class="n">{{ring_to_deck}} / {{pc_deck}} ft</td><td>Owner's layout; see sheet 01</td></tr>
+        <tr><td>Fire ring to the nearest tree</td><td class="n">{{pc_tree}} ft</td><td>15 ft, arborvitae burn readily</td></tr>
+        <tr><td>Deck height above grade, corners</td><td class="n">{{dh_sw}} to {{dh_ne}} in</td><td>Guards required over 30 in</td></tr>
+        <tr><td>Stair risers</td><td class="n">{{ws_r}} in</td><td>7.75 in maximum</td></tr>
+        <tr><td>Gap between trees at 4 ft wide</td><td class="n">{{tree_gap}} in</td><td>Room to reach the fence</td></tr>
+        <tr><td>Drain fall</td><td class="n">{{drain_slope}} in per ft</td><td>1/8 in per ft minimum</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SHEET 03 -->
+<section class="sheet deck" id="s3">
+  <header><h2>Deck <span class="tag deck">contractor</span></h2><span class="num">Sheet 03 of 09</span></header>
+  <p>A freestanding pressure-treated frame with composite boards, composite guards with black aluminium balusters, and one stair. {{deck_sf}} sq ft of deck surface. The contractor pulls the permit and draws the framing to the code tables; the numbers here are the design intent for the bid and what the model checks.</p>
+  <figure class="fig">
+    {{deck_framing}}
+    <figcaption>Framing plan. Two three-ply 2x10 beams {{span}} in apart, each on {{posts}} 6x6 posts at {{post_bay}} in; {{joists}} 2x10 joists at 12 in on centre, cantilevered 33 in toward the house, with doubled headers at the chimney and along the bay's three angled faces; the joists at the cut corners stop on an angled rim. At 25 ft the boards splice once, over a doubled joist under a contrasting breaker board. Solid blocking 24 x 24 in under each umbrella plate. No ledger.</figcaption>
+  </figure>
+  <figure class="fig">
+    {{deck_elev}}
+    <figcaption>North elevation, looking at the house. The deck is {{dh_nw}} in above grade at its northwest corner and {{dh_ne}} in at the northeast. Posts stand on 12 in concrete piers 42 in deep. The west stair is {{ws_n}} risers of {{ws_r}} in with 11 in treads, the only way down.</figcaption>
+  </figure>
+  <figure class="fig">{{deck_section}}<figcaption>Typical section, looking west. The south beam stands 33 in off the wall, clear of the chimney and the bay; the north beam sits 3 ft in from the rim.</figcaption></figure>
+  <figure class="fig">{{stair_west}}<figcaption>The west stair, 5 ft wide, three stringers, closed composite risers, a graspable handrail on at least one side. It lands on the patio.</figcaption></figure>
+  <div class="two">
+    <figure class="fig render"><img src="model/render-deck.png?v={{v_deck}}" alt="Render of the deck from the northeast, furnished"><figcaption>Model, furnished, from the northeast: the cut corners, dining for eight by the slider, the griddle and smoker on the east rail, both umbrellas open.</figcaption></figure>
+    <figure class="fig render"><img src="model/render-cooking.png?v={{v_cooking}}" alt="Render of the Blackstone griddle and the smoker on the deck"><figcaption>Model: the Blackstone and the smoker, backs to the east rail, the table beyond the aisle.</figcaption></figure>
+    <figure class="fig render"><img src="model/render-framing.png?v={{v_framing}}" alt="Render of the deck framing without boards"><figcaption>Model, framing only: posts, beams, joists and the stair blocks.</figcaption></figure>
+  </div>
+  <div class="two">
+    <div class="block">
+      <h3>Scope for the deck bid</h3>
+      <ul>
+        <li>Demolish and haul away the existing deck, lattice skirting, rock bed, paver fire ring and edging.</li>
+        <li>Permit, drawings, footing, framing and final inspections.</li>
+        <li>{{post_total}} posts on 12 in piers 42 in deep plus stair footings; 6x6 ground-contact posts; three-ply 2x10 beams; 2x10 joists at 12 in on centre with hangers and ties; joist tape.</li>
+        <li>Composite decking about {{board_lf}} lin ft ({{boards16}} 16 ft boards equivalent), a light tan or grey, hidden fasteners, a breaker board at the splice, matching fascia.</li>
+        <li>36 in composite guard with black aluminium balusters, about {{guard_lf}} lin ft ({{rail6}} 6 ft sections) including the two cut corners, handrails on the stair.</li>
+        <li>Blocking and one owner-supplied umbrella plate, bolted through.</li>
+        <li>Skirt: horizontal composite boards matching the fascia on every open side, 3/8 in gaps for air (about {{skirt_sf}} sq ft, {{skirt_lf}} lin ft of board), a 3 ft hinged access panel on the east side.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Things to ask each bidder</h3>
+      <ul>
+        <li>Piers or helical piles, and why. Helical piles avoid eight holes in wet clay and are inspected by torque.</li>
+        <li>Board brand and line, colour, and the warranty on boards and fasteners.</li>
+        <li>How they hold the surface 1 in under the slider threshold.</li>
+        <li>Who calls MISS DIG and who pulls the permit.</li>
+        <li>A price per added foot if revision B changes the size.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 04 -->
+<section class="sheet site" id="s4">
+  <header><h2>Patio, fire ring, herbs and AC screen <span class="tag site">contractor</span> <span class="tag diy">owner</span></h2><span class="num">Sheet 04 of 09</span></header>
+  <p>A 16 ft square of dry-laid buff flagstone off the deck's west side, and a 14 ft round apron centred on its northwest corner with the {{pit_d}} in stone fire ring at the centre: about {{patio_sf}} sq ft together. The same stone, 3 ft wide, runs around the deck's north and east sides and its cut corners: about {{walk_sf}} sq ft more. {{stone_sf}} sq ft in all.</p>
+  <figure class="fig">
+    {{patio_plan}}
+    <figcaption>Plan. The joints are the model's layout of irregular stones, to show the scale of piece intended; the setter lays it to the stone delivered. The seat wall takes the north half of the ring and three chairs on a 62 in radius take the south half; the sofa set sits on the patio's southwest part. The ring sits {{ring_house}} ft from the house and {{ring_to_deck}} ft from the deck.</figcaption>
+  </figure>
+  <figure class="fig">{{ring_detail}}<figcaption>Fire ring: four courses of wall stone in the same buff, laid in a circle around a 36 in steel liner, capped with flat stone. It stands on the patio's compacted base; the bottom is gravel and ash, no concrete, so it drains.</figcaption></figure>
+  <figure class="fig render"><img src="model/render-patio.png?v={{v_patio}}" alt="Render of the patio with the fire ring and six chairs"><figcaption>Model: the ring, the chairs, the herb bed along the house and the west stair from the deck.</figcaption></figure>
+  <div class="two">
+    <figure class="fig">{{herb_section}}<figcaption>Raised herb bed: the same wall stone as the ring, 18 in tall with a flat cap, about {{herb_blocks}} blocks. Its back wall stands 4 in off the brick, so the veneer's weep holes stay open and no wet soil sits against it.</figcaption></figure>
+    <figure class="fig render"><img src="model/render-ac-screen.png?v={{v_ac_screen}}" alt="Render of the lattice screen around the AC unit"><figcaption>Model: the AC screen from the patio side, the herb bed beside it.</figcaption></figure>
+  </div>
+  <figure class="fig">{{seat_section}}<figcaption>Seat wall: two wythes of the same wall stone, 14 in deep, on a compacted base with one course buried, a flat cap at 18 in above the apron. About {{seat_lf}} lin ft and {{seat_blocks}} blocks. On the north side it holds back the fill under the apron.</figcaption></figure>
+  <figure class="fig">{{ac_elev}}<figcaption>AC screen, {{screen_lf}} lin ft on the north side and the east gate: vinyl privacy lattice (never painted) on vinyl-sleeved 4x4 posts, with 1 lb outdoor mass-loaded vinyl ({{mlv_sf}} sq ft) fixed behind it, weatherproof and UV-stable. It stands 2 ft off the unit and stops 2 in above the ground; the west side toward the fence and the top are open, so the condenser still breathes. A barrier like this typically takes 5 to 10 dB off the hum wherever it blocks the line of sight to the unit. The east side is a gate for service.</figcaption></figure>
+  <figure class="fig">{{patio_section}}<figcaption>Build-up for the patio and the walkway: native clay cut and compacted, non-woven geotextile, 6 in of 21AA crushed limestone in two lifts, 1 in of stone dust, 2 in flagstone. Larger flatter pieces (18 to 36 in) in the chair ring. The patio falls 1/4 in per ft away from the house; the walkway follows the ground.</figcaption></figure>
+  <div class="two">
+    <div class="block">
+      <h3>Scope for the stone bid</h3>
+      <ul>
+        <li>Excavate, compact, fabric, {{base_cy}} cu yd of 21AA, {{dust_cy}} cu yd of stone dust, about {{flag_t}} tons of flagstone at 80 sq ft per ton plus 10 percent.</li>
+        <li>Seat wall: about {{seat_lf}} lin ft, {{seat_blocks}} wall stones in two wythes and a flat cap, around the apron's north half and along the patio's north edge.</li>
+        <li>Fire ring: about {{ring_stones}} wall stones in four courses and a flat cap, around the owner-supplied 36 in liner.</li>
+        <li>Deeper edge stones on the patio's low north and west sides.</li>
+        <li>Raised herb bed: about {{herb_blocks}} wall blocks on a compacted base, back wall 4 in off the brick, flat cap.</li>
+        <li>Joints stone dust or polymeric sand, priced both ways.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Stone</h3>
+      <ul>
+        <li><strong>Chosen:</strong> buff Wisconsin limestone flagstone (Chilton or Fond du Lac) or Tennessee tan sandstone, 1.5 to 2 in thick, dry-laid. Light cream to tan, next to the tan brick.</li>
+        <li><strong>Fallback:</strong> a buff concrete paver field with real stone kept for the ring, its cap and the seat wall cap.</li>
+        <li>Pick stone in person, one pallet run for the whole job. Match the ring's wall stone to the flagstone.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 05 -->
+<section class="sheet site" id="s5">
+  <header><h2>Evergreens and drain <span class="tag site">contractor</span></h2><span class="num">Sheet 05 of 09</span></header>
+  <p>Five American Pillar arborvitae planted 5 to 6 ft tall in one row, and a French drain along the east fence. The drain goes in first, while the ground is open.</p>
+  <figure class="fig">
+    {{tree_plan}}
+    <figcaption>One row 4 ft off the fence at 66 in spacing, centred on the slider, so the screen sits straight out from the door. At about 4 ft wide the trees leave {{tree_gap}} in between them and a 2 ft lane behind them. The east tree stays 54 in from the drain trench.</figcaption>
+  </figure>
+  <figure class="fig">
+    {{drain_profile}}
+    <figcaption>Profile along the east fence, vertical scale tripled. The grade already falls about {{drain_slope}} in per ft toward the corner, so the trench keeps a constant depth. The pipe arrives about {{drain_cover}} in below grade at the northeast corner; the existing drain's pipe must be at least that deep, which is the one number to confirm before the bid.</figcaption>
+  </figure>
+  <div class="two">
+    <figure class="fig">{{drain_section}}<figcaption>Trench: 12 in wide, 24 in deep, non-woven fabric wrapping washed 3/4 in stone, 4 in perforated SDR35 with the holes down, stone to the surface so water from the wet strip gets in. A cleanout at the upstream end.</figcaption></figure>
+    <figure class="fig render"><img src="model/render-trees.png?v={{v_trees}}" alt="Render of the American Pillar row seen from the house"><figcaption>Model, from the house: the row at about ten years.</figcaption></figure>
+  </div>
+  <div class="two">
+    <div class="block">
+      <h3>Planting scope</h3>
+      <ul>
+        <li>Five American Pillar (Thuja occidentalis 'American Pillar'), 5 to 6 ft, from one nursery with its one-year warranty.</li>
+        <li>Holes twice the root ball wide and no deeper; the root flare 1 to 2 in above grade.</li>
+        <li>3 in of shredded mulch in a 3 ft ring, kept off the trunks.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Drain scope</h3>
+      <ul>
+        <li>About {{drain_lf}} lin ft of trench, {{pipe_sticks}} sticks of 4 in perforated SDR35, {{stone_cy}} cu yd of washed stone, about {{fabric_sf}} sq ft of fabric.</li>
+        <li>Tie into the existing northeast drain with a proper fitting or a cored and grouted entry.</li>
+        <li>Rear-yard drains often sit in a drainage easement: the bidder confirms with the township that a private tie-in is allowed.</li>
+        <li>Test with a hose at the upstream cleanout before backfilling.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 06 -->
+<section class="sheet" id="s6">
+  <header><h2>Quantities</h2><span class="num">Sheet 06 of 09</span></header>
+  <p>The quantities each bid should match, computed from the drawings. A bid far off them is a question to ask.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Bid quantity</th><th class="n">Amount</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr><td>Deck surface</td><td class="n">{{deck_sf}} sq ft</td><td>Sheet 03</td></tr>
+        <tr><td>Composite boards, with 10 percent waste</td><td class="n">{{board_lf}} lin ft</td><td>{{boards16}} boards at 16 ft</td></tr>
+        <tr><td>Guard</td><td class="n">{{guard_lf}} lin ft</td><td>{{rail6}} 6 ft sections plus stair rails</td></tr>
+        <tr><td>Posts and piers</td><td class="n">{{post_total}}</td><td>Plus stair footings</td></tr>
+        <tr><td>Flagstone, patio and walkway</td><td class="n">{{flag_t}} tons</td><td>{{stone_sf}} sq ft at 80 sq ft per ton plus 10 percent</td></tr>
+        <tr><td>21AA base / stone dust</td><td class="n">{{base_cy}} / {{dust_cy}} cu yd</td><td>Compacted in place</td></tr>
+        <tr><td>Seat wall stone</td><td class="n">{{seat_blocks}}</td><td>{{seat_lf}} lin ft, two wythes, plus cap</td></tr>
+        <tr><td>Deck skirt</td><td class="n">{{skirt_lf}} lin ft</td><td>{{skirt_sf}} sq ft of composite board, vented</td></tr>
+        <tr><td>Fire ring wall stone</td><td class="n">{{ring_stones}}</td><td>Four courses around a 36 in liner</td></tr>
+        <tr><td>French drain</td><td class="n">{{drain_lf}} lin ft</td><td>{{pipe_sticks}} pipe sticks, {{stone_cy}} cu yd stone, {{fabric_sf}} sq ft fabric</td></tr>
+        <tr><td>Raised herb bed wall stone</td><td class="n">{{herb_blocks}}</td><td>Plus cap stones</td></tr>
+        <tr><td>Herb bed soil</td><td class="n">{{herb_bags}} bags</td><td>1.5 cu ft each, owner</td></tr>
+        <tr><td>AC screen</td><td class="n">{{screen_lf}} lin ft</td><td>2 lattice panels, {{mlv_sf}} sq ft of mass-loaded vinyl, 3 posts, owner</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SHEET 07 -->
+<section class="sheet" id="s7">
+  <header><h2>Shopping list and budget</h2><span class="num">Sheet 07 of 09</span></header>
+  <p>Owner purchases are priced from posted listings read on {{rev_date}}, store named. A price that could not be read says so and is left out of the total. Contractor work is a published cost-guide range per unit times the drawing quantity: an allowance for judging bids, not a quote.</p>
+  <h3>Owner purchases</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Item</th><th class="n">Qty</th><th class="n">Each</th><th class="n">Line</th><th>Listing and notes</th></tr></thead>
+      <tbody>
+        {{diy_rows}}
+        <tr class="sum"><td>Owner total</td><td class="n"></td><td class="n"></td><td class="n">{{diy_total}}</td><td>Plus the herbs themselves.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>Contractor allowances</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Scope</th><th class="n">Quantity</th><th class="n">Per unit</th><th class="n">Allowance</th><th>Source</th></tr></thead>
+      <tbody>
+        {{allow_rows}}
+        <tr><td>Stone fire ring, built</td><td class="n">1</td><td class="n">not read</td><td class="n"></td><td>No published installed cost was read; get it priced in the stone bid. Not in the total.</td></tr>
+        <tr class="sum"><td>Contracted work</td><td class="n"></td><td class="n"></td><td class="n">{{allow_total}}</td><td>National cost guides; no Michigan figures were posted.</td></tr>
+        <tr class="sum"><td>Project</td><td class="n"></td><td class="n"></td><td class="n">{{all_total}}</td><td>Owner purchases plus contracted work.</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="5">The deck is most of the money; demo of the old deck adds $5 to $15 per sq ft. An American Pillar price was not read; the planting line is the installed range. Permit fees were not read.</td></tr></tfoot>
+    </table>
+  </div>
+  <div class="callout">
+    <span class="t">Reference prices read for bid checking</span>
+    <p>Trex Enhance Naturals 1x6 x 16 ft, $42.35 (Advantage Lumber, sale). Trex Select 6 ft x 36 in rail kit, $182.60 (Home Depot, $157.60 shown after a $25 card offer). 21AA limestone $56.50 a ton (Suburban Landscape Supply) or $48 a yard (State Crushing). 4 oz non-woven fabric 15 x 20 ft, $47.99 (Home Depot). Not read: a Michigan price for Chilton, Fond du Lac or Tennessee flagstone, and perforated SDR35.</p>
+  </div>
+</section>
+
+<!-- SHEET 08 -->
+<section class="sheet" id="s8">
+  <header><h2>Schedule and permits</h2><span class="num">Sheet 08 of 09</span></header>
+  <ol class="steps">
+    <li><strong>Revision B.</strong> Tape the measurements listed on sheet 01, find the northeast drain's depth, and regenerate the drawings. Send the same set to three bidders for each scope.</li>
+    <li><strong>MISS DIG 811</strong> at least three business days before any digging, for every contractor.</li>
+    <li><strong>Permits.</strong> Deck permit from the township building department (the deck contractor pulls it). Ask whether the drain tie-in needs anything, and talk through the fire ring there too.</li>
+    <li><strong>Visit 1, demo.</strong> Old deck, lattice, rock bed and fire ring out.</li>
+    <li><strong>Visit 2, drain and rough grade.</strong> French drain along the east fence; strip and rough grade the patio and walkway areas.</li>
+    <li><strong>Visit 3, deck.</strong> Footings (inspection), framing (inspection), boards, guards, the stair, skirt, final inspection.</li>
+    <li><strong>Visit 4, stone.</strong> Patio and apron, walkway, fire ring, seat wall, raised herb bed.</li>
+    <li><strong>Visit 5, planting.</strong> Five trees and mulch, spring or September; seed or sod the disturbed lawn.</li>
+    <li><strong>Owner.</strong> Fill and plant the herb bed, set the AC screen posts and hang the lattice and vinyl, bolt the umbrella plate, set the liner in the ring before the cap goes on.</li>
+  </ol>
+</section>
+
+<!-- SHEET 09 -->
+<section class="sheet" id="s9">
+  <header><h2>Care guide</h2><span class="num">Sheet 09 of 09</span></header>
+  <div class="two">
+    <div class="block">
+      <h3>Fire ring</h3>
+      <ul>
+        <li>Dry hardwood only; a spark screen on the ring whenever it's lit; a hose on the patio side.</li>
+        <li>Keep the fire small: the deck's west stair is {{pc_deck}} ft away and composite will scorch.</li>
+        <li>Ashes cold for 24 hours before they go anywhere. Scoop the bottom gravel clean each spring.</li>
+      </ul>
+      <h3>Evergreens</h3>
+      <ul>
+        <li>Water deeply once a week the first two summers. American Pillar holds its narrow shape without shearing; trim only stray leaders.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Deck and stone</h3>
+      <ul>
+        <li>Wash composite with soap and a soft brush twice a year. The Blackstone and the smoker stand on mats, 3 ft from the house and the rail; composite will scorch and grease stains.</li>
+        <li>Umbrellas closed and tied in wind.</li>
+        <li>Top up patio and walkway joints with stone dust each spring.</li>
+      </ul>
+      <h3>Herbs and drain</h3>
+      <ul>
+        <li>Top the herb bed with 1 in of compost each spring; perennials (thyme, oregano, chives) at the ends, annuals in the middle.</li>
+        <li>Rake leaves off the drain strip each fall; run a hose into the cleanout once a year.</li>
+        <li>AC screen: nothing to paint or seal. Pull leaves out from behind it in the fall so the condenser breathes.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

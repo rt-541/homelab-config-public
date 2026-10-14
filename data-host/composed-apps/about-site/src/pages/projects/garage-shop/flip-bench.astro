@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { versioned } from '../../../lib/versioned';
+
+// Detail page for the flip bench (garage shop sheet 04). English-only, no data-i18n keys.
+const planHref = '/plans/garage-shop/#s4';
+const parentHref = '/projects/garage-shop';
+const modelHref = '/plans/garage-shop/model/?focus=Flip%20Bench&dir=sw&state=miter&hide=Truck,Wall%20South,Wall%20East,Ceiling%20Lights,Tool%20Cabinet,Door%20North,Door%20South,Dust%20Cart,Subpanel';
+const stepHref = '/plans/garage-shop/model/garage-shop-flip-bench.step';
+const m = '/plans/garage-shop/model/';
+
+const renders = [
+  { src: 'render-flip-bench-sw.png', alt: 'Flip bench flat with the table saw at the end', cap: 'Bench mode: the table saw flush at the near end, both flip sections riser-up, the miter saw and planer hanging inside the frame. One flat top, 92 x 30 in at 37.75 in.' },
+  { src: 'render-flip-miter-sw.png', alt: 'Flip bench with the miter saw up', cap: 'Miter station: the middle section flipped, its table level with the saw section on one side and the planer section\'s riser on the other, 24 and 30 in of wing.' },
+  { src: 'render-flip-planer-sw.png', alt: 'Flip bench with the planer up', cap: 'Planing: the end section flipped, the flat miter section is the infeed, boards run along the bench and out past the end. Bed 1.5 in above the bench.' },
+  { src: 'render-flip-both-ne.png', alt: 'Flip bench with both tools up, from behind', cap: 'Both up, from the back: the plunger knob on the end panel, the risers hanging with their concrete, the apron along the back of the frame.' },
+  { src: 'render-flip-end.png', alt: 'End view of the flip bench on the shaft line', cap: 'End-on through the miter section, saw up: the shaft at 30.5 in, the 4 in box centred on it, the riser hanging below.' },
+  { src: 'render-flip-side.png', alt: 'Side view of the flip bench with both tools up', cap: 'Side, both up: 92 in on six 3 in casters, four 29 in panels, the saw bay with its two shelves, a box in each flip bay with its bearings on the panel faces.' },
+  { src: 'render-flip-top.png', alt: 'Flip bench from above', cap: 'From above: the saw with its fence rails across the bench, the miter box and the planer box between the panels, the plunger on the outer panel of each.' },
+];
+---
+<BaseLayout title="flip bench &middot; garage shop &middot; rt-541.io" description="Flip bench for the garage shop: the DWE7491 table saw sunk flush at one end, the DCS785 miter saw on a flip section in the middle, the DW735 planer on a flip section at the other end. Renders, numbers, STEP.">
+  <section class="max-w-3xl mx-auto px-6 pt-16 pb-8">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20">
+      <a href="/projects" class="no-underline hover:underline">projects</a> / <a href={parentHref} class="no-underline hover:underline">garage shop</a> / flip bench
+    </p>
+    <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-3">Flip bench</h1>
+    <p class="text-[15px] text-ice leading-[1.65] max-w-[58ch]">
+      One 92 x 30 in rolling bench for the three machines. The DWE7491 table saw stands in the end bay on a platform
+      that puts its table flush with the bench top. The DCS785 miter saw rides a 4 in torsion box that flips in the
+      middle bay, the DW735 planer another in the far bay; each box has its tool on one face and a 4.5 in riser bench
+      top on the other. Both tools down: a flat bench and 60 in of outfeed for the saw. Miter up: its table is at
+      bench height with a wing either side. Planer up: the bench is its infeed. Index plungers and draw latches lock
+      each section, and concrete cast into the risers puts each section's centre of gravity on its shaft.
+    </p>
+    <ul class="flex flex-wrap gap-4 mt-5 list-none p-0 font-mono text-[11px] tracking-meta uppercase">
+      <li><a href={planHref} class="text-chrome no-underline hover:underline">sheet 04 in the drawing set &rarr;</a></li>
+      <li><a href={modelHref} class="text-chrome no-underline hover:underline">open in the 3d viewer &rarr;</a></li>
+      <li><a href={stepHref} class="text-chrome no-underline hover:underline">step file &rarr;</a></li>
+    </ul>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-6">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// renders</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {renders.map(r => (
+        <figure class="m-0">
+          <img src={versioned(m + r.src)} alt={r.alt} loading="lazy" class="w-full h-auto rounded border border-chrome/20" />
+          <figcaption class="font-mono text-[11px] tracking-meta text-subtle mt-2">{r.cap}</figcaption>
+        </figure>
+      ))}
+    </div>
+    <p class="font-mono text-[11px] tracking-meta text-subtle mt-4">The tools are drawn as their bounding boxes: DWE7491 22.7 x 29.2 x 13 in, DCS785 24.5 x 31 x 18.5 in, DW735 22 x 24 x 20 in. The viewer's states are "Closed up" (flat), "Miter station", "Planing" and "Working" (both up).</p>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// by the numbers</p>
+    <dl class="grid grid-cols-2 sm:grid-cols-4 gap-4 m-0">
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">bench</dt><dd class="m-0 text-[18px] font-serif text-chrome">92 x 30 x 37.75 in</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">bays</dt><dd class="m-0 text-[18px] font-serif text-chrome">24 saw, 32 miter, 30 planer</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">shafts</dt><dd class="m-0 text-[18px] font-serif text-chrome">two, 1 in, 30.5 in AFF</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">planer bed</dt><dd class="m-0 text-[18px] font-serif text-chrome">39.25 in</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">swing clearance</dt><dd class="m-0 text-[18px] font-serif text-chrome">1.3 in at the rails</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">ballast</dt><dd class="m-0 text-[18px] font-serif text-chrome">63 + 146 lb concrete</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">residual</dt><dd class="m-0 text-[18px] font-serif text-chrome">4 lb / 14 lb</dd></div>
+      <div class="border-l border-chrome/20 pl-3"><dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">on the casters</dt><dd class="m-0 text-[18px] font-serif text-chrome">~720 lb, six 3 in</dd></div>
+    </dl>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12 pb-20">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-2">// what makes it work</p>
+    <div class="prose-content text-[14px]">
+      <p>
+        The riser is the idea that makes one bench out of three machines. A flip section with a tool on one face and a
+        flat face on the other would leave the flat face 4.5 in below the miter saw's table, so the sections either
+        side could never be its wings. Putting a 4.5 in tall box on the free face fixes that: in bench mode the riser
+        top is the bench top, and when the miter comes up its table lands exactly where the riser tops of the sections
+        beside it are. The table saw gets the same treatment from the other direction, sunk on a platform until its
+        table is flush, with the blade running along the bench so the flat sections are its outfeed.
+      </p>
+      <p>
+        The riser is also where the ballast goes. Each section has to balance about its own shaft: the miter saw pulls
+        546 lb-in and the planer 1,081, so concrete is cast into the risers, 1 in under the miter riser's top (63 lb)
+        and 2.5 in under the planer's (146 lb). That leaves 4 lb and 14 lb at the bench edge, on the tool side of
+        neutral so a section never runs away, and the last of it is settled at the balance test with the real tools.
+        Steel plate does the same job at four times the price.
+      </p>
+      <p>
+        The swing sets the height. The miter saw's corner sweeps a 26.3 in radius and has to pass the 2x4 side rails
+        of the frame, which puts the shaft at 30.5 in with 3 in casters and the bench top at 37.75. Two-inch casters
+        bring it down an inch; there is no other way down without notching the frame. Each box is a 4 in torsion box
+        open along both long sides, carried by a flanged shaft collar at each end plate on its own 1 in shaft in
+        UCFL205-16 flange bearings mounted on the panel faces inside the bay, so panel B carries a bearing on each face
+        and neither shaft passes through it. The tool bolts to a 3/4 plate that fastens to the box with six 1/4-20
+        bolts into T-nuts.
+      </p>
+      <p>
+        The lock is positive in both directions: a 1/2 in spring index plunger through a steel bushing in the outer
+        panel of each section drops into one of two bushings in the box's end plate, 10 in off the shaft line, so it
+        indexes at 0 and 180 and snaps home by itself; a draw latch on the shared middle panel pulls the box tight so
+        there is no play. The bench parks under the tool cabinet in bench mode with 10 in to spare and rolls out
+        before any tool flips up. Printed on the Core One: plunger keepers, a holster for the latch keepers, T-nut
+        alignment jigs, a dust hood adapter for the miter saw and a zero-clearance insert blank for the table saw.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

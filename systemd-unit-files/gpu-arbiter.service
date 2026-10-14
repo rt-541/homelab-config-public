@@ -1,0 +1,12 @@
+[Unit]
+Description=gpu-arbiter: lends the B70 from vLLM to queued photo jobs when idle, and always hands it back
+After=network-online.target docker.service
+
+[Service]
+EnvironmentFile=-%h/.config/gpu-arbiter/arbiter.env
+ExecStart=/usr/bin/python3 %h/.local/share/gpu-arbiter/app/arbiter.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

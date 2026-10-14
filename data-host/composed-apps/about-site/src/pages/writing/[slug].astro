@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { translationsOf, mtNote } from '../../lib/writing-i18n';
+
+// English is the original. Machine translations (scripts/translate-writing.ts) render
+// alongside it and the language switcher shows one; a language without a fresh
+// translation shows the English.
+export async function getStaticPaths() {
+  const posts = await getCollection('writing', ({ data }) => !data.draft);
+  return posts.map(post => ({ params: { slug: post.slug }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content } = await post.render();
+const date = post.data.date.toISOString().slice(0, 10);
+const tr = await Promise.all((await translationsOf(post.slug)).map(async e => ({ e, Body: (await e.render()).Content })));
+const has = tr.map(t => t.e.data.lang).join(' ');
+---
+<BaseLayout title={`${post.data.title} · rt-541.io`} description={post.data.dek}>
+  <article class="max-w-3xl mx-auto px-6 pt-16 pb-20 post-i18n" data-has={has}>
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20">
+      <a href="/writing" class="no-underline hover:underline" data-i18n="writing.eyebrow">writing</a> / {date}
+    </p>
+    <div class="post-lang" data-post-lang="en">
+      <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-3">{post.data.title}</h1>
+      <p class="text-[15px] text-subtle leading-[1.6] mb-10 max-w-[58ch]">{post.data.dek}</p>
+      <div class="prose-content text-[15px] leading-[1.75] writing-body">
+        <Content />
+      </div>
+    </div>
+    {tr.map(({ e, Body }) => (
+      <div class="post-lang" data-post-lang={e.data.lang} lang={e.data.lang}>
+        <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-3">{e.data.title}</h1>
+        <p class="text-[15px] text-subtle leading-[1.6] mb-4 max-w-[58ch]">{e.data.dek}</p>
+        <p class="font-mono text-[11px] tracking-meta text-subtle mb-10">{mtNote[e.data.lang]}</p>
+        <div class="prose-content text-[15px] leading-[1.75] writing-body">
+          <Body />
+        </div>
+      </div>
+    ))}
+  </article>
+</BaseLayout>
+<style is:global>
+  .writing-body img { width: 100%; height: auto; border-radius: 4px; margin: 1.2em 0 0.4em; }
+  .writing-body ul { list-style: disc; padding-left: 1.3em; }
+  .writing-body ol { list-style: decimal; padding-left: 1.3em; }
+  .writing-body strong { font-weight: 600; color: var(--prose-heading, inherit); }
+  /* English shows unless the chosen language has a fresh translation */
+  .post-i18n .post-lang:not([data-post-lang="en"]) { display: none; }
+  html[lang="ja"] .post-i18n[data-has~="ja"] .post-lang[data-post-lang="en"] { display: none; }
+  html[lang="ja"] .post-i18n[data-has~="ja"] .post-lang[data-post-lang="ja"] { display: block; }
+  html[lang="ko"] .post-i18n[data-has~="ko"] .post-lang[data-post-lang="en"] { display: none; }
+  html[lang="ko"] .post-i18n[data-has~="ko"] .post-lang[data-post-lang="ko"] { display: block; }
+  html[lang="zh"] .post-i18n[data-has~="zh"] .post-lang[data-post-lang="en"] { display: none; }
+  html[lang="zh"] .post-i18n[data-has~="zh"] .post-lang[data-post-lang="zh"] { display: block; }
+  html[lang="es"] .post-i18n[data-has~="es"] .post-lang[data-post-lang="en"] { display: none; }
+  html[lang="es"] .post-i18n[data-has~="es"] .post-lang[data-post-lang="es"] { display: block; }
+  html[lang="de"] .post-i18n[data-has~="de"] .post-lang[data-post-lang="en"] { display: none; }
+  html[lang="de"] .post-i18n[data-has~="de"] .post-lang[data-post-lang="de"] { display: block; }
+</style>

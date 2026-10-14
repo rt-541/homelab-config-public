@@ -46,4 +46,56 @@ const services: { key: string; name: string; desc: string; href: string }[] = [
       bare metal · Michigan · access by invite
     </p>
   </section>
+
+  <section class="max-w-3xl mx-auto px-6 pb-16">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-4 pb-3 border-b border-chrome/20">
+      live · homelab
+    </p>
+    <div id="homelab-stats" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-5 gap-y-5">
+      {[
+        { id: 'activeStreams', label: 'Active streams' },
+        { id: 'hosts', label: 'Hosts' },
+        { id: 'vms', label: 'VMs' },
+        { id: 'containers', label: 'LXCs' },
+        { id: 'dockerContainers', label: 'Docker containers' },
+        { id: 'cores', label: 'CPU cores' },
+        { id: 'ramGB', label: 'RAM (GB)' },
+        { id: 'storageTB', label: 'Storage (TB)' },
+        { id: 'gameServers', label: 'Game servers' },
+        { id: 'movies', label: 'Movies' },
+        { id: 'shows', label: 'Shows' },
+      ].map(s => (
+        <div>
+          <span class="block font-mono text-[22px] leading-none text-chrome tabular-nums" data-stat={s.id}>—</span>
+          <span class="block mt-1.5 font-mono text-[10px] tracking-meta uppercase text-ice opacity-70">{s.label}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <script>
+    // Same-origin fetch of the cached aggregate stats (Traefik routes
+    // /api/stats to the homelab-stats service). Fails gracefully: on any
+    // error the placeholders stay as "—". null values render as "—" too.
+    function fmt(v: unknown): string {
+      if (v === null || v === undefined) return '—';
+      if (typeof v === 'number') return Number.isInteger(v) ? String(v) : v.toFixed(1);
+      return String(v);
+    }
+    async function loadStats(): Promise<void> {
+      try {
+        const res = await fetch('/api/stats', { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        document.querySelectorAll<HTMLElement>('#homelab-stats [data-stat]').forEach(el => {
+          const key = el.dataset.stat as string;
+          if (key in data) el.textContent = fmt(data[key]);
+        });
+      } catch {
+        /* leave placeholders as-is */
+      }
+    }
+    loadStats();
+    setInterval(loadStats, 30000);
+  </script>
 </BaseLayout>

@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { translationsOf } from '../../lib/writing-i18n';
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const tr = Object.fromEntries(await Promise.all(posts.map(async p => [p.slug, await translationsOf(p.slug)] as const)));
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+<BaseLayout title="writing &middot; rt-541.io" description="Notes and write-ups.">
+  <section class="max-w-3xl mx-auto px-6 pt-16 pb-8">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20" data-i18n="writing.eyebrow">writing</p>
+    <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-2" data-i18n="writing.h1">Notes and write-ups</h1>
+    <p class="text-[14px] text-subtle" data-i18n="writing.subtitle">Longer notes on how things got built.</p>
+  </section>
+  <section class="max-w-3xl mx-auto px-6 pb-20">
+    <ul class="list-none p-0 m-0">
+      {posts.map(p => (
+        <li class="py-5 border-b border-chrome/10 grid grid-cols-[6rem,1fr] gap-6">
+          <span class="font-mono text-[11px] tracking-meta text-subtle pt-1">{fmt(p.data.date)}</span>
+          <div class="post-i18n" data-has={tr[p.slug].map(e => e.data.lang).join(' ')}>
+            <div class="post-lang" data-post-lang="en">
+              <h2 class="font-serif text-[20px] text-chrome leading-tight m-0">
+                <a href={`/writing/${p.slug}`} class="no-underline hover:underline">{p.data.title}</a>
+              </h2>
+              <p class="text-[14px] text-ice leading-[1.65] mt-2 mb-0">{p.data.dek}</p>
+            </div>
+            {tr[p.slug].map(e => (
+              <div class="post-lang" data-post-lang={e.data.lang} lang={e.data.lang}>
+                <h2 class="font-serif text-[20px] text-chrome leading-tight m-0">
+                  <a href={`/writing/${p.slug}`} class="no-underline hover:underline">{e.data.title}</a>
+                </h2>
+                <p class="text-[14px] text-ice leading-[1.65] mt-2 mb-0">{e.data.dek}</p>
+              </div>
+            ))}
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+<style is:global>
+  /* English shows unless the chosen language has a fresh translation */
+  .post-i18n .post-lang:not([data-post-lang="en"]) { display: none; }
+  html[lang="ja"] .post-i18n[data-has~="ja"] .post-lang[data-post-lang="en"] { display: none; }
+  html[lang="ja"] .post-i18n[data-has~="ja"] .post-lang[data-post-lang="ja"] { display: block; }
+  html[lang="ko"] .post-i18n[data-has~="ko"] .post-lang[data-post-lang="en"] { display: none; }
+  html[lang="ko"] .post-i18n[data-has~="ko"] .post-lang[data-post-lang="ko"] { display: block; }
+  html[lang="zh"] .post-i18n[data-has~="zh"] .post-lang[data-post-lang="en"] { display: none; }
+  html[lang="zh"] .post-i18n[data-has~="zh"] .post-lang[data-post-lang="zh"] { display: block; }
+  html[lang="es"] .post-i18n[data-has~="es"] .post-lang[data-post-lang="en"] { display: none; }
+  html[lang="es"] .post-i18n[data-has~="es"] .post-lang[data-post-lang="es"] { display: block; }
+  html[lang="de"] .post-i18n[data-has~="de"] .post-lang[data-post-lang="en"] { display: none; }
+  html[lang="de"] .post-i18n[data-has~="de"] .post-lang[data-post-lang="de"] { display: block; }
+</style>

@@ -1,0 +1,165 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { versioned } from '../../lib/versioned';
+
+// Detail page for the Garage shop card. English-only by design: no data-i18n keys.
+// The full drawing set is a standalone page under /plans/garage-shop/ with its own styling.
+
+const planHref = '/plans/garage-shop/';
+const pdfHref = versioned('/plans/garage-shop/garage-shop.pdf');
+const modelHref = '/plans/garage-shop/model/';
+const stepHref = '/plans/garage-shop/model/garage-shop.step';
+const fusionHref = '/plans/garage-shop/model/garageshop-fusion-script.zip';
+const glbHref = '/plans/garage-shop/model/garage-shop-closed.glb';
+
+const sheets: { num: string; title: string; body: string; anchor: string }[] = [
+  { num: '01', title: 'Design basis', anchor: 's1', body: 'What was decided, what was measured and what is still assumed, the tool list, and why one flip bench and a subpanel instead of three stands and four fished circuits.' },
+  { num: '02', title: 'Garage layout', anchor: 's2', body: 'Plan view of the measured 18 by 20 ft garage: the landing across the back as the wheel stop, the house door in the middle of it and the side door in the back-right corner, potting station and machine bay along the west wall, the bulk rack on the landing in the back-left corner, truck bay in the center with the bikes hoisted either side of the opener rail, shop parking, subpanel, dust cart and compressor along the east wall, four lights, receptacles and switches by circuit number, and every clearance checked.' },
+  { num: '03', title: 'Tool cabinet', anchor: 's3', body: 'Front elevation with the doors open and a side section at the cleat. 48 x 40 x 12 birch case, two 4 in door boxes on continuous hinges, hardened hasps with discus padlocks, and the anti-lift screws.' },
+  { num: '04', title: 'Flip bench', anchor: 's4', body: 'One 92 x 30 in rolling bench: the DWE7491 sunk flush at one end, the DCS785 on a flip section in the middle, the DW735 on a flip section at the other end, each flip carrying a riser bench top on its back so the bench is flat with the tools down and a miter station with wings when the saw comes up; index-plunger locks, concrete ballast, swing and balance worked out.' },
+  { num: '05', title: 'Dust cart', anchor: 's5', body: 'The DeWalt 16 gal Stealthsonic drum braced in a 2x4 corral and a Dust Deputy cyclone on its bucket on a 12 in pedestal, side by side on one 38 x 24 in base with a spine for the strap and handle, with the fit, rail, hose-fall and tip-angle numbers, and the parts printed on the Core One.' },
+  { num: '06', title: 'Potting station and bulk rack', anchor: 's6', body: 'A 48 in potting counter in the front-left corner with a 14 in pot well whose platform sets a pot rim-flush at three heights, a sunken soil bin, bag shelf, splash back and charger shelf; the machine bay and hook rail behind it; and a 42 in bulk rack on the landing in the back-left corner with bags stacked under it and six totes above.' },
+  { num: '07', title: 'Electrical', anchor: 's7', body: 'One-line from the basement main through a 1/0 aluminum feeder to a 100 A Homeline subpanel on the east wall, eight branch circuits, the load calculation, the wire and device schedule, GFCI and working-space rules, and the permit steps.' },
+  { num: '08', title: 'Cut list', anchor: 's8', body: 'Seven sheets of 3/4 plywood, two of OSB and 27 studs, part by part, ripped with a circular saw and a straightedge.' },
+  { num: '09', title: 'Shopping list', anchor: 's9', body: 'Every priced line a posted listing with the store named: Home Depot, Walmart, Master Lock, theBigBearingStore. About $2,400 in priced lines, with the unpriced ones called out.' },
+  { num: '10', title: 'Build sequence', anchor: 's10', body: 'Four weekends: clear and sort plus electrical rough-in, electrical finish plus the bulk rack and the potting station, the cabinet, then the bench and the dust cart. Plus the forty geometry checks the model runs.' },
+  { num: '11', title: 'Operating guide', anchor: 's11', body: 'Daily and seasonal routine, the flip procedure, emptying the cyclone, EVSE settings for later, GFCI tests, bearing and lock maintenance.' },
+];
+---
+<BaseLayout title="garage shop &middot; rt-541.io" description="Garage shop: shop drawing set for a one-car garage woodshop with a locking tool cabinet, a flip bench for the table saw, miter saw and planer, a dust cart, potting station, bulk rack and a 100 A subpanel.">
+  <section class="max-w-3xl mx-auto px-6 pt-16 pb-8">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20">
+      <a href="/projects" class="no-underline hover:underline">projects</a> / garage shop
+    </p>
+    <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-3">Garage shop</h1>
+    <p class="text-[15px] text-ice leading-[1.65] max-w-[58ch]">
+      A one-car woodshop in an 18 by 20 ft attached garage with a 12 ft ceiling and a 6 in landing across the
+      back. The truck parks nose over the landing, the potting station and machine bay take the west wall with the
+      bulk rack on the landing behind them, and the shop takes the east wall with a locking wall-hung tool cabinet, a rolling flip bench with the table saw at one
+      end, the DCS785 miter saw flipping up in the middle and the DW735 planer at the other end, a mobile dust cart pairing the 16 gal Stealthsonic vac with a cyclone, the compressor beside it, and a 100 A subpanel fed from the basement with a dedicated circuit for every stationary
+      tool. Everything that cuts is on wheels.
+    </p>
+    <ul class="flex flex-wrap gap-4 mt-5 list-none p-0 font-mono text-[11px] tracking-meta uppercase">
+      <li><a href={planHref} class="text-chrome no-underline hover:underline">open the drawing set &rarr;</a></li>
+      <li><a href={pdfHref} class="text-chrome no-underline hover:underline">download the PDF &rarr;</a></li>
+      <li><a href={modelHref} class="text-chrome no-underline hover:underline">3d model &rarr;</a></li>
+    </ul>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-6">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// 3d model</p>
+    <figure class="m-0">
+      <img src={versioned("/plans/garage-shop/model/render-iso.png")} alt="Isometric render of the garage from the southeast with the cabinet locked and the vehicle hidden" loading="lazy" class="w-full h-auto rounded border border-chrome/20" />
+      <figcaption class="font-mono text-[11px] tracking-meta text-subtle mt-2">Closed up, from the southeast, vehicle hidden: the 6 in landing across the back with the step at the house door and the bulk rack on its west end, the potting station in the front-left corner. The whole garage is one CadQuery scene built from the drawing-set numbers.</figcaption>
+    </figure>
+    <figure class="m-0 mt-6">
+      <img src={versioned("/plans/garage-shop/model/render-shop.png")} alt="Render of the shop wall with the cabinet open and the bench's tools up" loading="lazy" class="w-full h-auto rounded border border-chrome/20" />
+      <figcaption class="font-mono text-[11px] tracking-meta text-subtle mt-2">Working state, the east wall from the southwest: cabinet doors open, the bench with both tools up, the dust cart and the compressor in the front corner, the subpanel and heater behind.</figcaption>
+    </figure>
+    <div class="prose-content text-[14px] mt-4">
+      <p>
+        The model is generated by a small headless CAD framework (<code>cad/shopcad</code>) from one Python scene module
+        whose parameters are the sheet numbers. It runs thirty geometry checks on every build (each flip section's swing and balance,
+        the truck against the landing curb, aisle width, subpanel working space, door swings, the dust cart's fit and
+        tip angle), then writes GLB files for the
+        interactive viewer, STEP for the scene and each build, the renders on the sheets, and a Fusion 360 script that
+        rebuilds the parts with user parameters.
+      </p>
+    </div>
+    <ul class="flex flex-wrap gap-4 mt-3 list-none p-0 font-mono text-[11px] tracking-meta uppercase">
+      <li><a href={modelHref} class="text-chrome no-underline hover:underline">interactive viewer &rarr;</a></li>
+      <li><a href={stepHref} class="text-chrome no-underline hover:underline">step file &rarr;</a></li>
+      <li><a href={fusionHref} class="text-chrome no-underline hover:underline">fusion 360 script (zip) &rarr;</a></li>
+      <li><a href={glbHref} class="text-chrome no-underline hover:underline">glb &rarr;</a></li>
+    </ul>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-6">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// by the numbers</p>
+    <dl class="grid grid-cols-2 sm:grid-cols-4 gap-4 m-0">
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">cabinet</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">48 x 40 x 17.5 in</dd>
+      </div>
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">flip bench</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">DWE7491 / DCS785 / DW735</dd>
+      </div>
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">subpanel</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">100 A, 8 circuits</dd>
+      </div>
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">priced lines</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">$2,478</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// the two carts, in detail</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <a href="/projects/garage-shop/flip-bench" class="no-underline block">
+        <img src={versioned("/plans/garage-shop/model/render-flip-miter-sw.png")} alt="Flip bench with the miter saw up" loading="lazy" class="w-full h-auto rounded border border-chrome/20" />
+        <span class="block font-serif text-[18px] text-chrome mt-3 hover:underline">Flip bench &rarr;</span>
+        <span class="block text-[14px] text-ice leading-[1.65] mt-1">Table saw, miter saw and planer on one rolling bench with two flip sections: the states, the lock, the ballast, renders from seven angles, the STEP file.</span>
+      </a>
+      <a href="/projects/garage-shop/dust-cart" class="no-underline block">
+        <img src={versioned("/plans/garage-shop/model/render-dust-sw.png")} alt="Dust cart with the 16 gal vac and the cyclone" loading="lazy" class="w-full h-auto rounded border border-chrome/20" />
+        <span class="block font-serif text-[18px] text-chrome mt-3 hover:underline">Dust cart &rarr;</span>
+        <span class="block text-[14px] text-ice leading-[1.65] mt-1">The 16 gal Stealthsonic and a Dust Deputy side by side on one base: renders from five angles, the tip and hose numbers, the STEP file.</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-2">// decisions</p>
+    <div class="prose-content text-[14px]">
+      <p>
+        The garage keeps one vehicle, a Ford Maverick or a Subaru Forester, so the shop is a rolling shop with
+        fixed walls: only the cabinet, the bulk rack, the potting station and the subpanel are screwed down. The
+        6 in landing across the back wall is the wheel stop; the truck's nose overhangs it in front of the house
+        door, so the landing east of the nose is the way out of the house and stays empty, and the bulk rack
+        stands on the landing's west end with the bags under it; the potting station takes the front-left corner with
+        a pot well that puts a pot's rim at counter height. The shop stays on the east wall so the
+        driver's door swings over open floor, with the dust cart and the compressor sharing the front corner and the bikes
+        hoisted either side of the opener rail. There is no table saw: sheet goods are ripped with a circular saw on a straightedge, and a
+        20 A bench receptacle waits on the wall in case one arrives.
+      </p>
+      <p>
+        The cabinet locks against theft rather than curiosity: an overlapping meeting edge, hardened hasps with
+        shrouded discus padlocks, hinge screws inside the door boxes, and two structural screws driven from inside
+        that pin the case to its cleat. The table saw, miter saw and planer share one flip bench: the saw sunk flush at one end, the other two on flip sections whose backs are riser bench tops, locked by index plungers and balanced with cast concrete, so no tool is lifted again and the flat bench is the miter station's wings and the table saw's outfeed;
+        the 16 gal vac and its cyclone share a low dust cart so neither tips again. Bags and totes sit on shelves at 6 in
+        and above, or on the landing itself, never on the slab. Small parts that would otherwise be bought, hose cuffs,
+        the planer reducer, clips, battery docks, bit holders and a zero-clearance insert for the table saw, are printed on the Core One in PETG from the model. The feeder is the one thing that is
+        expensive to change later, so it is 100 A with a 50 A EV circuit roughed in to a capped box for a charger
+        that does not exist yet.
+      </p>
+      <p>
+        Revision A was drawn on an assumed 20 by 20 ft garage from one photo. Revision B is drawn on the measured
+        garage: 18 ft across the door wall, 17 ft of floor plus the 3 ft landing, 12 ft ceiling. It placed the house
+        door and the side door, moved the subpanel, turned the garden counter into a potting station at the front and put the bulk storage on the landing, dropped the table saw for the bench,
+        cut the lights to four, and added the dust cart.
+        Still open: the door and opener heights, the basement panel, and the attic framing for an overhead platform.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12 pb-20">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-2">// the drawing set</p>
+    <ul class="list-none p-0 m-0">
+      {sheets.map(s => (
+        <li class="py-5 border-b border-chrome/10 grid grid-cols-[5rem,1fr] gap-6">
+          <span class="font-mono text-[11px] tracking-meta text-subtle pt-1">sheet {s.num}</span>
+          <div>
+            <h2 class="font-serif text-[18px] text-chrome leading-tight m-0">
+              <a href={`${planHref}#${s.anchor}`} class="no-underline hover:underline">{s.title}</a>
+            </h2>
+            <p class="text-[14px] text-ice leading-[1.65] mt-2 mb-0">{s.body}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

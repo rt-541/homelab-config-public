@@ -1,0 +1,683 @@
+{
+ "slug": "backyard",
+ "name": "Backyard",
+ "states": {
+  "summer": {
+   "file": "backyard-summer.glb",
+   "label": "Summer, furnished",
+   "description": "Deck furnished, umbrellas open, trees at about ten years"
+  },
+  "bare": {
+   "file": "backyard-bare.glb",
+   "label": "Built, unfurnished",
+   "description": "What the contractors hand over, with young trees"
+  }
+ },
+ "components": [
+  "Grade",
+  "House",
+  "AC Screen",
+  "Fence",
+  "Deck Framing",
+  "Deck Surface",
+  "Deck Skirt",
+  "Deck Guards",
+  "Stairs",
+  "Patio",
+  "Fire Ring",
+  "Furniture",
+  "Seat Wall",
+  "Walkway",
+  "Herb Bed",
+  "Evergreens",
+  "French Drain",
+  "Cooking",
+  "Umbrellas"
+ ],
+ "checks": [
+  {
+   "name": "deck needs guards (over 30 in above grade)",
+   "ok": true,
+   "detail": "SW 27, SE 29, NW 39, NE 41 in above grade"
+  },
+  {
+   "name": "west stair risers at or under 7.75 in",
+   "ok": true,
+   "detail": "4 risers of 6.95 in, 27.8 in rise, 33 in run"
+  },
+  {
+   "name": "west stair lands on the patio",
+   "ok": true,
+   "detail": "foot at x 393, 159 in of patio beyond it"
+  },
+  {
+   "name": "the west stair is the only stair",
+   "ok": true,
+   "detail": "the deck is reached from the slider and left by the patio"
+  },
+  {
+   "name": "west stair clear of the cut corner",
+   "ok": true,
+   "detail": "54 in of straight edge north of it"
+  },
+  {
+   "name": "slider lands on the deck with 3 ft to spare",
+   "ok": true,
+   "detail": "66 in east of the slider"
+  },
+  {
+   "name": "beam post spacing at or under post_max",
+   "ok": true,
+   "detail": "4 posts per beam, 92.0 in bays"
+  },
+  {
+   "name": "joist spans and cantilevers (2x10 at 12 in, 16 ft max)",
+   "ok": true,
+   "detail": "longest span 171.0 in, cantilever 33 in toward the house, 36 in north"
+  },
+  {
+   "name": "south beam clears the chimney and the bay",
+   "ok": true,
+   "detail": "30.8 in off the wall"
+  },
+  {
+   "name": "griddle and smoker 3 ft from the rail and the house",
+   "ok": true,
+   "detail": "36 in to the east rail, 36 in to the bay"
+  },
+  {
+   "name": "smoker clear of the cut corner",
+   "ok": true,
+   "detail": "50 in to the corner rail"
+  },
+  {
+   "name": "cooks' aisle to the table",
+   "ok": true,
+   "detail": "38 in between the griddle front and the east chairs"
+  },
+  {
+   "name": "skirt vented and serviceable",
+   "ok": true,
+   "detail": "0.375 in gaps between skirt boards, a 36 in access panel on the east side"
+  },
+  {
+   "name": "cut corners 3.5 ft at 45 degrees",
+   "ok": true,
+   "detail": "42 in each way"
+  },
+  {
+   "name": "fire ring at least 60 in from the deck (owner's design value)",
+   "ok": true,
+   "detail": "154 in (12.8 ft) from the ring"
+  },
+  {
+   "name": "fire ring at least 60 in from the house (owner's design value)",
+   "ok": true,
+   "detail": "202 in (16.8 ft) from the ring"
+  },
+  {
+   "name": "fire ring at least 15 ft from the tree canopies",
+   "ok": true,
+   "detail": "368 in (30.7 ft)"
+  },
+  {
+   "name": "fire ring clearances against the published code (information)",
+   "ok": true,
+   "detail": "deck 12.8 ft, house 16.8 ft; IFC 307.4 lists 25 ft for an open wood fire, 15 ft for a listed portable one"
+  },
+  {
+   "name": "fire ring centred on the patio's northwest corner",
+   "ok": true,
+   "detail": "(234, 228)"
+  },
+  {
+   "name": "seat wall legroom to the fire ring",
+   "ok": true,
+   "detail": "44 in between the bench front and the ring"
+  },
+  {
+   "name": "seat wall leaves the walkway open to the patio",
+   "ok": true,
+   "detail": "36 in gap at its east end"
+  },
+  {
+   "name": "seat wall at bench height",
+   "ok": true,
+   "detail": "18 in tall, 14 in deep"
+  },
+  {
+   "name": "sofa set on the patio, clear of the fire apron",
+   "ok": true,
+   "detail": "set spans y 40 to 150; apron starts at y 144"
+  },
+  {
+   "name": "path from the stair to the fire past the sofa set",
+   "ok": true,
+   "detail": "47 in between the chairs and the stair foot"
+  },
+  {
+   "name": "chairs on the stone apron",
+   "ok": true,
+   "detail": "11 in of apron beyond the chair backs"
+  },
+  {
+   "name": "apron inside the lot and clear of the AC",
+   "ok": true,
+   "detail": "150 in to the west fence, 104 in north of the AC"
+  },
+  {
+   "name": "herb bed stands off the brick",
+   "ok": true,
+   "detail": "4 in air gap behind its own back wall"
+  },
+  {
+   "name": "AC screen 24 in off the unit, open top and open west side",
+   "ok": true,
+   "detail": "24 in to the north side and the east gate, west side and top open, screen 52 in tall over a 36 in unit"
+  },
+  {
+   "name": "herb bed clear of the AC screen",
+   "ok": true,
+   "detail": "6 in"
+  },
+  {
+   "name": "AC screen clear of the fire apron",
+   "ok": true,
+   "detail": "80 in"
+  },
+  {
+   "name": "herb bed ends at the chimney",
+   "ok": true,
+   "detail": "4 in short of the chimney"
+  },
+  {
+   "name": "patio starts in front of the herb bed",
+   "ok": true,
+   "detail": "2 in"
+  },
+  {
+   "name": "five trees in one row",
+   "ok": true,
+   "detail": "x 498, 564, 630, 696, 762"
+  },
+  {
+   "name": "gap between trees at maturity",
+   "ok": true,
+   "detail": "18 in at 48 in wide"
+  },
+  {
+   "name": "service lane behind the trees",
+   "ok": true,
+   "detail": "24 in"
+  },
+  {
+   "name": "trees 4 ft or more from the drain trench",
+   "ok": true,
+   "detail": "54 in"
+  },
+  {
+   "name": "drain falls at least 1/8 in per ft",
+   "ok": true,
+   "detail": "0.60 in per ft over 66 ft"
+  },
+  {
+   "name": "drain outlet depth (information: the existing line must be lower)",
+   "ok": true,
+   "detail": "pipe invert 22 in below grade at the NE corner"
+  }
+ ],
+ "params": {
+  "lot_w": 840.0,
+  "yard_d": 600.0,
+  "side_d": 240.0,
+  "house_x0": 120.0,
+  "house_x1": 744.0,
+  "house_d": 360.0,
+  "house_h": 108.0,
+  "roof_rise": 78.0,
+  "eave": 14.0,
+  "bay_x0": 576.0,
+  "bay_x1": 684.0,
+  "bay_d": 24.0,
+  "slider_x0": 600.0,
+  "slider_x1": 660.0,
+  "chim_x0": 426.0,
+  "chim_x1": 486.0,
+  "chim_d": 30.0,
+  "chim_h": 216.0,
+  "lwin_x0": 372.0,
+  "lwin_x1": 408.0,
+  "ac_x0": 140.0,
+  "ac_x1": 178.0,
+  "ac_y0": 6.0,
+  "ac_y1": 40.0,
+  "ac_h": 36.0,
+  "acs_off": 24.0,
+  "acs_h": 52.0,
+  "acs_post": 4.0,
+  "lat_pitch": 2.5,
+  "lat_slat": 1.25,
+  "mlv_gap": 2.0,
+  "deck_x0": 426.0,
+  "deck_x1": 726.0,
+  "deck_d": 240.0,
+  "deck_z": 24.0,
+  "beam_y": [
+   33.0,
+   204.0
+  ],
+  "post_inset": 12.0,
+  "post_max": 96.0,
+  "post_w": 5.5,
+  "chamfer": 42.0,
+  "skirt_gap": 0.375,
+  "skirt_inset": 1.5,
+  "access_w": 36.0,
+  "joist_oc": 12.0,
+  "joist_d": 9.25,
+  "beam_d": 9.25,
+  "board_w": 5.5,
+  "board_gap": 0.1875,
+  "board_t": 1.0,
+  "breaker_x": 576.0,
+  "guard_h": 36.0,
+  "guard_post_max": 72.0,
+  "baluster_oc": 4.75,
+  "tread": 11.0,
+  "riser_max": 7.75,
+  "wstair_yc": 114.0,
+  "wstair_w": 60.0,
+  "cook_clear": 36.0,
+  "bs_w": 62.5,
+  "bs_d": 22.0,
+  "bs_h": 36.0,
+  "sm_w": 49.0,
+  "sm_d": 27.0,
+  "sm_h": 55.0,
+  "cook_y0": 60.0,
+  "cook_gap": 12.0,
+  "table_xc": 590.0,
+  "table_yc": 150.0,
+  "table_w": 40.0,
+  "table_d": 84.0,
+  "lounge_x0": 236.0,
+  "lounge_y0": 40.0,
+  "lounge_x1": 346.0,
+  "lounge_y1": 150.0,
+  "umb_dining_x": 590.0,
+  "umb_dining_y": 222.0,
+  "umb_canopy_r": 60.0,
+  "umb_h": 96.0,
+  "wrap_w": 36.0,
+  "pat_x0": 234.0,
+  "pat_x1": 426.0,
+  "pat_y0": 36.0,
+  "pat_y1": 228.0,
+  "apron_r": 84.0,
+  "herb_x0": 208.0,
+  "herb_x1": 422.0,
+  "herb_gap": 4.0,
+  "herb_d": 30.0,
+  "herb_h": 18.0,
+  "herb_wall": 6.0,
+  "stone_t": 2.0,
+  "dust_t": 1.0,
+  "base_t": 6.0,
+  "joint": 0.75,
+  "stone_pitch": 21.0,
+  "seat_h": 18.0,
+  "seat_t": 14.0,
+  "seat_cap": 2.0,
+  "pit_x": 234.0,
+  "pit_y": 228.0,
+  "pit_ro": 26.0,
+  "pit_ri": 18.0,
+  "pit_h": 15.0,
+  "chair_r": 62.0,
+  "fire_clear": 60.0,
+  "tree_off": 48.0,
+  "tree_pitch": 66.0,
+  "tree_n": 5,
+  "tree_w": 48.0,
+  "tree_h": 252.0,
+  "drain_off": 24.0,
+  "drain_y0": -216.0,
+  "drain_y1": 582.0,
+  "trench_w": 12.0,
+  "trench_cover": 18.0,
+  "drain_min_slope": 0.125,
+  "fence_h": 48.0
+ },
+ "generated": "2026-09-27 01:00",
+ "meta": {
+  "state": {
+   "label": "Summer, furnished",
+   "description": "Deck furnished, umbrellas open, trees at about ten years",
+   "furniture": true
+  },
+  "revision": "A2",
+  "units": "in",
+  "sky": "#cfdfe9"
+ },
+ "default_state": "summer",
+ "views": {
+  "iso-nw": {
+   "state": "summer",
+   "view": "iso-nw",
+   "w": 1600,
+   "h": 1100
+  },
+  "iso-ne": {
+   "state": "summer",
+   "view": "iso-ne",
+   "w": 1600,
+   "h": 1100
+  },
+  "hero": {
+   "state": "summer",
+   "focus": "Deck Surface,Patio,Walkway",
+   "dir": "nw",
+   "elev": 0.42,
+   "zoom": 1.0,
+   "hide": "Evergreens",
+   "w": 1600,
+   "h": 1000
+  },
+  "plan": {
+   "state": "summer",
+   "view": "plan",
+   "hide": "Umbrellas",
+   "w": 1400,
+   "h": 1200
+  },
+  "cooking": {
+   "state": "summer",
+   "focus": "Cooking",
+   "dir": "nw",
+   "elev": 0.7,
+   "zoom": 1.8,
+   "hide": "Umbrellas",
+   "w": 1400,
+   "h": 1000
+  },
+  "deck": {
+   "state": "summer",
+   "focus": "Deck Surface,Deck Guards,Stairs",
+   "dir": "ne",
+   "elev": 0.45,
+   "hide": "Evergreens",
+   "w": 1600,
+   "h": 1000
+  },
+  "framing": {
+   "state": "bare",
+   "focus": "Deck Framing,Stairs",
+   "dir": "ne",
+   "elev": 0.4,
+   "hide": "Grade,AC Screen,Fence,Deck Surface,Deck Skirt,Deck Guards,Cooking,Furniture,Umbrellas,Patio,Fire Ring,Seat Wall,Walkway,Herb Bed,Evergreens,French Drain",
+   "w": 1600,
+   "h": 1000
+  },
+  "patio": {
+   "state": "summer",
+   "focus": "Patio,Fire Ring,Seat Wall",
+   "dir": "ne",
+   "elev": 0.6,
+   "hide": "Umbrellas",
+   "w": 1400,
+   "h": 1000
+  },
+  "ac-screen": {
+   "state": "summer",
+   "focus": "AC Screen",
+   "dir": "ne",
+   "elev": 0.6,
+   "zoom": 1.3,
+   "hide": "Umbrellas",
+   "w": 1400,
+   "h": 1000
+  },
+  "trees": {
+   "state": "summer",
+   "focus": "Evergreens",
+   "dir": "s",
+   "elev": 0.3,
+   "zoom": 0.7,
+   "hide": "Umbrellas,Furniture,House",
+   "w": 1600,
+   "h": 900
+  }
+ },
+ "render": {
+  "materials": [
+   [
+    "House/*roof*",
+    "shingle"
+   ],
+   [
+    "House/*frame*",
+    "paint"
+   ],
+   [
+    "House/fascia",
+    "paint"
+   ],
+   [
+    "House/*window*",
+    "glass"
+   ],
+   [
+    "House/slider",
+    "glass"
+   ],
+   [
+    "House/AC*",
+    "metal"
+   ],
+   [
+    "House/chimney cap",
+    "concrete"
+   ],
+   [
+    "House/*",
+    "brick"
+   ],
+   [
+    "Grade/*",
+    "grass"
+   ],
+   [
+    "Deck Surface/*",
+    "composite"
+   ],
+   [
+    "Deck Skirt/access panel pull",
+    "metal"
+   ],
+   [
+    "Deck Skirt/*",
+    "composite"
+   ],
+   [
+    "Deck Guards/baluster*",
+    "metal"
+   ],
+   [
+    "Deck Guards/*",
+    "composite"
+   ],
+   [
+    "Deck Framing/footing*",
+    "concrete"
+   ],
+   [
+    "Deck Framing/*",
+    "keep"
+   ],
+   [
+    "Stairs/*",
+    "composite"
+   ],
+   [
+    "Patio/stone*",
+    "flagstone"
+   ],
+   [
+    "Walkway/*stone*",
+    "flagstone"
+   ],
+   [
+    "Patio/*",
+    "gravel"
+   ],
+   [
+    "Walkway/*",
+    "gravel"
+   ],
+   [
+    "Fire Ring/ash*",
+    "ash"
+   ],
+   [
+    "Fire Ring/log*",
+    "keep"
+   ],
+   [
+    "Fire Ring/cap",
+    "flagstone"
+   ],
+   [
+    "Fire Ring/setting*",
+    "flagstone"
+   ],
+   [
+    "Fire Ring/*",
+    "wallstone"
+   ],
+   [
+    "Seat Wall/*cap",
+    "flagstone"
+   ],
+   [
+    "Seat Wall/*",
+    "wallstone"
+   ],
+   [
+    "Herb Bed/soil",
+    "soil"
+   ],
+   [
+    "Herb Bed/herb*",
+    "foliage"
+   ],
+   [
+    "Herb Bed/cap",
+    "flagstone"
+   ],
+   [
+    "Herb Bed/*",
+    "wallstone"
+   ],
+   [
+    "Evergreens/*trunk",
+    "keep"
+   ],
+   [
+    "Evergreens/*",
+    "foliage"
+   ],
+   [
+    "AC Screen/*vinyl",
+    "fabric"
+   ],
+   [
+    "AC Screen/*",
+    "vinyl"
+   ],
+   [
+    "Fence/*",
+    "metal"
+   ],
+   [
+    "French Drain/existing*",
+    "metal"
+   ],
+   [
+    "French Drain/*",
+    "gravel"
+   ],
+   [
+    "Cooking/*",
+    "metal"
+   ],
+   [
+    "Umbrellas/*canopy",
+    "fabric"
+   ],
+   [
+    "Umbrellas/*",
+    "metal"
+   ],
+   [
+    "Furniture/*cushion*",
+    "fabric"
+   ],
+   [
+    "Furniture/*",
+    "keep"
+   ]
+  ],
+  "views": {
+   "north": {
+    "from": [
+     240,
+     860,
+     300
+    ],
+    "to": [
+     440,
+     160,
+     0
+    ],
+    "lens": 28
+   },
+   "ne": {
+    "from": [
+     1120,
+     640,
+     330
+    ],
+    "to": [
+     430,
+     150,
+     0
+    ],
+    "lens": 28
+   },
+   "west": {
+    "from": [
+     -420,
+     330,
+     260
+    ],
+    "to": [
+     440,
+     150,
+     0
+    ],
+    "lens": 28
+   }
+  },
+  "sun": {
+   "elevation": 28,
+   "azimuth": 300
+  },
+  "ground": {
+   "top0": -0.6,
+   "gx": -0.007142857142857143,
+   "gy": -0.05,
+   "cx": 420,
+   "cy": 200
+  }
+ }
+}

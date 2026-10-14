@@ -1,0 +1,7 @@
+# Weights live on the host in /docker/comfyui/models, mounted read-only at models/external.
+external:
+  base_path: /llm/ComfyUI/models/external
+  diffusion_models: diffusion_models
+  text_encoders: text_encoders
+  clip: text_encoders
+  vae: vae

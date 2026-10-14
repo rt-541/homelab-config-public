@@ -12,7 +12,7 @@ Whatever the group is playing that month gets a server. Each one is a Docker Com
 
 **Running now**
 
-- Project Zomboid (production, plus a dev instance for testing mods)
+- Project Zomboid
 - Minecraft: All the Mods 9 Survival
 
 **In the rotation** (configured and ready, spun up on demand)

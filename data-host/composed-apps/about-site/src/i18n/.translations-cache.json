@@ -286,7 +286,7 @@
     },
     "nav.resume": {
       "hash": "a83a31320d921b888a48fa5edd0b4b5a29984de6e96bf7b8ac7d29ba06caf616",
-      "value": "Curriculum vitae"
+      "value": "Lebenslauf"
     },
     "nav.services": {
       "hash": "ef1c4b45f2ed763283f8de890730defb2e7d1f8f0cc4214b740dd8cc5f10364d",
@@ -376,6 +376,22 @@
       "hash": "8b0b5e6461f586e305f1994bce52097ffd56ca4733fa617b8a7e5d7f5e778147",
       "value": "Spielserver für Freunde und Familie"
     },
+    "project.garage-shop.body": {
+      "hash": "a80a4c0979e2b6896f16068e96252b57c08e5ad613ba2cd322f981048af9efc3",
+      "value": "Der Pickup parkt in der mittleren Bucht mit der Nase über dem 6 Zoll hohen Podest entlang der Rückwand; die Topfstation und der Geräteplatz belegen die Westwand, dahinter steht das Vorratsregal auf dem Podest, und die Werkstatt belegt die Ostwand. Alles, was schneidet, steht auf Rollen an der Wand: eine 92 Zoll lange Klappwerkbank mit der bündig eingelassenen Tischkreissäge DWE7491 an einem Ende, der Kappsäge DCS785 auf einem Klappsegment in der Mitte und dem Dickenhobel DW735 auf einem Klappsegment am anderen Ende (jedes Segment dreht auf einer 1-Zoll-Stahlwelle in Flanschlagern und trägt auf der Rückseite eine Aufsatzplatte), dazu ein Absaugwagen mit Zyklon auf einem Nass-Trocken-Sauger. Ein 48 Zoll breiter Birkenschrank an einer French Cleat bewahrt die Akkuwerkzeuge hinter gehärteten Überfallen und Diskus-Vorhängeschlössern und ist von innen an der Wand verschraubt. Eine vom Keller gespeiste 100-A-Unterverteilung führt acht Stromkreise, ein 50-A-Kreis für ein Elektroauto ist vorverlegt. Rund 2.400 Dollar an geprüften Preisposten. Revision B, gezeichnet nach der vermessenen Garage."
+    },
+    "project.garage-shop.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "Zeichensatz & PDF"
+    },
+    "project.garage-shop.summary": {
+      "hash": "cdc617d1116090306c9526c09147012661b4c7642ec6005adcb0c4e3f73e5f84",
+      "value": "Eine Holzwerkstatt mit Platz für ein Auto in einer 18 x 20 ft großen Anbaugarage mit 12 ft Deckenhöhe: abschließbarer Wandwerkzeugschrank, eine fahrbare Klappwerkbank mit Tischkreissäge, Kappsäge und Dickenhobel, ein mobiler Absaugwagen, eine Topfstation, Vorratslager auf dem Podest und eine 100-A-Unterverteilung mit eigenem Stromkreis für jede feste Maschine."
+    },
+    "project.garage-shop.title": {
+      "hash": "2e8f9a870d9b490293d3eeccc3affe60dbf4ab300b66362e5c52433083bb989b",
+      "value": "Garagenwerkstatt"
+    },
     "project.mcp-safeguards.body": {
       "hash": "0ae44d89ed2edcd8fbb5b7c871a1944aba53df099e1df9c6d6fb871fec09d240",
       "value": "Gebaut in einem professionellen Umfeld. Details sind nicht öffentlich."
@@ -416,6 +432,22 @@
       "hash": "0fca2f6df5d858bd3558af4052bd1352059ea3c214526dbf8d07c08b1e7be2d7",
       "value": "Marktplatz für Fähigkeiten von KI-Agenten"
     },
+    "project.spool-cabinet.body": {
+      "hash": "956a694a7ae9bb1366dbb1a80017108da8a5104b8ee8354a2c7383ebb14997a4",
+      "value": "Ein Fach baust du, ein Fach kaufst du. Der Schrank wird mit Pocket-Screws aus drei Plywood-Platten in eine 30-Zoll-Bay montiert und mit EPDM-Flex-Rohr-Dichtung und Magnetschlössern verschlossen. Mit 5 Pfund dehydrierendem Siliciumgips und einem USB-Fan, der es trocken hält. Spool-Halterungen stehen waagrecht in Schienen, zwei Reihen tief, sieben pro Reihe mit einer Abstand von 4 Zoll, insgesamt 56 auf den Haltern plus Überschuss im Fach gelegt. Trocknung passiert in einem benutzten Box-Dehydrator. Etwa 450 USD in Pinienholz, jede Preise ist überprüft. Design fertig, Bau steht an."
+    },
+    "project.spool-cabinet.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "Zeichensatz & PDF"
+    },
+    "project.spool-cabinet.summary": {
+      "hash": "a9d59a7ff231f8acd6307af4a274b5992be8afe21a0e420139ba320224f35eb8",
+      "value": "Ein versiegelter Holzsperrholz-Filamentkasten der Breite eines IKEA BILLY, mit zwei GLASDOORS OXBERG, der 56 Filamente bei 10 bis 20 Prozent Feuchtigkeit auf Desiccatoren allein speichert; Trocknen ist ein gekaufter Dehyrator."
+    },
+    "project.spool-cabinet.title": {
+      "hash": "b8e706817829baf829b531b9c188f42fb44b61c0478ffe3a9f18fefc92ba0520",
+      "value": "Tiefen-Spool-Schrank"
+    },
     "project.zomboid-tooling.body": {
       "hash": "d32066a9aa95f21a9d542460865d600fd5b0cafe71569ebfa3bc73c7451644ac",
       "value": "Eine wachsende Sammlung von Skripten, die das erledigen, was ein langlaufender Spieleserver irgendwann braucht. World-Resets, die den Spielfortschritt erhalten. Ein Migrationspfad für den Sprung auf Build 42. RCON-gesteuerte Wiederherstellung, die Items und XP eines Spielers aus einem Backup zurückholt, ohne einen übermächtigen Charakter zurückzugeben. Es begann als einmaliges Reset-Skript und wurde zu einem kleinen Betriebs-Toolkit, runbook inklusive."
@@ -436,9 +468,25 @@
       "hash": "fec4aa126094ec7bcbce98a3bd8d9d454774644571624d4e502f021729ad1558",
       "value": "Dinge, die ich gebaut habe"
     },
+    "projects.physical.h2": {
+      "hash": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60",
+      "value": "Physisch"
+    },
+    "projects.physical.sub": {
+      "hash": "bd7c95c88ea1b2fb880ac2809eb6ed5f9e4c41f6f578af4e0ede0b0a5ef68e88",
+      "value": "Dinge aus Holzblech, Stahl und Draht gebaut, mit Zeichnungsmengen."
+    },
     "projects.subtitle": {
       "hash": "c2bb0038a15850c8fda89a61585254ca6dad44ce9e0d2e37f1aad23a47e4be77",
       "value": "Ein Sammelsurium aus Arbeit und Nebenprojekten. Klicke durch für Details."
+    },
+    "projects.virtual.h2": {
+      "hash": "d02c86fe26e741c6d8e9acc00a69581254c502f61f03a0955542081e9ed05d1b",
+      "value": "Virtual"
+    },
+    "projects.virtual.sub": {
+      "hash": "9e773344aedf65ea4feddce4264ebbf14117c6209ff4dbd345da516c81e13366",
+      "value": "Software, Infrastruktur und der Homelab."
     },
     "readout.designation.label": {
       "hash": "c11936133f37c16fadab612e0dca8ff898d8bfc833d7e9a5d31c5daac2ca9f1c",
@@ -535,6 +583,54 @@
     "status.redacted": {
       "hash": "b68919aff001d8366249403a2544fba2d833084f1ad22839b6310aadacb6a138",
       "value": "redacted"
+    },
+    "nav.writing": {
+      "hash": "ee871105e875f3de6e0da042f7190bc83ef1e4444aadd528ee6e1f401a9217aa",
+      "value": "Texte"
+    },
+    "writing.eyebrow": {
+      "hash": "ee871105e875f3de6e0da042f7190bc83ef1e4444aadd528ee6e1f401a9217aa",
+      "value": "Texte"
+    },
+    "writing.h1": {
+      "hash": "c4a681e32800f8fe37d1832c3f47093e399d9cc6686ad67d7f58b6e056c92999",
+      "value": "Notizen und Berichte"
+    },
+    "writing.subtitle": {
+      "hash": "bcbc143910abbedbafd66b8f02ab516ce6678da1756daba5edff581193fff8ee",
+      "value": "Längere Notizen dazu, wie Dinge gebaut wurden."
+    },
+    "project.backyard.title": {
+      "hash": "8ef35f16649fbe3771ea7a6df418786f490f35bf3eda6ffa3e54e47308f9db7f",
+      "value": "Garten"
+    },
+    "project.rock-screen.title": {
+      "hash": "ce136cf08cbfd7c45f822e02283372cbad5b611effe627496c214d6d6651e16c",
+      "value": "Steinsieb"
+    },
+    "project.backyard.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "Zeichnungssatz & PDF"
+    },
+    "project.rock-screen.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "Zeichnungssatz & PDF"
+    },
+    "project.backyard.summary": {
+      "hash": "1bcd5516d91a49137814642aab27a8f90dd5e8fda442989037736652de6b566a",
+      "value": "Ein Hinterhof, gezeichnet aus Drohnenfotos: ein freistehender Holzterrassenbau am Hintereingang, ein 16 Fuß langer Kalkstein-Pflasterweg mit runder Feuerumrandung und Steinkamin, ein erhöhter Kräuterbeet aus Stein, ein Schallschutzschirm um die Klimaanlage, ein Steinpfad, eine Reihe American Pillar-Arborvitae-Bäume und ein Französischer Abfluss."
+    },
+    "project.backyard.body": {
+      "hash": "0702671c7327256e9e61dd84b9db7eb2fe5d9e6193ccb5b27133b21a88a6526a",
+      "value": "Ein neuer 25 x 20 Fuß großer Verbundholz-Deck, der an der Schiebetür im Bereich eines Ziegelranch-Hauses verläuft, vom Kamin bis nahe an die östliche Ecke des Hauses, mit abgeschrägten Ecken im 45-Grad-Winkel, darunter ein belüfteter Verbundholz-Rahmen, der auf zwei Trägern steht, da ein Ledger-System nicht an Ziegelverkleidung befestigt werden kann. Die Blackstone-Griddle und ein Rauchofen-Unterstand befinden sich entlang der östlichen Leitstange, das Essen erfolgt unter einer Kragdach-Sonnenschirm neben der Schiebetür. Eine Treppe führt vom westlichen Rand des Decks auf eine 16 Fuß große Fläche aus trocken verlegten, bräunlichen Flaggensteinen, die den Außensofa-Set trägt, mit einem 14 Fuß großen, runden Rand und einem 52 Zoll großen Stein-Feuerkreis, der zentriert im nordwestlichen Eckbereich des Terrassen liegt, sowie einer 18 Zoll hohen Stein-Sitzwand, die sich entlang der nördlichen Hälfte des Feuerkreises und entlang der nördlichen Kante der Terrasse erstreckt. Zwischen der Terrasse und dem Haus steht ein Stein-Hecke-Beet, das 4 Zoll über dem Ziegel liegt, und die Klimaanlage ist an ihrer nördlichen und östlichen Seite mit Vinyl-Gitter über massbelastetes Vinyl abgedeckt, während die westliche und obere Seite offen bleibt, damit sie weiterhin belüftet bleibt. Fünf American Pillar-Arborvitae stehen in einer Reihe entlang der hinteren Zaunlinie, in Linie mit der Schiebetür, und ein Französischer Abfluss entlang des nassen östlichen Zauns ist mit dem vorhandenen Eckabfluss verbunden. Revision A5, erstellt auf Grundlage von Drohnenfotos."
+    },
+    "project.rock-screen.summary": {
+      "hash": "9109078f48fea282e73a5333aece83dc5b9c1184585529afe708d188a9a65962",
+      "value": "Ein Kippsieb, um eine ganze Poolfüllung Flusskiesel zu reinigen: auf ein Drahtgitter-Tablett in Arbeitshöhe schaufeln, rütteln, auslesen und abspülen, dann am Griff anheben, und die Steine rutschen durch einen Trichter in einen 50-lb-Jutesack auf einer Sackkarre."
+    },
+    "project.rock-screen.body": {
+      "hash": "728c6607cf7ee87a2f263eacdd361b173b089ffaa72481b08e3fca085e1109a5",
+      "value": "Flusskiesel, die unter einem Pool hervorgeholt wurden, voller Wurzeln, Laub und Erde, und zurück in 50-lb-Jutesäcke sollen. Das Tablett ist ein 24 x 48 in großer Rahmen aus 2x6 mit 1/2 in Drahtgitter auf 2x2-Latten, an zwei Schlossschrauben in einem 2x4-Gestell aufgehängt und auf Hockeypucks gelagert, damit es gerüttelt werden kann und die Erde durchfällt. Unrat auslesen, die Ladung abspritzen, dann den Griff anheben: Das Tablett kippt um 35 Grad, und die Steine rutschen über eine Blechkante durch einen Sperrholztrichter in einen Sack, der am Auslauf eingeschlagen ist und auf einer Sackkarre steht, sodass nichts Schweres vom Boden gehoben wird. Drei Schaufeln pro Sack, 45 lb, etwa 60 Säcke pro Kubikyard. Rund $190 für Holz und Beschläge. Entwurf fertig, Bau steht noch aus."
     }
   },
   "es": {
@@ -824,7 +920,7 @@
     },
     "nav.resume": {
       "hash": "a83a31320d921b888a48fa5edd0b4b5a29984de6e96bf7b8ac7d29ba06caf616",
-      "value": "resumen"
+      "value": "Currículum"
     },
     "nav.services": {
       "hash": "ef1c4b45f2ed763283f8de890730defb2e7d1f8f0cc4214b740dd8cc5f10364d",
@@ -914,6 +1010,22 @@
       "hash": "8b0b5e6461f586e305f1994bce52097ffd56ca4733fa617b8a7e5d7f5e778147",
       "value": "Servidores de juegos para amigos y familia"
     },
+    "project.garage-shop.body": {
+      "hash": "a80a4c0979e2b6896f16068e96252b57c08e5ad613ba2cd322f981048af9efc3",
+      "value": "El camión se estaciona en la bay central con su nariz sobre el 6 pulg de aterrizaje que cruza la pared trasera, la estación de macetero y la bay de máquinas toman la pared oeste con el almacén de voluminosos en el aterrizaje detrás de ellos, y el taller ocupa la pared este. Todo lo que corta está sobre ruedas y se estaciona contra la pared: un banco plegable de 92 pulg con la mesa de veredación DWE7491 hundida encajada al final, la sierra miter DCS785 en una sección plegable en el medio y la planadora DW735 en una sección plegable al otro extremo, cada una girando sobre un eje de 1 pulg en rodamientos de flanque con un banco de riser detrás, y un carrito de polvo con un ciclón en una aspiradora de taller. Un armario de madera de cerezo de 48 pulg con ganchos franceses alberga las herramientas sin cable tras hasps endurecidos y cerradaspritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritespritesprites"
+    },
+    "project.garage-shop.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "conjunto de dibujos & PDF"
+    },
+    "project.garage-shop.summary": {
+      "hash": "cdc617d1116090306c9526c09147012661b4c7642ec6005adcb0c4e3f73e5f84",
+      "value": "Un taller de un coche en un garaje anexo de 18 por 20 pies con techos de 12 pies: gabinete colgado en la pared con llave, banco desplegable portador de la sierra radial, sierra miter y planadora, carrito móvil para recoger el polvo, estación de envasado, almacenamiento en cantina y subestación de 100 A con circuito dedicado para cada herramienta fija."
+    },
+    "project.garage-shop.title": {
+      "hash": "2e8f9a870d9b490293d3eeccc3affe60dbf4ab300b66362e5c52433083bb989b",
+      "value": "Taller de garaje"
+    },
     "project.mcp-safeguards.body": {
       "hash": "0ae44d89ed2edcd8fbb5b7c871a1944aba53df099e1df9c6d6fb871fec09d240",
       "value": "Construido en un entorno profesional. Los detalles no son públicos."
@@ -954,6 +1066,22 @@
       "hash": "0fca2f6df5d858bd3558af4052bd1352059ea3c214526dbf8d07c08b1e7be2d7",
       "value": "mercado de habilidades de agentes de IA"
     },
+    "project.spool-cabinet.body": {
+      "hash": "956a694a7ae9bb1366dbb1a80017108da8a5104b8ee8354a2c7383ebb14997a4",
+      "value": "Un cajón lo construyes, otro lo compras. El armario se ensambla con pernos de bolsillo de tres placas de melamina en un alero de 30 pulgadas, sellado con goma EPDM y cerraduras magnéticas, con 5 libras de gel de silicio indicador y un ventilador USB manteniéndolo seco. Los spools descansan sobre sus lados en guías de cradle, dos filas profundas, siete por fila a una separación de 4 pulgadas, 56 en las guías más el exceso extendido en la cubby. El secado ocurre en un deshidratador usado. Cerca de $450 en pino con cada precio en lista revisada. Diseño completo, construcción pendiente."
+    },
+    "project.spool-cabinet.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "conjunto de dibujos & PDF"
+    },
+    "project.spool-cabinet.summary": {
+      "hash": "a9d59a7ff231f8acd6307af4a274b5992be8afe21a0e420139ba320224f35eb8",
+      "value": "Un armario de madera particleboard con bisagras OXBERG de vidrio, de ancho igual que un IKEA BILLY, que alberga 56 spools en condiciones de humedad entre el 10 y el 20 por ciento gracias a una deshidratadora adquirida; la secado se realiza con una deshidratadora comprada."
+    },
+    "project.spool-cabinet.title": {
+      "hash": "b8e706817829baf829b531b9c188f42fb44b61c0478ffe3a9f18fefc92ba0520",
+      "value": "Almacén de rollos de basement"
+    },
     "project.zomboid-tooling.body": {
       "hash": "d32066a9aa95f21a9d542460865d600fd5b0cafe71569ebfa3bc73c7451644ac",
       "value": "Un conjunto creciente de scripts que manejan las cosas que un servidor de juegos con larga duración eventualmente necesita. Reinicios del mundo que preservan el progreso del jugador. Una ruta de migración para el salto del Build 42. Recuperación impulsada por RCON que restaura los objetos y XP de un jugador desde una copia de seguridad sin devolverle un personaje dios. Empezó como un script de reinicio puntual y se convirtió en una pequeña herramienta operativa, incluido el runbook."
@@ -974,9 +1102,25 @@
       "hash": "fec4aa126094ec7bcbce98a3bd8d9d454774644571624d4e502f021729ad1558",
       "value": "Cosas que he construido"
     },
+    "projects.physical.h2": {
+      "hash": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60",
+      "value": "Físico"
+    },
+    "projects.physical.sub": {
+      "hash": "bd7c95c88ea1b2fb880ac2809eb6ed5f9e4c41f6f578af4e0ede0b0a5ef68e88",
+      "value": "Cosas construidas con madera de pladur, acero y alambre, con conjuntos de dibujos."
+    },
     "projects.subtitle": {
       "hash": "c2bb0038a15850c8fda89a61585254ca6dad44ce9e0d2e37f1aad23a47e4be77",
       "value": "Un conjunto variado de proyectos laborales y personales. Haz clic para ver los detalles."
+    },
+    "projects.virtual.h2": {
+      "hash": "d02c86fe26e741c6d8e9acc00a69581254c502f61f03a0955542081e9ed05d1b",
+      "value": "Virtual"
+    },
+    "projects.virtual.sub": {
+      "hash": "9e773344aedf65ea4feddce4264ebbf14117c6209ff4dbd345da516c81e13366",
+      "value": "Software, infraestructura y el homolab."
     },
     "readout.designation.label": {
       "hash": "c11936133f37c16fadab612e0dca8ff898d8bfc833d7e9a5d31c5daac2ca9f1c",
@@ -1073,6 +1217,54 @@
     "status.redacted": {
       "hash": "b68919aff001d8366249403a2544fba2d833084f1ad22839b6310aadacb6a138",
       "value": "redacted"
+    },
+    "nav.writing": {
+      "hash": "ee871105e875f3de6e0da042f7190bc83ef1e4444aadd528ee6e1f401a9217aa",
+      "value": "escritos"
+    },
+    "writing.eyebrow": {
+      "hash": "ee871105e875f3de6e0da042f7190bc83ef1e4444aadd528ee6e1f401a9217aa",
+      "value": "escritos"
+    },
+    "writing.h1": {
+      "hash": "c4a681e32800f8fe37d1832c3f47093e399d9cc6686ad67d7f58b6e056c92999",
+      "value": "Notas y artículos"
+    },
+    "writing.subtitle": {
+      "hash": "bcbc143910abbedbafd66b8f02ab516ce6678da1756daba5edff581193fff8ee",
+      "value": "Notas más largas sobre cómo se construyeron las cosas."
+    },
+    "project.backyard.title": {
+      "hash": "8ef35f16649fbe3771ea7a6df418786f490f35bf3eda6ffa3e54e47308f9db7f",
+      "value": "Patio trasero"
+    },
+    "project.rock-screen.title": {
+      "hash": "ce136cf08cbfd7c45f822e02283372cbad5b611effe627496c214d6d6651e16c",
+      "value": "Criba de piedras"
+    },
+    "project.backyard.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "planos y PDF"
+    },
+    "project.rock-screen.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "planos y PDF"
+    },
+    "project.backyard.summary": {
+      "hash": "1bcd5516d91a49137814642aab27a8f90dd5e8fda442989037736652de6b566a",
+      "value": "Un jardín trasero dibujado a partir de fotos de dron: una terraza de madera compuesta independiente junto a la puerta de deslizamiento trasera, un patio de 16 ft de piedra buff con una zona de fuego redonda y anillo de fuego de piedra, una cama elevada de hierbas de piedra, una pantalla de reducción de ruido alrededor del aire acondicionado, un sendero de piedra, una fila de arborvitae American Pillar y un drenaje francés."
+    },
+    "project.backyard.body": {
+      "hash": "0702671c7327256e9e61dd84b9db7eb2fe5d9e6193ccb5b27133b21a88a6526a",
+      "value": "Un nuevo deck de 25 por 20 pies de material compuesto en la puerta corrediza del bayo de una casa de ladrillo, extendiéndose desde el chimenea hasta cerca del rincón oriental de la casa, con sus esquinas externas cortadas a 45 grados, una falda de material compuesto ventilada debajo, independiente sobre dos vigas porque un ledger no puede colgar sobre el revestimiento de ladrillo. La plancha Blackstone y una base para ahumador están a lo largo del riel oriental, comiendo junto a la puerta corrediza bajo un toldo de cantilever. Una escalera baja del lado oeste sobre un cuadrado de 16 pies de piedra buff colocada secamente, que sostiene el conjunto de sofá exterior, con un adorno redondo de 14 pies y un anillo de piedra de 52 pulgadas centrado en la esquina noroeste del patio, y una pared de asientos de piedra de 18 pulgadas que se curva alrededor de la mitad norte del anillo y a lo largo del borde norte del patio. Entre el patio y la casa, una cama elevada de hierbas de piedra se encuentra a 4 pulgadas sobre el ladrillo, y el sistema de climatización está protegido en sus lados norte y este con una red de vinilo sobre vinilo de masa, dejando el lado oeste y la parte superior abiertos para que siga respirando. Cinco árboles American Pillar arborvitae están plantados en una fila a lo largo de la valla trasera, alineados con la puerta corrediza, y un drenaje francés a lo largo de la valla húmeda oriental se conecta con el drenaje existente en la esquina. Revisión A5, diseñada a partir de fotografías aéreas."
+    },
+    "project.rock-screen.summary": {
+      "hash": "9109078f48fea282e73a5333aece83dc5b9c1184585529afe708d188a9a65962",
+      "value": "Una criba basculante para limpiar el canto rodado de toda una piscina: se echa con la pala sobre una bandeja de malla metálica a la altura de una encimera, se sacude, se escoge y se enjuaga, y al levantar un mango la piedra resbala por un embudo hasta un saco de arpillera de 50 lb sobre una carretilla de mano."
+    },
+    "project.rock-screen.body": {
+      "hash": "728c6607cf7ee87a2f263eacdd361b173b089ffaa72481b08e3fca085e1109a5",
+      "value": "Canto rodado que salió de debajo de una piscina, lleno de raíces, hojas y tierra, y que vuelve a sacos de arpillera de 50 lb. La bandeja es un marco de 2x6 de 24 x 48 in con malla metálica de 1/2 in sobre listones de 2x2, colgado de dos pernos de carruaje dentro de un soporte de 2x4 y apoyado sobre discos de hockey para poder sacudirlo y que caiga la tierra. Se quita la basura, se enjuaga la carga con la manguera y se levanta el mango: la bandeja se inclina 35 grados y la piedra resbala por un labio de chapa y un embudo de contrachapado hasta un saco sujeto a la boquilla, de pie sobre una carretilla de mano para no levantar nada pesado del suelo. Tres paladas por saco, 45 lb, unos 60 sacos por yarda cúbica. Unos $190 en madera y herrajes. Diseño terminado, construcción pendiente."
     }
   },
   "ja": {
@@ -1362,11 +1554,15 @@
     },
     "nav.resume": {
       "hash": "a83a31320d921b888a48fa5edd0b4b5a29984de6e96bf7b8ac7d29ba06caf616",
-      "value": "リマインダー"
+      "value": "履歴書"
     },
     "nav.services": {
       "hash": "ef1c4b45f2ed763283f8de890730defb2e7d1f8f0cc4214b740dd8cc5f10364d",
       "value": "サービス"
+    },
+    "nav.writing": {
+      "hash": "ee871105e875f3de6e0da042f7190bc83ef1e4444aadd528ee6e1f401a9217aa",
+      "value": "記事"
     },
     "print.sample-print.blurb": {
       "hash": "964fdd90eac9d99b1614de448672ccae12f88b612cd351a4cbb3002f539a6316",
@@ -1412,6 +1608,22 @@
       "hash": "b2e446cd31381bb4cab563e92a7e4f589539dc45b8f4db8cd322d93dbce961e8",
       "value": "Advent Harvest"
     },
+    "project.backyard.body": {
+      "hash": "0702671c7327256e9e61dd84b9db7eb2fe5d9e6193ccb5b27133b21a88a6526a",
+      "value": "レンガ造りのリーチハウスのベイにあるスライディングドアの位置に、新しい25×20フィートの複合材デッキを設置。煙突から家の東角に近い位置まで延びており、外側の角は45度に切断されている。デッキの下には通気口付きの複合材スカートが設置されており、ベニア板の上に据える形で、ベニア板にはレギングがかけられないため、2本の梁の上に自由に設置されている。東側のレールにはBlackstoneグリドルとスモーカーのスタンドが設置され、スライディングドアの下にはカンチレバー式の傘をかざしながら食事スペースが設けられている。西側から1段降りた位置に、16フィート四方の乾燥敷きのバフ色のフラグストーンが敷かれており、屋外用ソファセットが置かれている。パティオの西北角には14フィートの丸いアプロンと、52インチの石製ファイアリングが中央に配置され、そのリングの北半分とパティオの北側の縁に沿って18インチの石製の座り壁が曲線状に設置されている。パティオと家の間には、レンガから4インチ上に設置された石製の高床式ハーブプランターがあり、エアコンは北と東の側面をマスロードビニールの上にビニールラティスで覆い、西と上部は開けたままにして空気の通りを保っている。スライディングドアのラインに沿って後ろのフェンスの1列に、5本のAmerican Pillar アーボルビエタが植えられており、湿気やすい東側のフェンスにはフランス排水溝が設置され、既存の角の排水溝に接続されている。リビジョンA5、ドローン写真から作成。"
+    },
+    "project.backyard.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "図面一式とPDF"
+    },
+    "project.backyard.summary": {
+      "hash": "1bcd5516d91a49137814642aab27a8f90dd5e8fda442989037736652de6b566a",
+      "value": "ドローンの写真から描かれた裏庭：バックスライドの隣に設置された独立型の複合デッキ、16フィートのバッファフラッグストーン製のパティオ、円形のファイアアプロンと石製のファイアリング、石で作られた高床式のハーブベッド、エアコンの周りの音を抑えるスクリーン、石の歩道、アメリカンピラー製のアーバービータの列、およびフランス式排水溝。"
+    },
+    "project.backyard.title": {
+      "hash": "8ef35f16649fbe3771ea7a6df418786f490f35bf3eda6ffa3e54e47308f9db7f",
+      "value": "裏庭"
+    },
     "project.bedrock-rag.body": {
       "hash": "0ae44d89ed2edcd8fbb5b7c871a1944aba53df099e1df9c6d6fb871fec09d240",
       "value": "プロフェッショナルな環境で構築されました。詳細は公開されていません。"
@@ -1452,6 +1664,22 @@
       "hash": "8b0b5e6461f586e305f1994bce52097ffd56ca4733fa617b8a7e5d7f5e778147",
       "value": "友人や家族向けのゲームサーバーです"
     },
+    "project.garage-shop.body": {
+      "hash": "a80a4c0979e2b6896f16068e96252b57c08e5ad613ba2cd322f981048af9efc3",
+      "value": "トラックは中央のベイに、奥の壁沿いに走る高さ6インチの段差（ランディング）へノーズを出して駐車し、ポッティングステーションと機械置き場は西壁、その奥の段差の上にバルクラック、工房は東壁を使う。切る道具はすべてキャスター付きで壁際に収まる：一端にDWE7491テーブルソーを天板と面一に沈め、中央のフリップ部にDCS785マイターソー、もう一端のフリップ部にDW735プレーナーを載せた92インチのフリップベンチ（各フリップは1インチ鋼シャフトとフランジベアリングで回転し、裏面にライザー天板を持つ）と、ショップバキュームにサイクロンを載せた集塵カート。フレンチクリートで壁に掛けた48インチのバーチ材キャビネットは、焼入れハスプとディスカス南京錠でコードレス工具を守り、内側から壁に固定する。地下から給電する100Aサブパネルは8回路を持ち、将来用に50AのEV回路も先行配線済み。価格を確認した品目で約2,400ドル。実測したガレージで描いた改訂B。"
+    },
+    "project.garage-shop.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "図面セット & PDF"
+    },
+    "project.garage-shop.summary": {
+      "hash": "cdc617d1116090306c9526c09147012661b4c7642ec6005adcb0c4e3f73e5f84",
+      "value": "天井高12ftの18×20ft付属ガレージに車1台分を残した木工房：施錠できる壁掛け工具キャビネット、テーブルソー・マイターソー・プレーナーを載せた可動式フリップベンチ、移動式集塵カート、ポッティングステーション、段差の上のバルク収納、そして据置工具ごとに専用回路を持つ100Aサブパネル。"
+    },
+    "project.garage-shop.title": {
+      "hash": "2e8f9a870d9b490293d3eeccc3affe60dbf4ab300b66362e5c52433083bb989b",
+      "value": "ガレージ工房"
+    },
     "project.mcp-safeguards.body": {
       "hash": "0ae44d89ed2edcd8fbb5b7c871a1944aba53df099e1df9c6d6fb871fec09d240",
       "value": "プロフェッショナルな環境で構築されました。詳細は公開されていません。"
@@ -1480,6 +1708,22 @@
       "hash": "97498557a9172002465b1c8fb3c26334833b9b0088d0642f1d85c55497be22fc",
       "value": "このサイトが稼働している自宅ホスト環境です。裸メタル上でTraefikの後ろに約25のサービスがあります。"
     },
+    "project.rock-screen.body": {
+      "hash": "728c6607cf7ee87a2f263eacdd361b173b089ffaa72481b08e3fca085e1109a5",
+      "value": "プールの下から出た川の岩は、根や葉、泥でいっぱいになっており、再び50 lbの麻袋に戻される。トレイは24 x 48 inの2x6の枠で、その上には1/2 inの金具網が2x2の板の上に設置されており、2x4のスタンドの中の2つのキャリッジボルトにぶら下がっており、ホッケーのパックの上に置かれていて、泥を落とすために揺らすことができる。ゴミを拾い、荷物をホースで洗い、ハンドルを上げると、トレイは35度傾き、岩はフラッシュリップからパlywoodの漏斗を通って、スパウトに結わった麻袋に落ちる。その麻袋は手押し車の上に置かれており、地面から重いものを上げる必要がない。3つのシャベルで1袋、45 lb、1ヤードあたり約60袋。木材と金具で約$190。設計は完了し、建設は待っている。"
+    },
+    "project.rock-screen.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "図面一式とPDF"
+    },
+    "project.rock-screen.summary": {
+      "hash": "9109078f48fea282e73a5333aece83dc5b9c1184585529afe708d188a9a65962",
+      "value": "プール分の河原石を洗うための傾斜スクリーン：カウンターの高さにある金網のトレイにスコップで入れ、弾き、選別し、すすぎ、ハンドルを上げると、トレイはホースに沿って滑り、手押し車に載せた50 lbの麻袋に落ちる。"
+    },
+    "project.rock-screen.title": {
+      "hash": "ce136cf08cbfd7c45f822e02283372cbad5b611effe627496c214d6d6651e16c",
+      "value": "石ふるい台"
+    },
     "project.skills-marketplace.body": {
       "hash": "0ae44d89ed2edcd8fbb5b7c871a1944aba53df099e1df9c6d6fb871fec09d240",
       "value": "プロフェッショナルな環境で構築されました。詳細は公開されていません。"
@@ -1491,6 +1735,22 @@
     "project.skills-marketplace.title": {
       "hash": "0fca2f6df5d858bd3558af4052bd1352059ea3c214526dbf8d07c08b1e7be2d7",
       "value": "AIエージェントのスキルマーケットプレース"
+    },
+    "project.spool-cabinet.body": {
+      "hash": "956a694a7ae9bb1366dbb1a80017108da8a5104b8ee8354a2c7383ebb14997a4",
+      "value": "作る箱が一つ、買う箱が一つ。キャビネットは 3/4 インチ合板三枚をポケットスクリューで組み、30 インチのベイに OXBERG 強化ガラス扉を二枚掛ける。EPDM のバルブ気密材とマグネットキャッチで密閉し、5 ポンドの指示シリカゲルと USB ファンで乾燥を保つ。スプールはクレードルレールに縁を立てて二列、4 インチピッチで一列 7 本、レール上 56 本に加えて小棚に平置き。乾燥は中古のフードドライヤーで行う。パイン材で約 450 ドル、価格はすべて確認済み。設計完了、製作待ち。"
+    },
+    "project.spool-cabinet.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "図面セット & PDF"
+    },
+    "project.spool-cabinet.summary": {
+      "hash": "a9d59a7ff231f8acd6307af4a274b5992be8afe21a0e420139ba320224f35eb8",
+      "value": "IKEA BILLY 一台分の幅の密閉合板キャビネット。OXBERG ガラス扉二枚、乾燥剤だけで湿度 10〜20% を保ち、スプール 56 本を収納。乾燥は市販のフードドライヤーで行う。"
+    },
+    "project.spool-cabinet.title": {
+      "hash": "b8e706817829baf829b531b9c188f42fb44b61c0478ffe3a9f18fefc92ba0520",
+      "value": "地下室のフィラメント棚"
     },
     "project.zomboid-tooling.body": {
       "hash": "d32066a9aa95f21a9d542460865d600fd5b0cafe71569ebfa3bc73c7451644ac",
@@ -1512,9 +1772,25 @@
       "hash": "fec4aa126094ec7bcbce98a3bd8d9d454774644571624d4e502f021729ad1558",
       "value": "作り上げたもの"
     },
+    "projects.physical.h2": {
+      "hash": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60",
+      "value": "物理的"
+    },
+    "projects.physical.sub": {
+      "hash": "bd7c95c88ea1b2fb880ac2809eb6ed5f9e4c41f6f578af4e0ede0b0a5ef68e88",
+      "value": "木板材、鋼、ワイヤーで作られたもの、図面セットも含まれます。"
+    },
     "projects.subtitle": {
       "hash": "c2bb0038a15850c8fda89a61585254ca6dad44ce9e0d2e37f1aad23a47e4be77",
       "value": "仕事とサイドプロジェクトの寄せ集めです。詳細はクリックしてください。"
+    },
+    "projects.virtual.h2": {
+      "hash": "d02c86fe26e741c6d8e9acc00a69581254c502f61f03a0955542081e9ed05d1b",
+      "value": "仮想"
+    },
+    "projects.virtual.sub": {
+      "hash": "9e773344aedf65ea4feddce4264ebbf14117c6209ff4dbd345da516c81e13366",
+      "value": "ソフトウェア、インフラストラクチャとホームラボ。"
     },
     "readout.designation.label": {
       "hash": "c11936133f37c16fadab612e0dca8ff898d8bfc833d7e9a5d31c5daac2ca9f1c",
@@ -1611,6 +1887,18 @@
     "status.redacted": {
       "hash": "b68919aff001d8366249403a2544fba2d833084f1ad22839b6310aadacb6a138",
       "value": "redacted"
+    },
+    "writing.eyebrow": {
+      "hash": "ee871105e875f3de6e0da042f7190bc83ef1e4444aadd528ee6e1f401a9217aa",
+      "value": "記事"
+    },
+    "writing.h1": {
+      "hash": "c4a681e32800f8fe37d1832c3f47093e399d9cc6686ad67d7f58b6e056c92999",
+      "value": "メモと記事"
+    },
+    "writing.subtitle": {
+      "hash": "bcbc143910abbedbafd66b8f02ab516ce6678da1756daba5edff581193fff8ee",
+      "value": "ものづくりの過程をまとめた、少し長めのメモ。"
     }
   },
   "ko": {
@@ -1900,11 +2188,15 @@
     },
     "nav.resume": {
       "hash": "a83a31320d921b888a48fa5edd0b4b5a29984de6e96bf7b8ac7d29ba06caf616",
-      "value": "레지스터에 따라: 짧은 레이블은 짧게 유지, 문장은 원래 형태로 유지, \"// 섹션\" 레이블은verbatim \"//\" 접두사 유지.\n\nja: ですます調, 自然な主語省略, 私が必要なときのみ使用\nko: 합니다체 (격식체), 저가 필요할 때만 사용, 자연스러운 omission\nzh: 正式语但对话时避免过度明确 我/的\nes: tuteo (tú), neutro donde sea posible España/LatAm, no usar usted\nde: du Form, Sie를 사용하지 않음, 불필요한 nominalisierung vermieden\n\nAstro, Tailwind, nginx, Traefik, Docker Compose, Discord, RCON, AWS Bedrock, Ansible Automation Platform, OpenShift, MCP, Model Context Protocol, Pi-hole, ADR, OpenNMT, Red Hat Satellite, RHEL, kickstart, runbook, RT-541, Prusa, Build 42, Advent Harvest, ChurnCore, Project Zomboid, Minecraft, All the Mods 9, Valheim, Palworld, V Rising, Enshrouded, Factorio, Core Keeper, Abiotic Factor, Valhelsia, XP, Saturn, Magic: The Gathering, Strixhaven, Ravnica, Lorehold, Prismari, Quandrix, Silverquill, Witherbloom, Aelrith Varn, Underdark, Azur, Boros, Severed Maws, Snork, Chromatic Dragonborn, War Mind, Perfect Plan, Analyze, Boros Legionnaire."
+      "value": "이력서"
     },
     "nav.services": {
       "hash": "ef1c4b45f2ed763283f8de890730defb2e7d1f8f0cc4214b740dd8cc5f10364d",
       "value": "서비스"
+    },
+    "nav.writing": {
+      "hash": "ee871105e875f3de6e0da042f7190bc83ef1e4444aadd528ee6e1f401a9217aa",
+      "value": "글"
     },
     "print.sample-print.blurb": {
       "hash": "964fdd90eac9d99b1614de448672ccae12f88b612cd351a4cbb3002f539a6316",
@@ -1950,6 +2242,22 @@
       "hash": "b2e446cd31381bb4cab563e92a7e4f589539dc45b8f4db8cd322d93dbce961e8",
       "value": "Advent Harvest"
     },
+    "project.backyard.body": {
+      "hash": "0702671c7327256e9e61dd84b9db7eb2fe5d9e6193ccb5b27133b21a88a6526a",
+      "value": "벽돌 랜치의 베이 지역 슬라이딩 도어에서 시작해 화로까지 이어지고 집의 동쪽 모서리 근처까지 이어지는 새로운 25 by 20 ft 복합 소재의 테라스, 외각은 45도로 절단되어 있으며, 아래에는 통풍구가 있는 복합 소재의 스커트가 있고, 벽돌 외피에 지붕을 고정할 수 없기 때문에 두 개의 빔 위에 독립적으로 설치되었다. 동쪽 레일에는 Blackstone 그릴과 연기기 받침대가 있으며, 슬라이딩 도어 아래에서 캐نت리버 테이블로 식사한다. 서쪽에서는 한 계단이 내려가 16 ft 제곱의 건조한 벫 플래그스톤 위에 야외 소파 세트가 놓여져 있으며, 테라스의 북서쪽 모서리에 중심을 두고 14 ft 원형의 돌 테이블과, 돌 테이블의 북쪽 반쪽과 테라스의 북쪽 가장자리에 따라 52 in 돌 화로 고리가 있고, 18 in 돌 의자 벽이 돌 테이블 주변을 감싸고 있다. 테라스와 집 사이에는 벽돌 위로 4 in 떨어진 돌로 만든 높은 허브 화분이 있으며, 에어컨은 북쪽과 동쪽은 질량을 가진 비닐 격자로 가려져 있고, 서쪽과 상단은 열려 있어 여전히 통풍이 된다. 슬라이딩 도어의 라인에 따라 뒷 울타리에 일렬로 5개의 American Pillar 아르보리타가 심어져 있으며, 습한 동쪽 울타리에 따라 설치된 프랑스 배수관은 기존의 모서리 배수관에 연결되어 있다. 드론 사진을 바탕으로 한 수정 A5."
+    },
+    "project.backyard.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "도면 세트 및 PDF"
+    },
+    "project.backyard.summary": {
+      "hash": "1bcd5516d91a49137814642aab27a8f90dd5e8fda442989037736652de6b566a",
+      "value": "드론 사진으로 그린 뒷마당: 뒤쪽 슬라이딩 도어 앞의 독립형 합성목 데크, 원형 화덕 바닥과 돌 화로를 갖춘 16 ft 버프색 판석 파티오, 돌로 쌓은 허브 화단, 에어컨 둘레의 방음 스크린, 돌 산책로, 한 줄로 선 American Pillar 측백나무, 그리고 프렌치 배수로."
+    },
+    "project.backyard.title": {
+      "hash": "8ef35f16649fbe3771ea7a6df418786f490f35bf3eda6ffa3e54e47308f9db7f",
+      "value": "뒷마당"
+    },
     "project.bedrock-rag.body": {
       "hash": "0ae44d89ed2edcd8fbb5b7c871a1944aba53df099e1df9c6d6fb871fec09d240",
       "value": "전문적인 환경에서 구축되었습니다. 세부 사항은 공개되지 않습니다."
@@ -1989,6 +2297,22 @@
     "project.game-servers.title": {
       "hash": "8b0b5e6461f586e305f1994bce52097ffd56ca4733fa617b8a7e5d7f5e778147",
       "value": "친구들과 가족을 위한 게임 서버"
+    },
+    "project.garage-shop.body": {
+      "hash": "a80a4c0979e2b6896f16068e96252b57c08e5ad613ba2cd322f981048af9efc3",
+      "value": "트럭은 가운데 베이에 뒷벽을 따라 이어지는 6인치 높이의 단 위로 앞부분을 걸치고 주차하고, 화분 작업대와 기계 보관 구역은 서쪽 벽을, 그 뒤 단 위에는 벌크 선반을, 작업실은 동쪽 벽을 차지한다. 자르는 도구는 모두 바퀴 위에 있고 벽에 붙여 세운다: 한쪽 끝에 DWE7491 테이블쏘를 상판과 같은 높이로 내려 앉히고, 가운데 플립 구간에 DCS785 각도절단기, 반대쪽 끝 플립 구간에 DW735 대패를 얹은 92인치 플립 벤치(각 플립은 1인치 강철 샤프트와 플랜지 베어링으로 회전하며 뒷면에 라이저 상판을 갖는다), 그리고 진공청소기 위에 사이클론을 얹은 집진 카트. 프렌치 클리트에 건 48인치 자작나무 캐비닛은 경화 걸쇠와 원반형 자물쇠 뒤에 무선 공구를 보관하고 안쪽에서 벽에 고정된다. 지하실에서 끌어온 100 A 분전반은 8개 회로를 가지며 나중을 위한 50 A EV 회로도 미리 배선했다. 확인된 가격 항목으로 약 2,400달러. 실측한 차고로 그린 B판."
+    },
+    "project.garage-shop.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "도면 세트 & PDF"
+    },
+    "project.garage-shop.summary": {
+      "hash": "cdc617d1116090306c9526c09147012661b4c7642ec6005adcb0c4e3f73e5f84",
+      "value": "천장 높이 12 ft의 18 x 20 ft 부속 차고에 차 한 대를 두고 꾸미는 목공 작업실: 잠금식 벽걸이 공구 캐비닛, 테이블쏘·각도절단기·대패를 실은 이동식 플립 벤치, 이동식 집진 카트, 화분 작업대, 단 위의 벌크 수납, 그리고 고정 공구마다 전용 회로를 둔 100 A 분전반."
+    },
+    "project.garage-shop.title": {
+      "hash": "2e8f9a870d9b490293d3eeccc3affe60dbf4ab300b66362e5c52433083bb989b",
+      "value": "차고 작업실"
     },
     "project.mcp-safeguards.body": {
       "hash": "0ae44d89ed2edcd8fbb5b7c871a1944aba53df099e1df9c6d6fb871fec09d240",
@@ -2030,6 +2354,22 @@
       "hash": "0fca2f6df5d858bd3558af4052bd1352059ea3c214526dbf8d07c08b1e7be2d7",
       "value": "AI 에이전트 기술 마켓플레이스"
     },
+    "project.spool-cabinet.body": {
+      "hash": "956a694a7ae9bb1366dbb1a80017108da8a5104b8ee8354a2c7383ebb14997a4",
+      "value": "만드는 상자 하나, 사는 상자 하나. 캐비닛은 합판 세 장을 포켓 스크류로 조립해 30인치 베이에 OXBERG 강화유리 문 두 짝을 달고, EPDM 벌브 웨더스트립과 자석 캐치로 밀폐하며, 지시 실리카겔 5파운드와 USB 팬이 건조하게 유지한다. 스풀은 크래들 레일에 세워 두 줄로, 4인치 간격에 줄당 7개, 레일 위 56개에 더해 작은 선반에 눕혀 둔다. 건조는 중고 식품 건조기가 맡는다. 소나무 기준 약 $450, 모든 가격은 확인된 목록. 설계 완료, 제작 대기."
+    },
+    "project.spool-cabinet.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "도면 세트 & PDF"
+    },
+    "project.spool-cabinet.summary": {
+      "hash": "a9d59a7ff231f8acd6307af4a274b5992be8afe21a0e420139ba320224f35eb8",
+      "value": "IKEA BILLY 한 칸 폭의 밀폐 합판 캐비닛. OXBERG 유리문 두 짝, 제습제만으로 습도 10~20%를 유지하며 스풀 56개를 보관한다. 건조는 시판 식품 건조기로 한다."
+    },
+    "project.spool-cabinet.title": {
+      "hash": "b8e706817829baf829b531b9c188f42fb44b61c0478ffe3a9f18fefc92ba0520",
+      "value": "지하실 필라멘트 캐비닛"
+    },
     "project.zomboid-tooling.body": {
       "hash": "d32066a9aa95f21a9d542460865d600fd5b0cafe71569ebfa3bc73c7451644ac",
       "value": "장기적으로 운영되는 게임 서버가 필요로 하는 것들을 처리하는 스크립트 세트가 점점 늘어나고 있습니다. 플레이어의 진행을 유지한 채 세계를 리셋하고, Build 42로의 이동 경로를 마이그레이션하며, 백업에서 플레이어의 아이템과 XP를 복원하면서 신의 캐릭터를 되돌려주지 않는 RCON 기반 회복을 수행합니다. 처음에는 단일 리셋 스크립트였지만 점점 작고 효율적인 운영 툴킷으로 발전했으며, runbook도 포함되었습니다."
@@ -2050,9 +2390,25 @@
       "hash": "fec4aa126094ec7bcbce98a3bd8d9d454774644571624d4e502f021729ad1558",
       "value": "만들어본 것들"
     },
+    "projects.physical.h2": {
+      "hash": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60",
+      "value": "물리적"
+    },
+    "projects.physical.sub": {
+      "hash": "bd7c95c88ea1b2fb880ac2809eb6ed5f9e4c41f6f578af4e0ede0b0a5ef68e88",
+      "value": "Plywood과 철재 및 금속으로 만들어진 것들, 그리고 설계도서와 함께."
+    },
     "projects.subtitle": {
       "hash": "c2bb0038a15850c8fda89a61585254ca6dad44ce9e0d2e37f1aad23a47e4be77",
       "value": "작업과 부수적인 프로젝트 모음입니다. 자세한 내용은 클릭해 주세요."
+    },
+    "projects.virtual.h2": {
+      "hash": "d02c86fe26e741c6d8e9acc00a69581254c502f61f03a0955542081e9ed05d1b",
+      "value": "가상"
+    },
+    "projects.virtual.sub": {
+      "hash": "9e773344aedf65ea4feddce4264ebbf14117c6209ff4dbd345da516c81e13366",
+      "value": "소프트웨어, 인프라스트럭처 및 홈랩."
     },
     "readout.designation.label": {
       "hash": "c11936133f37c16fadab612e0dca8ff898d8bfc833d7e9a5d31c5daac2ca9f1c",
@@ -2149,6 +2505,34 @@
     "status.redacted": {
       "hash": "b68919aff001d8366249403a2544fba2d833084f1ad22839b6310aadacb6a138",
       "value": "삭제됨"
+    },
+    "writing.eyebrow": {
+      "hash": "ee871105e875f3de6e0da042f7190bc83ef1e4444aadd528ee6e1f401a9217aa",
+      "value": "글"
+    },
+    "writing.h1": {
+      "hash": "c4a681e32800f8fe37d1832c3f47093e399d9cc6686ad67d7f58b6e056c92999",
+      "value": "노트와 글"
+    },
+    "writing.subtitle": {
+      "hash": "bcbc143910abbedbafd66b8f02ab516ce6678da1756daba5edff581193fff8ee",
+      "value": "무엇을 어떻게 만들었는지 정리한 긴 노트."
+    },
+    "project.rock-screen.title": {
+      "hash": "ce136cf08cbfd7c45f822e02283372cbad5b611effe627496c214d6d6651e16c",
+      "value": "돌 선별대"
+    },
+    "project.rock-screen.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "도면 세트 및 PDF"
+    },
+    "project.rock-screen.summary": {
+      "hash": "9109078f48fea282e73a5333aece83dc5b9c1184585529afe708d188a9a65962",
+      "value": "수영장 하나 분량의 강자갈을 씻는 기울임 선별대: 작업대 높이의 철망 트레이에 삽으로 올려 흔들고, 골라내고, 헹군 뒤 손잡이를 들면 돌이 깔때기를 따라 핸드 트럭 위의 50 lb 마대로 미끄러져 들어간다."
+    },
+    "project.rock-screen.body": {
+      "hash": "728c6607cf7ee87a2f263eacdd361b173b089ffaa72481b08e3fca085e1109a5",
+      "value": "수영장 밑에서 나온 강자갈에는 뿌리, 낙엽, 흙이 가득하고, 이것을 다시 50 lb 마대에 담는다. 트레이는 24 x 48 in 크기의 2x6 틀에 2x2 각재를 대고 1/2 in 철망을 붙인 것으로, 2x4 받침대 안에서 캐리지 볼트 두 개에 매달려 있고 하키 퍽 위에 얹혀 있어 흔들어서 흙을 떨어낼 수 있다. 쓰레기를 골라내고 호스로 씻은 뒤 손잡이를 들면 트레이가 35도 기울고, 돌은 함석 립을 넘어 합판 깔때기를 지나 주둥이에 씌운 마대로 들어간다. 마대는 핸드 트럭 위에 서 있어 무거운 것을 바닥에서 들어 올릴 일이 없다. 한 자루에 세 삽, 45 lb, 1 입방야드에 약 60자루. 목재와 철물에 약 $190. 설계 완료, 제작 예정."
     }
   },
   "zh": {
@@ -2528,6 +2912,22 @@
       "hash": "8b0b5e6461f586e305f1994bce52097ffd56ca4733fa617b8a7e5d7f5e778147",
       "value": "为亲友的游戏服务器"
     },
+    "project.garage-shop.body": {
+      "hash": "a80a4c0979e2b6896f16068e96252b57c08e5ad613ba2cd322f981048af9efc3",
+      "value": "皮卡停在中间车位，车头伸到沿后墙的6英寸高台阶上；盆栽工作台和机具位占据西墙，其后台阶上是大件储物架，木工房占据东墙。所有切割工具都带轮子，靠墙停放：一台92英寸的翻转工作台，一端将DWE7491台锯沉入台面齐平，中段翻转部装DCS785斜切锯，另一端翻转部装DW735刨床（每个翻转部靠1英寸钢轴和法兰轴承转动，背面带一层垫高台面），以及在吸尘器上架旋风分离器的集尘小车。挂在法式挂条上的48英寸桦木柜用淬火搭扣和圆盘挂锁保护无绳工具，并从内部固定在墙上。从地下室供电的100 A分电箱带8个回路，另预留一个50 A的电动车充电回路。已核价项目约2,400美元。B版按实测车库绘制。"
+    },
+    "project.garage-shop.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "绘图集 & PDF"
+    },
+    "project.garage-shop.summary": {
+      "hash": "cdc617d1116090306c9526c09147012661b4c7642ec6005adcb0c4e3f73e5f84",
+      "value": "在层高12英尺、18×20英尺的附属车库里留出一个车位的木工房：可上锁的壁挂工具柜、承载台锯、斜切锯和刨床的移动翻转工作台、移动集尘小车、盆栽工作台、台阶上的大件储物，以及为每台固定工具配专用回路的100 A分电箱。"
+    },
+    "project.garage-shop.title": {
+      "hash": "2e8f9a870d9b490293d3eeccc3affe60dbf4ab300b66362e5c52433083bb989b",
+      "value": "车库工坊"
+    },
     "project.mcp-safeguards.body": {
       "hash": "0ae44d89ed2edcd8fbb5b7c871a1944aba53df099e1df9c6d6fb871fec09d240",
       "value": "在专业环境中构建。具体细节不公开。"
@@ -2568,6 +2968,22 @@
       "hash": "0fca2f6df5d858bd3558af4052bd1352059ea3c214526dbf8d07c08b1e7be2d7",
       "value": "人工智能代理技能市场"
     },
+    "project.spool-cabinet.body": {
+      "hash": "956a694a7ae9bb1366dbb1a80017108da8a5104b8ee8354a2c7383ebb14997a4",
+      "value": "一个箱子自己做，一个箱子买。柜体用三张 3/4 英寸胶合板以口袋螺钉拼成 30 英寸的柜格，配一对 OXBERG 钢化玻璃门，用 EPDM 泡管密封条和磁吸扣密封，5 磅指示硅胶加一只 USB 风扇保持干燥。耗材卷侧立在托架轨上，前后两排，4 英寸间距每排 7 卷，轨上 56 卷，另有小格平放溢出的。烘干用一台二手食品烘干机。松木约 450 美元，每项价格都经核对。设计完成，待制作。"
+    },
+    "project.spool-cabinet.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "图纸集 & PDF"
+    },
+    "project.spool-cabinet.summary": {
+      "hash": "a9d59a7ff231f8acd6307af4a274b5992be8afe21a0e420139ba320224f35eb8",
+      "value": "一个 IKEA BILLY 宽度的密封胶合板耗材柜，两扇 OXBERG 玻璃门，仅靠干燥剂将湿度保持在 10 到 20%，可放 56 卷耗材；烘干交给买来的食品烘干机。"
+    },
+    "project.spool-cabinet.title": {
+      "hash": "b8e706817829baf829b531b9c188f42fb44b61c0478ffe3a9f18fefc92ba0520",
+      "value": "地下室耗材柜"
+    },
     "project.zomboid-tooling.body": {
       "hash": "d32066a9aa95f21a9d542460865d600fd5b0cafe71569ebfa3bc73c7451644ac",
       "value": "一套不断增长的脚本，处理长期运行的游戏服务器最终需要的各种事务。在保留玩家进度的前提下重置世界。为 Build 42 的迁移提供升级路径。由 RCON 驱动的恢复，可从备份中还原玩家的物品和 XP，同时不会交还一个满级无敌角色。它最初只是一个一次性的重置脚本，后来发展成了一个小型运维工具包，并附带 runbook。"
@@ -2588,9 +3004,25 @@
       "hash": "fec4aa126094ec7bcbce98a3bd8d9d454774644571624d4e502f021729ad1558",
       "value": "我搭建过的东西"
     },
+    "projects.physical.h2": {
+      "hash": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60",
+      "value": "物理"
+    },
+    "projects.physical.sub": {
+      "hash": "bd7c95c88ea1b2fb880ac2809eb6ed5f9e4c41f6f578af4e0ede0b0a5ef68e88",
+      "value": "用胶合板、钢铁和铁丝制成的东西，附有图纸。"
+    },
     "projects.subtitle": {
       "hash": "c2bb0038a15850c8fda89a61585254ca6dad44ce9e0d2e37f1aad23a47e4be77",
       "value": "一些工作和副项目的合集。点击查看详情。"
+    },
+    "projects.virtual.h2": {
+      "hash": "d02c86fe26e741c6d8e9acc00a69581254c502f61f03a0955542081e9ed05d1b",
+      "value": "虚拟"
+    },
+    "projects.virtual.sub": {
+      "hash": "9e773344aedf65ea4feddce4264ebbf14117c6209ff4dbd345da516c81e13366",
+      "value": "软件、基础设施和家庭实验室。"
     },
     "readout.designation.label": {
       "hash": "c11936133f37c16fadab612e0dca8ff898d8bfc833d7e9a5d31c5daac2ca9f1c",
@@ -2687,6 +3119,54 @@
     "status.redacted": {
       "hash": "b68919aff001d8366249403a2544fba2d833084f1ad22839b6310aadacb6a138",
       "value": "已隐去"
+    },
+    "nav.writing": {
+      "hash": "ee871105e875f3de6e0da042f7190bc83ef1e4444aadd528ee6e1f401a9217aa",
+      "value": "文章"
+    },
+    "writing.eyebrow": {
+      "hash": "ee871105e875f3de6e0da042f7190bc83ef1e4444aadd528ee6e1f401a9217aa",
+      "value": "文章"
+    },
+    "writing.h1": {
+      "hash": "c4a681e32800f8fe37d1832c3f47093e399d9cc6686ad67d7f58b6e056c92999",
+      "value": "笔记与文章"
+    },
+    "writing.subtitle": {
+      "hash": "bcbc143910abbedbafd66b8f02ab516ce6678da1756daba5edff581193fff8ee",
+      "value": "关于东西是怎么做出来的长篇笔记。"
+    },
+    "project.backyard.title": {
+      "hash": "8ef35f16649fbe3771ea7a6df418786f490f35bf3eda6ffa3e54e47308f9db7f",
+      "value": "后院"
+    },
+    "project.rock-screen.title": {
+      "hash": "ce136cf08cbfd7c45f822e02283372cbad5b611effe627496c214d6d6651e16c",
+      "value": "碎石筛"
+    },
+    "project.backyard.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "图纸与 PDF"
+    },
+    "project.rock-screen.moreLabel": {
+      "hash": "61177ce7f3118068f15f5eb80e240e8d955c56cca7d93454c3fbe12b77d0d79e",
+      "value": "图纸与 PDF"
+    },
+    "project.backyard.summary": {
+      "hash": "1bcd5516d91a49137814642aab27a8f90dd5e8fda442989037736652de6b566a",
+      "value": "一个从无人机照片绘制的后院：后滑动门处有一个独立的复合甲板，一个16英尺长的浅黄色花岗岩露台，配有圆形火炉围栏和石制火炉，一个石制抬高的香草种植床，一个环绕空调的隔音屏，一条石板步道，一排美国支柱型雪松和一个法国排水沟。"
+    },
+    "project.backyard.body": {
+      "hash": "0702671c7327256e9e61dd84b9db7eb2fe5d9e6193ccb5b27133b21a88a6526a",
+      "value": "在砖砌平房的滑动门区域，新建了一个25乘20英尺的复合材质甲板，从烟囱延伸到房屋东角附近，外角以45度切割，下方设有带通风口的复合材质裙边，由于无法在砖饰面上安装搁板，因此甲板是独立支撑在两根梁上的。东侧栏杆上放置了Blackstone煎锅和一个烟熏架，滑动门下方设有悬臂式遮阳伞供用餐。西侧设有一级台阶，通往一个16英尺见方的干铺浅黄色花岗岩区域，放置了户外沙发套装，甲板西北角中央设有一个52英寸的石制火圈，火圈北半部分及甲板北侧设有18英寸的石制座椅墙。甲板与房屋之间设有一个高出砖面4英寸的石制香草种植箱，空调的北侧和东侧用乙烯基格栅覆盖在质量负载乙烯基材料上，西侧和顶部保持开放，以确保空气流通。滑动门的同一条线上，后院围栏旁种植了五株排成一行的American Pillar雪松，湿气较重的东侧围栏旁设有法国排水沟，连接到现有的角落排水系统。修订版A5，根据无人机拍摄的照片进行布局。"
+    },
+    "project.rock-screen.summary": {
+      "hash": "9109078f48fea282e73a5333aece83dc5b9c1184585529afe708d188a9a65962",
+      "value": "一个用于清洗泳池量级河卵石的倾斜托盘筛：将河卵石铲到一个位于柜台高度的金属丝网托盘上，摇晃、挑选并冲洗，然后提起把手，河卵石便会顺着漏斗滑入手推车上的一个50磅麻袋中。"
+    },
+    "project.rock-screen.body": {
+      "hash": "728c6607cf7ee87a2f263eacdd361b173b089ffaa72481b08e3fca085e1109a5",
+      "value": "从泳池下挖出来的河石，里面夹杂着树根、树叶和泥土，再装回50磅的麻袋里。托盘是一个24 x 48英寸的2x6框架，上面装有1/2英寸的金属网，网架在2x2的木条上，挂在2x4支架内的两个滑轨螺栓上，并放在冰球垫上，以便摇晃使泥土掉落。拣出杂物，用水管冲洗，然后提起把手：托盘倾斜35度，河石从一个突出的边缘滑过，通过一块胶合板制成的漏斗落入系在出水口的麻袋中，麻袋放在手推车上，这样就无需将重物从地面提起。每袋装三把铁锹的量，约45磅，每码约60袋。木材和五金材料花费约190美元。设计已完成，等待建造。"
     }
   }
 }
