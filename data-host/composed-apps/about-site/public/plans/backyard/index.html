@@ -1,0 +1,1400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Drawing set for a backyard: a freestanding 25 x 20 ft composite deck at the back slider, a 16 ft dry-laid buff flagstone patio with a round fire apron and stone fire ring, a stone raised herb bed, a sound-damping lattice screen around the AC, a stone walkway around the deck, five American Pillar arborvitae along the back fence and a French drain along the east fence.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Backyard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F2F4F6; --paper:#FFFFFF; --ink:#1B2430; --muted:#5B6B7A; --rule:#C9D2DA; --rule-soft:#E4E9EE;
+  --deck:#2F6F9F; --deck-soft:#E3EEF6; --deck-ink:#1E4C6E;
+  --site:#C8541B; --site-soft:#F9E6DB; --site-ink:#8E3A10;
+  --warn-bg:#FFF4E5; --warn-ink:#7A4A00;
+  --code-bg:#EAEEF2;
+  --grass:#E6EEDC; --earth:#E9DFCF; --earth-l:#F3EDE3; --house:#E8DCC4; --composite:#D9C9B0; --frame:#E6D3AE;
+  --flag:#EFE3C8; --flag-dark:#E0CFA8; --gravel:#E4E1DA; --block:#CFC6B8; --cedar:#D9A77E; --cedar-cap:#C98E5E; --soil:#6E5642;
+  --tree:#9CC39C; --tree-ink:#2E5C3A; --concrete:#D4D2CC; --stone:#D8D4CB;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181E; --paper:#1A2129; --ink:#E6ECF1; --muted:#9AA8B5; --rule:#33404C; --rule-soft:#242E38;
+    --deck:#6FB0E0; --deck-soft:#1C2F3F; --deck-ink:#A9D2F0;
+    --site:#F08A4B; --site-soft:#3A2418; --site-ink:#F7B58C;
+    --warn-bg:#3A2A10; --warn-ink:#F3D9A8;
+    --code-bg:#232D37;
+    --grass:#1F2A1E; --earth:#2E2820; --earth-l:#252119; --house:#3A3326; --composite:#4A4032; --frame:#453A28;
+    --flag:#4A4330; --flag-dark:#5A5038; --gravel:#33322E; --block:#4A443B; --cedar:#6E4C32; --cedar-cap:#80593A; --soil:#2C2219;
+    --tree:#2F5238; --tree-ink:#9CC39C; --concrete:#3C3B38; --stone:#3F3C36;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181E; --paper:#1A2129; --ink:#E6ECF1; --muted:#9AA8B5; --rule:#33404C; --rule-soft:#242E38;
+  --deck:#6FB0E0; --deck-soft:#1C2F3F; --deck-ink:#A9D2F0;
+  --site:#F08A4B; --site-soft:#3A2418; --site-ink:#F7B58C;
+  --warn-bg:#3A2A10; --warn-ink:#F3D9A8;
+  --code-bg:#232D37;
+  --grass:#1F2A1E; --earth:#2E2820; --earth-l:#252119; --house:#3A3326; --composite:#4A4032; --frame:#453A28;
+  --flag:#4A4330; --flag-dark:#5A5038; --gravel:#33322E; --block:#4A443B; --cedar:#6E4C32; --cedar-cap:#80593A; --soil:#2C2219;
+  --tree:#2F5238; --tree-ink:#9CC39C; --concrete:#3C3B38; --stone:#3F3C36;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:900px;margin:0 auto;display:grid;gap:28px}
+h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;line-height:1.05;margin:0;text-wrap:balance}
+h1{font-size:2.6rem;font-weight:700;letter-spacing:.005em}
+h2{font-size:1.7rem;font-weight:600}
+h3{font-size:1.15rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+p{margin:0;max-width:66ch}
+ul,ol{margin:0;padding-left:1.3em;max-width:70ch}
+li{margin-block:.25em}
+li::marker{color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:.9em}
+a{color:var(--deck)}
+strong{font-weight:600}
+.eyebrow{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;color:var(--muted)}
+
+.titleblock{background:var(--paper);border:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:0}
+.titleblock .main{padding:22px 24px;display:grid;gap:10px;border-right:1px solid var(--rule)}
+.titleblock .meta{display:grid;grid-template-columns:1fr 1fr;align-content:start}
+.titleblock .meta div{padding:10px 14px;border-bottom:1px solid var(--rule);border-left:1px solid var(--rule);min-width:0}
+.titleblock .meta div:nth-child(odd){border-left:none}
+.titleblock .meta div:nth-last-child(-n+2){border-bottom:none}
+.titleblock .meta .k{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600}
+.titleblock .meta .v{font-family:"IBM Plex Mono",monospace;font-size:.9rem;overflow-wrap:anywhere}
+@media (max-width:900px){.titleblock{grid-template-columns:1fr}.titleblock .main{border-right:none;border-bottom:1px solid var(--rule)}}
+
+.index{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.index a{display:flex;gap:10px;align-items:baseline;padding:10px 12px;background:var(--paper);border:1px solid var(--rule);text-decoration:none;color:var(--ink)}
+.index a .n{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:.85rem}
+.index a:hover,.index a:focus-visible{border-color:var(--deck);outline:none}
+
+.sheet{background:var(--paper);border:1px solid var(--rule);padding:24px;display:grid;gap:20px}
+.sheet header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-bottom:10px}
+.sheet header .num{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:.85rem}
+.sheet.deck header{border-bottom:2px solid var(--deck)}
+.sheet.site header{border-bottom:2px solid var(--site)}
+.tag{display:inline-block;font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;padding:2px 8px;border-radius:2px}
+.tag.deck{background:var(--deck-soft);color:var(--deck-ink)}
+.tag.site{background:var(--site-soft);color:var(--site-ink)}
+.tag.diy{background:var(--grass);color:var(--tree-ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+.block{display:grid;gap:10px;align-content:start}
+.fig{display:grid;gap:8px}
+.fig svg{width:100%;height:auto;display:block}
+.fig figcaption{font-size:.85rem;color:var(--muted);max-width:70ch}
+figure{margin:0}
+.render img{width:100%;height:auto;display:block;border:1px solid var(--rule)}
+.viewer{width:100%;aspect-ratio:16/10;border:1px solid var(--rule);background:#ece8df}
+.viewer iframe{width:100%;height:100%;border:0;display:block}
+
+svg text{font-family:"IBM Plex Mono",monospace;font-size:7px;fill:var(--ink)}
+svg text.lbl{font-family:"Barlow Condensed",Arial,sans-serif;font-size:9px;letter-spacing:.04em;text-transform:uppercase;fill:var(--muted)}
+svg text.big{font-family:"Barlow Condensed",Arial,sans-serif;font-size:14px;letter-spacing:.2em;fill:var(--muted)}
+svg text.zone-t{fill:var(--deck-ink)}
+svg text.warn-t{fill:var(--site-ink)}
+svg text.spot{fill:var(--muted);font-size:6.5px}
+svg text.on-dark{fill:#F3EDE3}
+svg .grass{fill:var(--grass);stroke:none}
+svg .house{fill:var(--house);stroke:var(--ink);stroke-width:.6}
+svg .skirt{fill:var(--composite);stroke:var(--deck-ink);stroke-width:.5}
+svg .sofa{fill:var(--ink);opacity:.7;stroke:none}
+svg .table{fill:var(--cedar);stroke:var(--ink);stroke-width:.4}
+svg .metal-dark{fill:var(--ink);opacity:.75;stroke:none}
+svg .metal{fill:var(--rule);stroke:var(--ink);stroke-width:.5}
+svg .deck{fill:var(--composite);stroke:var(--deck-ink);stroke-width:.8}
+svg .deck-light{fill:var(--deck-soft);stroke:var(--deck-ink);stroke-width:.8}
+svg .zone{fill:none;stroke:var(--deck);stroke-width:.6;stroke-dasharray:3 2}
+svg .flag{fill:var(--flag);stroke:var(--site-ink);stroke-width:.6}
+svg .flag-dark{fill:var(--flag-dark);stroke:var(--site-ink);stroke-width:.6}
+svg .joint{stroke:var(--site-ink);stroke-width:.4;opacity:.6}
+svg .pit{fill:var(--ink);stroke:none;opacity:.75}
+svg .pit-s{fill:var(--rule);stroke:var(--ink);stroke-width:.6}
+svg .clear{fill:none;stroke:var(--site);stroke-width:.8;stroke-dasharray:4 3}
+svg .chair{fill:none;stroke:var(--muted);stroke-width:.6}
+svg .gravel{fill:var(--gravel);stroke:var(--muted);stroke-width:.5}
+svg .block{fill:var(--block);stroke:var(--ink);stroke-width:.6}
+svg .block-cut{fill:var(--block);stroke:var(--ink);stroke-width:.6;opacity:.6}
+svg .block-hatch{fill:var(--frame);stroke:var(--ink);stroke-width:.6}
+svg .cedar{fill:var(--cedar);stroke:var(--ink);stroke-width:.6}
+svg .cedar-cap{fill:var(--cedar-cap);stroke:var(--ink);stroke-width:.6}
+svg .soil{fill:var(--soil);stroke:var(--ink);stroke-width:.4}
+svg .tree{fill:var(--tree);stroke:var(--tree-ink);stroke-width:.7;fill-opacity:.85}
+svg .trunk{fill:var(--tree-ink);stroke:none}
+svg .drain{stroke:var(--site);stroke-width:1.6;stroke-dasharray:6 3;fill:none}
+svg .fence{stroke:var(--muted);stroke-width:1.2;fill:none;stroke-dasharray:1 2}
+svg .cut{stroke:var(--site);stroke-width:.8;stroke-dasharray:10 3 2 3}
+svg .arrow-fill{fill:var(--ink)}
+svg .earth{fill:var(--earth);stroke:var(--muted);stroke-width:.6}
+svg .earth-l{fill:var(--earth-l);stroke:var(--muted);stroke-width:.6}
+svg .concrete{fill:var(--concrete);stroke:var(--ink);stroke-width:.5}
+svg .concrete-h{fill:none;stroke:var(--muted);stroke-width:.5;stroke-dasharray:2 1.5}
+svg .frame{fill:var(--frame);stroke:var(--ink);stroke-width:.5}
+svg .beam{fill:var(--frame);stroke:var(--deck-ink);stroke-width:.7}
+svg .beam-l{stroke:var(--ink);stroke-width:1.4;fill:none}
+svg .post{fill:var(--ink);stroke:none}
+svg .joist{stroke:var(--deck-ink);stroke-width:.6}
+svg .infill{fill:var(--deck-soft);stroke:var(--deck-ink);stroke-width:.4;opacity:.8}
+svg .base{fill:var(--stone);stroke:var(--muted);stroke-width:.5}
+svg .dust{fill:var(--gravel);stroke:var(--muted);stroke-width:.4}
+svg .fabric{stroke:var(--site);stroke-width:1;stroke-dasharray:3 1.5}
+svg .fabric-box{fill:none;stroke:var(--site);stroke-width:1;stroke-dasharray:3 1.5}
+svg .stone{fill:var(--stone);stroke:var(--muted);stroke-width:.5}
+svg .pipe{stroke:var(--deck-ink);stroke-width:1.6;fill:none}
+svg .pipe-c{fill:var(--paper);stroke:var(--deck-ink);stroke-width:1.2}
+svg .mesh{stroke:var(--deck);stroke-width:1;stroke-dasharray:1.2 1}
+svg .screw{fill:var(--ink)}
+svg .wall-l{stroke:var(--ink);stroke-width:2}
+svg .ground-l{stroke:var(--muted);stroke-width:.8}
+svg .hidden{fill:none;stroke:var(--muted);stroke-width:.5;stroke-dasharray:2 1.5}
+svg .stone-j{fill:none;stroke:var(--site-ink);stroke-width:.35;opacity:.55}
+svg .herb{fill:var(--tree);stroke:var(--tree-ink);stroke-width:.6}
+svg .ring{fill:var(--block);stroke:var(--ink);stroke-width:.6}
+svg .ash{fill:var(--soil);stroke:none}
+svg .liner{stroke:var(--ink);stroke-width:1.2}
+svg .baluster{stroke:var(--ink);stroke-width:.6}
+svg .breaker{stroke:var(--site);stroke-width:1.2;stroke-dasharray:4 2}
+svg .flag-nostroke{fill:var(--flag);stroke:none}
+svg .lattice{fill:none;stroke:var(--site-ink);stroke-width:2.2;stroke-dasharray:1.5 1}
+svg .mlv{fill:var(--ink);opacity:.8;stroke:none}
+svg .lat{stroke:var(--flag-dark);stroke-width:1.1}
+svg .post-l{fill:var(--paper);stroke:var(--ink);stroke-width:.6}
+svg .dim{stroke:var(--muted);stroke-width:.5;fill:none}
+svg .dim-t{fill:var(--muted);font-size:6.5px}
+svg .thin{stroke:var(--ink);stroke-width:.5;fill:none}
+
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+th{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.78rem;color:var(--muted);border-bottom:1px solid var(--rule)}
+td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.m{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:860px){td.m{white-space:normal}}
+tr.sum td{border-top:1px solid var(--rule);font-weight:600}
+tfoot td{color:var(--muted);font-size:.85rem;border-bottom:none}
+.callout{padding:14px 16px;border-left:3px solid var(--deck);background:var(--deck-soft);display:grid;gap:6px}
+.callout.site{border-color:var(--site);background:var(--site-soft)}
+.callout.warn{border-color:var(--warn-ink);background:var(--warn-bg);color:var(--warn-ink)}
+.callout .t{font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat div{padding:10px 12px;border:1px solid var(--rule)}
+.stat .k{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:"Barlow Condensed",Arial,sans-serif;font-weight:600}
+.stat .v{font-family:"IBM Plex Mono",monospace;font-size:1.05rem}
+code{font-family:"IBM Plex Mono",monospace;font-size:.9em;background:var(--code-bg);padding:1px 5px;border-radius:2px}
+.steps li{margin-block:.45em}
+@media (prefers-reduced-motion:no-preference){.index a{transition:border-color .15s}}
+.sitebar{max-width:900px;margin:0 auto 20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.sitebar a{color:var(--ink);text-decoration:none}
+.sitebar a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="sitebar"><span><a href="/">about.rt-541.io</a> / <a href="/projects">projects</a> / <a href="/projects/backyard">backyard</a></span><span><a href="/plans/backyard/model/?v=418d8e34">3D model</a> &nbsp; <a href="/plans/backyard/backyard.pdf?v=386508a1">PDF, 22 pages</a></span></div>
+<div class="wrap">
+
+<section class="titleblock">
+  <div class="main">
+    <span class="eyebrow">Drawing set, revision A5</span>
+    <h1>Backyard</h1>
+    <p>A new composite deck at the sliding door in the bay, running from the chimney to near the house's east corner, its outer corners cut at 45 degrees, with the Blackstone and the smoker along its east rail. One stair leads down its west side to a 16 ft square buff flagstone patio with a round stone apron and fire ring centred on its northwest corner, a stone seat wall around the ring's north half and along the patio's north edge, the outdoor sofa set, a stone raised herb bed between the patio and the house, and a lattice screen with a sound barrier around the AC. A stone walkway wraps the deck's north and east sides. Five American Pillar arborvitae stand in a row along the back fence on the slider's line, and a French drain runs along the wet east fence. Revision A is laid out from drone photos; every dimension marked "est." is replaced by a tape measurement before bids.</p>
+  </div>
+  <div class="meta">
+    <div><span class="k">Site</span><span class="v">Back yard, Michigan clay</span></div>
+    <div><span class="k">Revision</span><span class="v">A5, 2026-09-25, est.</span></div>
+    <div><span class="k">Deck</span><span class="v">25 ft x 20 ft, composite</span></div>
+    <div><span class="k">Patio</span><span class="v">16 x 16 ft buff flagstone</span></div>
+    <div><span class="k">Fire</span><span class="v">52 in stone ring</span></div>
+    <div><span class="k">Rough total</span><span class="v">$24,908 to $53,473</span></div>
+  </div>
+</section>
+
+<nav class="index" aria-label="Sheets">
+  <a href="#s1"><span class="n">01</span>Design basis</a>
+  <a href="#s2"><span class="n">02</span>Site plan and section</a>
+  <a href="#s3"><span class="n">03</span>Deck</a>
+  <a href="#s4"><span class="n">04</span>Patio, fire ring, herbs and AC screen</a>
+  <a href="#s5"><span class="n">05</span>Evergreens and drain</a>
+  <a href="#s6"><span class="n">06</span>Quantities</a>
+  <a href="#s7"><span class="n">07</span>Shopping list and budget</a>
+  <a href="#s8"><span class="n">08</span>Schedule and permits</a>
+  <a href="#s9"><span class="n">09</span>Care guide</a>
+</nav>
+
+<!-- SHEET 01 -->
+<section class="sheet" id="s1">
+  <header><h2>Design basis</h2><span class="num">Sheet 01 of 09</span></header>
+  <div class="two">
+    <div class="block">
+      <h3>What was decided</h3>
+      <ul>
+        <li><strong>The deck sits at the slider.</strong> It runs 25 ft from the west end of the chimney to 18 in short of the house's east corner, and 20 ft out from the wall. The sliding door sits in an angled bay, and the deck is notched around the bay's three faces and the chimney. The two outer corners are cut at 45 degrees, 3.5 ft each way, so there are no square corners to walk into. Dining by the slider; the deck's west end is left open. A vented composite skirt closes the underside. The slider is its only door.</li>
+        <li><strong>Cooking on the east side.</strong> The Blackstone griddle (62.5 x 22 in) and the smoker (49 x 27 in, a pellet smoker assumed) stand side by side with their backs to the east rail, each 3 ft from the rail and the house, with a 3 ft aisle to the table.</li>
+        <li><strong>Freestanding framing.</strong> The house is brick veneer, and a deck ledger may not be fastened to veneer, so the deck stands on two three-ply beams and 4 posts each. The surface sits 1 in below the door thresholds.</li>
+        <li><strong>One stair.</strong> A 5 ft stair off the west side (4 risers) goes down onto the patio. The walkway around the deck is reached from the patio.</li>
+        <li><strong>A 16 x 16 ft stone patio off the deck's west side,</strong> dry-laid buff flagstone.</li>
+        <li><strong>The fire ring is centred on the patio's northwest corner.</strong> A 14 ft round stone apron shares that centre, so the patio reads as a square with a circle bulging out of its corner, and a 52 in stone ring with a 36 in steel liner sits at the centre.</li>
+        <li><strong>A stone seat wall</strong> 18 in tall and 14 in deep, capped, curves around the north half of the fire ring and runs east along the patio's north edge, stopping 3 ft short of the deck so the walkway still meets the patio. It holds back the fill on the low side and seats the north half of the ring; three chairs take the south half.</li>
+        <li><strong>The outdoor sofa set moves to the patio,</strong> on its southwest part: sofa on the west edge facing east, coffee table, two chairs opposite, with a clear path from the stair to the fire.</li>
+        <li><strong>A stone raised herb bed</strong> 18 in tall between the patio and the house, from the AC screen to the chimney. It has its own back wall 4 in off the brick, so no soil sits against the veneer or its weep holes.</li>
+        <li><strong>A screen around the AC:</strong> vinyl privacy lattice over outdoor mass-loaded vinyl on the north side and an east gate, the sides facing the patio and the fire, 2 ft off the unit. The west side toward the fence and the top stay open so the condenser draws fresh air and its hot exhaust does not circle back in. No painting, no upkeep.</li>
+        <li><strong>A stone walkway</strong> of the same flagstone, 3 ft wide, around the deck's north and east sides, following the cut corners and joining the patio at the northwest.</li>
+        <li><strong>Shade by a cantilever umbrella</strong> over the table, bolted to a steel plate over blocking in the framing.</li>
+        <li><strong>Five American Pillar arborvitae</strong> in one row 4 ft off the north fence, centred on the slider. They grow 20 to 30 ft tall and stay 3 to 5 ft wide, and they take wet clay.</li>
+        <li><strong>A French drain along the east fence</strong> into the existing drain in the northeast corner.</li>
+        <li><strong>Contracted, not built by the owner.</strong> Demo, deck, patio, fire ring, drain and planting go to contractors. The owner plants the herb bed, hangs the AC screen, and buys the umbrella plate and the ring liner.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Assumptions, revision A</h3>
+      <ul>
+        <li>The back of the house faces north. The garage is at the east end of the front; the side walk runs down the east side to the back.</li>
+        <li>Lot about 70 ft wide; house about 52 ft wide; back wall to north fence about 50 ft. All read from drone photos and marked est.</li>
+        <li>Grade falls 30 in from the house to the north fence and about 6 in from west to east, lowest at the existing drain in the northeast corner.</li>
+        <li>Door thresholds 25 in above the ground at the back wall. The deck stands 27 to 41 in above grade, so it gets guards on every open side.</li>
+        <li>Heavy clay soil that drains slowly, a 42 in frost depth for footings, growing zone 6.</li>
+        <li>The existing northeast drain can take the French drain; its pipe size and depth are not known yet.</li>
+      </ul>
+      <h3>Measure for revision B</h3>
+      <ul>
+        <li>Back wall to north fence, and each side of the house to its fence.</li>
+        <li>Threshold height at the slider.</li>
+        <li>Chimney, bay, slider and window positions along the back wall, and the AC's footprint.</li>
+        <li>Fall from the house to the north fence and to the drain (string line and level).</li>
+        <li>Pipe size and depth at the northeast drain.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout site">
+    <span class="t">Fire ring distances</span>
+    <p>The ring stands 16.8 ft from the house wall, 13.8 ft from the deck's west edge and 12.8 ft from the foot of the west stair. The owner set its position. For reference, the fire code the township adopts lists 25 ft from structures for an open wood fire and 15 ft for a listed portable fire pit; the permit conversation starts from there. Keep a spark screen on the ring and a hose on the patio side.</p>
+  </div>
+</section>
+
+<!-- SHEET 02 -->
+<section class="sheet" id="s2">
+  <header><h2>Site plan and section</h2><span class="num">Sheet 02 of 09</span></header>
+  <p>Dimensions in inches unless marked. Spot numbers at the lot corners are the existing grade in inches relative to the back wall at the west fence. Everything on this sheet is an estimate until revision B.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 772 656" role="img" aria-label="Site plan: the deck across the back from the chimney to near the house's east corner, the 16 ft stone patio west of the deck with a round apron and fire ring centred on its northwest corner, the raised herb bed along the house, the screened AC, the stone walkway around the deck's north and east sides, five American Pillar arborvitae in a row on the slider's line along the north fence, and the French drain along the east fence">
+  <text class="lbl" x="4" y="10">Site plan, north up (revision A, estimated)</text>
+  <rect class="grass" x="62.0" y="50.0" width="672.0" height="600.0"/>
+  <rect class="house" x="158.0" y="530.0" width="499.2" height="120.0"/>
+  <polygon class="house" points="522.8,530.0 609.2,530.0 590.0,510.8 542.0,510.8"/>
+  <rect class="house" x="402.8" y="506.0" width="48.0" height="24.0"/>
+  <text class="big" x="407.6" y="602.0" text-anchor="middle">HOUSE</text>
+  <rect class="metal" x="174.0" y="498.0" width="30.4" height="27.2"/>
+  <polyline class="lattice" points="154.8,478.8 223.6,478.8 223.6,525.2"/>
+  <rect class="post" x="153.2" y="477.2" width="3.2" height="3.2"/>
+  <rect class="post" x="222.0" y="477.2" width="3.2" height="3.2"/>
+  <rect class="post" x="222.0" y="523.6" width="3.2" height="3.2"/>
+  <text class="" x="151.6" y="478.8" text-anchor="end">AC screen</text>
+  <rect class="ring" x="228.4" y="502.8" width="171.2" height="24.0"/>
+  <rect class="herb" x="233.2" y="507.6" width="161.6" height="14.4"/>
+  <circle class="flag" cx="249.2" cy="347.6" r="67.2"/>
+  <rect class="flag-nostroke" x="249.2" y="347.6" width="153.6" height="153.6"/>
+  <polygon class="stone-j" points="196.1,386.7 198.3,366.2 184.5,365.6 187.1,373.3 191.0,381.2 194.6,386.6"/>
+  <polygon class="stone-j" points="184.3,365.0 198.4,365.6 202.1,348.4 182.3,347.3 182.3,352.1 182.6,356.4 184.3,365.0"/>
+  <polygon class="stone-j" points="182.3,346.7 202.2,347.9 200.1,331.6 184.7,329.1 184.3,330.2 182.6,338.8 182.3,342.8"/>
+  <polygon class="stone-j" points="200.1,331.1 200.3,315.1 189.4,317.3 187.1,321.9 184.8,328.6"/>
+  <polygon class="stone-j" points="212.8,378.5 196.7,387.3 196.5,389.2 201.7,395.1 208.3,400.9 212.3,403.6 219.2,404.1"/>
+  <polygon class="stone-j" points="196.6,386.7 212.7,377.9 215.4,360.8 198.9,366.2"/>
+  <polygon class="stone-j" points="198.9,365.6 215.3,360.2 214.6,352.9 202.7,348.5"/>
+  <polygon class="stone-j" points="202.7,347.8 214.7,352.3 217.0,328.9 200.7,331.7"/>
+  <polygon class="stone-j" points="200.7,331.1 216.9,328.3 213.3,318.8 200.9,315.1"/>
+  <polygon class="stone-j" points="200.8,314.4 213.4,318.2 214.0,293.0 210.3,292.9 208.3,294.3 201.7,300.1 198.9,303.3"/>
+  <polygon class="stone-j" points="234.1,403.5 219.8,404.7 218.2,407.1 223.5,409.7 231.8,412.5 234.6,413.1"/>
+  <polygon class="stone-j" points="219.7,404.0 234.1,402.9 231.9,385.5 213.3,378.5"/>
+  <polygon class="stone-j" points="213.4,377.9 231.9,384.9 230.4,360.9 215.9,360.8"/>
+  <polygon class="stone-j" points="216.0,360.2 230.3,360.3 235.7,350.5 215.3,352.8"/>
+  <polygon class="stone-j" points="217.6,328.3 236.6,334.0 231.7,311.1 214.0,318.7"/>
+  <polygon class="stone-j" points="213.9,318.2 231.5,310.5 234.0,301.6 214.5,293.0"/>
+  <polygon class="stone-j" points="214.7,292.5 234.2,301.1 237.4,281.6 231.8,282.7 223.5,285.5 215.8,289.3"/>
+  <polygon class="stone-j" points="249.2,414.8 250.5,414.7 249.3,395.0 234.8,403.4 235.2,413.2 240.4,414.2"/>
+  <polygon class="stone-j" points="234.6,402.8 249.1,394.4 249.5,381.9 232.5,385.5"/>
+  <polygon class="stone-j" points="232.4,384.9 249.5,381.3 253.3,368.7 230.9,360.8"/>
+  <polygon class="stone-j" points="237.1,333.9 252.9,333.6 246.6,312.3 232.2,311.1"/>
+  <polygon class="stone-j" points="232.3,310.6 246.5,311.6 254.0,300.6 234.8,301.7"/>
+  <polygon class="stone-j" points="254.1,300.2 254.2,280.7 254.0,280.7 244.2,280.7 240.4,281.0 238.1,281.4 234.7,301.2"/>
+  <polygon class="stone-j" points="249.2,500.9 270.5,501.0 267.6,485.3 249.2,482.0"/>
+  <polygon class="stone-j" points="249.2,481.5 267.6,484.8 262.6,472.2 249.2,469.7"/>
+  <polygon class="stone-j" points="249.2,469.2 262.7,471.6 271.3,453.1 249.2,454.5"/>
+  <polygon class="stone-j" points="249.2,442.7 249.2,454.0 271.3,452.7 268.7,436.0 251.1,436.2"/>
+  <polygon class="stone-j" points="251.1,435.6 268.7,435.4 269.9,415.6 251.3,417.9"/>
+  <polygon class="stone-j" points="251.2,417.3 269.9,415.1 264.5,402.9 249.7,395.0"/>
+  <polygon class="stone-j" points="249.9,394.5 264.6,402.2 268.8,386.9 250.0,381.9"/>
+  <polygon class="stone-j" points="250.1,381.3 268.9,386.4 264.0,365.1 253.9,368.9"/>
+  <polygon class="stone-j" points="253.3,333.5 264.3,326.9 263.5,319.5 247.1,312.2"/>
+  <polygon class="stone-j" points="247.2,311.8 263.7,318.9 264.3,298.3 254.6,300.9"/>
+  <polygon class="stone-j" points="255.0,280.8 254.7,280.8 254.6,300.1 264.3,297.6 262.4,281.9 258.0,281.0"/>
+  <polygon class="stone-j" points="271.0,500.8 280.4,500.8 282.3,483.8 268.3,485.3"/>
+  <polygon class="stone-j" points="268.2,484.7 282.2,483.2 279.9,469.0 263.3,472.1"/>
+  <polygon class="stone-j" points="263.2,471.6 280.0,468.3 287.6,445.7 271.9,453.3"/>
+  <polygon class="stone-j" points="271.9,452.6 287.5,445.2 285.3,431.7 269.4,436.0"/>
+  <polygon class="stone-j" points="269.3,435.4 285.2,431.1 284.4,420.2 270.5,415.6"/>
+  <polygon class="stone-j" points="270.5,415.0 284.5,419.7 278.9,404.5 265.1,402.9"/>
+  <polygon class="stone-j" points="265.1,402.3 279.0,403.8 287.8,380.6 269.5,387.0"/>
+  <polygon class="stone-j" points="269.4,386.4 287.7,380.1 288.2,370.4 264.5,365.0"/>
+  <polygon class="stone-j" points="270.7,347.6 264.5,364.5 288.3,369.9 285.0,348.8 271.5,347.6"/>
+  <polygon class="stone-j" points="270.8,346.8 285.0,348.2 285.9,333.4 265.0,327.4"/>
+  <polygon class="stone-j" points="265.1,327.0 285.9,332.9 288.6,318.9 264.3,319.5"/>
+  <polygon class="stone-j" points="264.2,319.0 288.7,318.4 284.1,295.3 264.9,298.2"/>
+  <polygon class="stone-j" points="284.0,294.7 285.0,290.9 282.8,289.4 274.9,285.5 266.6,282.7 263.0,282.0 264.9,297.7"/>
+  <polygon class="stone-j" points="280.9,500.9 303.0,500.9 302.7,481.5 282.9,483.8"/>
+  <polygon class="stone-j" points="282.9,483.2 302.6,481.0 304.8,468.9 280.5,468.8"/>
+  <polygon class="stone-j" points="280.5,468.4 304.8,468.4 302.5,446.5 288.1,445.7"/>
+  <polygon class="stone-j" points="288.2,445.1 302.5,445.9 304.3,434.3 285.8,431.6"/>
+  <polygon class="stone-j" points="285.8,431.1 304.4,433.8 303.6,412.9 285.2,420.1"/>
+  <polygon class="stone-j" points="285.0,419.6 303.5,412.4 301.4,398.3 279.6,404.3"/>
+  <polygon class="stone-j" points="279.5,403.9 301.3,397.8 299.4,381.8 288.2,380.7"/>
+  <polygon class="stone-j" points="288.4,380.0 299.4,381.1 301.7,369.9 288.9,370.5"/>
+  <polygon class="stone-j" points="285.6,348.8 288.8,369.8 301.8,369.2 302.1,347.6 289.5,347.6"/>
+  <polygon class="stone-j" points="285.6,348.2 302.0,343.1 304.5,329.3 286.6,333.4"/>
+  <polygon class="stone-j" points="286.5,332.9 304.4,328.8 299.6,312.4 289.3,319.0"/>
+  <polygon class="stone-j" points="300.5,304.4 296.7,300.1 292.9,296.8 284.7,295.3 289.1,318.3 299.5,311.7"/>
+  <polygon class="stone-j" points="303.6,500.9 313.5,500.8 320.0,489.2 303.2,481.6"/>
+  <polygon class="stone-j" points="303.3,481.0 320.2,488.7 318.7,467.8 305.4,469.1"/>
+  <polygon class="stone-j" points="305.3,468.4 318.6,467.1 314.9,448.6 303.0,446.5"/>
+  <polygon class="stone-j" points="303.1,445.9 314.9,447.9 317.6,432.4 305.0,434.4"/>
+  <polygon class="stone-j" points="304.9,433.8 317.6,431.8 321.8,419.0 304.1,412.9"/>
+  <polygon class="stone-j" points="304.2,412.3 321.9,418.5 312.7,401.7 301.9,398.3"/>
+  <polygon class="stone-j" points="301.9,397.7 312.7,400.9 319.3,385.5 300.0,381.8"/>
+  <polygon class="stone-j" points="300.0,381.2 319.4,385.0 314.3,361.6 302.3,369.8"/>
+  <polygon class="stone-j" points="302.5,347.6 302.2,369.2 314.2,360.9 319.2,349.2 314.4,347.6"/>
+  <polygon class="stone-j" points="314.4,331.6 305.0,329.4 302.7,343.1 316.4,347.6 316.4,347.6 315.8,338.8"/>
+  <polygon class="stone-j" points="305.1,328.7 314.3,331.0 314.1,330.2 311.3,321.9 307.6,314.4 300.1,312.3"/>
+  <polygon class="stone-j" points="314.0,501.0 338.4,501.0 333.4,483.7 320.8,489.3"/>
+  <polygon class="stone-j" points="320.6,488.6 333.4,483.1 332.7,471.2 319.2,467.8"/>
+  <polygon class="stone-j" points="319.2,467.1 332.8,470.6 334.6,447.1 315.4,448.5"/>
+  <polygon class="stone-j" points="315.5,448.0 334.5,446.5 338.1,431.4 318.2,432.4"/>
+  <polygon class="stone-j" points="318.2,431.9 338.1,430.9 339.1,418.8 322.5,419.0"/>
+  <polygon class="stone-j" points="322.3,418.4 339.1,418.3 331.3,400.2 313.3,401.5"/>
+  <polygon class="stone-j" points="313.2,401.1 331.2,399.5 332.3,385.5 319.9,385.7"/>
+  <polygon class="stone-j" points="319.9,385.0 332.3,384.9 333.7,364.4 314.8,361.5"/>
+  <polygon class="stone-j" points="314.9,361.0 333.7,363.8 334.4,350.4 319.8,349.2"/>
+  <polygon class="stone-j" points="339.0,500.9 353.7,500.9 352.2,486.4 334.0,483.6"/>
+  <polygon class="stone-j" points="334.1,483.2 352.3,485.9 354.4,472.3 333.3,471.2"/>
+  <polygon class="stone-j" points="333.3,470.6 354.5,471.8 347.9,451.1 335.0,447.2"/>
+  <polygon class="stone-j" points="335.1,446.5 347.9,450.3 346.8,430.3 338.6,431.5"/>
+  <polygon class="stone-j" points="338.7,430.8 346.8,429.6 348.9,420.2 339.7,418.9"/>
+  <polygon class="stone-j" points="339.5,418.1 348.9,419.6 347.0,398.4 331.8,400.1"/>
+  <polygon class="stone-j" points="331.8,399.5 346.9,397.7 351.0,381.3 332.9,385.5"/>
+  <polygon class="stone-j" points="332.8,384.9 351.0,380.7 353.1,362.5 334.3,364.3"/>
+  <polygon class="stone-j" points="335.2,350.4 334.3,363.8 353.1,361.9 356.0,347.6 351.2,347.6"/>
+  <polygon class="stone-j" points="354.2,500.9 366.3,500.9 367.0,482.6 352.9,486.4"/>
+  <polygon class="stone-j" points="352.8,485.8 366.9,481.9 368.8,466.4 355.2,472.4"/>
+  <polygon class="stone-j" points="355.0,471.8 368.7,465.8 371.1,451.6 348.5,451.0"/>
+  <polygon class="stone-j" points="348.4,450.4 371.1,451.0 371.5,429.4 347.3,430.2"/>
+  <polygon class="stone-j" points="347.4,429.7 371.4,428.9 364.4,412.2 349.6,420.1"/>
+  <polygon class="stone-j" points="349.4,419.6 364.3,411.7 370.7,403.2 347.5,398.3"/>
+  <polygon class="stone-j" points="347.6,397.8 370.8,402.8 368.1,381.3 351.6,381.3"/>
+  <polygon class="stone-j" points="351.6,380.7 368.1,380.7 372.6,366.8 353.7,362.5"/>
+  <polygon class="stone-j" points="353.8,361.9 372.7,366.3 369.8,347.6 356.6,347.6"/>
+  <polygon class="stone-j" points="366.8,500.9 386.9,500.9 387.7,487.3 367.5,482.5"/>
+  <polygon class="stone-j" points="367.6,482.0 387.8,486.8 389.6,462.6 369.4,466.3"/>
+  <polygon class="stone-j" points="369.4,465.8 389.5,462.1 390.3,450.1 371.8,451.6"/>
+  <polygon class="stone-j" points="371.7,451.0 390.4,449.6 388.4,435.3 372.1,429.5"/>
+  <polygon class="stone-j" points="372.1,428.8 388.5,434.8 389.7,412.9 365.0,412.1"/>
+  <polygon class="stone-j" points="365.0,411.7 389.6,412.5 383.9,403.8 371.4,403.3"/>
+  <polygon class="stone-j" points="371.3,402.7 384.0,403.2 385.0,382.1 368.6,381.4"/>
+  <polygon class="stone-j" points="368.7,380.8 385.0,381.5 388.2,365.7 373.3,366.9"/>
+  <polygon class="stone-j" points="373.2,366.2 388.2,365.2 381.6,347.6 370.2,347.6"/>
+  <polygon class="stone-j" points="387.6,500.9 402.5,500.9 402.5,484.4 388.4,487.4"/>
+  <polygon class="stone-j" points="388.3,486.8 402.6,483.7 402.6,465.3 390.1,462.7"/>
+  <polygon class="stone-j" points="390.2,462.0 402.6,464.6 402.6,447.1 391.0,450.2"/>
+  <polygon class="stone-j" points="390.9,449.5 402.5,446.5 402.6,431.7 389.1,435.3"/>
+  <polygon class="stone-j" points="389.0,434.7 402.5,431.0 402.6,412.1 390.2,413.0"/>
+  <polygon class="stone-j" points="390.3,412.3 402.4,411.5 402.5,399.7 384.7,403.7"/>
+  <polygon class="stone-j" points="384.5,403.2 402.5,399.1 402.6,378.1 385.5,382.1"/>
+  <polygon class="stone-j" points="385.5,381.5 402.4,377.5 402.4,369.7 388.8,365.8"/>
+  <polygon class="stone-j" points="382.1,347.6 388.8,365.1 402.5,369.2 402.5,351.4 388.8,347.6"/>
+  <circle class="ring" cx="249.2" cy="347.6" r="20.8"/>
+  <circle class="pit" cx="249.2" cy="347.6" r="14.4"/>
+  <circle class="chair" cx="206.2" cy="372.4" r="8.8"/>
+  <circle class="chair" cx="249.2" cy="397.2" r="8.8"/>
+  <circle class="chair" cx="292.2" cy="372.4" r="8.8"/>
+  <polygon class="ring" points="316.4,347.6 316.1,341.7 315.4,335.9 314.1,330.2 312.3,324.6 310.1,319.2 307.4,314.0 304.2,309.1 300.7,304.4 296.7,300.1 292.4,296.1 287.7,292.6 282.8,289.4 277.6,286.7 272.2,284.5 266.6,282.7 260.9,281.4 255.1,280.7 249.2,280.4 243.3,280.7 237.5,281.4 231.8,282.7 226.2,284.5 220.8,286.7 215.6,289.4 210.7,292.6 206.0,296.1 201.7,300.1 197.7,304.4 194.2,309.1 191.0,314.0 188.3,319.2 186.1,324.6 184.3,330.2 183.0,335.9 182.3,341.7 182.0,347.6 193.2,347.6 193.4,342.7 194.1,337.9 195.1,333.1 196.6,328.4 198.4,323.9 200.7,319.6 203.3,315.5 206.3,311.6 209.6,308.0 213.2,304.7 217.1,301.7 221.2,299.1 225.5,296.8 230.0,295.0 234.7,293.5 239.5,292.5 244.3,291.8 249.2,291.6 254.1,291.8 258.9,292.5 263.7,293.5 268.4,295.0 272.9,296.8 277.2,299.1 281.3,301.7 285.2,304.7 288.8,308.0 292.1,311.6 295.1,315.5 297.7,319.6 300.0,323.9 301.8,328.4 303.3,333.1 304.3,337.9 305.0,342.7 305.2,347.6"/>
+  <polygon class="ring" points="305.2,358.8 374.0,358.8 374.0,347.6 305.2,347.6"/>
+  <rect class="sofa" x="250.8" y="422.8" width="25.6" height="67.2"/>
+  <rect class="table" x="281.2" y="438.8" width="19.2" height="35.2"/>
+  <rect class="sofa" x="313.2" y="462.8" width="25.6" height="24.0"/>
+  <rect class="sofa" x="313.2" y="419.6" width="25.6" height="24.0"/>
+  <polygon class="flag" points="642.8,530.0 671.6,530.0 671.6,359.7 642.8,371.6"/>
+  <polygon class="flag" points="642.8,371.6 671.6,359.7 621.1,309.2 609.2,338.0"/>
+  <polygon class="flag" points="436.4,338.0 609.2,338.0 621.1,309.2 424.5,309.2"/>
+  <polygon class="flag" points="402.8,371.6 402.8,371.6 436.4,338.0 424.5,309.2 402.8,330.9"/>
+  <polygon class="flag" points="402.8,347.6 402.8,330.9 386.1,347.6"/>
+  <polygon class="deck" points="450.8,506.0 450.8,530.0 522.8,530.0 542.0,510.8 590.0,510.8 609.2,530.0 642.8,530.0 642.8,371.6 609.2,338.0 436.4,338.0 402.8,371.6 402.8,506.0"/>
+  <rect class="deck" x="376.4" y="414.8" width="26.4" height="48.0"/>
+  <line class="thin" x1="394.0" y1="462.8" x2="394.0" y2="414.8"/>
+  <line class="thin" x1="385.2" y1="462.8" x2="385.2" y2="414.8"/>
+  <line class="thin" x1="376.4" y1="462.8" x2="376.4" y2="414.8"/>
+  <rect class="zone" x="498.8" y="358.8" width="70.4" height="102.4"/>
+  <rect class="thin" x="518.0" y="376.4" width="32.0" height="67.2"/>
+  <text class="zone-t" x="534.0" y="367.2" text-anchor="middle">dining</text>
+  <rect class="metal-dark" x="596.4" y="432.0" width="17.6" height="50.0"/>
+  <rect class="metal-dark" x="592.4" y="383.2" width="21.6" height="39.2"/>
+  <rect class="metal" x="527.6" y="346.0" width="12.8" height="12.8"/>
+  <circle class="tree" cx="460.4" cy="88.4" r="19.2"/>
+  <circle class="trunk" cx="460.4" cy="88.4" r="2.4"/>
+  <circle class="tree" cx="513.2" cy="88.4" r="19.2"/>
+  <circle class="trunk" cx="513.2" cy="88.4" r="2.4"/>
+  <circle class="tree" cx="566.0" cy="88.4" r="19.2"/>
+  <circle class="trunk" cx="566.0" cy="88.4" r="2.4"/>
+  <circle class="tree" cx="618.8" cy="88.4" r="19.2"/>
+  <circle class="trunk" cx="618.8" cy="88.4" r="2.4"/>
+  <circle class="tree" cx="671.6" cy="88.4" r="19.2"/>
+  <circle class="trunk" cx="671.6" cy="88.4" r="2.4"/>
+  <line class="drain" x1="714.8" y1="702.8" x2="714.8" y2="64.4"/>
+  <circle class="metal" cx="719.6" cy="59.6" r="5.6"/>
+  <text class="" x="710.0" y="61.2" text-anchor="end">existing drain</text>
+  <text class="" x="710.0" y="290.0" text-anchor="end">French drain</text>
+  <polyline class="fence" points="62.0,650.0 62.0,50.0 734.0,50.0 734.0,650.0"/>
+  <line class="cut" x1="478.0" y1="546.0" x2="478.0" y2="37.2"/>
+  <text class="lbl" x="481.2" y="40.4" text-anchor="start">A</text>
+  <text class="lbl" x="481.2" y="542.8" text-anchor="start">A</text>
+  <polygon class="arrow-fill" points="750.0,50.0 743.6,67.6 756.4,67.6"/>
+  <text class="lbl" x="750.0" y="83.2" text-anchor="middle">N</text>
+  <g class="dim"><line x1="62.0" y1="26.0" x2="734.0" y2="26.0"/><line x1="62.0" y1="23.0" x2="62.0" y2="29.0"/><line x1="734.0" y1="23.0" x2="734.0" y2="29.0"/></g>
+  <text class="dim-t" x="398.0" y="23.5" text-anchor="middle">70 ft est.</text>
+  <g class="dim"><line x1="42.8" y1="530.0" x2="42.8" y2="50.0"/><line x1="39.8" y1="530.0" x2="45.8" y2="530.0"/><line x1="39.8" y1="50.0" x2="45.8" y2="50.0"/></g>
+  <text class="dim-t" x="39.8" y="292.5" text-anchor="end">50 ft est.</text>
+  <g class="dim"><line x1="402.8" y1="536.4" x2="642.8" y2="536.4"/><line x1="402.8" y1="533.4" x2="402.8" y2="539.4"/><line x1="642.8" y1="533.4" x2="642.8" y2="539.4"/></g>
+  <text class="dim-t" x="522.8" y="544.9" text-anchor="middle">25 ft deck</text>
+  <g class="dim"><line x1="682.8" y1="530.0" x2="682.8" y2="338.0"/><line x1="679.8" y1="530.0" x2="685.8" y2="530.0"/><line x1="679.8" y1="338.0" x2="685.8" y2="338.0"/></g>
+  <text class="dim-t" x="685.8" y="436.5" text-anchor="start">20 ft</text>
+  <g class="dim"><line x1="249.2" y1="504.4" x2="402.8" y2="504.4"/><line x1="249.2" y1="501.4" x2="249.2" y2="507.4"/><line x1="402.8" y1="501.4" x2="402.8" y2="507.4"/></g>
+  <text class="dim-t" x="326.0" y="512.9" text-anchor="middle">16 ft</text>
+  <g class="dim"><line x1="239.6" y1="501.2" x2="239.6" y2="347.6"/><line x1="236.6" y1="501.2" x2="242.6" y2="501.2"/><line x1="236.6" y1="347.6" x2="242.6" y2="347.6"/></g>
+  <text class="dim-t" x="236.6" y="426.9" text-anchor="end">16 ft</text>
+  <text class="zone-t" x="346.8" y="445.2" text-anchor="start">stone patio</text>
+  <text class="zone-t" x="231.6" y="498.0" text-anchor="start">raised herb bed</text>
+  <text class="zone-t" x="522.8" y="299.6" text-anchor="middle">stone walkway</text>
+  <text class="zone-t" x="431.6" y="90.4" text-anchor="end">5 American Pillar</text>
+  <text class="spot" x="68.4" y="538.0" text-anchor="start">+0</text>
+  <text class="spot" x="68.4" y="42.0" text-anchor="start">-30</text>
+  <text class="spot" x="727.6" y="42.0" text-anchor="end">-36</text>
+  <text class="spot" x="727.6" y="538.0" text-anchor="end">-6</text>
+</svg>
+    <figcaption>Plan. Deck at the bay slider with its cut corners, the dining and lounge zones dashed, the griddle and smoker on the east rail; the stone patio to its west with the fire apron and ring on its northwest corner, the raised herb bed along the house and the screened AC; the walkway around the deck's north and east sides; five American Pillar on the slider's line; the French drain along the east fence into the existing drain. Section A-A is on the line between the chimney and the bay.</figcaption>
+  </figure>
+  <figure class="fig">
+    <svg viewBox="0 0 651 339" role="img" aria-label="North-south section between the chimney and the bay: the deck on two beams and piers, the stone walkway at its north edge, open lawn, one American Pillar arborvitae and the fence">
+  <text class="lbl" x="4" y="10">Section A-A, looking west, true scale</text>
+  <polygon class="earth" points="15.0,266.1 24.0,266.6 33.0,267.0 42.0,267.5 51.0,267.9 60.0,268.4 69.0,268.8 78.0,269.3 87.0,269.7 96.0,270.2 105.0,270.6 114.0,271.1 123.0,271.5 132.0,272.0 141.0,272.4 150.0,272.9 159.0,273.3 168.0,273.8 177.0,274.2 186.0,274.7 195.0,275.1 204.0,275.6 213.0,276.0 222.0,276.5 231.0,276.9 240.0,277.4 249.0,277.8 258.0,278.3 267.0,278.7 276.0,279.2 285.0,279.6 294.0,280.1 303.0,280.5 312.0,281.0 321.0,281.4 330.0,281.9 339.0,282.3 348.0,282.8 357.0,283.2 366.0,283.7 375.0,284.1 384.0,284.6 393.0,285.0 402.0,285.5 411.0,285.9 420.0,286.4 429.0,286.8 438.0,287.3 447.0,287.7 456.0,288.2 465.0,288.6 474.0,289.1 483.0,289.5 492.0,290.0 501.0,290.4 510.0,290.9 519.0,291.3 528.0,291.8 537.0,292.2 546.0,292.7 555.0,293.1 564.0,293.6 573.0,294.0 582.0,294.5 591.0,294.9 600.0,295.4 609.0,295.8 609.0,333.0 15.0,333.0"/>
+  <rect class="house" x="6.0" y="171.6" width="63.0" height="97.2"/>
+  <text class="" x="37.5" y="220.5" text-anchor="middle">house</text>
+  <rect class="concrete" x="93.3" y="270.3" width="10.8" height="37.8"/>
+  <rect class="frame" x="96.2" y="261.5" width="4.9" height="8.9"/>
+  <rect class="frame" x="96.7" y="253.1" width="4.1" height="8.3"/>
+  <rect class="concrete" x="247.2" y="278.0" width="10.8" height="37.8"/>
+  <rect class="frame" x="250.1" y="261.5" width="5.0" height="16.6"/>
+  <rect class="frame" x="250.6" y="253.1" width="4.0" height="8.3"/>
+  <rect class="frame" x="96.9" y="244.8" width="188.1" height="8.3"/>
+  <rect class="deck" x="96.0" y="243.9" width="189.0" height="0.9"/>
+  <rect class="deck" x="282.8" y="211.5" width="4.5" height="32.4"/>
+  <line class="hidden" x1="96.0" y1="211.5" x2="285.0" y2="211.5"/>
+  <rect class="flag" x="285.0" y="278.3" width="32.4" height="3.9"/>
+  <rect class="trunk" x="563.1" y="282.9" width="5.4" height="10.8"/>
+  <polygon class="tree" points="549.6,286.5 544.2,259.3 550.2,127.7 565.8,66.9 581.4,127.7 587.4,259.3 582.0,286.5"/>
+  <line class="fence" x1="609.0" y1="295.8" x2="609.0" y2="252.6"/>
+  <text class="" x="177.0" y="204.3" text-anchor="middle">deck</text>
+  <text class="" x="301.2" y="272.4" text-anchor="middle">walkway</text>
+  <text class="" x="565.8" y="85.5" text-anchor="middle">American Pillar</text>
+  <g class="dim"><line x1="324.6" y1="279.6" x2="324.6" y2="243.9"/><line x1="321.6" y1="279.6" x2="327.6" y2="279.6"/><line x1="321.6" y1="243.9" x2="327.6" y2="243.9"/></g>
+  <text class="dim-t" x="327.6" y="264.3" text-anchor="start">40</text>
+  <g class="dim"><line x1="69.0" y1="328.5" x2="285.0" y2="328.5"/><line x1="69.0" y1="325.5" x2="69.0" y2="331.5"/><line x1="285.0" y1="325.5" x2="285.0" y2="331.5"/></g>
+  <text class="dim-t" x="177.0" y="326.0" text-anchor="middle">20 ft</text>
+  <g class="dim"><line x1="285.0" y1="328.5" x2="565.8" y2="328.5"/><line x1="285.0" y1="325.5" x2="285.0" y2="331.5"/><line x1="565.8" y1="325.5" x2="565.8" y2="331.5"/></g>
+  <text class="dim-t" x="425.4" y="326.0" text-anchor="middle">26 ft</text>
+  <g class="dim"><line x1="565.8" y1="328.5" x2="609.0" y2="328.5"/><line x1="565.8" y1="325.5" x2="565.8" y2="331.5"/><line x1="609.0" y1="325.5" x2="609.0" y2="331.5"/></g>
+  <text class="dim-t" x="587.4" y="326.0" text-anchor="middle">4 ft</text>
+  <text class="" x="618.0" y="303.0" text-anchor="end">fence</text>
+  <text class="spot" x="411.0" y="305.7" text-anchor="middle">existing grade falls 30 in over the yard</text>
+</svg>
+    <figcaption>Section A-A, true scale. The grade falls toward the fence; the deck stands on piers and stays level; the walkway follows the ground; the tree is drawn at about ten years.</figcaption>
+  </figure>
+  <h3>Photoreal views</h3>
+  <figure class="fig render"><img src="model/photo-north.png?v=03aa4381" alt="Photo-style view of the backyard from the north"><figcaption>From the north, over the tree line: the deck at the bay slider with its cut corners and skirt, the stone patio and fire ring with the seat wall, the raised herb bed and the screened AC along the house. Rendered in Blender Cycles by the homelab render tier from this plan's model, then turned into a photograph by FLUX.1 Kontext on the render host's GPU, which keeps the layout and replaces the surfaces. Anything past the fence is invented.</figcaption></figure>
+  <div class="two">
+    <figure class="fig render"><img src="model/photo-ne.png?v=4f81cae0" alt="Photo-style view from the northeast"><figcaption>From the northeast: the walkway following the cut corners, the Blackstone and the smoker on the east rail.</figcaption></figure>
+    <figure class="fig render"><img src="model/photo-west.png?v=b18c6c56" alt="Photo-style view from the west"><figcaption>From the west: the fire apron and seat wall, the sofa set on the patio, the one stair down from the deck.</figcaption></figure>
+  </div>
+  <h3>3D model</h3>
+  <div class="viewer"><iframe src="/plans/backyard/model/?v=418d8e34&amp;view=iso-nw" loading="lazy" title="Backyard 3D model"></iframe></div>
+  <figure class="fig render"><img src="model/render-hero.png?v=f2b7451a" alt="Render of the deck, patio and fire ring from the northwest"><figcaption>From the northwest: the fire apron on the patio's corner, the patio and the one stair off the deck's west side, the raised herb bed and the AC screen along the house, the walkway following the deck's cut corners.</figcaption></figure>
+  <div class="two">
+    <figure class="fig render"><img src="model/render-iso-nw.png?v=3fd7a492" alt="Render of the whole backyard from the northwest"><figcaption>The whole lot from the northwest, the American Pillar row in front.</figcaption></figure>
+    <figure class="fig render"><img src="model/render-plan.png?v=a740784d" alt="Plan render of the backyard"><figcaption>Straight down, umbrellas hidden.</figcaption></figure>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Check</th><th class="n">Result</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td>Fire ring to the house</td><td class="n">16.8 ft</td><td>Owner's layout; see sheet 01</td></tr>
+        <tr><td>Fire ring to the deck edge / the west stair</td><td class="n">13.8 / 12.8 ft</td><td>Owner's layout; see sheet 01</td></tr>
+        <tr><td>Fire ring to the nearest tree</td><td class="n">30.7 ft</td><td>15 ft, arborvitae burn readily</td></tr>
+        <tr><td>Deck height above grade, corners</td><td class="n">27 to 41 in</td><td>Guards required over 30 in</td></tr>
+        <tr><td>Stair risers</td><td class="n">6.95 in</td><td>7.75 in maximum</td></tr>
+        <tr><td>Gap between trees at 4 ft wide</td><td class="n">18 in</td><td>Room to reach the fence</td></tr>
+        <tr><td>Drain fall</td><td class="n">0.6 in per ft</td><td>1/8 in per ft minimum</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SHEET 03 -->
+<section class="sheet deck" id="s3">
+  <header><h2>Deck <span class="tag deck">contractor</span></h2><span class="num">Sheet 03 of 09</span></header>
+  <p>A freestanding pressure-treated frame with composite boards, composite guards with black aluminium balusters, and one stair. 461 sq ft of deck surface. The contractor pulls the permit and draws the framing to the code tables; the numbers here are the design intent for the bid and what the model checks.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 633 402" role="img" aria-label="Deck framing plan: two three-ply beams on four posts each, 2x10 joists at 12 in running north-south with headers at the chimney and the bay, blocking under the umbrella plates, the breaker board line, and the west and northeast stairs">
+  <text class="lbl" x="4" y="10">Deck framing plan, north up</text>
+  <rect class="house" x="6.0" y="371.7" width="621.0" height="24.3"/>
+  <rect class="house" x="135.6" y="331.2" width="81.0" height="40.5"/>
+  <polygon class="house" points="338.1,371.7 483.9,371.7 451.5,339.3 370.5,339.3"/>
+  <polygon class="deck-light" points="216.6,331.2 216.6,371.7 338.1,371.7 370.5,339.3 451.5,339.3 483.9,371.7 540.6,371.7 540.6,104.4 483.9,47.7 192.3,47.7 135.6,104.4 135.6,331.2"/>
+  <line class="joist" x1="136.6" y1="329.9" x2="136.6" y2="103.4"/>
+  <line class="joist" x1="152.8" y1="329.9" x2="152.8" y2="87.2"/>
+  <line class="joist" x1="169.0" y1="329.9" x2="169.0" y2="71.0"/>
+  <line class="joist" x1="185.2" y1="329.9" x2="185.2" y2="54.8"/>
+  <line class="joist" x1="201.4" y1="329.9" x2="201.4" y2="47.7"/>
+  <line class="joist" x1="217.6" y1="370.4" x2="217.6" y2="47.7"/>
+  <line class="joist" x1="233.8" y1="370.4" x2="233.8" y2="47.7"/>
+  <line class="joist" x1="250.0" y1="370.4" x2="250.0" y2="47.7"/>
+  <line class="joist" x1="266.2" y1="370.4" x2="266.2" y2="47.7"/>
+  <line class="joist" x1="282.4" y1="370.4" x2="282.4" y2="47.7"/>
+  <line class="joist" x1="298.6" y1="370.4" x2="298.6" y2="47.7"/>
+  <line class="joist" x1="314.8" y1="370.4" x2="314.8" y2="47.7"/>
+  <line class="joist" x1="331.0" y1="370.4" x2="331.0" y2="47.7"/>
+  <line class="joist" x1="347.2" y1="361.2" x2="347.2" y2="47.7"/>
+  <line class="joist" x1="363.4" y1="345.0" x2="363.4" y2="47.7"/>
+  <line class="joist" x1="379.6" y1="338.0" x2="379.6" y2="47.7"/>
+  <line class="joist" x1="395.8" y1="338.0" x2="395.8" y2="47.7"/>
+  <line class="joist" x1="412.0" y1="338.0" x2="412.0" y2="47.7"/>
+  <line class="joist" x1="428.2" y1="338.0" x2="428.2" y2="47.7"/>
+  <line class="joist" x1="444.4" y1="338.0" x2="444.4" y2="47.7"/>
+  <line class="joist" x1="460.6" y1="347.1" x2="460.6" y2="47.7"/>
+  <line class="joist" x1="476.8" y1="363.3" x2="476.8" y2="47.7"/>
+  <line class="joist" x1="493.0" y1="370.4" x2="493.0" y2="56.8"/>
+  <line class="joist" x1="509.2" y1="370.4" x2="509.2" y2="73.0"/>
+  <line class="joist" x1="525.4" y1="370.4" x2="525.4" y2="89.2"/>
+  <line class="joist" x1="539.6" y1="370.4" x2="539.6" y2="103.4"/>
+  <line class="beam-l" x1="134.2" y1="329.9" x2="218.0" y2="329.9"/>
+  <polyline class="beam-l" points="338.1,370.4 370.5,338.0 451.5,338.0 483.9,370.4"/>
+  <polyline class="beam-l" points="540.6,371.7 540.6,104.4 483.9,47.7 192.3,47.7 135.6,104.4 135.6,331.2"/>
+  <rect class="beam" x="143.7" y="324.1" width="388.8" height="6.1"/>
+  <rect class="post" x="148.1" y="323.4" width="7.4" height="7.4"/>
+  <rect class="post" x="272.3" y="323.4" width="7.4" height="7.4"/>
+  <rect class="post" x="396.5" y="323.4" width="7.4" height="7.4"/>
+  <rect class="post" x="520.7" y="323.4" width="7.4" height="7.4"/>
+  <rect class="beam" x="143.7" y="93.3" width="388.8" height="6.1"/>
+  <rect class="post" x="148.1" y="92.6" width="7.4" height="7.4"/>
+  <rect class="post" x="272.3" y="92.6" width="7.4" height="7.4"/>
+  <rect class="post" x="396.5" y="92.6" width="7.4" height="7.4"/>
+  <rect class="post" x="520.7" y="92.6" width="7.4" height="7.4"/>
+  <rect class="block-hatch" x="340.8" y="55.8" width="32.4" height="32.4"/>
+  <line class="breaker" x1="338.1" y1="338.0" x2="338.1" y2="47.7"/>
+  <rect class="deck" x="91.1" y="177.3" width="44.6" height="81.0"/>
+  <line class="thin" x1="120.8" y1="258.3" x2="120.8" y2="177.3"/>
+  <line class="thin" x1="105.9" y1="258.3" x2="105.9" y2="177.3"/>
+  <line class="thin" x1="91.1" y1="258.3" x2="91.1" y2="177.3"/>
+  <g class="dim"><line x1="135.6" y1="28.8" x2="540.6" y2="28.8"/><line x1="135.6" y1="25.8" x2="135.6" y2="31.8"/><line x1="540.6" y1="25.8" x2="540.6" y2="31.8"/></g>
+  <text class="dim-t" x="338.1" y="26.3" text-anchor="middle">25 ft deck</text>
+  <g class="dim"><line x1="483.9" y1="115.2" x2="540.6" y2="115.2"/><line x1="483.9" y1="112.2" x2="483.9" y2="118.2"/><line x1="540.6" y1="112.2" x2="540.6" y2="118.2"/></g>
+  <text class="dim-t" x="512.2" y="123.7" text-anchor="middle">42 cut</text>
+  <g class="dim"><line x1="567.6" y1="371.7" x2="567.6" y2="327.2"/><line x1="564.6" y1="371.7" x2="570.6" y2="371.7"/><line x1="564.6" y1="327.2" x2="570.6" y2="327.2"/></g>
+  <text class="dim-t" x="570.6" y="351.9" text-anchor="start">33</text>
+  <g class="dim"><line x1="567.6" y1="327.2" x2="567.6" y2="96.3"/><line x1="564.6" y1="327.2" x2="570.6" y2="327.2"/><line x1="564.6" y1="96.3" x2="570.6" y2="96.3"/></g>
+  <text class="dim-t" x="570.6" y="214.2" text-anchor="start">14 ft 3 in</text>
+  <g class="dim"><line x1="567.6" y1="96.3" x2="567.6" y2="47.7"/><line x1="564.6" y1="96.3" x2="570.6" y2="96.3"/><line x1="564.6" y1="47.7" x2="570.6" y2="47.7"/></g>
+  <text class="dim-t" x="570.6" y="74.5" text-anchor="start">36</text>
+  <g class="dim"><line x1="618.9" y1="371.7" x2="618.9" y2="47.7"/><line x1="615.9" y1="371.7" x2="621.9" y2="371.7"/><line x1="615.9" y1="47.7" x2="621.9" y2="47.7"/></g>
+  <text class="dim-t" x="621.9" y="212.2" text-anchor="start">20 ft</text>
+  <g class="dim"><line x1="151.8" y1="343.4" x2="276.0" y2="343.4"/><line x1="151.8" y1="340.4" x2="151.8" y2="346.4"/><line x1="276.0" y1="340.4" x2="276.0" y2="346.4"/></g>
+  <text class="dim-t" x="213.9" y="351.9" text-anchor="middle">92</text>
+  <text class="" x="162.6" y="319.1" text-anchor="start">beam S, 3-ply 2x10</text>
+  <text class="" x="162.6" y="112.5" text-anchor="start">beam N, 3-ply 2x10</text>
+  <text class="" x="176.1" y="223.2" text-anchor="start">2x10 joists 12 in oc</text>
+  <text class="" x="343.5" y="223.2" text-anchor="start">breaker board</text>
+  <text class="" x="176.1" y="347.4" text-anchor="middle">chimney</text>
+  <text class="" x="411.0" y="352.8" text-anchor="middle">bay, slider</text>
+  <text class="" x="85.7" y="219.8" text-anchor="end">west stair</text>
+</svg>
+    <figcaption>Framing plan. Two three-ply 2x10 beams 171 in apart, each on 4 6x6 posts at 92 in; 26 2x10 joists at 12 in on centre, cantilevered 33 in toward the house, with doubled headers at the chimney and along the bay's three angled faces; the joists at the cut corners stop on an angled rim. At 25 ft the boards splice once, over a doubled joist under a contrasting breaker board. Solid blocking 24 x 24 in under each umbrella plate. No ledger.</figcaption>
+  </figure>
+  <figure class="fig">
+    <svg viewBox="0 0 597 196" role="img" aria-label="North elevation of the deck: posts on 42 in frost footings under the north beam, fascia and guard across the north side and the two cut corners, and the west stair in profile down to the patio">
+  <text class="lbl" x="4" y="10">Deck, north elevation (looking south)</text>
+  <polygon class="earth" points="6.0,130.2 19.0,130.3 32.0,130.4 45.0,130.4 58.0,130.5 71.0,130.6 84.0,130.7 97.0,130.8 110.0,130.9 123.0,131.0 136.0,131.1 149.0,131.2 162.0,131.3 175.0,131.4 188.0,131.5 201.0,131.6 214.0,131.7 227.0,131.8 240.0,131.8 253.0,131.9 266.0,132.0 279.0,132.1 292.0,132.2 305.0,132.3 318.0,132.4 331.0,132.5 344.0,132.6 357.0,132.7 370.0,132.8 383.0,132.9 396.0,133.0 409.0,133.1 422.0,133.1 435.0,133.2 448.0,133.3 461.0,133.4 474.0,133.5 487.0,133.6 500.0,133.7 513.0,133.8 526.0,133.9 539.0,134.0 552.0,134.1 565.0,134.2 578.0,134.3 591.0,134.4 591.0,189.6 6.0,189.6"/>
+  <rect class="concrete-h" x="151.6" y="128.9" width="15.6" height="54.6"/>
+  <rect class="concrete-h" x="271.2" y="129.8" width="15.6" height="54.6"/>
+  <rect class="concrete-h" x="390.8" y="130.6" width="15.6" height="54.6"/>
+  <rect class="concrete-h" x="510.4" y="131.5" width="15.6" height="54.6"/>
+  <polygon class="skirt" points="143.8,100.5 533.8,100.5 533.8,133.9 143.8,131.2"/>
+  <line class="thin" x1="143.8" y1="108.2" x2="533.8" y2="108.2"/>
+  <line class="thin" x1="143.8" y1="115.8" x2="533.8" y2="115.8"/>
+  <line class="thin" x1="143.8" y1="123.5" x2="533.8" y2="123.5"/>
+  <line class="thin" x1="143.8" y1="131.1" x2="533.8" y2="131.1"/>
+  <rect class="hidden" x="155.8" y="105.8" width="7.1" height="23.2"/>
+  <rect class="hidden" x="275.4" y="105.8" width="7.1" height="24.0"/>
+  <rect class="hidden" x="395.0" y="105.8" width="7.1" height="24.9"/>
+  <rect class="hidden" x="514.6" y="105.8" width="7.1" height="25.7"/>
+  <rect class="deck" x="142.8" y="80.4" width="391.9" height="20.1"/>
+  <line class="thin" x1="198.4" y1="100.5" x2="198.4" y2="80.4"/>
+  <line class="thin" x1="479.2" y1="100.5" x2="479.2" y2="80.4"/>
+  <rect class="deck" x="140.6" y="31.6" width="6.5" height="48.8"/>
+  <rect class="deck" x="195.2" y="31.6" width="6.5" height="48.8"/>
+  <rect class="deck" x="475.9" y="31.6" width="6.5" height="48.8"/>
+  <rect class="deck" x="530.6" y="31.6" width="6.5" height="48.8"/>
+  <rect class="deck" x="265.4" y="31.6" width="6.5" height="48.8"/>
+  <rect class="deck" x="335.6" y="31.6" width="6.5" height="48.8"/>
+  <rect class="deck" x="405.8" y="31.6" width="6.5" height="48.8"/>
+  <rect class="deck" x="143.8" y="33.6" width="390.0" height="1.9"/>
+  <line class="baluster" x1="146.9" y1="73.2" x2="146.9" y2="35.5"/>
+  <line class="baluster" x1="153.1" y1="73.2" x2="153.1" y2="35.5"/>
+  <line class="baluster" x1="159.2" y1="73.2" x2="159.2" y2="35.5"/>
+  <line class="baluster" x1="165.4" y1="73.2" x2="165.4" y2="35.5"/>
+  <line class="baluster" x1="171.6" y1="73.2" x2="171.6" y2="35.5"/>
+  <line class="baluster" x1="177.8" y1="73.2" x2="177.8" y2="35.5"/>
+  <line class="baluster" x1="183.9" y1="73.2" x2="183.9" y2="35.5"/>
+  <line class="baluster" x1="190.1" y1="73.2" x2="190.1" y2="35.5"/>
+  <line class="baluster" x1="196.3" y1="73.2" x2="196.3" y2="35.5"/>
+  <line class="baluster" x1="202.5" y1="73.2" x2="202.5" y2="35.5"/>
+  <line class="baluster" x1="208.6" y1="73.2" x2="208.6" y2="35.5"/>
+  <line class="baluster" x1="214.8" y1="73.2" x2="214.8" y2="35.5"/>
+  <line class="baluster" x1="221.0" y1="73.2" x2="221.0" y2="35.5"/>
+  <line class="baluster" x1="227.2" y1="73.2" x2="227.2" y2="35.5"/>
+  <line class="baluster" x1="233.3" y1="73.2" x2="233.3" y2="35.5"/>
+  <line class="baluster" x1="239.5" y1="73.2" x2="239.5" y2="35.5"/>
+  <line class="baluster" x1="245.7" y1="73.2" x2="245.7" y2="35.5"/>
+  <line class="baluster" x1="251.9" y1="73.2" x2="251.9" y2="35.5"/>
+  <line class="baluster" x1="258.0" y1="73.2" x2="258.0" y2="35.5"/>
+  <line class="baluster" x1="264.2" y1="73.2" x2="264.2" y2="35.5"/>
+  <line class="baluster" x1="270.4" y1="73.2" x2="270.4" y2="35.5"/>
+  <line class="baluster" x1="276.6" y1="73.2" x2="276.6" y2="35.5"/>
+  <line class="baluster" x1="282.7" y1="73.2" x2="282.7" y2="35.5"/>
+  <line class="baluster" x1="288.9" y1="73.2" x2="288.9" y2="35.5"/>
+  <line class="baluster" x1="295.1" y1="73.2" x2="295.1" y2="35.5"/>
+  <line class="baluster" x1="301.3" y1="73.2" x2="301.3" y2="35.5"/>
+  <line class="baluster" x1="307.4" y1="73.2" x2="307.4" y2="35.5"/>
+  <line class="baluster" x1="313.6" y1="73.2" x2="313.6" y2="35.5"/>
+  <line class="baluster" x1="319.8" y1="73.2" x2="319.8" y2="35.5"/>
+  <line class="baluster" x1="326.0" y1="73.2" x2="326.0" y2="35.5"/>
+  <line class="baluster" x1="332.1" y1="73.2" x2="332.1" y2="35.5"/>
+  <line class="baluster" x1="338.3" y1="73.2" x2="338.3" y2="35.5"/>
+  <line class="baluster" x1="344.5" y1="73.2" x2="344.5" y2="35.5"/>
+  <line class="baluster" x1="350.7" y1="73.2" x2="350.7" y2="35.5"/>
+  <line class="baluster" x1="356.8" y1="73.2" x2="356.8" y2="35.5"/>
+  <line class="baluster" x1="363.0" y1="73.2" x2="363.0" y2="35.5"/>
+  <line class="baluster" x1="369.2" y1="73.2" x2="369.2" y2="35.5"/>
+  <line class="baluster" x1="375.4" y1="73.2" x2="375.4" y2="35.5"/>
+  <line class="baluster" x1="381.5" y1="73.2" x2="381.5" y2="35.5"/>
+  <line class="baluster" x1="387.7" y1="73.2" x2="387.7" y2="35.5"/>
+  <line class="baluster" x1="393.9" y1="73.2" x2="393.9" y2="35.5"/>
+  <line class="baluster" x1="400.1" y1="73.2" x2="400.1" y2="35.5"/>
+  <line class="baluster" x1="406.2" y1="73.2" x2="406.2" y2="35.5"/>
+  <line class="baluster" x1="412.4" y1="73.2" x2="412.4" y2="35.5"/>
+  <line class="baluster" x1="418.6" y1="73.2" x2="418.6" y2="35.5"/>
+  <line class="baluster" x1="424.8" y1="73.2" x2="424.8" y2="35.5"/>
+  <line class="baluster" x1="430.9" y1="73.2" x2="430.9" y2="35.5"/>
+  <line class="baluster" x1="437.1" y1="73.2" x2="437.1" y2="35.5"/>
+  <line class="baluster" x1="443.3" y1="73.2" x2="443.3" y2="35.5"/>
+  <line class="baluster" x1="449.5" y1="73.2" x2="449.5" y2="35.5"/>
+  <line class="baluster" x1="455.6" y1="73.2" x2="455.6" y2="35.5"/>
+  <line class="baluster" x1="461.8" y1="73.2" x2="461.8" y2="35.5"/>
+  <line class="baluster" x1="468.0" y1="73.2" x2="468.0" y2="35.5"/>
+  <line class="baluster" x1="474.2" y1="73.2" x2="474.2" y2="35.5"/>
+  <line class="baluster" x1="480.3" y1="73.2" x2="480.3" y2="35.5"/>
+  <line class="baluster" x1="486.5" y1="73.2" x2="486.5" y2="35.5"/>
+  <line class="baluster" x1="492.7" y1="73.2" x2="492.7" y2="35.5"/>
+  <line class="baluster" x1="498.9" y1="73.2" x2="498.9" y2="35.5"/>
+  <line class="baluster" x1="505.0" y1="73.2" x2="505.0" y2="35.5"/>
+  <line class="baluster" x1="511.2" y1="73.2" x2="511.2" y2="35.5"/>
+  <line class="baluster" x1="517.4" y1="73.2" x2="517.4" y2="35.5"/>
+  <line class="baluster" x1="523.6" y1="73.2" x2="523.6" y2="35.5"/>
+  <line class="baluster" x1="529.7" y1="73.2" x2="529.7" y2="35.5"/>
+  <polygon class="deck" points="143.8,80.4 143.8,89.4 129.5,89.4 129.5,98.5 115.2,98.5 115.2,107.5 100.9,107.5 100.9,116.5 143.8,116.5"/>
+  <rect class="flag" x="19.0" y="116.5" width="124.8" height="10.4"/>
+  <g class="dim"><line x1="211.4" y1="131.2" x2="211.4" y2="80.4"/><line x1="208.4" y1="131.2" x2="214.4" y2="131.2"/><line x1="208.4" y1="80.4" x2="214.4" y2="80.4"/></g>
+  <text class="dim-t" x="214.4" y="108.3" text-anchor="start">39</text>
+  <g class="dim"><line x1="466.2" y1="133.9" x2="466.2" y2="80.4"/><line x1="463.2" y1="133.9" x2="469.2" y2="133.9"/><line x1="463.2" y1="80.4" x2="469.2" y2="80.4"/></g>
+  <text class="dim-t" x="463.2" y="109.7" text-anchor="end">41</text>
+  <g class="dim"><line x1="250.4" y1="80.4" x2="250.4" y2="33.6"/><line x1="247.4" y1="80.4" x2="253.4" y2="80.4"/><line x1="247.4" y1="33.6" x2="253.4" y2="33.6"/></g>
+  <text class="dim-t" x="253.4" y="59.5" text-anchor="start">36 guard</text>
+  <g class="dim"><line x1="292.0" y1="184.4" x2="292.0" y2="129.8"/><line x1="289.0" y1="184.4" x2="295.0" y2="184.4"/><line x1="289.0" y1="129.8" x2="295.0" y2="129.8"/></g>
+  <text class="dim-t" x="295.0" y="159.6" text-anchor="start">42 frost</text>
+  <text class="" x="122.4" y="72.6" text-anchor="middle">4 risers</text>
+  <text class="" x="32.0" y="132.1" text-anchor="start">patio</text>
+  <text class="" x="171.1" y="96.0" text-anchor="middle">cut</text>
+  <text class="" x="506.5" y="96.0" text-anchor="middle">cut</text>
+  <text class="" x="338.8" y="118.5" text-anchor="middle">vented composite skirt</text>
+</svg>
+    <figcaption>North elevation, looking at the house. The deck is 39 in above grade at its northwest corner and 41 in at the northeast. Posts stand on 12 in concrete piers 42 in deep. The west stair is 4 risers of 6.95 in with 11 in treads, the only way down.</figcaption>
+  </figure>
+  <figure class="fig"><svg viewBox="0 0 882 426" role="img" aria-label="Typical north-south section of the deck: freestanding, the south beam 33 in off the house with the joists cantilevering toward the wall, the north beam 3 ft in from the rim, 6x6 posts on 12 in piers 42 in deep, composite boards and a 36 in guard, the stone walkway beyond">
+  <text class="lbl" x="4" y="10">Deck, typical section between the chimney and the bay, looking west</text>
+  <polygon class="earth" points="6.0,234.6 36.0,236.1 66.0,237.6 96.0,239.1 126.0,240.6 156.0,242.1 186.0,243.6 216.0,245.1 246.0,246.6 276.0,248.1 306.0,249.6 336.0,251.1 366.0,252.6 396.0,254.1 426.0,255.6 456.0,257.1 486.0,258.6 516.0,260.1 546.0,261.6 576.0,263.1 606.0,264.6 636.0,266.1 666.0,267.6 696.0,269.1 726.0,270.6 756.0,272.1 786.0,273.6 816.0,275.1 846.0,276.6 876.0,278.1 876.0,420.0 6.0,420.0"/>
+  <rect class="house" x="6.0" y="18.0" width="90.0" height="221.1"/>
+  <rect class="metal" x="6.0" y="151.5" width="90.0" height="1.5"/>
+  <rect class="concrete" x="177.0" y="244.1" width="36.0" height="126.0"/>
+  <rect class="frame" x="186.8" y="214.5" width="16.5" height="29.6"/>
+  <rect class="beam" x="188.2" y="186.8" width="13.5" height="27.8"/>
+  <rect class="concrete" x="690.0" y="269.7" width="36.0" height="126.0"/>
+  <rect class="frame" x="699.8" y="214.5" width="16.5" height="55.2"/>
+  <rect class="beam" x="701.2" y="186.8" width="13.5" height="27.8"/>
+  <rect class="frame" x="99.0" y="159.0" width="712.5" height="27.8"/>
+  <rect class="frame" x="811.5" y="159.0" width="4.5" height="27.8"/>
+  <rect class="deck" x="816.0" y="156.0" width="2.2" height="46.5"/>
+  <rect class="deck" x="97.5" y="156.0" width="718.5" height="3.0"/>
+  <rect class="deck" x="801.0" y="45.0" width="15.0" height="111.0"/>
+  <rect class="flag" x="818.2" y="270.6" width="105.8" height="12.9"/>
+  <g class="dim"><line x1="159.0" y1="370.1" x2="159.0" y2="244.1"/><line x1="156.0" y1="370.1" x2="162.0" y2="370.1"/><line x1="156.0" y1="244.1" x2="162.0" y2="244.1"/></g>
+  <text class="dim-t" x="156.0" y="309.6" text-anchor="end">42</text>
+  <g class="dim"><line x1="396.0" y1="186.8" x2="396.0" y2="159.0"/><line x1="393.0" y1="186.8" x2="399.0" y2="186.8"/><line x1="393.0" y1="159.0" x2="399.0" y2="159.0"/></g>
+  <text class="dim-t" x="399.0" y="175.4" text-anchor="start">9.25 joist</text>
+  <g class="dim"><line x1="834.0" y1="156.0" x2="834.0" y2="48.0"/><line x1="831.0" y1="156.0" x2="837.0" y2="156.0"/><line x1="831.0" y1="48.0" x2="837.0" y2="48.0"/></g>
+  <text class="dim-t" x="837.0" y="104.5" text-anchor="start">36</text>
+  <g class="dim"><line x1="96.0" y1="129.0" x2="195.0" y2="129.0"/><line x1="96.0" y1="126.0" x2="96.0" y2="132.0"/><line x1="195.0" y1="126.0" x2="195.0" y2="132.0"/></g>
+  <text class="dim-t" x="145.5" y="126.5" text-anchor="middle">33 cant.</text>
+  <g class="dim"><line x1="195.0" y1="129.0" x2="708.0" y2="129.0"/><line x1="195.0" y1="126.0" x2="195.0" y2="132.0"/><line x1="708.0" y1="126.0" x2="708.0" y2="132.0"/></g>
+  <text class="dim-t" x="451.5" y="126.5" text-anchor="middle">14 ft 3 in span</text>
+  <g class="dim"><line x1="708.0" y1="129.0" x2="816.0" y2="129.0"/><line x1="708.0" y1="126.0" x2="708.0" y2="132.0"/><line x1="816.0" y1="126.0" x2="816.0" y2="132.0"/></g>
+  <text class="dim-t" x="762.0" y="126.5" text-anchor="middle">36</text>
+  <text class="" x="219.0" y="334.1" text-anchor="start">12 in pier</text>
+  <text class="" x="684.0" y="239.7" text-anchor="end">6x6 post</text>
+  <text class="" x="108.0" y="96.0" text-anchor="start">1 in below threshold, no ledger</text>
+  <text class="" x="870.0" y="293.1" text-anchor="middle">walkway</text>
+</svg><figcaption>Typical section, looking west. The south beam stands 33 in off the wall, clear of the chimney and the bay; the north beam sits 3 ft in from the rim.</figcaption></figure>
+  <figure class="fig"><svg viewBox="0 0 481 234" role="img" aria-label="Side view of the west stair: four risers from the deck down onto the flagstone patio">
+  <text class="lbl" x="4" y="10">West stair, side view looking north</text>
+  <polygon class="earth" points="6.0,209.5 26.0,209.6 46.0,209.8 66.0,209.9 86.0,210.0 106.0,210.2 126.0,210.3 146.0,210.5 166.0,210.6 186.0,210.8 206.0,210.9 226.0,211.0 246.0,211.2 266.0,211.3 286.0,211.5 306.0,211.6 326.0,211.8 346.0,211.9 366.0,212.0 371.0,228.0 6.0,228.0"/>
+  <rect class="base" x="6.0" y="201.9" width="160.0" height="30.0"/>
+  <rect class="dust" x="6.0" y="196.9" width="160.0" height="5.0"/>
+  <rect class="flag" x="6.0" y="186.9" width="160.0" height="10.0"/>
+  <polygon class="deck" points="321.0,48.0 321.0,82.7 266.0,82.7 266.0,117.5 211.0,117.5 211.0,152.2 156.0,152.2 156.0,186.9 321.0,186.9"/>
+  <rect class="frame" x="321.0" y="48.0" width="40.0" height="51.2"/>
+  <line class="hidden" x1="321.0" y1="93.0" x2="166.0" y2="181.9"/>
+  <g class="dim"><line x1="381.0" y1="186.9" x2="381.0" y2="48.0"/><line x1="378.0" y1="186.9" x2="384.0" y2="186.9"/><line x1="378.0" y1="48.0" x2="384.0" y2="48.0"/></g>
+  <text class="dim-t" x="384.0" y="120.0" text-anchor="start">4 x 6.95 = 27.8</text>
+  <g class="dim"><line x1="156.0" y1="33.0" x2="321.0" y2="33.0"/><line x1="156.0" y1="30.0" x2="156.0" y2="36.0"/><line x1="321.0" y1="30.0" x2="321.0" y2="36.0"/></g>
+  <text class="dim-t" x="238.5" y="30.5" text-anchor="middle">3 x 11 = 33 run</text>
+  <text class="" x="16.0" y="176.9" text-anchor="start">patio</text>
+</svg><figcaption>The west stair, 5 ft wide, three stringers, closed composite risers, a graspable handrail on at least one side. It lands on the patio.</figcaption></figure>
+  <div class="two">
+    <figure class="fig render"><img src="model/render-deck.png?v=691c9fc7" alt="Render of the deck from the northeast, furnished"><figcaption>Model, furnished, from the northeast: the cut corners, dining for eight by the slider, the griddle and smoker on the east rail, both umbrellas open.</figcaption></figure>
+    <figure class="fig render"><img src="model/render-cooking.png?v=66da286e" alt="Render of the Blackstone griddle and the smoker on the deck"><figcaption>Model: the Blackstone and the smoker, backs to the east rail, the table beyond the aisle.</figcaption></figure>
+    <figure class="fig render"><img src="model/render-framing.png?v=a108a66e" alt="Render of the deck framing without boards"><figcaption>Model, framing only: posts, beams, joists and the stair blocks.</figcaption></figure>
+  </div>
+  <div class="two">
+    <div class="block">
+      <h3>Scope for the deck bid</h3>
+      <ul>
+        <li>Demolish and haul away the existing deck, lattice skirting, rock bed, paver fire ring and edging.</li>
+        <li>Permit, drawings, footing, framing and final inspections.</li>
+        <li>8 posts on 12 in piers 42 in deep plus stair footings; 6x6 ground-contact posts; three-ply 2x10 beams; 2x10 joists at 12 in on centre with hangers and ties; joist tape.</li>
+        <li>Composite decking about 1155 lin ft (73 16 ft boards equivalent), a light tan or grey, hidden fasteners, a breaker board at the splice, matching fascia.</li>
+        <li>36 in composite guard with black aluminium balusters, about 53 lin ft (9 6 ft sections) including the two cut corners, handrails on the stair.</li>
+        <li>Blocking and one owner-supplied umbrella plate, bolted through.</li>
+        <li>Skirt: horizontal composite boards matching the fascia on every open side, 3/8 in gaps for air (about 112 sq ft, 251 lin ft of board), a 3 ft hinged access panel on the east side.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Things to ask each bidder</h3>
+      <ul>
+        <li>Piers or helical piles, and why. Helical piles avoid eight holes in wet clay and are inspected by torque.</li>
+        <li>Board brand and line, colour, and the warranty on boards and fasteners.</li>
+        <li>How they hold the surface 1 in under the slider threshold.</li>
+        <li>Who calls MISS DIG and who pulls the permit.</li>
+        <li>A price per added foot if revision B changes the size.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 04 -->
+<section class="sheet site" id="s4">
+  <header><h2>Patio, fire ring, herbs and AC screen <span class="tag site">contractor</span> <span class="tag diy">owner</span></h2><span class="num">Sheet 04 of 09</span></header>
+  <p>A 16 ft square of dry-laid buff flagstone off the deck's west side, and a 14 ft round apron centred on its northwest corner with the 52 in stone fire ring at the centre: about 357 sq ft together. The same stone, 3 ft wide, runs around the deck's north and east sides and its cut corners: about 141 sq ft more. 498 sq ft in all.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 678 662" role="img" aria-label="Plan of the patio: the 16 ft square of irregular buff flagstone off the deck's west side, a 14 ft round apron centred on its northwest corner with the stone fire ring at the centre and six chairs, the stone raised herb bed along the house, the lattice screen around the AC, the stone seat wall around the ring's north half and along the patio's north edge, the sofa set, and the west stair from the deck">
+  <text class="lbl" x="4" y="10">Patio, fire ring, herb bed and AC screen, north up</text>
+  <rect class="grass" x="6.0" y="18.0" width="666.0" height="637.2"/>
+  <rect class="house" x="6.0" y="630.0" width="666.0" height="25.2"/>
+  <rect class="house" x="600.0" y="576.0" width="72.0" height="54.0"/>
+  <rect class="metal" x="85.2" y="558.0" width="68.4" height="61.2"/>
+  <polyline class="lattice" points="42.0,514.8 196.8,514.8 196.8,619.2"/>
+  <rect class="post" x="38.4" y="511.2" width="7.2" height="7.2"/>
+  <rect class="post" x="193.2" y="511.2" width="7.2" height="7.2"/>
+  <rect class="post" x="193.2" y="615.6" width="7.2" height="7.2"/>
+  <rect class="ring" x="207.6" y="568.8" width="385.2" height="54.0"/>
+  <rect class="herb" x="218.4" y="579.6" width="363.6" height="32.4"/>
+  <circle class="flag" cx="254.4" cy="219.6" r="151.2"/>
+  <rect class="flag-nostroke" x="254.4" y="219.6" width="345.6" height="345.6"/>
+  <polygon class="stone-j" points="135.0,307.7 140.0,261.5 108.8,260.2 114.7,277.5 123.5,295.2 131.5,307.3"/>
+  <polygon class="stone-j" points="108.4,258.8 140.0,260.1 148.5,221.4 103.9,219.0 103.9,229.8 104.5,239.3 108.4,258.7"/>
+  <polygon class="stone-j" points="103.9,217.7 148.6,220.2 143.9,183.7 109.2,177.9 108.4,180.5 104.5,199.9 103.9,208.9"/>
+  <polygon class="stone-j" points="143.9,182.4 144.4,146.4 119.8,151.4 114.7,161.7 109.6,176.8"/>
+  <polygon class="stone-j" points="172.6,289.1 136.3,309.0 135.8,313.2 147.5,326.5 162.4,339.6 171.3,345.5 186.9,346.8"/>
+  <polygon class="stone-j" points="136.0,307.7 172.2,287.7 178.4,249.2 141.3,261.5"/>
+  <polygon class="stone-j" points="141.3,260.2 178.1,248.1 176.5,231.5 149.8,221.6"/>
+  <polygon class="stone-j" points="149.9,220.1 176.9,230.2 182.0,177.4 145.3,183.7"/>
+  <polygon class="stone-j" points="145.3,182.4 181.8,176.2 173.6,154.9 145.8,146.5"/>
+  <polygon class="stone-j" points="145.6,145.0 173.9,153.5 175.3,96.8 166.9,96.6 162.4,99.6 147.5,112.7 141.2,119.9"/>
+  <polygon class="stone-j" points="220.4,345.3 188.3,348.0 184.7,353.4 196.5,359.3 215.3,365.6 221.7,366.9"/>
+  <polygon class="stone-j" points="188.0,346.5 220.5,344.0 215.4,304.9 173.6,289.0"/>
+  <polygon class="stone-j" points="173.7,287.7 215.5,303.5 212.0,249.4 179.5,249.2"/>
+  <polygon class="stone-j" points="179.8,248.0 211.8,248.1 224.0,226.2 178.2,231.4"/>
+  <polygon class="stone-j" points="183.4,176.1 226.0,189.0 215.0,137.5 175.2,154.6"/>
+  <polygon class="stone-j" points="174.9,153.6 214.6,136.2 220.2,116.1 176.3,96.7"/>
+  <polygon class="stone-j" points="176.7,95.7 220.6,115.0 227.9,71.0 215.3,73.6 196.5,79.9 179.3,88.4"/>
+  <polygon class="stone-j" points="254.4,370.8 257.4,370.6 254.6,326.2 221.9,345.2 223.0,367.2 234.7,369.5"/>
+  <polygon class="stone-j" points="221.6,343.9 254.1,325.0 255.1,296.7 216.8,304.8"/>
+  <polygon class="stone-j" points="216.6,303.6 255.0,295.3 263.6,267.1 213.2,249.4"/>
+  <polygon class="stone-j" points="227.1,188.8 262.7,188.1 248.6,140.2 216.0,137.4"/>
+  <polygon class="stone-j" points="216.3,136.3 248.3,138.6 265.3,114.0 221.9,116.3"/>
+  <polygon class="stone-j" points="265.5,112.9 265.8,69.1 265.2,69.1 243.0,69.1 234.7,69.7 229.3,70.8 221.8,115.1"/>
+  <polygon class="stone-j" points="254.4,564.6 302.3,564.6 295.9,529.4 254.4,522.0"/>
+  <polygon class="stone-j" points="254.4,520.9 295.9,528.2 284.5,499.9 254.4,494.4"/>
+  <polygon class="stone-j" points="254.4,493.1 284.7,498.5 304.1,457.1 254.4,460.0"/>
+  <polygon class="stone-j" points="254.4,433.7 254.4,459.0 304.1,456.0 298.3,418.6 258.6,418.9"/>
+  <polygon class="stone-j" points="258.6,417.6 298.3,417.2 301.1,372.6 259.1,377.7"/>
+  <polygon class="stone-j" points="259.0,376.3 300.9,371.4 288.8,344.0 255.5,326.1"/>
+  <polygon class="stone-j" points="255.9,325.1 289.1,342.5 298.5,308.0 256.3,296.7"/>
+  <polygon class="stone-j" points="256.5,295.5 298.7,306.9 287.7,259.0 265.1,267.5"/>
+  <polygon class="stone-j" points="263.7,187.9 288.4,173.0 286.7,156.4 249.6,140.0"/>
+  <polygon class="stone-j" points="249.8,139.0 287.0,155.1 288.4,108.6 266.5,114.4"/>
+  <polygon class="stone-j" points="267.4,69.3 266.8,69.3 266.5,112.7 288.5,107.1 284.2,71.7 274.1,69.7"/>
+  <polygon class="stone-j" points="303.5,564.4 324.6,564.4 328.9,526.1 297.3,529.5"/>
+  <polygon class="stone-j" points="297.2,528.0 328.7,524.8 323.5,492.7 286.0,499.8"/>
+  <polygon class="stone-j" points="285.9,498.7 323.6,491.1 340.8,440.3 305.4,457.4"/>
+  <polygon class="stone-j" points="305.4,455.7 340.6,439.2 335.5,408.7 299.8,418.4"/>
+  <polygon class="stone-j" points="299.6,417.2 335.3,407.4 333.7,382.9 302.2,372.7"/>
+  <polygon class="stone-j" points="302.3,371.2 333.7,381.7 321.3,347.7 290.3,343.9"/>
+  <polygon class="stone-j" points="290.3,342.7 321.5,346.1 341.2,293.8 300.0,308.3"/>
+  <polygon class="stone-j" points="299.9,306.8 341.0,292.7 342.2,270.9 288.8,258.7"/>
+  <polygon class="stone-j" points="302.8,219.6 288.9,257.7 342.5,269.8 335.0,222.4 304.6,219.6"/>
+  <polygon class="stone-j" points="302.9,217.9 335.0,221.0 337.0,187.7 289.9,174.1"/>
+  <polygon class="stone-j" points="290.2,173.3 337.1,186.6 343.1,155.0 288.4,156.3"/>
+  <polygon class="stone-j" points="288.2,155.2 343.2,154.0 333.0,102.0 289.7,108.5"/>
+  <polygon class="stone-j" points="332.8,100.6 335.0,92.0 330.0,88.7 312.3,79.9 293.5,73.6 285.4,71.9 289.7,107.2"/>
+  <polygon class="stone-j" points="325.8,564.6 375.4,564.6 374.7,520.9 330.2,525.9"/>
+  <polygon class="stone-j" points="330.2,524.7 374.6,519.8 379.4,492.6 324.9,492.4"/>
+  <polygon class="stone-j" points="324.8,491.3 379.6,491.5 374.4,442.1 341.9,440.4"/>
+  <polygon class="stone-j" points="342.2,438.9 374.3,440.7 378.4,414.7 336.8,408.6"/>
+  <polygon class="stone-j" points="336.8,407.4 378.5,413.6 376.8,366.5 335.3,382.8"/>
+  <polygon class="stone-j" points="335.0,381.6 376.5,365.5 371.8,333.8 322.7,347.3"/>
+  <polygon class="stone-j" points="322.5,346.3 371.6,332.5 367.4,296.5 342.2,294.0"/>
+  <polygon class="stone-j" points="342.7,292.5 367.4,295.1 372.5,269.7 343.8,271.1"/>
+  <polygon class="stone-j" points="336.3,222.3 343.5,269.6 372.7,268.3 373.3,219.6 345.1,219.6"/>
+  <polygon class="stone-j" points="336.3,221.0 373.1,209.4 378.7,178.5 338.6,187.7"/>
+  <polygon class="stone-j" points="338.4,186.5 378.6,177.3 367.8,140.3 344.7,155.1"/>
+  <polygon class="stone-j" points="369.9,122.4 361.3,112.7 352.8,105.2 334.2,101.9 344.3,153.7 367.5,138.8"/>
+  <polygon class="stone-j" points="376.8,564.5 399.0,564.3 413.8,538.1 375.9,521.1"/>
+  <polygon class="stone-j" points="376.2,519.8 414.1,537.0 410.7,490.0 380.8,492.9"/>
+  <polygon class="stone-j" points="380.6,491.3 410.6,488.5 402.3,446.9 375.5,442.1"/>
+  <polygon class="stone-j" points="375.7,440.8 402.2,445.2 408.2,410.4 379.8,414.9"/>
+  <polygon class="stone-j" points="379.8,413.5 408.3,409.0 417.7,380.2 377.9,366.6"/>
+  <polygon class="stone-j" points="378.1,365.2 417.9,379.1 397.3,341.3 373.0,333.8"/>
+  <polygon class="stone-j" points="373.1,332.4 397.3,339.6 412.2,305.0 368.6,296.5"/>
+  <polygon class="stone-j" points="368.8,295.2 412.3,303.8 401.0,251.0 374.0,269.6"/>
+  <polygon class="stone-j" points="374.3,219.6 373.7,268.3 400.7,249.5 411.8,223.1 401.1,219.6"/>
+  <polygon class="stone-j" points="401.1,183.6 380.0,178.6 374.8,209.5 405.6,219.7 405.6,219.6 404.3,199.9"/>
+  <polygon class="stone-j" points="380.1,177.2 400.8,182.3 400.4,180.5 394.1,161.7 385.8,144.9 368.8,140.1"/>
+  <polygon class="stone-j" points="400.2,564.7 455.1,564.7 444.0,525.9 415.4,538.3"/>
+  <polygon class="stone-j" points="415.1,536.9 443.7,524.5 442.3,497.8 411.8,490.0"/>
+  <polygon class="stone-j" points="411.8,488.4 442.4,496.3 446.5,443.6 403.4,446.7"/>
+  <polygon class="stone-j" points="403.5,445.4 446.3,442.2 454.4,408.0 409.6,410.3"/>
+  <polygon class="stone-j" points="409.7,409.2 454.3,407.0 456.7,379.8 419.3,380.3"/>
+  <polygon class="stone-j" points="419.0,378.9 456.7,378.7 439.1,337.9 398.5,341.0"/>
+  <polygon class="stone-j" points="398.5,339.9 438.9,336.4 441.3,304.9 413.5,305.3"/>
+  <polygon class="stone-j" points="413.4,303.7 441.5,303.5 444.5,257.3 402.0,250.9"/>
+  <polygon class="stone-j" points="402.2,249.8 444.5,255.9 446.2,226.0 413.2,223.3"/>
+  <polygon class="stone-j" points="456.4,564.4 489.4,564.6 486.3,532.0 445.2,525.7"/>
+  <polygon class="stone-j" points="445.3,524.6 486.3,530.7 491.2,500.2 443.7,497.6"/>
+  <polygon class="stone-j" points="443.6,496.4 491.4,499.1 476.5,452.4 447.5,443.6"/>
+  <polygon class="stone-j" points="447.7,442.2 476.6,450.8 474.0,405.6 455.5,408.4"/>
+  <polygon class="stone-j" points="455.7,406.8 473.9,404.0 478.6,383.0 458.0,380.0"/>
+  <polygon class="stone-j" points="457.7,378.3 478.8,381.6 474.6,333.8 440.3,337.7"/>
+  <polygon class="stone-j" points="440.2,336.4 474.3,332.3 483.4,295.4 442.8,304.8"/>
+  <polygon class="stone-j" points="442.6,303.5 483.4,294.1 488.3,253.1 445.8,257.3"/>
+  <polygon class="stone-j" points="447.8,226.0 445.9,256.0 488.1,251.9 494.7,219.6 483.9,219.6"/>
+  <polygon class="stone-j" points="490.7,564.4 517.8,564.4 519.5,523.2 487.7,532.0"/>
+  <polygon class="stone-j" points="487.6,530.7 519.3,521.8 523.5,486.9 492.8,500.4"/>
+  <polygon class="stone-j" points="492.5,499.0 523.3,485.6 528.7,453.6 477.8,452.1"/>
+  <polygon class="stone-j" points="477.7,451.0 528.8,452.4 529.6,403.7 475.2,405.4"/>
+  <polygon class="stone-j" points="475.3,404.3 529.4,402.6 513.6,365.0 480.2,382.6"/>
+  <polygon class="stone-j" points="479.9,381.6 513.3,363.7 527.8,344.7 475.7,333.6"/>
+  <polygon class="stone-j" points="475.8,332.5 528.0,343.7 521.9,295.5 484.7,295.4"/>
+  <polygon class="stone-j" points="484.9,294.1 521.9,294.1 532.1,262.7 489.5,253.2"/>
+  <polygon class="stone-j" points="489.7,251.9 532.4,261.6 525.6,219.6 496.1,219.6"/>
+  <polygon class="stone-j" points="519.1,564.6 564.3,564.6 565.9,534.0 520.7,523.2"/>
+  <polygon class="stone-j" points="520.8,521.9 566.2,532.8 570.3,478.4 524.7,486.8"/>
+  <polygon class="stone-j" points="524.8,485.6 570.1,477.3 572.0,450.3 530.2,453.5"/>
+  <polygon class="stone-j" points="530.1,452.3 572.0,449.1 567.7,417.0 530.8,403.8"/>
+  <polygon class="stone-j" points="530.9,402.4 567.9,415.7 570.5,366.6 514.9,364.8"/>
+  <polygon class="stone-j" points="515.0,363.9 570.3,365.6 557.5,346.0 529.4,345.0"/>
+  <polygon class="stone-j" points="529.1,343.6 557.8,344.7 559.9,297.3 523.1,295.6"/>
+  <polygon class="stone-j" points="523.3,294.3 559.8,295.8 567.2,260.4 533.6,263.0"/>
+  <polygon class="stone-j" points="533.4,261.4 567.3,259.1 552.4,219.6 526.7,219.6"/>
+  <polygon class="stone-j" points="565.7,564.5 599.3,564.5 599.4,527.3 567.5,534.2"/>
+  <polygon class="stone-j" points="567.3,532.8 599.4,525.8 599.4,484.4 571.4,478.6"/>
+  <polygon class="stone-j" points="571.6,477.1 599.5,482.9 599.5,443.5 573.4,450.4"/>
+  <polygon class="stone-j" points="573.2,448.9 599.3,442.1 599.5,408.8 569.2,417.0"/>
+  <polygon class="stone-j" points="568.9,415.6 599.4,407.3 599.5,364.7 571.7,366.8"/>
+  <polygon class="stone-j" points="571.8,365.2 599.2,363.4 599.3,336.7 559.2,345.8"/>
+  <polygon class="stone-j" points="558.9,344.7 599.3,335.4 599.5,288.2 561.1,297.2"/>
+  <polygon class="stone-j" points="561.2,295.9 599.2,287.0 599.2,269.4 568.5,260.5"/>
+  <polygon class="stone-j" points="553.5,219.6 568.5,259.0 599.4,268.2 599.2,228.2 568.6,219.6"/>
+  <circle class="ring" cx="254.4" cy="219.6" r="46.8"/>
+  <circle class="pit" cx="254.4" cy="219.6" r="32.4"/>
+  <circle class="chair" cx="157.8" cy="275.4" r="19.8"/>
+  <circle class="chair" cx="254.4" cy="331.2" r="19.8"/>
+  <circle class="chair" cx="351.0" cy="275.4" r="19.8"/>
+  <polygon class="ring" points="405.6,219.6 405.0,206.4 403.3,193.3 400.4,180.5 396.5,167.9 391.4,155.7 385.3,144.0 378.3,132.9 370.2,122.4 361.3,112.7 351.6,103.8 341.1,95.7 330.0,88.7 318.3,82.6 306.1,77.5 293.5,73.6 280.7,70.7 267.6,69.0 254.4,68.4 241.2,69.0 228.1,70.7 215.3,73.6 202.7,77.5 190.5,82.6 178.8,88.7 167.7,95.7 157.2,103.8 147.5,112.7 138.6,122.4 130.5,132.9 123.5,144.0 117.4,155.7 112.3,167.9 108.4,180.5 105.5,193.3 103.8,206.4 103.2,219.6 128.4,219.6 128.9,208.6 130.3,197.7 132.7,187.0 136.0,176.5 140.2,166.4 145.3,156.6 151.2,147.3 157.9,138.6 165.3,130.5 173.4,123.1 182.1,116.4 191.4,110.5 201.2,105.4 211.3,101.2 221.8,97.9 232.5,95.5 243.4,94.1 254.4,93.6 265.4,94.1 276.3,95.5 287.0,97.9 297.5,101.2 307.6,105.4 317.4,110.5 326.7,116.4 335.4,123.1 343.5,130.5 350.9,138.6 357.6,147.3 363.5,156.6 368.6,166.4 372.8,176.5 376.1,187.0 378.5,197.7 379.9,208.6 380.4,219.6"/>
+  <polygon class="ring" points="380.4,244.8 535.2,244.8 535.2,219.6 380.4,219.6"/>
+  <rect class="sofa" x="258.0" y="388.8" width="57.6" height="151.2"/>
+  <rect class="table" x="326.4" y="424.8" width="43.2" height="79.2"/>
+  <rect class="sofa" x="398.4" y="478.8" width="57.6" height="54.0"/>
+  <rect class="sofa" x="398.4" y="381.6" width="57.6" height="54.0"/>
+  <rect class="flag" x="535.2" y="18.0" width="64.8" height="201.6"/>
+  <polygon class="deck" points="600.0,576.0 672.0,576.0 672.0,18.0 600.0,18.0 600.0,576.0"/>
+  <rect class="deck" x="540.6" y="370.8" width="59.4" height="108.0"/>
+  <line class="thin" x1="580.2" y1="478.8" x2="580.2" y2="370.8"/>
+  <line class="thin" x1="560.4" y1="478.8" x2="560.4" y2="370.8"/>
+  <line class="thin" x1="540.6" y1="478.8" x2="540.6" y2="370.8"/>
+  <text class="" x="254.4" y="279.2" text-anchor="middle">fire ring</text>
+  <text class="" x="374.1" y="99.9" text-anchor="start">seat wall</text>
+  <text class="" x="357.0" y="550.8" text-anchor="middle">sofa set</text>
+  <text class="on-dark" x="400.2" y="597.8" text-anchor="middle">raised herb bed</text>
+  <text class="" x="119.4" y="590.6" text-anchor="middle">AC</text>
+  <text class="" x="200.4" y="500.4" text-anchor="start">screen N + E, west open</text>
+  <text class="" x="636.0" y="255.6" text-anchor="middle">deck</text>
+  <g class="dim"><line x1="254.4" y1="550.8" x2="600.0" y2="550.8"/><line x1="254.4" y1="547.8" x2="254.4" y2="553.8"/><line x1="600.0" y1="547.8" x2="600.0" y2="553.8"/></g>
+  <text class="dim-t" x="427.2" y="548.3" text-anchor="middle">16 ft</text>
+  <g class="dim"><line x1="582.0" y1="565.2" x2="582.0" y2="219.6"/><line x1="579.0" y1="565.2" x2="585.0" y2="565.2"/><line x1="579.0" y1="219.6" x2="585.0" y2="219.6"/></g>
+  <text class="dim-t" x="579.0" y="394.9" text-anchor="end">16 ft</text>
+  <g class="dim"><line x1="103.2" y1="57.6" x2="405.6" y2="57.6"/><line x1="103.2" y1="54.6" x2="103.2" y2="60.6"/><line x1="405.6" y1="54.6" x2="405.6" y2="60.6"/></g>
+  <text class="dim-t" x="254.4" y="55.1" text-anchor="middle">14 ft apron</text>
+  <g class="dim"><line x1="301.2" y1="291.6" x2="600.0" y2="291.6"/><line x1="301.2" y1="288.6" x2="301.2" y2="294.6"/><line x1="600.0" y1="288.6" x2="600.0" y2="294.6"/></g>
+  <text class="dim-t" x="450.6" y="289.1" text-anchor="middle">13 ft 10 in to deck</text>
+  <g class="dim"><line x1="193.2" y1="630.0" x2="193.2" y2="266.4"/><line x1="190.2" y1="630.0" x2="196.2" y2="630.0"/><line x1="190.2" y1="266.4" x2="196.2" y2="266.4"/></g>
+  <text class="dim-t" x="190.2" y="450.7" text-anchor="end">16 ft 10 in to house</text>
+  <text class="spot" x="308.4" y="205.2" text-anchor="start">ring centre = patio NW corner</text>
+</svg>
+    <figcaption>Plan. The joints are the model's layout of irregular stones, to show the scale of piece intended; the setter lays it to the stone delivered. The seat wall takes the north half of the ring and three chairs on a 62 in radius take the south half; the sofa set sits on the patio's southwest part. The ring sits 16.8 ft from the house and 13.8 ft from the deck.</figcaption>
+  </figure>
+  <figure class="fig"><svg viewBox="0 0 612 279" role="img" aria-label="Section through the fire ring: four courses of stone around a 36 in steel liner, a flat stone cap, standing on the patio's compacted base with gravel in the bottom and no concrete, the flagstones butting the ring">
+  <text class="lbl" x="4" y="10">Fire ring, section</text>
+  <rect class="earth" x="6.0" y="250.5" width="600.0" height="22.5"/>
+  <rect class="base" x="6.0" y="205.5" width="600.0" height="45.0"/>
+  <line class="fabric" x1="6.0" y1="250.5" x2="606.0" y2="250.5"/>
+  <rect class="dust" x="6.0" y="198.0" width="600.0" height="7.5"/>
+  <rect class="flag" x="21.0" y="183.0" width="90.0" height="15.0"/>
+  <rect class="ring" x="111.0" y="170.8" width="60.0" height="27.2"/>
+  <rect class="ring" x="114.0" y="143.6" width="54.0" height="27.2"/>
+  <rect class="ring" x="111.0" y="116.4" width="60.0" height="27.2"/>
+  <rect class="ring" x="114.0" y="89.2" width="54.0" height="27.2"/>
+  <rect class="flag-dark" x="105.4" y="70.5" width="71.2" height="18.8"/>
+  <rect class="flag" x="501.0" y="183.0" width="90.0" height="15.0"/>
+  <rect class="ring" x="441.0" y="170.8" width="60.0" height="27.2"/>
+  <rect class="ring" x="444.0" y="143.6" width="54.0" height="27.2"/>
+  <rect class="ring" x="441.0" y="116.4" width="60.0" height="27.2"/>
+  <rect class="ring" x="444.0" y="89.2" width="54.0" height="27.2"/>
+  <rect class="flag-dark" x="435.4" y="70.5" width="71.2" height="18.8"/>
+  <rect class="ash" x="171.0" y="175.5" width="270.0" height="22.5"/>
+  <line class="liner" x1="171.0" y1="198.0" x2="171.0" y2="93.0"/>
+  <line class="liner" x1="441.0" y1="198.0" x2="441.0" y2="93.0"/>
+  <g class="dim"><line x1="111.0" y1="55.5" x2="501.0" y2="55.5"/><line x1="111.0" y1="52.5" x2="111.0" y2="58.5"/><line x1="501.0" y1="52.5" x2="501.0" y2="58.5"/></g>
+  <text class="dim-t" x="306.0" y="53.0" text-anchor="middle">52 outside</text>
+  <g class="dim"><line x1="171.0" y1="108.0" x2="441.0" y2="108.0"/><line x1="171.0" y1="105.0" x2="171.0" y2="111.0"/><line x1="441.0" y1="105.0" x2="441.0" y2="111.0"/></g>
+  <text class="dim-t" x="306.0" y="116.5" text-anchor="middle">36 liner</text>
+  <g class="dim"><line x1="606.0" y1="198.0" x2="606.0" y2="70.5"/><line x1="603.0" y1="198.0" x2="609.0" y2="198.0"/><line x1="603.0" y1="70.5" x2="609.0" y2="70.5"/></g>
+  <text class="dim-t" x="609.0" y="136.8" text-anchor="start">15</text>
+  <text class="" x="598.5" y="228.0" text-anchor="start">6 in 21AA</text>
+  <text class="on-dark" x="306.0" y="184.5" text-anchor="middle">gravel and ash, no concrete</text>
+  <text class="" x="28.5" y="48.0" text-anchor="start">stone courses, flat cap</text>
+</svg><figcaption>Fire ring: four courses of wall stone in the same buff, laid in a circle around a 36 in steel liner, capped with flat stone. It stands on the patio's compacted base; the bottom is gravel and ash, no concrete, so it drains.</figcaption></figure>
+  <figure class="fig render"><img src="model/render-patio.png?v=82b359c5" alt="Render of the patio with the fire ring and six chairs"><figcaption>Model: the ring, the chairs, the herb bed along the house and the west stair from the deck.</figcaption></figure>
+  <div class="two">
+    <figure class="fig"><svg viewBox="0 0 412 280" role="img" aria-label="Section through the raised herb bed: its own stone back wall stands 4 in off the brick so no soil touches the veneer, 18 in walls with a flat cap, soil between, the patio in front">
+  <text class="lbl" x="4" y="10">Raised herb bed, section</text>
+  <rect class="earth" x="6.0" y="226.0" width="400.0" height="48.0"/>
+  <rect class="house" x="6.0" y="18.0" width="80.0" height="256.0"/>
+  <rect class="base" x="118.0" y="226.0" width="240.0" height="32.0"/>
+  <rect class="ring" x="118.0" y="66.0" width="48.0" height="160.0"/>
+  <rect class="ring" x="310.0" y="66.0" width="48.0" height="160.0"/>
+  <rect class="flag-dark" x="112.0" y="50.0" width="252.0" height="16.0"/>
+  <rect class="soil" x="166.0" y="82.0" width="144.0" height="144.0"/>
+  <rect class="flag" x="358.0" y="210.0" width="48.0" height="16.0"/>
+  <g class="dim"><line x1="86.0" y1="34.0" x2="118.0" y2="34.0"/><line x1="86.0" y1="31.0" x2="86.0" y2="37.0"/><line x1="118.0" y1="31.0" x2="118.0" y2="37.0"/></g>
+  <text class="dim-t" x="102.0" y="31.5" text-anchor="middle">4 gap</text>
+  <g class="dim"><line x1="118.0" y1="266.0" x2="358.0" y2="266.0"/><line x1="118.0" y1="263.0" x2="118.0" y2="269.0"/><line x1="358.0" y1="263.0" x2="358.0" y2="269.0"/></g>
+  <text class="dim-t" x="238.0" y="274.5" text-anchor="middle">30</text>
+  <g class="dim"><line x1="374.0" y1="226.0" x2="374.0" y2="66.0"/><line x1="371.0" y1="226.0" x2="377.0" y2="226.0"/><line x1="371.0" y1="66.0" x2="377.0" y2="66.0"/></g>
+  <text class="dim-t" x="377.0" y="148.5" text-anchor="start">18</text>
+  <text class="" x="46.0" y="114.0" text-anchor="middle">brick</text>
+  <text class="on-dark" x="238.0" y="146.0" text-anchor="middle">soil</text>
+  <text class="" x="382.0" y="186.0" text-anchor="start">patio</text>
+  <text class="" x="142.0" y="34.0" text-anchor="middle">cap</text>
+</svg><figcaption>Raised herb bed: the same wall stone as the ring, 18 in tall with a flat cap, about 118 blocks. Its back wall stands 4 in off the brick, so the veneer's weep holes stay open and no wet soil sits against it.</figcaption></figure>
+    <figure class="fig render"><img src="model/render-ac-screen.png?v=11fa7000" alt="Render of the lattice screen around the AC unit"><figcaption>Model: the AC screen from the patio side, the herb bed beside it.</figcaption></figure>
+  </div>
+  <figure class="fig"><svg viewBox="0 0 396 312" role="img" aria-label="Section through the seat wall: two wythes of wall stone 14 in deep on a compacted base, a flat cap at 18 in above the apron, holding back the fill on the low north side">
+  <text class="lbl" x="4" y="10">Seat wall, section at the apron's north edge</text>
+  <polygon class="earth" points="6.0,226.0 70.0,226.0 70.0,258.0 182.0,258.0 182.0,282.0 390.0,282.0 390.0,306.0 6.0,306.0"/>
+  <rect class="earth-l" x="182.0" y="234.0" width="208.0" height="48.0"/>
+  <rect class="base" x="6.0" y="226.0" width="64.0" height="48.0"/>
+  <rect class="flag" x="6.0" y="210.0" width="64.0" height="16.0"/>
+  <rect class="ring" x="70.0" y="199.3" width="54.4" height="58.7"/>
+  <rect class="ring" x="127.6" y="199.3" width="54.4" height="58.7"/>
+  <rect class="ring" x="70.0" y="140.7" width="54.4" height="58.7"/>
+  <rect class="ring" x="127.6" y="140.7" width="54.4" height="58.7"/>
+  <rect class="ring" x="70.0" y="82.0" width="54.4" height="58.7"/>
+  <rect class="ring" x="127.6" y="82.0" width="54.4" height="58.7"/>
+  <rect class="flag-dark" x="64.0" y="66.0" width="124.0" height="16.0"/>
+  <g class="dim"><line x1="38.0" y1="210.0" x2="38.0" y2="66.0"/><line x1="35.0" y1="210.0" x2="41.0" y2="210.0"/><line x1="35.0" y1="66.0" x2="41.0" y2="66.0"/></g>
+  <text class="dim-t" x="35.0" y="140.5" text-anchor="end">18 seat</text>
+  <g class="dim"><line x1="70.0" y1="42.0" x2="182.0" y2="42.0"/><line x1="70.0" y1="39.0" x2="70.0" y2="45.0"/><line x1="182.0" y1="39.0" x2="182.0" y2="45.0"/></g>
+  <text class="dim-t" x="126.0" y="39.5" text-anchor="middle">14</text>
+  <text class="" x="22.0" y="198.0" text-anchor="start">apron</text>
+  <text class="" x="198.0" y="250.0" text-anchor="start">fill held back</text>
+  <text class="" x="198.0" y="178.0" text-anchor="start">lawn falls away north</text>
+</svg><figcaption>Seat wall: two wythes of the same wall stone, 14 in deep, on a compacted base with one course buried, a flat cap at 18 in above the apron. About 27.3 lin ft and 158 blocks. On the north side it holds back the fill under the apron.</figcaption></figure>
+  <figure class="fig"><svg viewBox="0 0 508 310" role="img" aria-label="North elevation of the AC screen: vinyl privacy lattice between vinyl-sleeved posts, the dark mass-loaded vinyl behind it, 52 in tall over the 36 in unit, open at the top, 2 in off the ground at the bottom">
+  <text class="lbl" x="4" y="10">AC screen, north side elevation</text>
+  <line class="ground-l" x1="6.0" y1="286.8" x2="501.6" y2="286.8"/>
+  <rect class="hidden" x="174.0" y="135.6" width="159.6" height="151.2"/>
+  <rect class="mlv" x="73.2" y="76.8" width="361.2" height="201.6"/>
+  <line class="lat" x1="83.7" y1="278.4" x2="83.7" y2="76.8"/>
+  <line class="lat" x1="94.2" y1="278.4" x2="94.2" y2="76.8"/>
+  <line class="lat" x1="104.7" y1="278.4" x2="104.7" y2="76.8"/>
+  <line class="lat" x1="115.2" y1="278.4" x2="115.2" y2="76.8"/>
+  <line class="lat" x1="125.7" y1="278.4" x2="125.7" y2="76.8"/>
+  <line class="lat" x1="136.2" y1="278.4" x2="136.2" y2="76.8"/>
+  <line class="lat" x1="146.7" y1="278.4" x2="146.7" y2="76.8"/>
+  <line class="lat" x1="157.2" y1="278.4" x2="157.2" y2="76.8"/>
+  <line class="lat" x1="167.7" y1="278.4" x2="167.7" y2="76.8"/>
+  <line class="lat" x1="178.2" y1="278.4" x2="178.2" y2="76.8"/>
+  <line class="lat" x1="188.7" y1="278.4" x2="188.7" y2="76.8"/>
+  <line class="lat" x1="199.2" y1="278.4" x2="199.2" y2="76.8"/>
+  <line class="lat" x1="209.7" y1="278.4" x2="209.7" y2="76.8"/>
+  <line class="lat" x1="220.2" y1="278.4" x2="220.2" y2="76.8"/>
+  <line class="lat" x1="230.7" y1="278.4" x2="230.7" y2="76.8"/>
+  <line class="lat" x1="241.2" y1="278.4" x2="241.2" y2="76.8"/>
+  <line class="lat" x1="251.7" y1="278.4" x2="251.7" y2="76.8"/>
+  <line class="lat" x1="262.2" y1="278.4" x2="262.2" y2="76.8"/>
+  <line class="lat" x1="272.7" y1="278.4" x2="272.7" y2="76.8"/>
+  <line class="lat" x1="283.2" y1="278.4" x2="283.2" y2="76.8"/>
+  <line class="lat" x1="293.7" y1="278.4" x2="293.7" y2="76.8"/>
+  <line class="lat" x1="304.2" y1="278.4" x2="304.2" y2="76.8"/>
+  <line class="lat" x1="314.7" y1="278.4" x2="314.7" y2="76.8"/>
+  <line class="lat" x1="325.2" y1="278.4" x2="325.2" y2="76.8"/>
+  <line class="lat" x1="335.7" y1="278.4" x2="335.7" y2="76.8"/>
+  <line class="lat" x1="346.2" y1="278.4" x2="346.2" y2="76.8"/>
+  <line class="lat" x1="356.7" y1="278.4" x2="356.7" y2="76.8"/>
+  <line class="lat" x1="367.2" y1="278.4" x2="367.2" y2="76.8"/>
+  <line class="lat" x1="377.7" y1="278.4" x2="377.7" y2="76.8"/>
+  <line class="lat" x1="388.2" y1="278.4" x2="388.2" y2="76.8"/>
+  <line class="lat" x1="398.7" y1="278.4" x2="398.7" y2="76.8"/>
+  <line class="lat" x1="409.2" y1="278.4" x2="409.2" y2="76.8"/>
+  <line class="lat" x1="419.7" y1="278.4" x2="419.7" y2="76.8"/>
+  <line class="lat" x1="430.2" y1="278.4" x2="430.2" y2="76.8"/>
+  <line class="lat" x1="73.2" y1="267.9" x2="434.4" y2="267.9"/>
+  <line class="lat" x1="73.2" y1="257.4" x2="434.4" y2="257.4"/>
+  <line class="lat" x1="73.2" y1="246.9" x2="434.4" y2="246.9"/>
+  <line class="lat" x1="73.2" y1="236.4" x2="434.4" y2="236.4"/>
+  <line class="lat" x1="73.2" y1="225.9" x2="434.4" y2="225.9"/>
+  <line class="lat" x1="73.2" y1="215.4" x2="434.4" y2="215.4"/>
+  <line class="lat" x1="73.2" y1="204.9" x2="434.4" y2="204.9"/>
+  <line class="lat" x1="73.2" y1="194.4" x2="434.4" y2="194.4"/>
+  <line class="lat" x1="73.2" y1="183.9" x2="434.4" y2="183.9"/>
+  <line class="lat" x1="73.2" y1="173.4" x2="434.4" y2="173.4"/>
+  <line class="lat" x1="73.2" y1="162.9" x2="434.4" y2="162.9"/>
+  <line class="lat" x1="73.2" y1="152.4" x2="434.4" y2="152.4"/>
+  <line class="lat" x1="73.2" y1="141.9" x2="434.4" y2="141.9"/>
+  <line class="lat" x1="73.2" y1="131.4" x2="434.4" y2="131.4"/>
+  <line class="lat" x1="73.2" y1="120.9" x2="434.4" y2="120.9"/>
+  <line class="lat" x1="73.2" y1="110.4" x2="434.4" y2="110.4"/>
+  <line class="lat" x1="73.2" y1="99.9" x2="434.4" y2="99.9"/>
+  <line class="lat" x1="73.2" y1="89.4" x2="434.4" y2="89.4"/>
+  <line class="lat" x1="73.2" y1="78.9" x2="434.4" y2="78.9"/>
+  <rect class="post-l" x="64.8" y="51.6" width="16.8" height="235.2"/>
+  <rect class="post-l" x="426.0" y="51.6" width="16.8" height="235.2"/>
+  <g class="dim"><line x1="73.2" y1="34.8" x2="434.4" y2="34.8"/><line x1="73.2" y1="31.8" x2="73.2" y2="37.8"/><line x1="434.4" y1="31.8" x2="434.4" y2="37.8"/></g>
+  <text class="dim-t" x="253.8" y="32.3" text-anchor="middle">7 ft 2 in</text>
+  <g class="dim"><line x1="459.6" y1="286.8" x2="459.6" y2="68.4"/><line x1="456.6" y1="286.8" x2="462.6" y2="286.8"/><line x1="456.6" y1="68.4" x2="462.6" y2="68.4"/></g>
+  <text class="dim-t" x="462.6" y="180.1" text-anchor="start">52</text>
+  <g class="dim"><line x1="48.0" y1="286.8" x2="48.0" y2="135.6"/><line x1="45.0" y1="286.8" x2="51.0" y2="286.8"/><line x1="45.0" y1="135.6" x2="51.0" y2="135.6"/></g>
+  <text class="dim-t" x="45.0" y="213.7" text-anchor="end">36 unit</text>
+  <text class="" x="253.8" y="63.2" text-anchor="middle">open top</text>
+</svg><figcaption>AC screen, 12 lin ft on the north side and the east gate: vinyl privacy lattice (never painted) on vinyl-sleeved 4x4 posts, with 1 lb outdoor mass-loaded vinyl (48 sq ft) fixed behind it, weatherproof and UV-stable. It stands 2 ft off the unit and stops 2 in above the ground; the west side toward the fence and the top are open, so the condenser still breathes. A barrier like this typically takes 5 to 10 dB off the hum wherever it blocks the line of sight to the unit. The east side is a gate for service.</figcaption></figure>
+  <figure class="fig"><svg viewBox="0 0 657 161" role="img" aria-label="Section of the dry-laid flagstone at an edge: 2 in stone on 1 in of stone dust on 6 in of compacted 21AA over geotextile, with a deeper edge stone">
+  <text class="lbl" x="4" y="10">Patio and walkway, section at the edge</text>
+  <rect class="earth" x="6.0" y="123.4" width="644.8" height="31.0"/>
+  <polygon class="earth" points="588.8,123.4 650.8,123.4 650.8,92.4 588.8,92.4"/>
+  <rect class="base" x="6.0" y="86.2" width="582.8" height="37.2"/>
+  <line class="fabric" x1="6.0" y1="123.4" x2="588.8" y2="123.4"/>
+  <rect class="dust" x="6.0" y="80.0" width="570.4" height="6.2"/>
+  <rect class="flag" x="6.0" y="67.6" width="145.1" height="12.4"/>
+  <rect class="flag" x="154.8" y="67.6" width="89.3" height="12.4"/>
+  <rect class="flag" x="247.8" y="67.6" width="126.5" height="12.4"/>
+  <rect class="flag" x="378.0" y="67.6" width="107.9" height="12.4"/>
+  <rect class="flag" x="489.6" y="67.6" width="70.7" height="12.4"/>
+  <rect class="ring" x="564.0" y="67.6" width="24.8" height="49.6"/>
+  <g class="dim"><line x1="402.8" y1="123.4" x2="402.8" y2="86.2"/><line x1="399.8" y1="123.4" x2="405.8" y2="123.4"/><line x1="399.8" y1="86.2" x2="405.8" y2="86.2"/></g>
+  <text class="dim-t" x="405.8" y="107.3" text-anchor="start">6 in 21AA</text>
+  <g class="dim"><line x1="216.8" y1="86.2" x2="216.8" y2="80.0"/><line x1="213.8" y1="86.2" x2="219.8" y2="86.2"/><line x1="213.8" y1="80.0" x2="219.8" y2="80.0"/></g>
+  <text class="dim-t" x="219.8" y="85.6" text-anchor="start">1 in dust</text>
+  <g class="dim"><line x1="92.8" y1="80.0" x2="92.8" y2="67.6"/><line x1="89.8" y1="80.0" x2="95.8" y2="80.0"/><line x1="89.8" y1="67.6" x2="95.8" y2="67.6"/></g>
+  <text class="dim-t" x="95.8" y="76.3" text-anchor="start">2 in stone</text>
+  <text class="" x="576.4" y="138.9" text-anchor="end">edge stone set deep</text>
+  <text class="" x="43.2" y="138.9" text-anchor="start">geotextile on compacted subgrade</text>
+  <text class="" x="154.8" y="42.8" text-anchor="start">joints: stone dust or polymeric, 1/2 to 1 in</text>
+</svg><figcaption>Build-up for the patio and the walkway: native clay cut and compacted, non-woven geotextile, 6 in of 21AA crushed limestone in two lifts, 1 in of stone dust, 2 in flagstone. Larger flatter pieces (18 to 36 in) in the chair ring. The patio falls 1/4 in per ft away from the house; the walkway follows the ground.</figcaption></figure>
+  <div class="two">
+    <div class="block">
+      <h3>Scope for the stone bid</h3>
+      <ul>
+        <li>Excavate, compact, fabric, 9.2 cu yd of 21AA, 1.5 cu yd of stone dust, about 6.8 tons of flagstone at 80 sq ft per ton plus 10 percent.</li>
+        <li>Seat wall: about 27.3 lin ft, 158 wall stones in two wythes and a flat cap, around the apron's north half and along the patio's north edge.</li>
+        <li>Fire ring: about 47 wall stones in four courses and a flat cap, around the owner-supplied 36 in liner.</li>
+        <li>Deeper edge stones on the patio's low north and west sides.</li>
+        <li>Raised herb bed: about 118 wall blocks on a compacted base, back wall 4 in off the brick, flat cap.</li>
+        <li>Joints stone dust or polymeric sand, priced both ways.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Stone</h3>
+      <ul>
+        <li><strong>Chosen:</strong> buff Wisconsin limestone flagstone (Chilton or Fond du Lac) or Tennessee tan sandstone, 1.5 to 2 in thick, dry-laid. Light cream to tan, next to the tan brick.</li>
+        <li><strong>Fallback:</strong> a buff concrete paver field with real stone kept for the ring, its cap and the seat wall cap.</li>
+        <li>Pick stone in person, one pallet run for the whole job. Match the ring's wall stone to the flagstone.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 05 -->
+<section class="sheet site" id="s5">
+  <header><h2>Evergreens and drain <span class="tag site">contractor</span></h2><span class="num">Sheet 05 of 09</span></header>
+  <p>Five American Pillar arborvitae planted 5 to 6 ft tall in one row, and a French drain along the east fence. The drain goes in first, while the ground is open.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 626 248" role="img" aria-label="Plan of the five American Pillar arborvitae in one row 4 ft off the north fence at 66 in spacing, centred on the bay slider, with the French drain and the existing drain at the east end">
+  <text class="lbl" x="4" y="10">American Pillar row along the north fence, north up</text>
+  <rect class="grass" x="6.0" y="33.6" width="613.6" height="208.0"/>
+  <circle class="tree" cx="159.4" cy="96.0" r="31.2"/>
+  <circle class="trunk" cx="159.4" cy="96.0" r="3.9"/>
+  <circle class="tree" cx="245.2" cy="96.0" r="31.2"/>
+  <circle class="trunk" cx="245.2" cy="96.0" r="3.9"/>
+  <circle class="tree" cx="331.0" cy="96.0" r="31.2"/>
+  <circle class="trunk" cx="331.0" cy="96.0" r="3.9"/>
+  <circle class="tree" cx="416.8" cy="96.0" r="31.2"/>
+  <circle class="trunk" cx="416.8" cy="96.0" r="3.9"/>
+  <circle class="tree" cx="502.6" cy="96.0" r="31.2"/>
+  <circle class="trunk" cx="502.6" cy="96.0" r="3.9"/>
+  <line class="fence" x1="6.0" y1="33.6" x2="604.0" y2="33.6"/>
+  <line class="drain" x1="572.8" y1="241.6" x2="572.8" y2="57.0"/>
+  <circle class="metal" cx="580.6" cy="49.2" r="9.1"/>
+  <line class="cut" x1="331.0" y1="241.6" x2="331.0" y2="33.6"/>
+  <text class="" x="336.2" y="231.2" text-anchor="start">slider centre line</text>
+  <g class="dim"><line x1="159.4" y1="142.8" x2="245.2" y2="142.8"/><line x1="159.4" y1="139.8" x2="159.4" y2="145.8"/><line x1="245.2" y1="139.8" x2="245.2" y2="145.8"/></g>
+  <text class="dim-t" x="202.3" y="151.3" text-anchor="middle">66</text>
+  <g class="dim"><line x1="276.4" y1="57.0" x2="299.8" y2="57.0"/><line x1="276.4" y1="54.0" x2="276.4" y2="60.0"/><line x1="299.8" y1="54.0" x2="299.8" y2="60.0"/></g>
+  <text class="dim-t" x="288.1" y="54.5" text-anchor="middle">18 gap</text>
+  <g class="dim"><line x1="112.6" y1="96.0" x2="112.6" y2="33.6"/><line x1="109.6" y1="96.0" x2="115.6" y2="96.0"/><line x1="109.6" y1="33.6" x2="115.6" y2="33.6"/></g>
+  <text class="dim-t" x="109.6" y="67.3" text-anchor="end">48</text>
+  <g class="dim"><line x1="502.6" y1="142.8" x2="572.8" y2="142.8"/><line x1="502.6" y1="139.8" x2="502.6" y2="145.8"/><line x1="572.8" y1="139.8" x2="572.8" y2="145.8"/></g>
+  <text class="dim-t" x="537.7" y="151.3" text-anchor="middle">54</text>
+  <g class="dim"><line x1="128.2" y1="57.0" x2="190.6" y2="57.0"/><line x1="128.2" y1="54.0" x2="128.2" y2="60.0"/><line x1="190.6" y1="54.0" x2="190.6" y2="60.0"/></g>
+  <text class="dim-t" x="159.4" y="54.5" text-anchor="middle">48</text>
+  <text class="" x="565.0" y="202.6" text-anchor="end">French drain</text>
+</svg>
+    <figcaption>One row 4 ft off the fence at 66 in spacing, centred on the slider, so the screen sits straight out from the door. At about 4 ft wide the trees leave 18 in between them and a 2 ft lane behind them. The east tree stays 54 in from the drain trench.</figcaption>
+  </figure>
+  <figure class="fig">
+    <svg viewBox="0 0 637 196" role="img" aria-label="Profile of the French drain along the east fence: the trench follows the grade toward the northeast corner at a constant depth, the perforated pipe in washed stone, into the existing drain whose depth must be confirmed">
+  <text class="lbl" x="4" y="10">French drain profile along the east fence, vertical x3</text>
+  <polygon class="earth-l" points="6.0,35.7 13.2,36.8 20.4,37.9 27.6,39.0 34.8,40.1 42.0,41.2 49.2,42.3 56.4,43.4 63.6,44.5 70.8,45.6 78.0,46.7 85.2,47.8 92.4,48.9 99.6,50.0 106.8,51.1 114.0,52.2 121.2,53.3 128.4,54.4 135.6,55.5 142.8,56.6 150.0,57.7 157.2,58.8 164.4,59.9 171.6,61.0 178.8,62.1 186.0,63.2 193.2,64.3 200.4,65.4 207.6,66.5 214.8,67.6 222.0,68.7 229.2,69.8 236.4,70.9 243.6,72.0 250.8,73.1 258.0,74.2 265.2,75.3 272.4,76.4 279.6,77.5 286.8,78.6 294.0,79.7 301.2,80.8 308.4,81.9 315.6,83.0 322.8,84.1 330.0,85.2 337.2,86.3 344.4,87.4 351.6,88.5 358.8,89.6 366.0,90.7 373.2,91.8 380.4,92.9 387.6,94.0 394.8,95.1 402.0,96.2 409.2,97.3 416.4,98.4 423.6,99.5 430.8,100.6 438.0,101.7 445.2,102.8 452.4,103.9 459.6,105.0 466.8,106.1 474.0,107.2 481.2,108.3 488.4,109.4 495.6,110.5 502.8,111.6 510.0,112.7 517.2,113.8 524.4,114.9 531.6,116.0 538.8,117.1 546.0,118.2 553.2,119.3 560.4,120.4 567.6,121.5 574.8,122.6 582.0,123.7 589.2,124.8 596.4,125.9 603.6,127.0 610.8,128.1 618.0,129.2 625.2,130.3 631.0,189.6 6.0,189.6"/>
+  <polygon class="stone" points="20.4,37.9 595.0,125.6 595.0,178.4 20.4,90.7"/>
+  <line class="pipe" x1="20.4" y1="81.9" x2="595.0" y2="169.6"/>
+  <rect class="hidden" x="595.0" y="125.6" width="17.3" height="74.8"/>
+  <text class="warn-t" x="573.4" y="112.4" text-anchor="end">existing drain: confirm its depth</text>
+  <text class="" x="23.3" y="51.1" text-anchor="start">start, south end of the wet strip</text>
+  <text class="" x="307.7" y="110.4" text-anchor="middle">4 in perforated SDR35, holes down, 0.6 in per ft</text>
+  <text class="" x="175.9" y="50.6" text-anchor="middle">house back wall line</text>
+  <g class="dim"><line x1="20.4" y1="26.8" x2="595.0" y2="26.8"/><line x1="20.4" y1="23.8" x2="20.4" y2="29.8"/><line x1="595.0" y1="23.8" x2="595.0" y2="29.8"/></g>
+  <text class="dim-t" x="307.7" y="24.3" text-anchor="middle">66 ft 6 in trench</text>
+  <g class="dim"><line x1="580.6" y1="169.6" x2="580.6" y2="125.6"/><line x1="577.6" y1="169.6" x2="583.6" y2="169.6"/><line x1="577.6" y1="125.6" x2="583.6" y2="125.6"/></g>
+  <text class="dim-t" x="577.6" y="150.1" text-anchor="end">20 cover</text>
+</svg>
+    <figcaption>Profile along the east fence, vertical scale tripled. The grade already falls about 0.6 in per ft toward the corner, so the trench keeps a constant depth. The pipe arrives about 22 in below grade at the northeast corner; the existing drain's pipe must be at least that deep, which is the one number to confirm before the bid.</figcaption>
+  </figure>
+  <div class="two">
+    <figure class="fig"><svg viewBox="0 0 412 280" role="img" aria-label="Cross section of the French drain trench: 12 in wide and 24 in deep, fabric-wrapped washed stone, 4 in perforated pipe with the holes down, stone to the surface, 24 in inside the east fence">
+  <text class="lbl" x="4" y="10">French drain, trench section</text>
+  <rect class="earth-l" x="6.0" y="66.0" width="400.0" height="208.0"/>
+  <rect class="stone" x="70.0" y="66.0" width="96.0" height="192.0"/>
+  <rect class="fabric-box" x="70.0" y="66.0" width="96.0" height="192.0"/>
+  <circle class="pipe-c" cx="118.0" cy="226.0" r="16.0"/>
+  <circle class="screw" cx="109.7" cy="237.1" r="2.0"/>
+  <circle class="screw" cx="118.0" cy="239.6" r="2.0"/>
+  <circle class="screw" cx="126.3" cy="237.1" r="2.0"/>
+  <rect class="gravel" x="70.0" y="62.8" width="96.0" height="27.2"/>
+  <line class="fence" x1="310.0" y1="66.0" x2="310.0" y2="22.0"/>
+  <text class="" x="318.0" y="34.0" text-anchor="start">east fence</text>
+  <g class="dim"><line x1="70.0" y1="267.6" x2="166.0" y2="267.6"/><line x1="70.0" y1="264.6" x2="70.0" y2="270.6"/><line x1="166.0" y1="264.6" x2="166.0" y2="270.6"/></g>
+  <text class="dim-t" x="118.0" y="276.1" text-anchor="middle">12</text>
+  <g class="dim"><line x1="46.0" y1="258.0" x2="46.0" y2="66.0"/><line x1="43.0" y1="258.0" x2="49.0" y2="258.0"/><line x1="43.0" y1="66.0" x2="49.0" y2="66.0"/></g>
+  <text class="dim-t" x="43.0" y="164.5" text-anchor="end">24</text>
+  <g class="dim"><line x1="118.0" y1="46.0" x2="310.0" y2="46.0"/><line x1="118.0" y1="43.0" x2="118.0" y2="49.0"/><line x1="310.0" y1="43.0" x2="310.0" y2="49.0"/></g>
+  <text class="dim-t" x="214.0" y="43.5" text-anchor="middle">24 to fence</text>
+  <text class="" x="174.0" y="226.0" text-anchor="start">4 in pipe, holes down</text>
+  <text class="" x="174.0" y="130.0" text-anchor="start">3/4 washed stone</text>
+  <text class="" x="174.0" y="162.0" text-anchor="start">fabric wraps the stone</text>
+  <text class="" x="174.0" y="78.0" text-anchor="start">3 in stone at the surface</text>
+</svg><figcaption>Trench: 12 in wide, 24 in deep, non-woven fabric wrapping washed 3/4 in stone, 4 in perforated SDR35 with the holes down, stone to the surface so water from the wet strip gets in. A cleanout at the upstream end.</figcaption></figure>
+    <figure class="fig render"><img src="model/render-trees.png?v=9428b1eb" alt="Render of the American Pillar row seen from the house"><figcaption>Model, from the house: the row at about ten years.</figcaption></figure>
+  </div>
+  <div class="two">
+    <div class="block">
+      <h3>Planting scope</h3>
+      <ul>
+        <li>Five American Pillar (Thuja occidentalis 'American Pillar'), 5 to 6 ft, from one nursery with its one-year warranty.</li>
+        <li>Holes twice the root ball wide and no deeper; the root flare 1 to 2 in above grade.</li>
+        <li>3 in of shredded mulch in a 3 ft ring, kept off the trunks.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Drain scope</h3>
+      <ul>
+        <li>About 66 lin ft of trench, 8 sticks of 4 in perforated SDR35, 4.9 cu yd of washed stone, about 466 sq ft of fabric.</li>
+        <li>Tie into the existing northeast drain with a proper fitting or a cored and grouted entry.</li>
+        <li>Rear-yard drains often sit in a drainage easement: the bidder confirms with the township that a private tie-in is allowed.</li>
+        <li>Test with a hose at the upstream cleanout before backfilling.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHEET 06 -->
+<section class="sheet" id="s6">
+  <header><h2>Quantities</h2><span class="num">Sheet 06 of 09</span></header>
+  <p>The quantities each bid should match, computed from the drawings. A bid far off them is a question to ask.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Bid quantity</th><th class="n">Amount</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr><td>Deck surface</td><td class="n">461 sq ft</td><td>Sheet 03</td></tr>
+        <tr><td>Composite boards, with 10 percent waste</td><td class="n">1155 lin ft</td><td>73 boards at 16 ft</td></tr>
+        <tr><td>Guard</td><td class="n">53 lin ft</td><td>9 6 ft sections plus stair rails</td></tr>
+        <tr><td>Posts and piers</td><td class="n">8</td><td>Plus stair footings</td></tr>
+        <tr><td>Flagstone, patio and walkway</td><td class="n">6.8 tons</td><td>498 sq ft at 80 sq ft per ton plus 10 percent</td></tr>
+        <tr><td>21AA base / stone dust</td><td class="n">9.2 / 1.5 cu yd</td><td>Compacted in place</td></tr>
+        <tr><td>Seat wall stone</td><td class="n">158</td><td>27.3 lin ft, two wythes, plus cap</td></tr>
+        <tr><td>Deck skirt</td><td class="n">251 lin ft</td><td>112 sq ft of composite board, vented</td></tr>
+        <tr><td>Fire ring wall stone</td><td class="n">47</td><td>Four courses around a 36 in liner</td></tr>
+        <tr><td>French drain</td><td class="n">66 lin ft</td><td>8 pipe sticks, 4.9 cu yd stone, 466 sq ft fabric</td></tr>
+        <tr><td>Raised herb bed wall stone</td><td class="n">118</td><td>Plus cap stones</td></tr>
+        <tr><td>Herb bed soil</td><td class="n">23 bags</td><td>1.5 cu ft each, owner</td></tr>
+        <tr><td>AC screen</td><td class="n">12 lin ft</td><td>2 lattice panels, 48 sq ft of mass-loaded vinyl, 3 posts, owner</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SHEET 07 -->
+<section class="sheet" id="s7">
+  <header><h2>Shopping list and budget</h2><span class="num">Sheet 07 of 09</span></header>
+  <p>Owner purchases are priced from posted listings read on 2026-09-25, store named. A price that could not be read says so and is left out of the total. Contractor work is a published cost-guide range per unit times the drawing quantity: an allowance for judging bids, not a quote.</p>
+  <h3>Owner purchases</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Item</th><th class="n">Qty</th><th class="n">Each</th><th class="n">Line</th><th>Listing and notes</th></tr></thead>
+      <tbody>
+        <tr><td>Cantilever umbrella deck plate</td><td class="n">2</td><td class="n">$119.00</td><td class="n">$238</td><td>Purple Leaf ZYBASE-TB plate, sale price (reg. $199). Match to your umbrella first.</td></tr>
+        <tr><td>36 in round steel fire ring insert</td><td class="n">1</td><td class="n">$32.96</td><td class="n">$33</td><td>Walmart, BTY 36 in Round Fire Pit Ring Insert. The liner inside the stone ring.</td></tr>
+        <tr><td>Raised bed and garden soil, 1.5 cu ft</td><td class="n">23</td><td class="n">$9.97</td><td class="n">$229</td><td>Home Depot, Miracle-Gro Organic 74059430. Fills the raised herb bed.</td></tr>
+        <tr><td>Veranda 4 x 8 ft privacy vinyl lattice, Sierra Cedar</td><td class="n">2</td><td class="n">$38.48</td><td class="n">$77</td><td>Home Depot 79940 (search listing). AC screen, north side and east gate.</td></tr>
+        <tr><td>Outdoor mass-loaded vinyl, 1 lb, 4 x 25 ft</td><td class="n">1</td><td class="n">not read</td><td class="n"></td><td>Home Depot Technoflex MLV104825 / TotalMass, price not read. Behind the lattice; 48 sq ft needed. Not in the total.</td></tr>
+        <tr><td>Vinyl 4x4 post sleeves and caps, 3 posts</td><td class="n">3</td><td class="n">not read</td><td class="n"></td><td>price not read. Over ground-contact 4x4 posts. Not in the total.</td></tr>
+        <tr><td>Herb plants</td><td class="n">1</td><td class="n">not read</td><td class="n"></td><td>Garden centre, price not read. Basil, thyme, oregano, rosemary, parsley, chives. Not in the total.</td></tr>
+        <tr class="sum"><td>Owner total</td><td class="n"></td><td class="n"></td><td class="n">$577</td><td>Plus the herbs themselves.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>Contractor allowances</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Scope</th><th class="n">Quantity</th><th class="n">Per unit</th><th class="n">Allowance</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Deck: demo, footings, framing, composite, guards, the stair</td><td class="n">461 sq ft</td><td class="n">$40 to $80</td><td class="n">$18,440 to $36,880</td><td>HomeGuide composite deck installed $40 to $80 per sq ft; demo $5 to $15 per sq ft extra</td></tr>
+        <tr><td>Flagstone patio and walkway, dry-laid</td><td class="n">498 sq ft</td><td class="n">$9.5 to $22</td><td class="n">$4,731 to $10,956</td><td>Angi $1,900 to $4,400 per 200 sq ft</td></tr>
+        <tr><td>French drain</td><td class="n">66 lin ft</td><td class="n">$10 to $35</td><td class="n">$660 to $2,310</td><td>HomeGuide $10 to $35 per lin ft</td></tr>
+        <tr><td>Five American Pillar, delivered and planted</td><td class="n">5 trees</td><td class="n">$100 to $550</td><td class="n">$500 to $2,750</td><td>HomeGuide $100 to $550 each when planting several</td></tr>
+        <tr><td>Stone fire ring, built</td><td class="n">1</td><td class="n">not read</td><td class="n"></td><td>No published installed cost was read; get it priced in the stone bid. Not in the total.</td></tr>
+        <tr class="sum"><td>Contracted work</td><td class="n"></td><td class="n"></td><td class="n">$24,331 to $52,896</td><td>National cost guides; no Michigan figures were posted.</td></tr>
+        <tr class="sum"><td>Project</td><td class="n"></td><td class="n"></td><td class="n">$24,908 to $53,473</td><td>Owner purchases plus contracted work.</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="5">The deck is most of the money; demo of the old deck adds $5 to $15 per sq ft. An American Pillar price was not read; the planting line is the installed range. Permit fees were not read.</td></tr></tfoot>
+    </table>
+  </div>
+  <div class="callout">
+    <span class="t">Reference prices read for bid checking</span>
+    <p>Trex Enhance Naturals 1x6 x 16 ft, $42.35 (Advantage Lumber, sale). Trex Select 6 ft x 36 in rail kit, $182.60 (Home Depot, $157.60 shown after a $25 card offer). 21AA limestone $56.50 a ton (Suburban Landscape Supply) or $48 a yard (State Crushing). 4 oz non-woven fabric 15 x 20 ft, $47.99 (Home Depot). Not read: a Michigan price for Chilton, Fond du Lac or Tennessee flagstone, and perforated SDR35.</p>
+  </div>
+</section>
+
+<!-- SHEET 08 -->
+<section class="sheet" id="s8">
+  <header><h2>Schedule and permits</h2><span class="num">Sheet 08 of 09</span></header>
+  <ol class="steps">
+    <li><strong>Revision B.</strong> Tape the measurements listed on sheet 01, find the northeast drain's depth, and regenerate the drawings. Send the same set to three bidders for each scope.</li>
+    <li><strong>MISS DIG 811</strong> at least three business days before any digging, for every contractor.</li>
+    <li><strong>Permits.</strong> Deck permit from the township building department (the deck contractor pulls it). Ask whether the drain tie-in needs anything, and talk through the fire ring there too.</li>
+    <li><strong>Visit 1, demo.</strong> Old deck, lattice, rock bed and fire ring out.</li>
+    <li><strong>Visit 2, drain and rough grade.</strong> French drain along the east fence; strip and rough grade the patio and walkway areas.</li>
+    <li><strong>Visit 3, deck.</strong> Footings (inspection), framing (inspection), boards, guards, the stair, skirt, final inspection.</li>
+    <li><strong>Visit 4, stone.</strong> Patio and apron, walkway, fire ring, seat wall, raised herb bed.</li>
+    <li><strong>Visit 5, planting.</strong> Five trees and mulch, spring or September; seed or sod the disturbed lawn.</li>
+    <li><strong>Owner.</strong> Fill and plant the herb bed, set the AC screen posts and hang the lattice and vinyl, bolt the umbrella plate, set the liner in the ring before the cap goes on.</li>
+  </ol>
+</section>
+
+<!-- SHEET 09 -->
+<section class="sheet" id="s9">
+  <header><h2>Care guide</h2><span class="num">Sheet 09 of 09</span></header>
+  <div class="two">
+    <div class="block">
+      <h3>Fire ring</h3>
+      <ul>
+        <li>Dry hardwood only; a spark screen on the ring whenever it's lit; a hose on the patio side.</li>
+        <li>Keep the fire small: the deck's west stair is 12.8 ft away and composite will scorch.</li>
+        <li>Ashes cold for 24 hours before they go anywhere. Scoop the bottom gravel clean each spring.</li>
+      </ul>
+      <h3>Evergreens</h3>
+      <ul>
+        <li>Water deeply once a week the first two summers. American Pillar holds its narrow shape without shearing; trim only stray leaders.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Deck and stone</h3>
+      <ul>
+        <li>Wash composite with soap and a soft brush twice a year. The Blackstone and the smoker stand on mats, 3 ft from the house and the rail; composite will scorch and grease stains.</li>
+        <li>Umbrellas closed and tied in wind.</li>
+        <li>Top up patio and walkway joints with stone dust each spring.</li>
+      </ul>
+      <h3>Herbs and drain</h3>
+      <ul>
+        <li>Top the herb bed with 1 in of compost each spring; perennials (thyme, oregano, chives) at the ends, annuals in the middle.</li>
+        <li>Rake leaves off the drain strip each fall; run a hose into the cleanout once a year.</li>
+        <li>AC screen: nothing to paint or seal. Pull leaves out from behind it in the fall so the condenser breathes.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

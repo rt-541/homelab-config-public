@@ -3,8 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
-const projects = (await getCollection('projects'))
+const all = (await getCollection('projects'))
   .sort((a, b) => a.data.order - b.data.order);
+const groups: { kind: 'virtual' | 'physical'; items: typeof all }[] = [
+  { kind: 'virtual', items: all.filter(p => p.data.kind === 'virtual') },
+  { kind: 'physical', items: all.filter(p => p.data.kind === 'physical') },
+].filter(g => g.items.length > 0);
 ---
 <BaseLayout title="projects &middot; rt-541.io" description="Things I've built.">
   <section class="max-w-3xl mx-auto px-6 pt-16 pb-8">
@@ -16,10 +20,18 @@ const projects = (await getCollection('projects'))
   </section>
 
   <div class="max-w-3xl mx-auto px-6 pb-20">
-    {projects.length === 0 ? (
+    {all.length === 0 ? (
       <p class="text-subtle text-[14px]">No projects yet.</p>
     ) : (
-      projects.map(p => <ProjectCard entry={p} />)
+      groups.map(g => (
+        <section id={g.kind} class="mb-12">
+          <header class="mb-2 pb-3 border-b border-chrome/20">
+            <h2 class="font-serif text-[24px] leading-tight text-chrome m-0" data-i18n={`projects.${g.kind}.h2`}>{g.kind === 'virtual' ? 'Virtual' : 'Physical'}</h2>
+            <p class="text-[13px] text-subtle mt-1 mb-0" data-i18n={`projects.${g.kind}.sub`}>{g.kind === 'virtual' ? 'Software, infrastructure and the homelab.' : 'Things built from plywood, steel and wire, with drawing sets.'}</p>
+          </header>
+          {g.items.map(p => <ProjectCard entry={p} />)}
+        </section>
+      ))
     )}
   </div>
 </BaseLayout>

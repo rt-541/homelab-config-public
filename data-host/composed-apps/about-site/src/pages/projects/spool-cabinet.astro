@@ -1,0 +1,157 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Detail page for the Basement spool cabinet card. English-only by design: no data-i18n keys.
+// The full drawing set is a standalone page under /plans/spool-cabinet/ with its own styling.
+
+const planHref = '/plans/spool-cabinet/';
+const pdfHref = '/plans/spool-cabinet/basement-spool-cabinet.pdf';
+const stepHref = '/plans/spool-cabinet/model/spool-cabinet.step';
+const modelHref = '/plans/spool-cabinet/model/';
+const fusionHref = '/plans/spool-cabinet/model/spoolcabinet-fusion-script.zip';
+
+const sheets: { num: string; title: string; body: string; anchor: string }[] = [
+  {
+    num: '01',
+    title: 'Design basis',
+    anchor: 's1',
+    body: 'What was decided, the spool and basement assumptions, why a sealed cabinet needs no heater, and why drying moved to a bought dehydrator instead of a heater box.',
+  },
+  {
+    num: '02',
+    title: 'Cabinet drawings',
+    anchor: 's2',
+    body: 'Front elevation, side section and shelf detail. Two IKEA OXBERG glass doors meeting over a center stile, fixed shelves pocket-screwed into the sides, cradle rails two rows deep at a 4 in pitch, EPDM bulb seal with magnetic catches.',
+  },
+  {
+    num: '03',
+    title: 'Cut list',
+    anchor: 's3',
+    body: 'Three sheets of 3/4 in plywood laid out panel by panel, plus the poplar center stile, furring-strip rails, 2x3 risers and the plinth.',
+  },
+  {
+    num: '04',
+    title: 'Shopping list',
+    anchor: 's4',
+    body: 'Every line priced against a checked listing at Home Depot, Lowe’s, IKEA or Amazon, with the store named. About $450 in pine, $550 in birch.',
+  },
+  {
+    num: '05',
+    title: 'Build sequence',
+    anchor: 's5',
+    body: 'Panels pre-finished flat, one side laid down and everything pocket-screwed to it, center stile and back, silicone, then the OXBERG doors hung on their own hinges and the seal checked with a flashlight.',
+  },
+  {
+    num: '06',
+    title: 'Operating guide',
+    anchor: 's6',
+    body: 'Dehydrator settings per material, the cabinet routine, gel recharge, and the running numbers.',
+  },
+];
+---
+<BaseLayout title="spool cabinet &middot; rt-541.io" description="Basement spool cabinet: shop drawing set for a sealed two-bay plywood filament cabinet with IKEA glass doors.">
+  <section class="max-w-3xl mx-auto px-6 pt-16 pb-8">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20">
+      <a href="/projects" class="no-underline hover:underline">projects</a> / spool cabinet
+    </p>
+    <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-3">Basement spool cabinet</h1>
+    <p class="text-[15px] text-ice leading-[1.65] max-w-[58ch]">
+      A sealed plywood filament cabinet one IKEA BILLY wide, for a Michigan basement, holding 56 spools at 10 to 20
+      percent humidity on desiccant alone. The doors are two IKEA OXBERG tempered-glass doors on their own hinges,
+      the case is pocket-screwed from three sheets of plywood, and the seal is EPDM bulb weatherstrip held by
+      magnetic catches. Drying is a bought box dehydrator, not a heater in the cabinet.
+    </p>
+    <ul class="flex flex-wrap gap-4 mt-5 list-none p-0 font-mono text-[11px] tracking-meta uppercase">
+      <li><a href={planHref} class="text-chrome no-underline hover:underline">open the drawing set &rarr;</a></li>
+      <li><a href={pdfHref} class="text-chrome no-underline hover:underline">download the PDF &rarr;</a></li>
+      <li><a href={modelHref} class="text-chrome no-underline hover:underline">3d model &rarr;</a></li>
+    </ul>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-6">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// 3d model</p>
+    <figure class="m-0">
+      <img src="/plans/spool-cabinet/model/render-closed.png" alt="Shaded render of the cabinet with both glass doors closed, spools visible through the glass" loading="lazy" class="w-full h-auto rounded border border-chrome/20" />
+      <figcaption class="font-mono text-[11px] tracking-meta text-subtle mt-2">Doors closed. Rendered from the same geometry as the STEP, with the OXBERG glass at 20 percent opacity.</figcaption>
+    </figure>
+    <figure class="m-0 mt-6">
+      <img src="/plans/spool-cabinet/model/render-open.png" alt="Shaded render with both doors swung open showing four shelves of fourteen spools, two rows deep, and the gel pan and fan on the floor" loading="lazy" class="w-full h-auto rounded border border-chrome/20" />
+      <figcaption class="font-mono text-[11px] tracking-meta text-subtle mt-2">Doors open. Fourteen spools per shelf on cradle rails, back row on risers, gel pan and fan on the floor, overflow spools flat in the cubby.</figcaption>
+    </figure>
+    <figure class="m-0 mt-6">
+      <img src="/plans/spool-cabinet/model/render-front.png" alt="Shaded orthographic front view with the doors removed: four rows of spools seen edge-on with the back row standing taller" loading="lazy" class="w-full h-auto rounded border border-chrome/20" />
+      <figcaption class="font-mono text-[11px] tracking-meta text-subtle mt-2">Straight-on front view, doors removed. The back row stands 1.75 in taller than the front row, which is the edge you grab.</figcaption>
+    </figure>
+    <div class="prose-content text-[14px] mt-4">
+      <p>
+        The model comes from the same <code>shopcad</code> framework as the garage shop: one Python scene module whose
+        parameters are the sheet numbers, checked on every build, exported as GLB for the viewer, STEP with names and
+        colors, and a Fusion 360 script that creates user parameters (bay width and count, case height, shelf pitch,
+        door size) and builds every part as its own body. Set bays to 2 and it draws the wider version.
+      </p>
+    </div>
+    <ul class="flex flex-wrap gap-4 mt-3 list-none p-0 font-mono text-[11px] tracking-meta uppercase">
+      <li><a href={modelHref} class="text-chrome no-underline hover:underline">interactive viewer &rarr;</a></li>
+      <li><a href={fusionHref} class="text-chrome no-underline hover:underline">fusion 360 script (zip) &rarr;</a></li>
+      <li><a href={stepHref} class="text-chrome no-underline hover:underline">step file &rarr;</a></li>
+      <li><a href="/plans/spool-cabinet/model/spool-cabinet-closed.glb" class="text-chrome no-underline hover:underline">glb mesh &rarr;</a></li>
+    </ul>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-6">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// by the numbers</p>
+    <dl class="grid grid-cols-2 sm:grid-cols-4 gap-4 m-0">
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">cabinet</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">31.5 x 76 x 18.75 in</dd>
+      </div>
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">capacity</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">56 on rails + 18 flat</dd>
+      </div>
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">doors</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">2 OXBERG glass</dd>
+      </div>
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">rough cost</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">$450 to 550</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-2">// how it got here</p>
+    <div class="prose-content text-[14px]">
+      <p>
+        Revision A was a 4 by 6 ft cabinet with shop-built acrylic doors and a 75 C heater box beside it.
+        The heater came down to 65 C once the shelf turned out to be PLA, PETG and TPU, then the shelves were
+        called out as under-structured for a 46 in span and moved to fixed pocket-screwed shelves.
+      </p>
+      <p>
+        Revision D replaced the acrylic doors with IKEA OXBERG glass doors, which set the bay width at a
+        BILLY's 30 in and cut the door cost and the door build to nothing. A used box dehydrator does the
+        drying for less than the heater box's parts. Then a pitch check showed spools on rails sit edge-on
+        at 4 in, not 10, so one bay holds 56 and the second bay went away. Every price on the shopping
+        list is a checked listing rather than an estimate.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12 pb-20">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-2">// the drawing set</p>
+    <ul class="list-none p-0 m-0">
+      {sheets.map(s => (
+        <li class="py-5 border-b border-chrome/10 grid grid-cols-[5rem,1fr] gap-6">
+          <span class="font-mono text-[11px] tracking-meta text-subtle pt-1">sheet {s.num}</span>
+          <div>
+            <h2 class="font-serif text-[18px] text-chrome leading-tight m-0">
+              <a href={`${planHref}#${s.anchor}`} class="no-underline hover:underline">{s.title}</a>
+            </h2>
+            <p class="text-[14px] text-ice leading-[1.65] mt-2 mb-0">{s.body}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

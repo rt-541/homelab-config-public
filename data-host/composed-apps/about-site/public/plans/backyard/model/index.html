@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backyard model</title>
+<style>
+:root{--bg:#ece8df;--ink:#1B2430;--muted:#5B6B7A;--paper:#fff;--rule:#C9D2DA;--acc:#2F6F9F}
+html,body{margin:0;height:100%;background:var(--bg);font-family:"IBM Plex Sans",system-ui,sans-serif;color:var(--ink);overflow:hidden}
+canvas{display:block}
+#ui{position:fixed;top:10px;left:10px;display:grid;gap:8px;max-width:min(320px,calc(100vw - 20px));font-size:13px}
+.card{background:rgba(255,255,255,.92);border:1px solid var(--rule);padding:8px 10px;display:grid;gap:6px}
+.card>summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px;font-weight:600;cursor:pointer;user-select:none}
+.card>summary::-webkit-details-marker{display:none}
+.card>summary::after{content:"hide";font-size:11px;font-weight:400;color:var(--muted)}
+/* folded: no title, just a small square toggle in the corner */
+.card:not([open]){padding:0;width:30px;height:30px;justify-items:center;align-content:center}
+.card:not([open])>summary{justify-content:center;width:100%;height:100%}
+.card:not([open])>summary>span{display:none}
+.card:not([open])>summary::after{content:"\2261";font-size:20px;line-height:1;color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:6px}
+button{font:inherit;font-size:12px;padding:4px 8px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+label{display:flex;gap:6px;align-items:center;font-size:12px;cursor:pointer}
+details summary{cursor:pointer;font-size:12px;color:var(--muted)}
+#status{font-size:11px;color:var(--muted)}
+.shot #ui{display:none}
+</style>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+"three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+</head><body>
+<div id="ui">
+  <details class="card" id="panel" open>
+    <summary><span>Backyard</span></summary>
+    <div class="row" id="states"></div>
+    <div class="row" id="views"></div>
+    <details><summary>components</summary><div id="comps" style="display:grid;gap:3px;margin-top:6px"></div></details>
+    <div id="status">loading</div>
+  </details>
+</div>
+<script id="manifest" type="application/json">{"slug": "backyard", "name": "Backyard", "states": {"summer": {"file": "backyard-summer.glb", "label": "Summer, furnished", "description": "Deck furnished, umbrellas open, trees at about ten years"}, "bare": {"file": "backyard-bare.glb", "label": "Built, unfurnished", "description": "What the contractors hand over, with young trees"}}, "components": ["Grade", "House", "AC Screen", "Fence", "Deck Framing", "Deck Surface", "Deck Skirt", "Deck Guards", "Stairs", "Patio", "Fire Ring", "Furniture", "Seat Wall", "Walkway", "Herb Bed", "Evergreens", "French Drain", "Cooking", "Umbrellas"], "checks": [{"name": "deck needs guards (over 30 in above grade)", "ok": true, "detail": "SW 27, SE 29, NW 39, NE 41 in above grade"}, {"name": "west stair risers at or under 7.75 in", "ok": true, "detail": "4 risers of 6.95 in, 27.8 in rise, 33 in run"}, {"name": "west stair lands on the patio", "ok": true, "detail": "foot at x 393, 159 in of patio beyond it"}, {"name": "the west stair is the only stair", "ok": true, "detail": "the deck is reached from the slider and left by the patio"}, {"name": "west stair clear of the cut corner", "ok": true, "detail": "54 in of straight edge north of it"}, {"name": "slider lands on the deck with 3 ft to spare", "ok": true, "detail": "66 in east of the slider"}, {"name": "beam post spacing at or under post_max", "ok": true, "detail": "4 posts per beam, 92.0 in bays"}, {"name": "joist spans and cantilevers (2x10 at 12 in, 16 ft max)", "ok": true, "detail": "longest span 171.0 in, cantilever 33 in toward the house, 36 in north"}, {"name": "south beam clears the chimney and the bay", "ok": true, "detail": "30.8 in off the wall"}, {"name": "griddle and smoker 3 ft from the rail and the house", "ok": true, "detail": "36 in to the east rail, 36 in to the bay"}, {"name": "smoker clear of the cut corner", "ok": true, "detail": "50 in to the corner rail"}, {"name": "cooks' aisle to the table", "ok": true, "detail": "38 in between the griddle front and the east chairs"}, {"name": "skirt vented and serviceable", "ok": true, "detail": "0.375 in gaps between skirt boards, a 36 in access panel on the east side"}, {"name": "cut corners 3.5 ft at 45 degrees", "ok": true, "detail": "42 in each way"}, {"name": "fire ring at least 60 in from the deck (owner's design value)", "ok": true, "detail": "154 in (12.8 ft) from the ring"}, {"name": "fire ring at least 60 in from the house (owner's design value)", "ok": true, "detail": "202 in (16.8 ft) from the ring"}, {"name": "fire ring at least 15 ft from the tree canopies", "ok": true, "detail": "368 in (30.7 ft)"}, {"name": "fire ring clearances against the published code (information)", "ok": true, "detail": "deck 12.8 ft, house 16.8 ft; IFC 307.4 lists 25 ft for an open wood fire, 15 ft for a listed portable one"}, {"name": "fire ring centred on the patio's northwest corner", "ok": true, "detail": "(234, 228)"}, {"name": "seat wall legroom to the fire ring", "ok": true, "detail": "44 in between the bench front and the ring"}, {"name": "seat wall leaves the walkway open to the patio", "ok": true, "detail": "36 in gap at its east end"}, {"name": "seat wall at bench height", "ok": true, "detail": "18 in tall, 14 in deep"}, {"name": "sofa set on the patio, clear of the fire apron", "ok": true, "detail": "set spans y 40 to 150; apron starts at y 144"}, {"name": "path from the stair to the fire past the sofa set", "ok": true, "detail": "47 in between the chairs and the stair foot"}, {"name": "chairs on the stone apron", "ok": true, "detail": "11 in of apron beyond the chair backs"}, {"name": "apron inside the lot and clear of the AC", "ok": true, "detail": "150 in to the west fence, 104 in north of the AC"}, {"name": "herb bed stands off the brick", "ok": true, "detail": "4 in air gap behind its own back wall"}, {"name": "AC screen 24 in off the unit, open top and open west side", "ok": true, "detail": "24 in to the north side and the east gate, west side and top open, screen 52 in tall over a 36 in unit"}, {"name": "herb bed clear of the AC screen", "ok": true, "detail": "6 in"}, {"name": "AC screen clear of the fire apron", "ok": true, "detail": "80 in"}, {"name": "herb bed ends at the chimney", "ok": true, "detail": "4 in short of the chimney"}, {"name": "patio starts in front of the herb bed", "ok": true, "detail": "2 in"}, {"name": "five trees in one row", "ok": true, "detail": "x 498, 564, 630, 696, 762"}, {"name": "gap between trees at maturity", "ok": true, "detail": "18 in at 48 in wide"}, {"name": "service lane behind the trees", "ok": true, "detail": "24 in"}, {"name": "trees 4 ft or more from the drain trench", "ok": true, "detail": "54 in"}, {"name": "drain falls at least 1/8 in per ft", "ok": true, "detail": "0.60 in per ft over 66 ft"}, {"name": "drain outlet depth (information: the existing line must be lower)", "ok": true, "detail": "pipe invert 22 in below grade at the NE corner"}], "params": {"lot_w": 840.0, "yard_d": 600.0, "side_d": 240.0, "house_x0": 120.0, "house_x1": 744.0, "house_d": 360.0, "house_h": 108.0, "roof_rise": 78.0, "eave": 14.0, "bay_x0": 576.0, "bay_x1": 684.0, "bay_d": 24.0, "slider_x0": 600.0, "slider_x1": 660.0, "chim_x0": 426.0, "chim_x1": 486.0, "chim_d": 30.0, "chim_h": 216.0, "lwin_x0": 372.0, "lwin_x1": 408.0, "ac_x0": 140.0, "ac_x1": 178.0, "ac_y0": 6.0, "ac_y1": 40.0, "ac_h": 36.0, "acs_off": 24.0, "acs_h": 52.0, "acs_post": 4.0, "lat_pitch": 2.5, "lat_slat": 1.25, "mlv_gap": 2.0, "deck_x0": 426.0, "deck_x1": 726.0, "deck_d": 240.0, "deck_z": 24.0, "beam_y": [33.0, 204.0], "post_inset": 12.0, "post_max": 96.0, "post_w": 5.5, "chamfer": 42.0, "skirt_gap": 0.375, "skirt_inset": 1.5, "access_w": 36.0, "joist_oc": 12.0, "joist_d": 9.25, "beam_d": 9.25, "board_w": 5.5, "board_gap": 0.1875, "board_t": 1.0, "breaker_x": 576.0, "guard_h": 36.0, "guard_post_max": 72.0, "baluster_oc": 4.75, "tread": 11.0, "riser_max": 7.75, "wstair_yc": 114.0, "wstair_w": 60.0, "cook_clear": 36.0, "bs_w": 62.5, "bs_d": 22.0, "bs_h": 36.0, "sm_w": 49.0, "sm_d": 27.0, "sm_h": 55.0, "cook_y0": 60.0, "cook_gap": 12.0, "table_xc": 590.0, "table_yc": 150.0, "table_w": 40.0, "table_d": 84.0, "lounge_x0": 236.0, "lounge_y0": 40.0, "lounge_x1": 346.0, "lounge_y1": 150.0, "umb_dining_x": 590.0, "umb_dining_y": 222.0, "umb_canopy_r": 60.0, "umb_h": 96.0, "wrap_w": 36.0, "pat_x0": 234.0, "pat_x1": 426.0, "pat_y0": 36.0, "pat_y1": 228.0, "apron_r": 84.0, "herb_x0": 208.0, "herb_x1": 422.0, "herb_gap": 4.0, "herb_d": 30.0, "herb_h": 18.0, "herb_wall": 6.0, "stone_t": 2.0, "dust_t": 1.0, "base_t": 6.0, "joint": 0.75, "stone_pitch": 21.0, "seat_h": 18.0, "seat_t": 14.0, "seat_cap": 2.0, "pit_x": 234.0, "pit_y": 228.0, "pit_ro": 26.0, "pit_ri": 18.0, "pit_h": 15.0, "chair_r": 62.0, "fire_clear": 60.0, "tree_off": 48.0, "tree_pitch": 66.0, "tree_n": 5, "tree_w": 48.0, "tree_h": 252.0, "drain_off": 24.0, "drain_y0": -216.0, "drain_y1": 582.0, "trench_w": 12.0, "trench_cover": 18.0, "drain_min_slope": 0.125, "fence_h": 48.0}, "generated": "2026-09-27 01:00", "meta": {"state": {"label": "Summer, furnished", "description": "Deck furnished, umbrellas open, trees at about ten years", "furniture": true}, "revision": "A2", "units": "in", "sky": "#cfdfe9"}, "default_state": "summer", "views": {"iso-nw": {"state": "summer", "view": "iso-nw", "w": 1600, "h": 1100}, "iso-ne": {"state": "summer", "view": "iso-ne", "w": 1600, "h": 1100}, "hero": {"state": "summer", "focus": "Deck Surface,Patio,Walkway", "dir": "nw", "elev": 0.42, "zoom": 1.0, "hide": "Evergreens", "w": 1600, "h": 1000}, "plan": {"state": "summer", "view": "plan", "hide": "Umbrellas", "w": 1400, "h": 1200}, "cooking": {"state": "summer", "focus": "Cooking", "dir": "nw", "elev": 0.7, "zoom": 1.8, "hide": "Umbrellas", "w": 1400, "h": 1000}, "deck": {"state": "summer", "focus": "Deck Surface,Deck Guards,Stairs", "dir": "ne", "elev": 0.45, "hide": "Evergreens", "w": 1600, "h": 1000}, "framing": {"state": "bare", "focus": "Deck Framing,Stairs", "dir": "ne", "elev": 0.4, "hide": "Grade,AC Screen,Fence,Deck Surface,Deck Skirt,Deck Guards,Cooking,Furniture,Umbrellas,Patio,Fire Ring,Seat Wall,Walkway,Herb Bed,Evergreens,French Drain", "w": 1600, "h": 1000}, "patio": {"state": "summer", "focus": "Patio,Fire Ring,Seat Wall", "dir": "ne", "elev": 0.6, "hide": "Umbrellas", "w": 1400, "h": 1000}, "ac-screen": {"state": "summer", "focus": "AC Screen", "dir": "ne", "elev": 0.6, "zoom": 1.3, "hide": "Umbrellas", "w": 1400, "h": 1000}, "trees": {"state": "summer", "focus": "Evergreens", "dir": "s", "elev": 0.3, "zoom": 0.7, "hide": "Umbrellas,Furniture,House", "w": 1600, "h": 900}}, "render": {"materials": [["House/*roof*", "shingle"], ["House/*frame*", "paint"], ["House/fascia", "paint"], ["House/*window*", "glass"], ["House/slider", "glass"], ["House/AC*", "metal"], ["House/chimney cap", "concrete"], ["House/*", "brick"], ["Grade/*", "grass"], ["Deck Surface/*", "composite"], ["Deck Skirt/access panel pull", "metal"], ["Deck Skirt/*", "composite"], ["Deck Guards/baluster*", "metal"], ["Deck Guards/*", "composite"], ["Deck Framing/footing*", "concrete"], ["Deck Framing/*", "keep"], ["Stairs/*", "composite"], ["Patio/stone*", "flagstone"], ["Walkway/*stone*", "flagstone"], ["Patio/*", "gravel"], ["Walkway/*", "gravel"], ["Fire Ring/ash*", "ash"], ["Fire Ring/log*", "keep"], ["Fire Ring/cap", "flagstone"], ["Fire Ring/setting*", "flagstone"], ["Fire Ring/*", "wallstone"], ["Seat Wall/*cap", "flagstone"], ["Seat Wall/*", "wallstone"], ["Herb Bed/soil", "soil"], ["Herb Bed/herb*", "foliage"], ["Herb Bed/cap", "flagstone"], ["Herb Bed/*", "wallstone"], ["Evergreens/*trunk", "keep"], ["Evergreens/*", "foliage"], ["AC Screen/*vinyl", "fabric"], ["AC Screen/*", "vinyl"], ["Fence/*", "metal"], ["French Drain/existing*", "metal"], ["French Drain/*", "gravel"], ["Cooking/*", "metal"], ["Umbrellas/*canopy", "fabric"], ["Umbrellas/*", "metal"], ["Furniture/*cushion*", "fabric"], ["Furniture/*", "keep"]], "views": {"north": {"from": [240, 860, 300], "to": [440, 160, 0], "lens": 28}, "ne": {"from": [1120, 640, 330], "to": [430, 150, 0], "lens": 28}, "west": {"from": [-420, 330, 260], "to": [440, 150, 0], "lens": 28}}, "sun": {"elevation": 28, "azimuth": 300}, "ground": {"top0": -0.6, "gx": -0.007142857142857143, "gy": -0.05, "cx": 420, "cy": 200}}}</script>
+<script id="embed" type="application/json">{}</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const M = JSON.parse(document.getElementById('manifest').textContent);
+const EMBED = JSON.parse(document.getElementById('embed').textContent || '{}');
+const q = new URLSearchParams(location.search);
+const shot = q.get('shot') === '1';
+if (shot) document.body.classList.add('shot');
+const W = shot ? parseInt(q.get('w') || '1600') : innerWidth;
+const H = shot ? parseInt(q.get('h') || '1100') : innerHeight;
+const norm = s => String(s).replace(/\s/g, '_').replace(/[^\w-]/g, '');
+const compByNorm = {}; for (const c of M.components) compByNorm[norm(c)] = c;
+const hidden = new Set((q.get('hide') || '').split(',').filter(Boolean));
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H); renderer.setPixelRatio(shot ? 1 : Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.95;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xece8df);
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.55;
+// outdoor plans set meta.sky (a hex colour): sky-blue background and hemisphere light, a warmer, brighter sun
+const outdoor = M.meta && M.meta.sky;
+if (outdoor) scene.background = new THREE.Color(M.meta.sky);
+scene.add(outdoor ? new THREE.HemisphereLight(0xdfeefa, 0x6f7f52, 0.9) : new THREE.HemisphereLight(0xffffff, 0xb9b1a4, 0.7));
+const sun = new THREE.DirectionalLight(0xfff4e6, outdoor ? 2.3 : 1.8);
+sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096); sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.05;
+scene.add(sun); scene.add(sun.target);
+
+let camera = new THREE.PerspectiveCamera(32, W / H, 1, 5000);
+let controls = null;
+let model = null, bbox = null;
+const loader = new GLTFLoader();
+const status = document.getElementById('status');
+const compState = {};
+
+function applyVisibility() {
+  if (!model) return;
+  model.traverse(o => { if (o.userData.comp) o.visible = !hidden.has(o.userData.comp) && compState[o.userData.comp] !== false; });
+}
+
+function frame(view) {
+  const focus = (q.get('focus') || '').split(',').filter(Boolean);
+  if (focus.length && model) {
+    // frame one or more components from a corner: dir = se|sw|ne|nw (default sw)
+    const fb = new THREE.Box3();
+    model.traverse(o => { if (o.isMesh && focus.includes(o.userData.comp)) fb.expandByObject(o); });
+    if (!fb.isEmpty()) {
+      const fc = fb.getCenter(new THREE.Vector3()), fs = fb.getSize(new THREE.Vector3());
+      const fd = Math.max(fs.x, fs.y, fs.z) * 1.7;
+      // dir: any of n, s, e, w or a diagonal (sw, ne, ...); a single letter is a straight-on view.
+      // elev: camera height as a fraction of the focus size (default 0.55; 0.15 is eye level, 1.6 is near plan).
+      const dir = q.get('dir') || 'sw';
+      let sx = dir.includes('e') ? 1 : (dir.includes('w') ? -1 : 0), sz = dir.includes('n') ? -1 : (dir.includes('s') ? 1 : 0);
+      if (!sx && !sz) { sx = -1; sz = 1; }
+      const elev = parseFloat(q.get('elev') || '0.55');
+      // zoom: scales the stand-off distance (default 1; 0.6 fills the frame with a long, flat object)
+      const zoom = parseFloat(q.get('zoom') || '1');
+      const horiz = ((sx && sz) ? 0.8 : 1.7) * zoom;   // a straight-on view sees the object's full width, so stand further back
+      camera = new THREE.PerspectiveCamera(30, W / H, 1, 5000);
+      camera.position.set(fc.x + sx * fd * horiz, fc.y + fd * elev, fc.z + sz * fd * horiz);
+      camera.up.set(0, 1, 0); camera.lookAt(fc); camera.updateProjectionMatrix();
+      if (controls) controls.dispose();
+      if (!shot) { controls = new OrbitControls(camera, renderer.domElement); controls.target.copy(fc); controls.update(); }
+      // light from the camera side, pushed sideways for straight-on views so the facing plane still shades
+      const sideOff = new THREE.Vector3(sz ? 280 : 60, 300, sx ? 220 : 0);
+      sun.position.copy(camera.position).sub(fc).normalize().multiplyScalar(600).add(fc).add(sideOff); sun.target.position.copy(fc);
+      const s2 = fd * 1.2;
+      sun.shadow.camera.left = -s2; sun.shadow.camera.right = s2; sun.shadow.camera.top = s2; sun.shadow.camera.bottom = -s2;
+      sun.shadow.camera.near = 20; sun.shadow.camera.far = 2500;
+      return;
+    }
+  }
+  const c = bbox.getCenter(new THREE.Vector3());
+  const size = bbox.getSize(new THREE.Vector3());
+  const d = Math.max(size.x, size.z, size.y * 0.9) * 1.05;
+  const ortho = (view === 'plan' || view === 'north' || view === 'east' || view === 'west' || view === 'south');
+  if (ortho) {
+    const across = view === 'plan' ? Math.max(size.x, size.z) : (view === 'north' || view === 'south' ? size.x : size.z);
+    const tall = view === 'plan' ? Math.max(size.x, size.z) : size.y;
+    const hw = Math.max(across * 0.55, tall * 0.55 * W / H);
+    const hh = hw * H / W;
+    camera = new THREE.OrthographicCamera(-hw, hw, hh, -hh, 1, 5000);
+  } else {
+    camera = new THREE.PerspectiveCamera(32, W / H, 1, 5000);
+  }
+  if (view === 'plan') { camera.position.set(c.x, c.y + 1500, c.z + 0.01); camera.up.set(0, 0, -1); }
+  else if (view === 'north') { camera.position.set(c.x, size.y / 2, c.z + 1500); }
+  else if (view === 'south') { camera.position.set(c.x, size.y / 2, c.z - 1500); }
+  else if (view === 'east') { camera.position.set(c.x - 1500, size.y / 2, c.z); }
+  else if (view === 'west') { camera.position.set(c.x + 1500, size.y / 2, c.z); }
+  else if (view === 'iso-nw') { camera.position.set(c.x - d * 1.3, c.y + d * 1.0, c.z - d * 1.3); }
+  else if (view === 'iso-ne') { camera.position.set(c.x + d * 1.3, c.y + d * 1.0, c.z - d * 1.3); }
+  else if (view === 'iso-sw') { camera.position.set(c.x - d * 1.3, c.y + d * 1.0, c.z + d * 1.3); }
+  else if (view === 'shop') { camera.position.set(c.x - d * 0.35, c.y + d * 0.55, c.z + d * 1.15); }
+  else if (view === 'garden') { camera.position.set(c.x + d * 0.45, c.y + d * 0.55, c.z + d * 1.15); }
+  else { camera.position.set(c.x + d * 1.25, c.y + d * 1.05, c.z + d * 1.35); }
+  if (view !== 'plan') camera.up.set(0, 1, 0);
+  let target = new THREE.Vector3(c.x, bbox.min.y + size.y * 0.42, c.z);
+  if (view === 'plan') target = new THREE.Vector3(c.x, 0, c.z);
+  if (view === 'shop') target = new THREE.Vector3(bbox.max.x - 40, 36, c.z + 10);
+  if (view === 'garden') target = new THREE.Vector3(bbox.min.x + 40, 36, c.z + 10);
+  camera.lookAt(target);
+  camera.updateProjectionMatrix();
+  if (controls) controls.dispose();
+  if (!shot) { controls = new OrbitControls(camera, renderer.domElement); controls.target.copy(target); controls.update(); }
+  // light from the camera's side so faces toward the viewer are lit
+  sun.position.copy(camera.position).sub(c).normalize().multiplyScalar(900).add(c).add(new THREE.Vector3(ortho ? -350 : 120, 500, 0)); sun.target.position.copy(c);
+  sun.intensity = ortho ? 1.5 : 1.8;
+  const s = Math.max(size.x, size.y, size.z) * 0.8;
+  sun.shadow.camera.left = -s; sun.shadow.camera.right = s; sun.shadow.camera.top = s; sun.shadow.camera.bottom = -s;
+  sun.shadow.camera.near = 50; sun.shadow.camera.far = 3000;
+}
+
+function load(stateName, view) {
+  const st = M.states[stateName];
+  status.textContent = 'loading ' + st.label;
+  loader.load(EMBED[st.file] || st.file, gltf => {
+    if (model) scene.remove(model);
+    model = gltf.scene;
+    model.traverse(o => {
+      if (o.isMesh) {
+        o.castShadow = o.material.transparent ? false : true; o.receiveShadow = true;
+        let p = o.parent, comp = null;
+        while (p) { const nm = compByNorm[norm(p.userData.name || p.name)]; if (nm) { comp = nm; break; } p = p.parent; }
+        o.userData.comp = comp || norm(o.userData.name || o.name).split('_')[0];
+        if (o.material.transparent) o.material.depthWrite = false;
+      }
+    });
+    scene.add(model);
+    bbox = new THREE.Box3().setFromObject(model);
+    applyVisibility();
+    frame(view);
+    for (const b of document.querySelectorAll('#states button')) b.classList.toggle('on', b.dataset.s === stateName);
+    status.textContent = st.label + (st.description ? ': ' + st.description : '');
+    renderer.render(scene, camera);
+    if (shot) document.title = 'rendered';
+  }, undefined, err => { status.textContent = 'error ' + err; if (shot) document.title = 'error'; });
+}
+
+const statesEl = document.getElementById('states');
+for (const [k, st] of Object.entries(M.states)) {
+  const b = document.createElement('button'); b.textContent = st.label; b.dataset.s = k;
+  b.onclick = () => load(k, currentView); statesEl.appendChild(b);
+}
+const viewsEl = document.getElementById('views');
+let currentView = q.get('view') || 'iso';
+for (const v of ['iso', 'iso-sw', 'iso-ne', 'iso-nw', 'plan', 'north', 'east', 'west']) {
+  const b = document.createElement('button'); b.textContent = v; b.onclick = () => { currentView = v; frame(v); }; viewsEl.appendChild(b);
+}
+const compsEl = document.getElementById('comps');
+for (const c of M.components) {
+  const l = document.createElement('label'); const i = document.createElement('input'); i.type = 'checkbox'; i.checked = !hidden.has(c);
+  i.onchange = () => { compState[c] = i.checked; applyVisibility(); };
+  l.appendChild(i); l.appendChild(document.createTextNode(c)); compsEl.appendChild(l);
+}
+
+// the whole panel folds to a corner button so nothing covers the model; it starts folded on a phone and
+// when the viewer is embedded in another page (the drawing set's iframe); ?panel=1|0 overrides both
+const embedded = window.self !== window.top;
+document.getElementById('panel').open = q.has('panel') ? q.get('panel') !== '0' : !(embedded || innerWidth < 600);
+
+load(q.get('state') || M.default_state, currentView);
+if (!shot) {
+  addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); });
+  renderer.setAnimationLoop(() => { if (controls) controls.update(); renderer.render(scene, camera); });
+}
+</script>
+</body></html>

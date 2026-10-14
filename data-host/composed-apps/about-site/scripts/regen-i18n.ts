@@ -159,7 +159,7 @@ export interface OllamaCallOpts {
 export async function callOllama(opts: OllamaCallOpts): Promise<string> {
   const retries = opts.retries ?? 3;
   const delays = opts.delays ?? [1000, 3000, 10000];
-  const timeoutMs = opts.timeoutMs ?? 60_000;
+  const timeoutMs = opts.timeoutMs ?? 180_000; // long card bodies take over a minute on CPU
   let lastErr: unknown;
   for (let attempt = 0; attempt <= retries; attempt++) {
     const ac = new AbortController();

@@ -1,0 +1,7 @@
+[Unit]
+Description=Sample which processes hold the GPU (DRM fdinfo) for the usage history and the GPU arbiter
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/local/lib/gpu-arbiter/gpu_sample.py
+Nice=10

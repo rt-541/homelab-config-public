@@ -166,13 +166,12 @@
         server: devastator
         container: plex-compute-vllm
         siteMonitor: http://192.168.1.216:8000/health
-    - LLM Queue:
-        href: https://queue.rt-541.io
+    - LLM Jobs:
+        href: https://jobs.rt-541.io/healthz
         icon: mdi-tray-full
-        description: Job queue + MCP
-        server: nemesis
-        container: llm-queue
-        siteMonitor: http://llm-queue:8080/healthz
+        description: Job service on NanoClaw (local qwen3-14b + Sonnet 5), MCP + REST
+        server: devastator
+        siteMonitor: https://jobs.rt-541.io/healthz
 
 - Game Servers:
     - Minecraft ATM9:

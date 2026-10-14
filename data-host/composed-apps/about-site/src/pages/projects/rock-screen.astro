@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Detail page for the Rock screen card. English-only by design: no data-i18n keys.
+// The full drawing set is a standalone page under /plans/rock-screen/ with its own styling.
+
+const planHref = '/plans/rock-screen/';
+const pdfHref = '/plans/rock-screen/rock-screen.pdf';
+
+const sheets: { num: string; title: string; body: string; anchor: string }[] = [
+  {
+    num: '01',
+    title: 'Design basis',
+    anchor: 's1',
+    body: 'What was decided, the rock and sack assumptions, and the numbers behind the 45 lb sack rule: rock at 100 lb a cubic foot, three shovels a sack, 60 sacks a yard, 23 lb at the handle.',
+  },
+  {
+    num: '02',
+    title: 'General arrangement',
+    anchor: 's2',
+    body: 'Side elevations at rest and tilted 35 degrees with the hand truck in place, the six-step workflow for one sack, and the clearances that must hold if anything is moved.',
+  },
+  {
+    num: '03',
+    title: 'Tray',
+    anchor: 's3',
+    body: 'Plan and section of the 24 x 48 in 2x6 tray: 1/2 in hardware cloth on 2x2 slats, battens over every cut edge, the pivot holes, the handle dowel and the flashing lip.',
+  },
+  {
+    num: '04',
+    title: 'Stand',
+    anchor: 's4',
+    body: 'Back elevation and top-frame plan of the 2x4 stand: legs outside the stringers, the puck rail, carriage-bolt pivots and the 8 in wheels on the front legs.',
+  },
+  {
+    num: '05',
+    title: 'Funnel and sack station',
+    anchor: 's5',
+    body: 'The 3/8 in plywood hopper on the front legs, 26 in mouth to a 9 x 9 spout, and how a 50 lb sack cuffs onto it on the hand truck.',
+  },
+  {
+    num: '06',
+    title: 'Cut list',
+    anchor: 's6',
+    body: 'Every board and every plywood piece, board by board.',
+  },
+  {
+    num: '07',
+    title: 'Shopping list',
+    anchor: 's7',
+    body: 'About $190 at Home Depot, with the sacks as a running cost.',
+  },
+  {
+    num: '08',
+    title: 'Build sequence',
+    anchor: 's8',
+    body: 'An afternoon: tray, then stand, then hang the tray and fit the funnel to it.',
+  },
+  {
+    num: '09',
+    title: 'Operating guide',
+    anchor: 's9',
+    body: 'Setting up by the pile, the per-sack rhythm, sacks and storage, maintenance.',
+  },
+];
+---
+<BaseLayout title="rock screen &middot; rt-541.io" description="Rock screen: shop drawing set for a tilt-tray screen that cleans river rock and drops it into 50 lb burlap sacks.">
+  <section class="max-w-3xl mx-auto px-6 pt-16 pb-8">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-85 mb-5 pb-3 border-b border-chrome/20">
+      <a href="/projects" class="no-underline hover:underline">projects</a> / rock screen
+    </p>
+    <h1 class="font-serif text-[34px] leading-[1.1] tracking-display text-chrome mb-3">Rock screen</h1>
+    <p class="text-[15px] text-ice leading-[1.65] max-w-[58ch]">
+      A pool's worth of river rock came out full of roots, leaves and dirt. This is the jig that puts it back
+      into 50 lb burlap sacks clean: a 1/2 in hardware-cloth tray at counter height that you shovel onto,
+      bounce, pick over and hose, then tilt with a handle so the rock slides down a plywood funnel into a
+      sack standing on a hand truck. The full sack rolls away; nothing heavy is lifted off the ground.
+    </p>
+    <ul class="flex flex-wrap gap-4 mt-5 list-none p-0 font-mono text-[11px] tracking-meta uppercase">
+      <li><a href={planHref} class="text-chrome no-underline hover:underline">open the drawing set &rarr;</a></li>
+      <li><a href={pdfHref} class="text-chrome no-underline hover:underline">download the PDF &rarr;</a></li>
+    </ul>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-6">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-4">// by the numbers</p>
+    <dl class="grid grid-cols-2 sm:grid-cols-4 gap-4 m-0">
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">screen</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">21 x 36 in at 35 in</dd>
+      </div>
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">keeps</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">3/4 to 4 in rock</dd>
+      </div>
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">per sack</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">45 lb, 3 shovels</dd>
+      </div>
+      <div class="border-l border-chrome/20 pl-3">
+        <dt class="font-mono text-[10px] tracking-meta uppercase text-subtle">rough cost</dt>
+        <dd class="m-0 text-[18px] font-serif text-chrome">$190 plus sacks</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-2">// what was decided</p>
+    <div class="prose-content text-[14px]">
+      <p>
+        One tray does every stage. It hangs on two carriage bolts 9 in behind its discharge end and rests on
+        two hockey pucks at the back, so it can be bounced to drop the dirt and then lifted into a 35 degree
+        slide without unlatching anything. Putting the pivot back from the end means the tray's own weight in
+        front of it offsets the load behind, so the handle takes about 23 lb with three shovels of rock on the
+        screen, and the lip swings down into the funnel mouth rather than past it.
+      </p>
+      <p>
+        The sack sets the numbers. River rock runs 100 lb a cubic foot and a 50 lb burlap sack filled to the top
+        would weigh 120 lb, so the rule is three shovels, 45 lb, about 8 in of rock in the bottom of the sack.
+        The 9 x 9 in spout is sized to fit inside the sack's 40 in mouth with room for the cuff, and it sits
+        13.5 in off the ground so the sack stands on a hand truck's nose plate while it fills and rolls to the
+        pallet afterwards. Two 8 in wheels on the front legs let the stand follow the pile.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-6 pt-12 pb-20">
+    <p class="font-mono text-[10px] tracking-eyebrow uppercase text-chrome opacity-70 mb-2">// the drawing set</p>
+    <ul class="list-none p-0 m-0">
+      {sheets.map(s => (
+        <li class="py-5 border-b border-chrome/10 grid grid-cols-[5rem,1fr] gap-6">
+          <span class="font-mono text-[11px] tracking-meta text-subtle pt-1">sheet {s.num}</span>
+          <div>
+            <h2 class="font-serif text-[18px] text-chrome leading-tight m-0">
+              <a href={`${planHref}#${s.anchor}`} class="no-underline hover:underline">{s.title}</a>
+            </h2>
+            <p class="text-[14px] text-ice leading-[1.65] mt-2 mb-0">{s.body}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
