@@ -18,15 +18,31 @@ produces the queue.
   generated on nemesis by `scan_candidates.py --emit-queue` after the user
   reviews the candidate report. State (`done.list`, `failed.list`,
   `ledger.tsv`, `status.md`) lives in the same `.reclaim/` dir.
-- Per job: encode to local `/scratch`, verify (duration, stream layout,
-  size sanity, 3-point decode), move the original into
-  `.reclaim/holding/` (last 10 kept per mount), drop the new file in under
-  the original filename, chown to plexadm (1001).
+- Per job:
+  1. Encode video + the chosen audio track only (hevc_vaapi, ICQ
+     `VIDEO_QUALITY`) into `SCRATCH` (`.reclaim/scratch/` on the NFS share).
+  2. Copy-only remux that adds the English subtitles from the source. They
+     are kept out of the encode on purpose: in ffmpeg 9 a sparse copied PGS
+     track in the same run as a re-encoded audio track starves the audio,
+     which then silently ends (exit 0) at the start or mid-film.
+  3. Verify the whole film (`verify_encode`): one read counts audio and video
+     packets per `VERIFY_STEP` (300 s) block, and a 4 s clip from the middle
+     of every block must decode and score >= `VMAF_FAIL` (60) against the
+     source (clips under `VMAF_WARN`, 85, are listed in the log; every score
+     lands in `.reclaim/qc-vmaf.tsv`). Length is judged by the video stream,
+     and clips are aligned by stream start time.
+  4. Only on a full pass: the new file replaces the original under the same
+     filename (chown plexadm 1001), the original is deleted
+     (`PURGE_ON_PASS=true`; `false` keeps the last `HOLD_COUNT` in
+     `.reclaim/holding/`), and Plex rescans the folder (`PLEX_SECTION`).
+     Any failure keeps the original and records the reason in `failed.list`.
 - HDR10 color properties are passed through explicitly; Dolby Vision
   enhancement layers do not survive a transcode (HDR10 base remains) - this
   is what the pilot review is for.
 - Audio: first English track kept; lossless (TrueHD/DTS-HD/FLAC) becomes
   EAC3 640k, lossy tracks are copied. English subtitles kept.
+- Test a change without touching the library: `CLIP_SECS=N` encodes and
+  verifies only the first N seconds and stops before the replace step.
 
 ## Safety gates
 
@@ -41,7 +57,6 @@ produces the queue.
 ## Deploy (on devastator)
 
 ```bash
-sudo mkdir -p /docker/transcode-scratch          # local scratch, >=250G free
 cd /docker/homelab-config/compute-node/composed-apps/media-transcoder
 cp .env.example .env && vi .env                  # optional PLEX_TOKEN/WEBHOOK_URL
 sudo docker compose up -d

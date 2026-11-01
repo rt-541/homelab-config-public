@@ -21,7 +21,9 @@ PAUSE="$STATE/PAUSE"
 PILOT_ACK="$STATE/PILOT_ACK"
 PILOT_NOTIFIED="$STATE/.pilot-notified"
 STATUS="$STATE/status.md"
-SCRATCH=/scratch
+QCLOG="$STATE/qc-vmaf.tsv"             # rel, offset, score for every verify clip
+SCRATCH="${SCRATCH:-/scratch}"    # policy may move it onto the NFS share
+mkdir -p "$SCRATCH"
 
 FFMPEG_PID=""
 CUR_TMP=""
@@ -125,6 +127,26 @@ pick_audio() {  # $1=file -> "absidx codec channels" of first eng (else first) a
   echo "${eng:-$first}"
 }
 
+pick_subs() {  # $1=file -> "-map 0:N" pairs for eng-tagged (else untagged) text/PGS subs, may be empty
+  # ffmpeg's "-map 0:s:m:language:eng?" is NOT optional: the "?" is read as
+  # part of the metadata value, so a file with no eng-tagged subtitle stream
+  # aborts with "Stream map '' matches no streams" (rc=234). Pick by index.
+  local lines
+  lines=$(ffprobe -v error -select_streams s -show_entries \
+    stream=index:stream_tags=language -of compact=p=0 "$1" 2>/dev/null)
+  local eng=() untagged=()
+  while IFS= read -r ln; do
+    [[ -z "$ln" ]] && continue
+    local idx lang
+    idx=$(grep -oP 'index=\K[0-9]+' <<<"$ln")
+    lang=$(grep -oP 'tag:language=\K[^|]+' <<<"$ln" || true)
+    if [[ "${lang:-}" == eng* ]]; then eng+=(-map "0:$idx")
+    elif [[ -z "${lang:-}" || "$lang" == und ]]; then untagged+=(-map "0:$idx"); fi
+  done <<<"$lines"
+  if (( ${#eng[@]} )); then printf '%s\n' "${eng[@]}"
+  elif (( ${#untagged[@]} )); then printf '%s\n' "${untagged[@]}"; fi
+}
+
 count_lines() { local n; n=$(grep -c . "$1" 2>/dev/null); echo "${n:-0}"; }
 
 update_status() {
@@ -167,6 +189,88 @@ fail_job() {  # rel reason
   notify "FAILED: $1 ($2)"
 }
 
+# Whole seconds of the first video stream. The container duration follows the
+# longest stream, and some remuxes carry audio tracks that outlast the picture
+# (Wrath of Man: DTS +9 s), which the encode rightly does not keep.
+video_duration() {  # file -> seconds
+  local d
+  d=$(ffprobe -v error -select_streams v:0 -show_entries stream=duration -of default=nw=1:nk=1 "$1" 2>/dev/null | head -1)
+  if [[ ! $d =~ ^[0-9.]+$ ]]; then
+    d=$(ffprobe -v error -select_streams v:0 -show_entries stream_tags=DURATION -of default=nw=1:nk=1 "$1" 2>/dev/null \
+      | awk -F: 'NF == 3 { printf "%.3f", $1 * 3600 + $2 * 60 + $3; exit }')
+  fi
+  [[ $d =~ ^[0-9.]+$ ]] || d=$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$1" 2>/dev/null)
+  echo "${d%%.*}"
+}
+
+# Check the encode across its whole length before the original is purged.
+#  1. census: one read of the encode, audio and video packets counted per
+#     VERIFY_STEP block; a block short of either fails (catches audio that
+#     silently stops, or a truncated video track).
+#  2. a 4 s clip in the middle of every block: must decode (video + audio) and,
+#     with VERIFY_VMAF, score >= VMAF_FAIL against the source.
+# Prints "ok <summary>" or "fail <reason>"; per-clip scores go to $QCLOG.
+verify_encode() {  # tmp src duration rel
+  local tmp=$1 src=$2 dur=$3 rel=$4 step=${VERIFY_STEP:-300}
+  local fps census short
+  fps=$(probe1 "$tmp" "stream=avg_frame_rate" | awk -F/ '{ printf "%d", ($2 ? $1/$2 : $1) }')
+  census=$(ffprobe -v error -show_entries packet=stream_index,pts_time -of csv=p=0 "$tmp" 2>/dev/null |
+    awk -F, -v step="$step" -v dur="$dur" -v fps="${fps:-24}" -v apps="${AUDIO_MIN_PPS:-25}" '
+      $2 == "N/A" { next }
+      { b = int($2 / step) }
+      $1 == 0 { v[b]++ }
+      $1 == 1 { a[b]++ }
+      END {
+        nb = int(dur / step)              # full blocks only; the tail block is partial
+        for (i = 0; i < nb; i++) {
+          if (a[i] < step * apps * 0.9) { printf "audio-short@%ds(%dpkts)", i * step, a[i]; exit }
+          if (v[i] < step * fps * 0.9)  { printf "video-short@%ds(%dpkts)", i * step, v[i]; exit }
+        }
+        printf "OK %d", nb
+      }')
+  [[ $census == OK* ]] || { echo "fail $census"; return; }
+
+  # Seek the source by the same picture, not the same timestamp: when the two
+  # video streams start at different times (Bad Boys II: source 0.017 s, encode
+  # 0), equal -ss values can land a frame apart and VMAF scores a fast scene ~45.
+  local vstart_src vstart_tmp shift
+  vstart_src=$(ffprobe -v error -select_streams v:0 -show_entries stream=start_time -of default=nw=1:nk=1 "$src" 2>/dev/null | head -1)
+  vstart_tmp=$(ffprobe -v error -select_streams v:0 -show_entries stream=start_time -of default=nw=1:nk=1 "$tmp" 2>/dev/null | head -1)
+  [[ $vstart_src =~ ^-?[0-9.]+$ ]] || vstart_src=0
+  [[ $vstart_tmp =~ ^-?[0-9.]+$ ]] || vstart_tmp=0
+  shift=$(awk -v a="$vstart_src" -v b="$vstart_tmp" 'BEGIN { printf "%.3f", a - b }')
+
+  local t ts clips=0 low="" score min=100 sum=0
+  for (( t = step / 2; t + 4 < dur; t += step )); do
+    ts=$(awk -v t="$t" -v s="$shift" 'BEGIN { printf "%.3f", t + s }')
+    if ! ffmpeg -v error -ss "$t" -i "$tmp" -t 4 -map 0:v:0 -map 0:a:0 -f null - >/dev/null 2>&1; then
+      echo "fail decode-check@${t}s"; return
+    fi
+    clips=$(( clips + 1 ))
+    [[ "${VERIFY_VMAF:-true}" == "true" ]] || continue
+    score=$(ffmpeg -hide_banner -nostdin -ss "$t" -t 4 -i "$tmp" -ss "$ts" -t 4 -i "$src" \
+      -lavfi "[0:v]setpts=PTS-STARTPTS[d];[1:v]setpts=PTS-STARTPTS[r];[d][r]libvmaf=model=version=vmaf_4k_v0.6.1:n_threads=${VMAF_THREADS:-6}" \
+      -f null - 2>&1 | sed -n 's/.*VMAF score: \([0-9.]*\).*/\1/p' | head -1)
+    [[ -n $score ]] || { echo "fail vmaf-error@${t}s"; return; }
+    printf '%s\t%s\t%s\n' "$rel" "$t" "$score" >> "$QCLOG"
+    if awk -v s="$score" -v f="${VMAF_FAIL:-60}" 'BEGIN { exit !(s < f) }'; then
+      echo "fail vmaf@${t}s=${score}"; return
+    fi
+    awk -v s="$score" -v w="${VMAF_WARN:-85}" 'BEGIN { exit !(s < w) }' && low+="${t}s=${score%.*} "
+    min=$(awk -v a="$min" -v b="$score" 'BEGIN { print (b < a) ? b : a }')
+    sum=$(awk -v a="$sum" -v b="$score" 'BEGIN { print a + b }')
+  done
+  local mean="-"; (( clips )) && [[ "${VERIFY_VMAF:-true}" == "true" ]] && mean=$(awk -v s="$sum" -v n="$clips" 'BEGIN { printf "%.1f", s / n }')
+  echo "ok ${census#OK } blocks, ${clips} clips, vmaf mean ${mean} min ${min%.*}${low:+, low: $low}"
+}
+
+plex_rescan() {  # dir: ask Plex to rescan the folder so it re-reads the swapped file
+  [[ -n "${PLEX_TOKEN:-}" ]] || return 0
+  curl -sf --max-time 15 -G "${PLEX_URL}/library/sections/${PLEX_SECTION:-1}/refresh" \
+    --data-urlencode "path=$1" --data-urlencode "X-Plex-Token=${PLEX_TOKEN}" >/dev/null \
+    && log "plex rescan queued: $1" || log "plex rescan failed: $1"
+}
+
 transcode_one() {  # $1=rel_path
   local rel="$1" src="$DATA/$1"
   local name dir mount_root holding
@@ -191,9 +295,18 @@ transcode_one() {  # $1=rel_path
   fi
 
   local duration
-  duration=$(probe1 "$src" "format=duration"); duration=${duration%%.*}
+  duration=$(video_duration "$src")
+  [[ -n "${CLIP_SECS:-}" ]] && duration=$CLIP_SECS   # test mode: encode only the first CLIP_SECS
   read -r aidx acodec ach <<<"$(pick_audio "$src")"
   [[ -z "${aidx:-}" ]] && { fail_job "$rel" "no-audio-stream"; return; }
+  # Subtitles are NOT part of the encode. In ffmpeg 9 a sparse copied subtitle
+  # (long gaps, e.g. forced PGS) in the same run as a re-encoded audio track
+  # starves the audio: at the start of the film with one demuxer, mid-film even
+  # from a second demuxer (Forrest Gump lost ~85 s at 7500 s). They are added
+  # afterwards in a copy-only remux, which that bug does not touch.
+  local sub_args=()
+  mapfile -t sub_args < <(pick_subs "$src")
+  (( ${#sub_args[@]} )) && sub_args=("${sub_args[@]/#0:/1:}")
   local audio_args
   case "$acodec" in
     ac3|eac3|aac|opus) audio_args=(-c:a copy) ;;
@@ -201,45 +314,71 @@ transcode_one() {  # $1=rel_path
        (( ${ach:-6} > 6 )) && audio_args+=(-ac 6) ;;
   esac
   # color passthrough (explicit, in case side-data doesn't survive the hw path)
-  local prim trc space color_args=()
-  IFS=',' read -r prim trc space <<<"$(probe1 "$src" "stream=color_primaries,color_transfer,color_space")"
+  # ffprobe prints fields in its own order (space,transfer,primaries), so read them by key
+  local prim="" trc="" space="" k v color_args=()
+  while IFS='=' read -r k v; do
+    case "$k" in
+      color_primaries) prim=$v ;; color_transfer) trc=$v ;; color_space) space=$v ;;
+    esac
+  done < <(ffprobe -v error -select_streams v:0 \
+             -show_entries stream=color_primaries,color_transfer,color_space \
+             -of default=nw=1 "$src" 2>/dev/null)
   [[ -n "$prim"  && "$prim"  != "unknown" ]] && color_args+=(-color_primaries "$prim")
   [[ -n "$trc"   && "$trc"   != "unknown" ]] && color_args+=(-color_trc "$trc")
   [[ -n "$space" && "$space" != "unknown" ]] && color_args+=(-colorspace "$space")
 
   local tmp="$SCRATCH/${name%.mkv}.reclaim.mkv"
-  CUR_TMP="$tmp"
+  local av=$tmp
+  (( ${#sub_args[@]} )) && av="$SCRATCH/${name%.mkv}.reclaim-av.mkv"
+  CUR_TMP="$av"
   log "encoding [$(( src_size / 1024 / 1024 / 1024 ))G] $rel"
   local t0=$SECONDS
   ffmpeg -hide_banner -nostdin -y -v warning \
     -init_hw_device "vaapi=va:$VADEV" -hwaccel vaapi -hwaccel_output_format vaapi \
     -hwaccel_device va -i "$src" \
-    -map 0:v:0 -map "0:$aidx" -map "0:s:m:language:eng?" \
+    -map 0:v:0 -map "0:$aidx" \
     -c:v "${ENCODER:-hevc_vaapi}" -rc_mode "${RC_MODE:-ICQ}" -global_quality "${VIDEO_QUALITY:-22}" \
     -profile:v main10 "${color_args[@]}" \
-    "${audio_args[@]}" -c:s copy -map_metadata 0 -map_chapters 0 \
-    "$tmp" &
+    "${audio_args[@]}" -map_metadata 0 -map_chapters 0 \
+    ${CLIP_SECS:+-t "$CLIP_SECS"} "$av" &
   FFMPEG_PID=$!
   wait "$FFMPEG_PID"; local rc=$?
   FFMPEG_PID=""
-  if (( rc != 0 )); then rm -f "$tmp"; CUR_TMP=""; fail_job "$rel" "ffmpeg-rc=$rc"; return; fi
+  if (( rc != 0 )); then rm -f "$av"; CUR_TMP=""; fail_job "$rel" "ffmpeg-rc=$rc"; return; fi
   log "encode took $(( (SECONDS - t0) / 60 )) min"
+
+  # ---- subtitles: copy-only remux of the encoded A/V plus the source's subs ----
+  if [[ $av != "$tmp" ]]; then
+    CUR_TMP="$tmp"
+    ffmpeg -hide_banner -nostdin -y -v warning -i "$av" -i "$src" \
+      -map 0:v:0 -map 0:a:0 "${sub_args[@]}" -c copy -map_metadata 0 -map_chapters 0 \
+      ${CLIP_SECS:+-t "$CLIP_SECS"} "$tmp" &
+    FFMPEG_PID=$!
+    wait "$FFMPEG_PID"; rc=$?
+    FFMPEG_PID=""
+    rm -f "$av"
+    if (( rc != 0 )); then rm -f "$tmp"; CUR_TMP=""; fail_job "$rel" "subs-remux-rc=$rc"; return; fi
+    log "subtitles muxed ($(( ${#sub_args[@]} / 2 )) tracks)"
+  fi
 
   # ---- verify ----
   local out_size out_dur
   out_size=$(stat -c %s "$tmp")
-  out_dur=$(probe1 "$tmp" "format=duration"); out_dur=${out_dur%%.*}
-  if (( out_size < 2 * 1024 * 1024 * 1024 )); then rm -f "$tmp"; CUR_TMP=""; fail_job "$rel" "output-too-small"; return; fi
-  if (( out_size * 10 > src_size * 9 )); then rm -f "$tmp"; CUR_TMP=""; fail_job "$rel" "no-size-gain"; return; fi
+  out_dur=$(video_duration "$tmp")
+  if [[ -z "${CLIP_SECS:-}" ]]; then
+    if (( out_size < 2 * 1024 * 1024 * 1024 )); then rm -f "$tmp"; CUR_TMP=""; fail_job "$rel" "output-too-small"; return; fi
+    if (( out_size * 10 > src_size * 9 )); then rm -f "$tmp"; CUR_TMP=""; fail_job "$rel" "no-size-gain"; return; fi
+  fi
   if [[ -n "$duration" && -n "$out_dur" ]] && (( out_dur < duration - 2 || out_dur > duration + 2 )); then
     rm -f "$tmp"; CUR_TMP=""; fail_job "$rel" "duration-mismatch($duration vs $out_dur)"; return
   fi
-  local off
-  for off in $(( duration / 10 )) $(( duration / 2 )) $(( duration * 9 / 10 )); do
-    if ! ffmpeg -v error -ss "$off" -i "$tmp" -t 8 -f null - >/dev/null 2>&1; then
-      rm -f "$tmp"; CUR_TMP=""; fail_job "$rel" "decode-check@${off}s"; return
-    fi
-  done
+  local verdict
+  verdict=$(verify_encode "$tmp" "$src" "$duration" "$rel")
+  if [[ $verdict != ok* ]]; then
+    rm -f "$tmp"; CUR_TMP=""; fail_job "$rel" "${verdict#fail }"; return
+  fi
+  log "verified: ${verdict#ok }"
+  if [[ -n "${CLIP_SECS:-}" ]]; then log "clip verified, left at $tmp"; CUR_TMP=""; return; fi
 
   # ---- replace (original -> holding; new file -> original name) ----
   mv "$src" "$holding/$name" || { rm -f "$tmp"; CUR_TMP=""; fail_job "$rel" "hold-move"; return; }
@@ -258,12 +397,17 @@ transcode_one() {  # $1=rel_path
     "$src_inode" "saved:$(( src_size - out_size ))"
   echo "$rel" >> "$DONE"
   log "done $title: $(( src_size / 1024 / 1024 / 1024 ))G -> $(( out_size / 1024 / 1024 / 1024 ))G"
+  plex_rescan "$dir"
 
-  # ---- holding purge: keep newest HOLD_COUNT per mount ----
-  ls -1t "$holding" 2>/dev/null | tail -n +$(( ${HOLD_COUNT:-10} + 1 )) | while IFS= read -r old; do
-    rm -f "$holding/$old"
-    log "holding purge: $old"
-  done
+  # ---- purge: the encode passed every 5-minute check, so the original goes now ----
+  if [[ "${PURGE_ON_PASS:-true}" == "true" ]]; then
+    rm -f "$holding/$name" && log "purged original: $name"
+  else
+    ls -1t "$holding" 2>/dev/null | tail -n +$(( ${HOLD_COUNT:-10} + 1 )) | while IFS= read -r old; do
+      rm -f "$holding/$old"
+      log "holding purge: $old"
+    done
+  fi
 }
 
 # --------------------------------------------------------------------------
